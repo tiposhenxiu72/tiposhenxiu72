@@ -1575,8 +1575,1054 @@ class MyException extends Exception { // 创建自定义异常类
     }  
 }  
 
-	 
+	 疯狂Java学习笔记（50）-----------JDBC
+	 1、加载合适的JDBC驱动程序
+Class.forName(Driver);
+   MySQL驱动程序：com.mysql.jdbc.Driver
+   Oracle驱动程序：oracle.jdbc.driver.OracleDriver
+   SQLServer驱动程序：
+   com.Microsoft.jdbc.sqlserver.SQLServerDriver
+   2、建立数据库连接
+与MySQL数据库连接的方法：
+Connection con=DriverManager.getConnection(“jdbc:mysql://主机IP或主机名:3306/数据库名”,用户名，密码);
+3、创建Statement对象
+Statement  st=con.createStatement();  //最后可以不关闭，但推荐关闭
+5、关闭连接
+(注意关闭的顺序） 例：
+rs.close();
+st.close();
+con.close()
+
+6、JDBC的常用API
+一、Connection接口：
+       1.createStatement()：创建数据库连接
+       2.prepareStatement(Stringsql):创建预处理语句
+       3.prepareCall(Stringsql):创建可调用语句
+       4.getAutoCommit():获取自动提交的模式
+       5.setAutoCommit():设置自动提交的模式
+       6.commit():提交所执行的SQL语句
+       7.rollback():回滚所执行的SQL语句
+       8.getMetaData():获取一个DatabaseMetaData对象，该对象包含了有关数据库的基本信息
+       9.close():关闭数据库连接
+      10.isClose()：判断数据库连接是否超时或被显示关闭
+	  
+	  import java.sql.Connection;  
+import java.sql.DriverManager;  
+import java.sql.PreparedStatement;  
+import java.sql.SQLException;  
+  
+public class DBHelper {  
+    public static final String url = "jdbc:mysql://127.0.0.1/test";  
+    public static final String name = "com.mysql.jdbc.Driver";  
+    public static final String user = "root";  
+    public static final String password = "root";  
+  
+    public Connection conn = null;  
+    public PreparedStatement pst = null;  
+  
+    public DBHelper(String sql) {  
+        try {  
+            Class.forName(name);//指定连接类型  
+            conn = DriverManager.getConnection(url, user, password);//获取连接  
+            pst = conn.prepareStatement(sql);//准备执行语句  
+        } catch (Exception e) {  
+            e.printStackTrace();  
+        }  
+    }  
+  
+    public void close() {  
+        try {  
+            this.conn.close();  
+            this.pst.close();  
+        } catch (SQLException e) {  
+            e.printStackTrace();  
+        }  
+    }  
+}  
+
+import java.sql.ResultSet;  
+import java.sql.SQLException;  
+  
+public class Demo {  
+  
+    static String sql = null;  
+    static DBHelper db1 = null;  
+    static ResultSet ret = null;  
+  
+    public static void main(String[] args) {  
+        sql = "select *from teacher";//SQL语句  
+        db1 = new DBHelper(sql);//创建DBHelper对象  
+  
+        try {  
+            ret = db1.pst.executeQuery();//执行语句，得到结果集  
+            while (ret.next()) {  
+                String uid = ret.getString(1);  
+                String ufname = ret.getString(2);  
+                String ulname = ret.getString(3);  
+                String udate = ret.getString(4);  
+                System.out.println(uid + "\t" + ufname + "\t" + ulname + "\t" + udate );  
+            }//显示数据  
+            ret.close();  
+            db1.close();//关闭连接  
+        } catch (SQLException e) {  
+            e.printStackTrace();  
+        }  
+    }  
+  
+}  
+在使用JDBC编程时需要连接数据库，导入JAR包是必须的，导入其它的jar包方法同样如此
+
+//创建数据源
+
+public static DataSource setupDataSource(String connectURI) {
+    BasicDataSource ds = new BasicDataSource();
+    ds.setDriverClassName(org.gjt.mm.mysql.Driver);
+    ds.setUsername("username");
+    ds.setPassword("password");
+    ds.setUrl(connectURI);
+    return ds;    
+}
+//关闭数据源
+public static void shutdownDataSource(DataSource ds) throws SQLException {
+    BasicDataSource bds = (BasicDataSource)ds;
+    bds.close();
+}
+
+//数据源的使用
+DataSource dataSource = getDataSource();
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  try {
+   conn = dataSource.getConnection();
+   pstmt = conn.prepareStatement("select * from users");
+   rs = pstmt.executeQuery();
+   while(rs.next()) {
+    System.out.println(rs.getInt("id"));
+   }
+  } catch(Exception e) {
+   e.printStackTrace();
+  } finally {
+   try {
+    rs.close();
+    pstmt.close();
+    conn.close();
+   } catch(Exception ex) {
+    ex.printStackTrace();
+   }
+  } 
+  
+  
+在Tomcat中配置数据库连接池：
+我们使用Tomcat中lib文件夹下的tomcat-dbcp.jar。
+1. 修改server.xml文件在<Service>中写入以下代码:
+< Context path="/WebProject" docBase="WebProject" reloadable="true" crossContext="true">
+     
+     <Resource auth="Container" name="jdbc/CompanyDB" type="javax.sql.DataSource" 
+      factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"  
+     driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"      
+     url="jdbc:sqlserver://localhost:1433;DataBaseName=Company"  
+     username="sa"  
+      password="root"  
+      maxActive="100"  
+      maxIdle="30"  
+      maxWait="10000"   
+     removeAbandoned=“true”
+      removeAbandonedTimeOut="10"  
+      logAbandoned="true"/> 
+    </Context>
+
+
+path：工程路径。
+docBase：工程名字。
+name：JNDI的名字。
+type：数据源的类。
+factory：指定生成的DataReource的factory类名；默认DBCP工厂类。
+driverClassName：数据库驱动名。
+url：数据库连接的URL。
+username：数据库用户名。
+password：数据库密码。
+maxActive：最大连接数据库数，设为0表示没有限制。
+maxIdle：最大等待数量，设为0表示没有限制。
+maxWait：最大等待秒数，单位为ms。
+removeAbandoned：是否自我中断，默认为false。
+removeAbandonedTimeOut：几秒后会自我中断，removeAbandoned必须为true。
+logAbandoned：是否记录中断事件，默认为false。
+
+
+2. 修改web.xml文件，增加一个标签，输入以下代码：
+<resource-ref>
+     <description>Company Connection</description>
+     <res-ref-name>jdbc/CompanyDB</res-ref-name>
+     <res-type>javax.sql.DataSource</res-type>
+     <res-auth>Container</res-auth>
+< /resource-ref>
+
+res-ref-name：指定JNDI的名字。
+res-type：指定资源类名。
+res-auth：指定资源的Manager。
+
+3. 代码中使用JNDI代码进行获取：
+Context ctx = new InitalContext()；
+DataSource ds = (DataSource)ctx.lookup("java:comp/env/jdbc/CompanyDB");
+Connection conn = ds.getConnection();
+
+
+注意：java:comp/env/ 是java中JNDI固定写法。 
+http://blog.csdn.net/u011225629/article/details/45938221
+
+
+疯狂Java学习笔记（52）-----------Annotation（注释）第一篇
+三个基础的Annotation如下
+
+@Override
+@Deprecated
+@SuppressWarings
+下面我们来依次这三个Annotation的用法
+(1)限定重写父类方法 @Override
+　　@Override就是用来指定方法覆盖的，它可以强制一个子类必须覆盖父类的方法
+public class  Fruit  
+{  
+ public void info()  
+ {  
+  System.out.println("水果的info方法...");  
+ }  
+}  
+  
+  
+class Apple extends Fruit  
+{  
+ @Override  
+ public void info()  
+ {  
+  System.out.println("苹果重写水果的info方法...");  
+ }  
+} 
+作用：
+编译上面程序，可能丝毫看不出程序中@Override有任何作用。因为@Override Annotation的作用是告诉编译器检查这个方法，并从父类查找是否包含一个被该方法重写的方法，否则就编译出错。这个Annotation主要是帮助我们避免一些低级错务，例如我们把上面的Apple类中的info方法不小心写成inf0()方法，这样的“低级错务”，可能导致后期排错时的巨大障碍。
+
+(2)标记已过时 @Deprecated
+@Deprecated 用于表示某个程序元素(类，方法等)已过时，当其它程序使用已过时的类，方法时，编译器将会出现警告。如下程序指定Apple类中的info方法已过时，其它程序中使用Apple类的info方法时编译器将会出给出警告
+
+public classTest{  
+   
+   public static void main(String[] args) {  
+   
+      //下面调用shape的draw方法时，编译器会给出警告  
+   
+      new Shape().draw();  
+   
+   }  
+   
+}  
+   
+   
+   
+class Shape{  
+   
+   @Deprecated  
+   
+   void draw(){  
+   
+      System.out.println("画一个形状");  
+   
+   }  
+   
+} 
+
+
+class Apple  
+{  
+ //定义info方法已过时  
+ @Deprecated  
+ public void info()  
+ {  
+  System.out.println("Apple的info方法");  
+ }  
+}  
+public class DeprecatedTest  
+{  
+ public static void main(String[] args)  
+ {  
+  //下面使用info方法时将会被编译器警告  
+  new Apple().info();  
+ }   
+} 
+
+(3)@SuppressWarnings 抑制编译器警告
+　　@SupressWarnings指示被Annotation标识的程序元素(以及在程序元素中的所有子元素)取消显示指定的编译器警告。 @SuppressWarnings会一直作用于该程序元素的所有子元素，例如使用@SuppressWarning标识一个类来取消某个编译器警告，同时又标识该类里某个方法取消另一个编译器警告，那么将在此方法中同时取消这两个编译器警告。
+　　通常情况下，如果程序中使用没有泛型限制的集合将会引起编译器警告，为了避免这种编译器警告，可以使用@SuppressWarnings Annotation，下面程序取消了没有使用泛型的编译器警告。
+
+
+(3)使用Annotation的例子
+　　下面介绍两个使用Annotation的例子，第一个Annotation Testable没有任何成员变量，仅是一个标记Annotation，它的作用是标记哪些方法是可测试的.
+Testable.java源文件。
+ 
+[java] view plain copy 在CODE上查看代码片派生到我的代码片
+Testable.java源文件  
+  
+import java.lang.annotation.*;  
+   
+@Retention(RetentionPolicy.RUNTIME)     
+@Target(ElementType.METHOD)  
+//定义Testable Annotation将被javadoc工具提取  
+@Documented  
+public @interface Testable  
+{  
+} 
+
+import java.lang.reflect.*;  
+public class TestProcessor  
+{  
+ public static void process(String clazz)  
+  throws ClassNotFoundException  
+ {  
+  int passed = 0;  
+  int failed = 0;  
+  //遍历obj对象的所有方法  
+  for (Method m : Class.forName(clazz).getMethods())  
+  {  
+   //如果包含@Testable标记注释  
+   if (m.isAnnotationPresent(Testable.class))  
+   {  
+    try  
+    {  
+     //调用m方法  
+     m.invoke(null);  
+     //passed加1  
+     passed++;  
+    }  
+    catch (Exception ex)  
+    {  
+     System.out.printf("方法" + m + "运行失败，异常：" + ex.getCause() + "\n");  
+     failed++;  
+    }  
+   }  
+  }  
+  //统计测试结果  
+  System.out.printf("共运行了:" + (passed + failed)+ "个方法，其中：\n" +  
+   "失败了:" + failed + "个，\n" +   
+   "成功了:" + passed + "个！\n");  
+ }  
+}  
+
+JDK除了java.lang下提供了3个基本Annotation之外，还在java.lang.annotation包下提供了四个Meta Annotation(元Annotation)，这四个都是用于修饰其它Annotation定义
+(1)使用@Retention
+value成员变量的值只能是如下三个
+RetentionPolicy.CLASS:编译器将把注释记录在class文件中。当运行Java程序时，JVM不再保留注释。这是默认值
+。
+RentionPolicy.RUNTIME:编译器将把注释记录在class文件中。当运行java程序时，JVM也会保留注释，程序也可以通过反射获取该注释。
+
+RentionPolicy.SOURCE:编译器直接丢弃这种策略的注释。
+//定义下面的Testable Annotation的保留到过行时
+@Retention(value=RetentionPolicy.RUNTIME)
+public @interface Testable{}
+ 
+也可以采用如下代码来为value指定值
+@Retention(RetentionPolicy.SOURCE)
+public @interface Testable{}
+(2)使用@Target
+ElementType.ANNOTATION_TYPE: 指定该策略的Annotation只能修饰Annotation
+
+ElementType.CONSTRUCTOR:指定该策略的Annotation能修饰构造器
+
+ElementType.FIELD:                 指定该策略的Annotation只能修饰成员变量
+
+ElementType.LOCAL_VARIABLE:指定该策略的Annotation只能修饰局部变量
+
+ElementType.METHOD             指定该策略的Annotation只能修饰方法定义
+
+ElementType.PACKAGE           指定该策略的Annotaion只能修饰包定义
+
+ElementType.PARAMETER      指定该策略的Annotation可以修饰参数
+
+ElementType.TYPE                   指定该策略的Annotaion可以修饰类，接口(包括注释类型)或枚举定义
+　　与使用@Retention类似的是，使用@Target也可以直接在括号里指定value值，可以无须使用name=value的形式。如
+ 
+下代码指定@ActionListenerFor Annotation只能修饰成员变量
+
+@Target(ElementType.FIELD)
+public @interface ActionListenerFor{}
+ 
+如下代码指定@Testable Annotation只能修饰方法
+
+@Target(ElementType.METHOD)
+public @interface Testable{}
+
+(3)使用@Documented
+@Target(ElementType.METHOD)  
+//定义Testable Annotation将被javadoc工具提取  
+@Documented  
+public @interface Testable  
+{  
+}
+
+(4)使用@Inherited
+　　@Inherited元Annotation指定被它修饰的Annotation将具有继承性。如果某个类使用了Annotaion（使用Annotation时使用了@Inherited修饰）修饰，则其子类将自动具有A注释。
+下面使用@Inherited元数据注释定义了一个Inherited Annotation,该Annotation将具有继承性
+//使用@Inheritable修饰的Base类  
+@Inheritable  
+class Base  
+{  
+}  
+//TestInheritable类只是继承了Base类，  
+//并未直接使用@Inheritable Annotiation修饰  
+public class TestInheritable extends Base  
+{  
+ <wbr>public static void main(String[] args)  
+ <wbr>{  
+ <wbr> <wbr>//打印TestInheritable类是否具有Inheritable Annotation  
+ <wbr> <wbr>System.out.println(TestInheritable.class.isAnnotationPresent(Inheritable.class));  
+ <wbr>}  
+}
+
+
+import com.sun.mirror.apt.*;  
+import com.sun.mirror.declaration.*;  
+import com.sun.mirror.type.*;  
+import com.sun.mirror.util.*;  
+  
+import java.beans.*;  
+import java.io.*;  
+import java.util.*;  
+  
+import java.lang.reflect.*;  
+public class HibernateAnnotationProcessor implements AnnotationProcessor  
+{  
+ //Annotation处理器环境，是该处理器与APT交互的重要途径  
+ private AnnotationProcessorEnvironment env;  
+ //构造HibernateAnnotationProcessor对象时，获得处理器环境  
+ public HibernateAnnotationProcessor(AnnotationProcessorEnvironment env)  
+ {  
+  this.env = env;  
+ }  
+ //循环处理每个对象  
+ public void process()  
+ {  
+  //遍历每个class文件  
+  for (TypeDeclaration t : env.getSpecifiedTypeDeclarations())  
+  {  
+   //定义一个文件输出流，用于生成额外的文件  
+   FileOutputStream fos = null;  
+   //获取正在处理的类名  
+   String clazzName = t.getSimpleName();  
+   //获取类定义前的Persistent Annotation  
+   Persistent per = t.getAnnotation(Persistent.class);  
+   //当per Annotation不为空时才继续处理  
+   if(per != null)  
+   {  
+    try  
+    {  
+     //创建文件输出流  
+     fos = new FileOutputStream(clazzName + ".hbm.xml");  
+     PrintStream ps = new PrintStream(fos);  
+     //执行输出  
+     ps.println("<?xml version="1.0"?>");  
+     ps.println("<!DOCTYPE hibernate-mapping");  
+     ps.println(" PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"");  
+     ps.println("    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd\">");  
+     ps.println("<hibernate-mapping>");  
+     ps.print(" <class name="" + t);  
+     //输出per的table()的值  
+     ps.println("" table="" + per.table() + "">");  
+     for (FieldDeclaration f : t.getFields())  
+     {  
+      //获取指定FieldDeclaration前面的IdProperty Annotation  
+      IdProperty id = f.getAnnotation(IdProperty.class);  
+      //如果id Annotation不为空  
+      if (id != null)  
+      {  
+       //执行输出  
+       ps.println("  <id name=""  
+        + f.getSimpleName()  
+        + "" column="" + id.column()  
+        + "" type="" + id.type()  
+        + "">");  
+       ps.println("   <generator class=""  
+        + id.generator() + ""/>");  
+       ps.println("  </id>");  
+      }  
+      //获取指定FieldDeclaration前面的Property Annotation  
+      Property p = f.getAnnotation(Property.class);  
+      //如果p Annotation不为空  
+      if (p != null)  
+      {  
+       //执行输出  
+       ps.println("  <property name=""  
+        + f.getSimpleName()  
+        + "" column="" + p.column()  
+        + "" type="" + p.type()  
+        + ""/>");    
+      }  
+     }  
+     ps.println(" </class>");  
+     ps.println("</hibernate-mapping>");  
+    }  
+    catch (Exception e)  
+    {  
+     e.printStackTrace();  
+    }  
+    finally  
+    {  
+     //关闭输出流  
+     try  
+     {  
+      if (fos != null)  
+      {  
+       fos.close();  
+      }  
+     }  
+     catch (IOException ex)  
+     {  
+      ex.printStackTrace();  
+     }  
+    }  
+   }  
+  }  
+ }  
+}  
+
+疯狂Java学习笔记（54）----------详解Java IO（全面）
+对文件进行操作：FileInputStream（字节输入流），FileOutputStream（字节输出流），FileReader（字符输入流），FileWriter（字符输出流）
+对管道进行操作：PipedInputStream（字节输入流）,PipedOutStream（字节输出流），PipedReader（字符输入流），PipedWriter（字符输出流）
+
+转化流：InputStreamReader/OutputStreamWriter，把字节转化成字符。
+数据流：DataInputStream，DataOutputStream。
+打印流：printStream，printWriter，一般是打印到控制台，可以进行控制打印的地方。
+对象流：ObjectInputStream，ObjectOutputStream，把封装的对象直接输出，而不是一个个在转换成字符串再输出。
+序列化流：SequenceInputStream。
+对象序列化：把对象直接转换成二进制，写入介质中。
+
+JAVA字节流
+FileInputStream和FileOutputStream
+这两个类属于结点流，第一个类的源端和第二个类的目的端都是磁盘文件，它们的构造方法允许通过文件的路径名来构造相应的流。如： 
+FileInputStream infile = new FileInputStream("myfile.dat");
+FileOutputStream outfile = new FileOutputStream("results.dat");
+
+通常来说，字节流的功能比字符流的功能强大，因为计算机里的所有数据都是二进制的，你懂得！
+但我还是喜欢字符流，直接明了。
+两个转换流：
+1.将字节转换成字符流
+InputStreamReader：将字节输入流转换成字符输入流，OutPutStreamWriter：将字节输出流转换成字符输出
+2.从字符流到字节流：可以从字符流中获取char[]数组，转换为String，然后调用String的API函数getBytes() 获取到byte[]，然后就可以通过ByteArrayInputStream、ByteArrayOutputStream来实现到字节流的转换。
+
+
+package com.haixu.io;  
+  
+import java.io.BufferedReader;  
+import java.io.InputStreamReader;  
+  
+public class KeyinTest {  
+      
+    public static void main(String[] args) {  
+          
+        try {  
+            //将system.in对象转换成Reader对象  
+            System.out.println("请输入：");  
+            InputStreamReader reader = new InputStreamReader(System.in);  
+            //将Reader对象转换成BufferedReader对象  
+            BufferedReader br = new BufferedReader(reader);  
+              
+            String buffer = null;  
+            //进行逐行的读取  
+            while((buffer = br.readLine()) != null){  
+                  
+                //如果读取的内容为exit，则退出程序  
+                if(buffer.equals("exit")){  
+                    System.exit(1);  
+                }  
+                System.out.println("输入内容为：" + buffer);  
+            }  
+        } catch (Exception e) {  
+            // TODO: handle exception  
+            e.printStackTrace();  
+        }  
+finally{reader.close();br.close()}//不要忘记关闭流 我忘记了，后加入的！        
+    }  
+} 
+
+所谓对象序列化就是将对象的状态转换成字节流，以后可以通过这些值再生成相同状态的对象！
+java对象序列化机制一般来讲有两种用途：
+
+1.需要将对象的状态保存到文件中（存储），而后能够通过读入对象状态来重新构造对象，恢复程序状态
+2.使用套接字在网络上传送对象的程序来说，是很有用的（传输）。
+将对象读出或者写入流的主要类有两个: ObjectOutputStream与ObjectInputStream 。
+ObjectOutputStream 提供用来将对象写入输出流的writeObject方法， ObjectInputStream提供从输入流中读出对象的readObject方法。使用这些方法的对象必须已经被序列化的。
+
+　对象序列化包括如下步骤：
+　　1） 创建一个对象输出流，它可以包装一个其他类型的目标输出流，如文件输出流；
+　　2） 通过对象输出流的writeObject()方法写对象。
+
+　　对象反序列化的步骤如下：
+　　1） 创建一个对象输入流，它可以包装一个其他类型的源输入流，如文件输入流；
+　　2） 通过对象输入流的readObject()方法读取对象。
+对象序列化和反序列范例：
+　　定义一个Person类，实现Serializable接口
+import java.io.Serializable;  
+  
+/** 
+ * <p>ClassName: Person<p> 
+ * <p>Description:测试对象序列化和反序列化<p> 
+ * @author xudp 
+ * @version 1.0 V 
+ * @createTime 2014-6-9 下午02:33:25 
+ */  
+public class Person implements Serializable {  
+  
+    /** 
+     * 序列化ID 
+     */  
+    private static final long serialVersionUID = -5809782578272943999L;  
+    private int age;  
+    private String name;  
+    private String sex;  
+  
+    public int getAge() {  
+        return age;  
+    }  
+  
+    public String getName() {  
+        return name;  
+    }  
+  
+    public String getSex() {  
+        return sex;  
+    }  
+  
+    public void setAge(int age) {  
+        this.age = age;  
+    }  
+  
+    public void setName(String name) {  
+        this.name = name;  
+    }  
+  
+    public void setSex(String sex) {  
+        this.sex = sex;  
+    }  
+}
+
+import java.io.File;  
+import java.io.FileInputStream;  
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+import java.io.ObjectInputStream;  
+import java.io.ObjectOutputStream;  
+import java.text.MessageFormat;  
+  
+/** 
+ * <p>ClassName: TestObjSerializeAndDeserialize<p> 
+ * <p>Description: 测试对象的序列化和反序列<p> 
+ * @author xudp 
+ * @version 1.0 V 
+ * @createTime 2014-6-9 下午03:17:25 
+ */  
+public class TestObjSerializeAndDeserialize {  
+  
+    public static void main(String[] args) throws Exception {  
+        SerializePerson();//序列化Person对象  
+        Person p = DeserializePerson();//反序列Perons对象  
+        System.out.println(MessageFormat.format("name={0},age={1},sex={2}",  
+                                                 p.getName(), p.getAge(), p.getSex()));  
+    }  
+      
+    /** 
+     * MethodName: SerializePerson  
+     * Description: 序列化Person对象 
+     * @author xudp 
+     * @throws FileNotFoundException 
+     * @throws IOException 
+     */  
+    private static void SerializePerson() throws FileNotFoundException,  
+            IOException {  
+        Person person = new Person();  
+        person.setName("gacl");  
+        person.setAge(25);  
+        person.setSex("男");  
+        // ObjectOutputStream 对象输出流，将Person对象存储到E盘的Person.txt文件中，完成对Person对象的序列化操作  
+        ObjectOutputStream oo = new ObjectOutputStream(new FileOutputStream(  
+                new File("E:/Person.txt")));  
+        oo.writeObject(person);  
+        System.out.println("Person对象序列化成功！");  
+        oo.close();  
+    }  
+  
+    /** 
+     * MethodName: DeserializePerson  
+     * Description: 反序列Perons对象 
+     * @author xudp 
+     * @return 
+     * @throws Exception 
+     * @throws IOException 
+     */  
+    private static Person DeserializePerson() throws Exception, IOException {  
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(  
+                new File("E:/Person.txt")));  
+        Person person = (Person) ois.readObject();  
+        System.out.println("Person对象反序列化成功！");  
+        return person;  
+    }  
+  
+}
+
+疯狂Java学习笔记（58）-----------NIO概述
+一.NIO中的几个基础概念
+　　在NIO中有几个比较关键的概念：Channel（通道），Buffer（缓冲区），Selector（选择器）。
+　　首先从Channel说起吧，通道，顾名思义，就是通向什么的道路，为某个提供了渠道。在传统IO中，我们要读取一个文件中的内容，通常是像下面这样读取的：
+ 
+publicclass Test {
+    publicstatic void main(String[] args) throws IOException  {
+        File file =new File("data.txt");
+        InputStream inputStream =new FileInputStream(file);
+        byte[] bytes =new byte[1024];
+        inputStream.read(bytes);
+        inputStream.close();
+    }  
+
+这里的InputStream实际上就是为读取文件提供一个通道的。
+　　因此可以将NIO 中的Channel同传统IO中的Stream来类比，但是要注意，传统IO中，Stream是单向的，比如InputStream只能进行读取操作，OutputStream只能进行写操作。而Channel是双向的，既可用来进行读操作，又可用来进行写操作。
+　　Buffer（缓冲区），是NIO中非常重要的一个东西，在NIO中所有数据的读和写都离不开Buffer。比如上面的一段代码中，读取的数据时放在byte数组当中，而在NIO中，读取的数据只能放在Buffer中。同样地，写入数据也是先写入到Buffer中。
+　　下面介绍一下NIO中最核心的一个东西：Selector。可以说它是NIO中最关键的一个部分，Selector的作用就是用来轮询每个注册的Channel，一旦发现Channel有注册的事件发生，便获取事件然后进行处理。
+用单线程处理一个Selector，然后通过Selector.select()方法来获取到达事件，在获取了到达事件之后，就可以逐个地对这些事件进行响应处理。
+
+二.Channel
+　　在前面已经提到，Channel和传统IO中的Stream很相似。虽然很相似，但是有很大的区别，主要区别为：通道是双向的，通过一个Channel既可以进行读，也可以进行写；而Stream只能进行单向操作，通过一个Stream只能进行读或者写；
+　　以下是常用的几种通道：
+FileChannel
+SocketChanel
+ServerSocketChannel
+DatagramChannel
+　　通过使用FileChannel可以从文件读或者向文件写入数据；通过SocketChannel，以TCP来向网络连接的两端读写数据；通过ServerSocketChanel能够监听客户端发起的TCP连接，并为每个TCP连接创建一个新的SocketChannel来进行数据读写；通过DatagramChannel，以UDP协议来向网络连接的两端读写数据。
+　　下面给出通过FileChannel来向文件中写入数据的一个例子：
+ 
+publicclass Test {
+    publicstatic void main(String[] args) throws IOException  {
+        File file =new File("data.txt");
+        FileOutputStream outputStream =new FileOutputStream(file);
+        FileChannel channel = outputStream.getChannel();
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        String string ="java nio";
+        buffer.put(string.getBytes());
+        buffer.flip();    //此处必须要调用buffer的flip方法
+        channel.write(buffer);
+        channel.close();
+        outputStream.close();
+    }  
+}
+
+疯狂Java学习笔记（57）------------NIO：浅析I/O模型
+http://blog.csdn.net/u011225629/article/details/46241949
+
+11.遍历一个List有哪些不同的方式？
+List<String> strList = new ArrayList<>();
+//使用for-each循环
+for(String obj : strList){
+  System.out.println(obj);
+}
+//using iterator
+Iterator<String> it = strList.iterator();
+while(it.hasNext()){
+  String obj = it.next();
+  System.out.println(obj);
+}
+
   
 
+ava语言对多线程的支持
+Java语言对多线程的支持通过类Thread和接口Runnable来实现。这里就不多说了。这里重点强调两个地方：
+// 主线程其它代码段
+ThreadClass subThread = new ThreadClass();
+subThread.start();
+// 主线程其它代码段
+subThread.sleep(1000);
+有人认为以下的代码在调用start（）方法后，肯定是先启动子线程，然后主线程继续执行。在调用sleep（）方法后CPU什么都不做，就在那里等待休眠的时间结束。实际上这种理解是错误的。因为：
+start（）方法的调用后并不是立即执行多线程代码，而是使得该线程变为可运行态（Runnable），什么时候运行是由操作系统决定的。
+Thread.sleep（）方法调用目的是不让当前线程独自霸占该进程所获取的CPU资源，以留出一定时间给其他线程执行的机会（也就是靠内部自己协调）。
 
+Java中线程的调度API
+Java中关于线程调度的API最主要的有下面几个：
+线程睡眠：Thread.sleep（long millis）方法
+线程等待：Object类中的wait（）方法
+线程让步：Thread.yield（） 方法
+线程加入：join（）方法
+线程唤醒：Object类中的notify（）方法
+
+sleep方法与wait方法的区别：
+sleep方法是静态方法，wait方法是非静态方法。
+sleep方法在时间到后会自己“醒来”，但wait不能，必须由其它线程通过notify（All）方法让它“醒来”。
+sleep方法通常用在不需要等待资源情况下的阻塞，像等待线程、数据库连接的情况一般用wait。
+
+sleep/wait与yeld方法的区别：调用sleep或wait方法后，线程即进入block状态，而调用yeld方法后，线程进入runnable状态。
+wait与join方法的区别：
+wait方法体现了线程之间的互斥关系，而join方法体现了线程之间的同步关系。
+wait方法必须由其它线程来解锁，而join方法不需要，只要被等待线程执行完毕，当前线程自动变为就绪。
+join方法的一个用途就是让子线程在完成业务逻辑执行之前，主线程一直等待直到所有子线程执行完毕。
+
+三、启动线程
+ 
+在线程的Thread对象上调用start()方法，而不是run()或者别的方法。
+ 
+在调用start()方法之前：线程处于新状态中，新状态指有一个Thread对象，但还没有一个真正的线程。
+ 
+在调用start()方法之后：发生了一系列复杂的事情
+ 
+启动新的执行线程（具有新的调用栈）；
+该线程从新状态转移到可运行状态；
+当该线程获得机会执行时，其目标run()方法将运行
+
+package com.haixu.thread;  
+/* 
+ * 线程练习 
+ * 通过继承Thread类来创建线程类 
+ * */  
+public class FirstThread extends Thread{  
+     private int i;  
+     //重写run（）方法，run（）方法的防反弹就是线程的执行体  
+     public void run(){  
+         for(;i < 5 ; i++){  
+             //当线程类继承Thread类时，直接使用this即可获得当前的线程  
+             //Thread对象的getName（）返回当前线程的名字  
+             //因此可以直接调用getName（）方法返回当前线程的名字  
+             System.out.println( getName() + "  " + i);  
+         }  
+     }  
+  
+       
+     public static void main(String[] args) {  
+        for(int i = 0; i<4; i++){  
+            System.out.println(Thread.currentThread().getName() + "  " + i);  
+              
+            if(i == 3){  
+                  
+                //创建第一个线程  
+                new FirstThread().start();  
+                //创建第二个线程  
+                new FirstThread().start();  
+            }  
+        }  
+    }  
+}  
+
+运行结果：
+ 
+[plain] view plain copy 在CODE上查看代码片派生到我的代码片
+main  0  
+main  1  
+main  2  
+main  3  
+Thread-0  0  
+Thread-0  1  
+Thread-0  2  
+Thread-0  3  
+Thread-0  4  
+Thread-1  0  
+Thread-1  1  
+Thread-1  2  
+Thread-1  3  
+Thread-1  4  
+
+ 通过实现Runnable接口来创建线程类
+ 
+[java] view plain copy 在CODE上查看代码片派生到我的代码片
+package com.haixu.thread;  
+/* 
+ * 线程学习 
+ * 通过实现Runnable接口来创建线程类 
+ * */  
+public class SecondThread implements Runnable{  
+      
+    private int i;  
+    //run（）方法同样是线程的执行体  
+    public void run(){  
+          
+        for(; i<5; i++){  
+            //当线程类实现了Runnable接口时  
+            //如果想获取当前线程，只能通过调用Threand.currentThread（）方法  
+            System.out.println(Thread.currentThread().getName() + "  " + i);  
+        }  
+    }  
+      
+    public static void main(String[] args) {  
+          
+        for(int i = 0 ; i<4; i++){  
+              
+            System.out.println(Thread.currentThread().getName() + "  " + i);  
+              
+            if(i==3){  
+                  
+                SecondThread st = new SecondThread();  
+                  
+            //通过new Thread（target，name）方法创建新线程  
+                new Thread(st , "线程1").start();  
+                new Thread(st , "线程2").start();  
+                  
+            }  
+        }  
+    }  
+  
+}  
+
+运行结果：
+ 
+[java] view plain copy 在CODE上查看代码片派生到我的代码片
+main  0  
+main  1  
+main  2  
+main  3  
+线程1  0  
+线程1  1  
+线程2  1  
+线程1  2  
+线程2  3  
+线程1  4  
+
+1、新状态：线程对象已经创建，还没有在其上调用start()方法。
+ 
+2、可运行状态：当线程有资格运行，但调度程序还没有把它选定为运行线程时线程所处的状态。当start()方法调用时，线程首先进入可运行状态。在线程运行之后或者从阻塞、等待或睡眠状态回来后，也返回到可运行状态。
+ 
+3、运行状态：线程调度程序从可运行池中选择一个线程作为当前线程时线程所处的状态。这也是线程进入运行状态的唯一一种方式。
+ 
+4、等待/阻塞/睡眠状态：这是线程有资格运行时它所处的状态。实际上这个三状态组合为一种，其共同点是：线程仍旧是活的，但是当前没有条件运行。换句话说，它是可运行的，但是如果某件事件出现，他可能返回到可运行状态。
+ 
+5、死亡态：当线程的run()方法完成时就认为它死去。这个线程对象也许是活的，但是，它已经不是一个单独执行的线程。线程一旦死亡，就不能复生。 如果在一个死去的线程上调用start()方法，会抛出java.lang.IllegalThreadStateException异常。
+
+睡眠的实现：调用静态方法。
+        try {
+            Thread.sleep(123);
+        } catch (InterruptedException e) {
+            e.printStackTrace();  
+        }
+		
+		
+		设置线程的优先级：线程默认的优先级是创建它的执行线程的优先级。可以通过setPriority(int newPriority)更改线程的优先级。例如：
+        Thread t = new MyThread();
+        t.setPriority(8);
+        t.start();
+		线程默认优先级是5，Thread类中有三个常量，定义线程优先级范围：
+static int MAX_PRIORITY 
+          线程可以具有的最高优先级。 
+static int MIN_PRIORITY 
+          线程可以具有的最低优先级。 
+static int NORM_PRIORITY 
+          分配给线程的默认优先级。
+		  
+		  package com.haixu.thread2;  
+/* 
+ * 使用Yield对线程让步，是正在执行的线程停止 
+ *  
+ */  
+public class YieldTest extends Thread{  
+  
+    public YieldTest(String name){  
+        super(name);  
+    }  
+      
+    //定义run（）作为执行体  
+    public void run(){  
+        for( int i=0; i<6; i++){  
+            System.out.println(getName() + "  " + i);  
+            //当i=4时线程做出让步  
+            if(i==4){  
+                Thread.yield();  
+            }  
+        }  
+    }  
+      
+    public static void main(String[] args) {  
+          
+    //启动两个并发线程  
+        YieldTest yt = new YieldTest("高级");  
+        yt.setPriority(Thread.MAX_PRIORITY);  
+        yt.start();  
+          
+        //将此线程设置成低权限  
+        YieldTest yt1 = new YieldTest("低级");  
+        yt1.setPriority(Thread.MIN_PRIORITY);  
+        yt1.start();  
+    }  
+}  
+运行结果：
+
+[java] view plain copy 在CODE上查看代码片派生到我的代码片
+高级  0  
+高级  1  
+高级  2  
+高级  3  
+低级  0  
+低级  1  
+低级  2  
+低级  3  
+高级  4  
+高级  5  
+低级  4  
+低级  5  
+
+4、join()方法
+ 
+Thread的非静态方法join()让一个线程B“加入”到另外一个线程A的尾部。在A执行完毕之前，B不能工作。例如：
+        Thread t = new MyThread();
+        t.start();
+        t.join();
+另外，join()方法还有带超时限制的重载版本。 例如t.join(5000);则让线程等待5000毫秒，如果超过这个时间，则停止等待，变为可运行状态。
+
+package com.haixu.thread2;  
+/* 
+ * 当调用其他线程的join方法时，调用线程被阻塞 
+ * 直到被join方法加入的线程执行完为止 
+ *  
+ */  
+public class JoinTest extends Thread{  
+//提供有参数的构造器，用于设置线程的名称  
+ public JoinTest(String name){  
+  super(name);  
+ }  
+   
+ public void run(){  
+    
+  for(int i = 0; i<6; i++){  
+   System.out.println(getName() + " " + i);  
+  }  
+ }  
+   
+ public static void main(String[] args) throws InterruptedException {  
+  //启动子线程  
+  new JoinTest("新线程").start();  
+    
+  for(int i=0; i< 5; i++){  
+     
+   if(i == 2){  
+      
+    JoinTest jt = new JoinTest("被Join的线程");  
+    jt.start();  
+      
+    //main线程调用了jt线程的join方法，main线程  
+    //必须等jt之行结束才会向下执行  
+    jt.join();  
+   }  
+   System.out.println(Thread.currentThread().getName() + "  " + i);  
+  }  
+ }  
+}  
+
+执行结果：
+[html] view plain copy 在CODE上查看代码片派生到我的代码片
+main  0  
+main  1  
+新线程 0  
+新线程 1  
+新线程 2  
+新线程 3  
+新线程 4  
+新线程 5  
+被Join的线程 0  
+被Join的线程 1  
+被Join的线程 2  
+被Join的线程 3  
+被Join的线程 4  
+被Join的线程 5  
+main  2  
+main  3  
+main  4  
 

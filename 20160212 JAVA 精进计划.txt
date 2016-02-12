@@ -1,0 +1,550 @@
+﻿20160212 JAVA 精进计划
+动手做一做。多读多写多练。
+板凳要坐十年冷。
+
+很多时候，是否好好看完一本好书，对一个人的提升往往能达到质的区别。就算不好好看完一本好书，马马虎虎看完，只要书是真的好书，也肯定会有很大的提高。我在面试的时候就经常询问对方看过哪些技术书籍，经常上哪些网站，订哪些博客。这里头尤其数书籍这一项的区分度最高。此外，好书和坏书的差别，从本质上，就是学习效率和大方向的差别。一本烂书可以浪费你半年的时间，但一本好书却可以为你带来真正扎实的基础和开阔的视野。人们常常用“内功”来形容扎实的基础，认为学好了内功以后学什么都快，其实一点没错，好的“内功”书不仅讲清楚深刻的原理，而且指明技术的本质，刻画领域的地图。好的书抓住不变量，让人能够触类旁通。好的书不仅介绍知识，而且阐释原则，介绍那些万变不离其宗的东西。读烂书浪费时间，但读好书却节省时间。
+http://mindhacks.cn/2011/11/04/how-to-interview-a-person-for-two-years/
+
+唐唐
+在中国github和书对面试者意义不大。你在微软，周围都是牛人，他们中有几个玩github？又有几个人读了你说的那些书？他们自己都不吊这些东西，又怎么会拿这些东西考察别人？
+在大公司，尤其是微软这样聚集着很多牛人的地方，想进去，说到底拼的就是智商。聪明人永远喜欢聪明人，geek也永远只找geek。原因很简单：人就喜欢和自己像的人，和自己说一种俚语的人混在一起。
+为了进大公司玩github，玩acm，玩topcoder，玩blog，玩一切"伪老师们"推荐的好玩意，都是智商低的表现，来微软面试，照样被拍得死死的。虽然表面理由五花八门，但根本理由就一个，揣在面试官的心底：你丫不够聪明！
+
+结合个人经历总结的前端入门方法（这才是真的入门经典）
+http://blog.csdn.net/u014326381/article/details/50176339
+
+第一节 MongoDB介绍及下载与安装
+http://blog.csdn.net/fcx_1688/article/details/47071963
+
+开源项目Git地址
+http://blog.csdn.net/tototuzuoquan/article/details/49057807
+
+03_TortoiseGit冲突和补丁演示，补丁冲突    -------------------------------------------------
+http://blog.csdn.net/tototuzuoquan/article/details/47094149
+http://blog.csdn.net/tototuzuoquan/article/details/47138765
+http://blog.csdn.net/tototuzuoquan/article/details/47136457
+http://blog.csdn.net/tototuzuoquan/article/details/47072705
+http://blog.csdn.net/tototuzuoquan/article/details/49028961
+http://blog.csdn.net/ithomer/article/details/7529022
+http://blog.csdn.net/hangyuanbiyesheng/article/details/6731629
+http://blog.csdn.net/phunxm/article/details/48216469
+git常用命令总结-----------------------------------------------------------------------
+http://blog.csdn.net/a396901990/article/details/43428905
+Git远程操作详解----------------------------------------------------------------------
+http://www.ruanyifeng.com/blog/2014/06/git_remote.html
+http://www.cnblogs.com/sinojelly/archive/2011/08/07/2130172.html
+https://github.com/KylinGu/Test/blob/master/GitLearningExp.md
+http://blog.csdn.net/jackystudio/article/details/12309531
+
+
+
+map
+http://blog.csdn.net/xsf50717/article/details/45072059
+VIM 讲解----------------------------------------------------------------------------------
+http://blog.csdn.net/menxu_work/article/details/11531029
+
+
+
+http://www.blogjava.net/youxia/archive/2013/12/29/408182.html
+
+敬僧须知
+http://dhamma.sutta.org/books/mxd-jinseng.html
+
+
+点滴记录——Windows 7中安装Sublime Text 3、cynwin、SublimeClang-------------------------------------
+http://blog.csdn.net/cywosp/article/details/34429697
+json解析，异步下载（listview仅滑动时加载）Demo总结
+http://blog.csdn.net/xsf50717/article/details/49024075
+
+
+
+
+
+
+https://www.v2ex.com/
+http://www.tianmaying.com/
+eclipse中使用git
+http://blog.csdn.net/hhhccckkk/article/details/10458159
+博客专栏>编程语言专栏>Python 学习入门
+http://blog.csdn.net/column/details/python-learning.html
+
+跟我学SpringMVC目录汇总贴、PDF下载、源码下载  源码下载源码下载源码下载源码下载源码下载 源码下载 源码下载 源码下载 源码下载 源码下载
+http://jinnianshilongnian.iteye.com/blog/1752171
+http://www.liaoxuefeng.com/
+http://www.liaoxuefeng.com/article/00145325941950698c3d7fb5bd54e45a82096c8435d1bae000
+
+全球最火的12门编程语言，MOOC带你学！
+http://mooc.guokr.com/post/645581/
+
+Commons-logging + Log4j 入门指南
+http://blog.csdn.net/u013474104/article/details/47334871
+
+
+
+博客频道 →博客专栏 →企业架构 →跟我学Shiro
+http://www.iteye.com/blogs/subjects/shiro
+
+
+跟叶子学把妹系列汇总贴
+http://jinnianshilongnian.iteye.com/blog/2119085
+
+
+
+http://mindhacks.cn/topics/learning-method/
+
+
+
+ JAVA电子书系列
+ http://blog.csdn.net/fenglibing/article/details/1506541
+
+技术知识图
+http://blog.csdn.net/lowkeysk/article/details/8476713
+Bootstrap—由less来架构Bootstrap
+http://blog.csdn.net/lowkeysk/article/details/8282740
+理想的程序员
+http://www.wenhq.com/
+
+疯狂Java学习笔记
+http://blog.csdn.net/column/details/crazyjava.html
+
+博客专栏>编程语言专栏>Java基础学习篇
+http://blog.csdn.net/column/details/java-waldmer.html
+
+Jquery 操作Html 控件 CheckBox、Radio、Select 控件
+http://www.cnblogs.com/lxblog/archive/2013/01/09/2853056.html
+ jQuery---- 常用操作
+ http://blog.csdn.net/damys/article/details/8721513
+  jQuery 常用方法总结
+  http://blog.csdn.net/kevinpake/article/details/12981497
+   使用$.when()解决AJAX异步难题之:多个ajax操作进行逻辑与(and)
+   http://blog.csdn.net/aitangyong/article/details/47025057
+   JS----简单的城市级联
+   http://blog.csdn.net/damys/article/details/50456718
+   JQuery之事件处理
+   http://blog.csdn.net/u012152619/article/details/42059557
+   http://blog.csdn.net/u012152619/article/details/42550143
+   
+ 
+ encode decode
+ http://blog.csdn.net/u012152619/article/details/42435289
+ Cookie cookie =new Cookie(  
+      URLEncoder.encode("姓名","UTF-8"),  
+      URLEncoder.encode("张三","UTF-8")  
+      );  
+response.addCookie(cookie);  
+   
+if(request.getCookies()!= null){  
+      for(Cookie cookie : request.getCookies()){  
+             String name = URLEncoder.decode(cookie.getName(),"UTF-8");  
+             String name =URLEncoder.decode(cookie.getValue(),"UTF-8");  
+             }  
+      } 
+
+	  Jquery入门指南教程
+	  http://blog.csdn.net/evankaka/article/details/48769765
+	  http://blog.csdn.net/aitangyong/article/details/43456447
+	  http://blog.csdn.net/aitangyong/article/details/43452311
+	   jQuery数据缓存方案详解：$.data()的使用
+	   http://blog.csdn.net/aitangyong/article/details/50323561
+	   http://blog.csdn.net/aitangyong/article/details/50324501
+	   
+	  
+	  Linux命令大全----常用文件操作命令
+	  http://blog.csdn.net/evankaka/article/details/49227669
+	  
+	 以下は操作履歴
+  
+一个程序员多年的收藏
+http://blog.csdn.net/kingmax54212008/article/details/49699287
+
+21天学通Java学习笔记-Day01
+http://blog.csdn.net/u013055678/article/details/35792079
+
+JAVA从菜鸟到凤凰的浴火重生
+http://blog.csdn.net/column/details/javabird.html
+博客专栏>编程语言专栏>java学习笔记----------------------------------------------------------------------------
+http://blog.csdn.net/column/details/itmyhome.html
+java学习笔记09--反射机制---------------------------------------------------------------------------
+http://blog.csdn.net/itmyhome1990/article/details/8946220
+http://www.ido321.com/
+你有必要知道的 25 个 JavaScript 面试题
+http://www.ido321.com/1660.html
+
+
+两天教你征服AJAX
+http://blog.csdn.net/column/details/zfajax.html
+详谈JavaWeb
+http://blog.csdn.net/column/details/expandjavaweb.html
+一天教你征服JavaMail
+http://blog.csdn.net/column/details/javamail.html
+
+
+Java程序员的JavaScript学习笔记（1——理念）
+http://blog.csdn.net/stationxp/article/details/40020009
+ POI操作Excel详解，HSSF和XSSF两种方式
+ http://blog.csdn.net/he90227/article/details/37563497
+ 
+
+
+编程精华资源（ITeye优秀专栏）大汇总  
+http://www.iteye.com/magazines/130
+
+Java编程Step-by-step收藏
+http://www.iteye.com/blogs/subjects/Java-Step-by-step
+http://www.iteye.com/blogs/subjects/StudyNotes
+
+Spring 3.x企业实用开发实战收藏
+http://www.iteye.com/blogs/subjects/Spring_3
+Spring Security3源码分析收藏
+http://www.iteye.com/blogs/subjects/spingsecurity3inside
+
+Spring Mvc实战(必带源码)收藏
+http://www.iteye.com/blogs/subjects/zl563143188
+
+Web前端开发之路收藏
+http://www.iteye.com/blogs/subjects/fire-web
+Spring MVC中使用Thymeleaf模板引擎
+http://www.tianmaying.com/tutorial/spring-mvc-thymeleaf
+
+log4j的使用和配制
+http://blog.csdn.net/luoweifu/article/details/43638495
+
+
+分页查询的那些坑和各种技巧
+http://dk05408.iteye.com/blog/2205518
+
+
+随笔分类 - JQuery笔记 ------------------活到老学到老，不认真你就输了。--------------
+http://www.cnblogs.com/Jolinson/category/535987.html
+分类目录归档：Js/jQuery   前端笔记
+http://www.cssue.com/category/javascript-jquery
+API/jQuery
+http://semooh.jp/jquery/api/traversing/add/expr/
+ jQuery整理笔记目录
+http://blog.csdn.net/column/details/jquery-.html
+要素の非表示 ( hide )
+http://www.task-notes.com/entry/20150112/1420994026
+http://www.jb51.net/article/49314.htm
+
+Javascript 实现无刷新联动菜单（select）的方法
+http://www.codebit.cn/javascript/combo-select.html
+
+
+
+jQuery技术内幕收藏
+http://www.iteye.com/blogs/subjects/jquery
+
+PHP项目实战收藏
+http://www.iteye.com/blogs/subjects/PHPInAction
+rails3项目解析收藏
+http://www.iteye.com/blogs/subjects/seamon
+ruby博客
+http://dearjohn.iteye.com/category/231913
+http://d.hatena.ne.jp/kitokitoki/archive?word=*%5BRails%5D
+Ruby 教程-----------------------------------------------------------
+http://www.runoob.com/ruby/ruby-class.html
+
+博客专栏>编程语言专栏>Python学习
+http://blog.csdn.net/column/details/study-python.html
+博客专栏>编程语言专栏>Scala详解
+http://blog.csdn.net/column/details/studyscala.html
+
+Python自动单元测试框架
+http://blog.csdn.net/shanliangliuxing/article/details/39210035
+http://blog.csdn.net/shanliangliuxing/article/details/39208261
+
+
+八關齋戒（一）──關閉流轉生死之門
+http://www.ctworld.org.tw/turn/blossom/044.htm
+http://www.bskk.com/thread-2629851-1-1.html
+
+http://firestorage.jp/
+http://firestorage.jp/main.cgi?d=191fa2e
+
+Java实现POI导出Excel
+http://blog.csdn.net/itmyhome1990/article/details/49818045
+
+
+
+
+http://www.chinalpc.com/rxcqyxbj/14rxcqyxbj/
+http://www.chinalpc.com/rxcqwqzb/10rxcqwqzb/
+http://bbs.tianya.cn/post-free-2483902-1.shtml
+http://club.kdnet.net/dispbbs.asp?id=8710911&boardid=96
+http://book.douban.com/review/6487574/
+http://www.dizang.org/jz/zj3/p40.htm
+http://www.gushiwen.org/GuShiWen_de61ffe366.aspx?WebShieldDRSessionVerify=qNaen3oAoarnGDHw5k26
+http://www.confucius2000.com/admin/list.asp?id=2027
+家贫君子拙 时来小儿强
+http://m.guoxuez.com/mingxianji/24207.html
+http://bbs.tianya.cn/post-no01-409115-1.shtml
+http://www.zybang.com/question/900a0ecee858deebe69b2c4786881b59.html
+http://www.douban.com/note/445053856/
+
+http://www.tebaidu.com/
+http://www.youku.com/playlist_show/id_5269529_ascending_1_page_1.html
+http://www.weibo.com/molekeji?nick=%E9%AD%94%E4%B9%90%E7%A7%91%E6%8A%80&is_hot=1
+http://www.mldn.cn/
+
+
+
+《Maven实战》学习笔记目录（转载）
+http://blog.csdn.net/lw_power/article/details/46558845
+http://www.iteye.com/blogs/subjects/suhuanzheng
+http://suhuanzheng7784877.iteye.com/blog/1101806#comments
+http://suhuanzheng7784877.iteye.com/blog/1101803
+
+
+MongoDB shell操作
+http://blog.csdn.net/xiaoyu411502/article/details/46909431
+
+
+JavaScript，Python，Nodejs你都可以在这里学到
+http://www.weibo.com/liaoxuefeng?s=6uyXnP&is_hot=1
+http://www.liaoxuefeng.com/
+
+
+
+
+表单隐藏域的应用
+http://for-dream.iteye.com/blog/1570279
+
+event对应
+http://qiita.com/konweb/items/76654384855ea1c9fec7
+$(":text").removeAttr("disabled");
+$(":text").attr("disabled","disabled");
+http://qiita.com/konweb/items/97cccb28973aefe4b0c6
+
+
+
+Java 泛型
+http://www.runoob.com/java/java-generics.html
+Java泛型--泛型应用--泛型接口、泛型方法、泛型数组、泛型嵌套
+http://blog.csdn.net/waldmer/article/details/12773021
+
+
+薛
+http://blog.sina.com.cn/s/articlelist_1772844793_0_1.html
+在路上
+http://www.crifan.com/
+
+thymeleaf与spring整合
+http://www.blogjava.net/bjwulin/archive/2014/02/11/409734.html
+thymeleaf 学习笔记
+http://www.blogjava.net/bjwulin/archive/2013/02/07/395234.html
+JAVA JPA - 示例用法
+http://www.360doc.com/content/14/0707/10/18042_392565296.shtml
+JAVA JPA - 示例用法
+http://www.cnblogs.com/yjmyzz/p/javaee-jpa-hibernate-sample.html
+http://www.blogjava.net/jesson2005/articles/380882.html
+
+Spring Bootでコントローラの単体テスト
+http://blog.okazuki.jp/entry/2015/07/14/205627
+http://www.leveluplunch.com/java/tutorials/030-testing-spring-rest-webservice-controllers/
+http://qiita.com/rubytomato@github/items/e4fda26faddbcfd84d16
+
+
+
+
+
+CXF+JAXB处理复杂数据                心内求法
+http://www.cnblogs.com/holbrook/archive/2012/12/15/2818833.html
+ 
+MAP
+http://book.2cto.com/201309/31484.html
+http://blog.csdn.net/he90227/article/details/37599463
+
+
+数据库的查询与视图
+http://www.cnblogs.com/javaTest/archive/2012/05/28/2589465.html
+SQL中UNION使用实例
+http://blog.csdn.net/yl2isoft/article/details/16922403
+
+阴者勿交，傲者少言
+http://www.gushiwen.org/GuShiWen_8ff8b9808e.aspx
+
+
+
+JQuery入门基础
+http://blog.csdn.net/hellobeifeng/article/details/46357909
+一起jquery----------------------------------------------------------------
+http://www.17jquery.com/
+http://www.w3school.com.cn/
+jquery ajax $.ajax()用法解析
+http://blog.csdn.net/yangzeqiang/article/details/7924197
+
+
+JavaScript 教程
+http://www.w3school.com.cn/js/index.asp
+javascript学习 - js的Date对象函数
+http://blog.csdn.net/alps1992/article/details/38150783
+
+ javascript（一）
+ http://blog.csdn.net/u010150082/article/details/9570459
+ 
+  JavaScript快速掌握
+  http://blog.csdn.net/u011225629/article/details/47440933
+  JavaScript技巧手册
+  http://blog.csdn.net/u011225629/article/details/47441567
+ 
+javascript学习目录
+http://www.cnblogs.com/xiaohuochai/p/4984563.html
+当前标签: javascript总结
+http://www.cnblogs.com/xiaohuochai/tag/javascript%E6%80%BB%E7%BB%93/
+当前标签: javascript小知识点
+http://www.cnblogs.com/xiaohuochai/tag/javascript%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9/
+HTML5時代のJavaScript入門
+http://www.pori2.net/js/index.html
+http://www.pori2.net/html5/index.html
+http://www.qeefee.com/zt-js
+
+Bootstrap导航栏实例讲解
+http://blog.csdn.net/evankaka/article/details/49516493
+
+当前标签: HTML总结
+http://www.cnblogs.com/xiaohuochai/tag/HTML%E6%80%BB%E7%BB%93/
+
+当前标签: css总结
+http://www.cnblogs.com/xiaohuochai/tag/css%E6%80%BB%E7%BB%93/
+http://www.tagindex.com/
+
+
+AngularJS
+http://js.studio-kingdom.com/angularjs
+
+博客专栏>编程语言专栏>Node.js开发入门
+http://blog.csdn.net/column/details/nodejs-tutorial.html
+Node.js开发入门—Angular简单示例
+http://blog.csdn.net/foruok/article/details/47652389
+使用Node.js完成的第一个项目的实践总结
+http://blog.csdn.net/yanghua_kobe/article/details/17199417
+Node.js 资源
+https://cnodejs.org/getstart
+http://forjs.org/
+七天学会NodeJS
+http://nqdeng.github.io/7-days-nodejs/
+Node.js 入门教程和学习资源汇总
+http://www.cnblogs.com/lhb25/p/nodejs-tutorials-and-resources.html
+Node.js 中文资料导航
+http://www.cnblogs.com/lhb25/p/node-js-resources.html
+一个周末掌握IT前沿技术之node.js篇<七>：Node.js与HBase
+http://ittechnical.sinaapp.com/category/node-js/
+
+
+express api
+http://expressjs.jser.us/3x_zh-cn/api.html
+http://nodeclass.com/api/node.html
+http://nodeclass.com/
+
+《码农》电子刊
+http://www.ituring.com.cn/article/34008
+
+学得快，记得牢，花的少 - 请尽快开发你的大脑
+http://www.ituring.com.cn/article/211273
+
+window平台安装 MongoDB
+http://www.runoob.com/mongodb/mongodb-window-install.html
+
+
+FLex调用servlet连接数据库
+http://blog.csdn.net/pengpeng2395/article/details/4157421
+http://blog.csdn.net/pengpeng2395/article/details/4159658
+
+http://blog.csdn.net/pengpeng2395/article/details/4159774
+
+
+
+爱国主义是无赖最后的避难所
+https://zh.wikiquote.org/zh-sg/%E5%8F%8D%E6%B0%91%E6%97%8F%E4%B8%BB%E7%BE%A9
+http://bbs.tianya.cn/post-news-110521-1.shtml
+http://www.wenzhangba.com/yuanchuangwenzhang/201503/cong-yige-48122.html
+http://www.ourbestsecret.com/law/?type=detail&id=25
+http://www.douban.com/group/topic/1637309/
+
+
+
+今天没吃药，感觉萌萌的     程序员怎样新学一门技术   步步为营，持续推进    坚持，坚持，再坚持
+http://www.codeceo.com/article/programmer-learn-new-tech.html
+
+前端程序员必知的30个Chrome扩展
+http://www.codeceo.com/article/30-useful-extensions-for-web.html
+15 个必须知道的 Chrome 开发工具技巧
+
+
+你需要知道的12个Git高级命令
+http://www.codeceo.com/article/12-advanced-git-command.html
+http://www.codeceo.com/article/git-tips-years.html
+http://www.codeceo.com/article/10-things-about-git-github.html
+http://www.codeceo.com/article/git-command-list.html
+http://www.codeceo.com/article/7-git-skills-you-need-focus.html
+http://www.codeceo.com/article/git-work-flow.html
+
+
+
+
+汇智网
+http://www.hubwiz.com/course/?type=nodes&ch=csdn
+
+专门针对初学者的Node.js教程
+http://www.csdn.net/article/2013-08-28/2816731-absolute-beginners-guide-to-nodejs
+http://www.csdn.net/article/1970-01-01/2818879
+
+
+
+20160212 书签 整理
+JavaScriptでWebアプリを開発できる「Node.js」活用入門
+https://osdn.jp/magazine/12/04/11/0618228/2
+
+資料室
+http://www.oki-osk.jp/esc/whitepaper.html
+Ruby		
+・	Ruby on Rails 半日入門
+Wiki后端开发Ruby Rails 实践
+http://wiki.jikexueyuan.com/project/rails-practice/
+https://ruby-china.org/wiki/start_leaning_rails
+主题：各种排序的Ruby实现
+http://www.iteye.com/topic/280891
+Ubuntu 10.04 LTS 64bit搭建Rails3+MongoDB环境
+http://hideto.iteye.com/blog/853763
+如何从零开始学会 Ruby on Rails?------------------------------------------------------------------
+http://huacnlee.com/blog/how-to-start-learning-ruby-on-rails/
+Rails 初上手指南
+http://guides.ruby.tw/rails3/getting_started.html
+
+
+
+
+
+
+
+Ruby on rails初体验系列文章：
+http://www.linuxidc.com/Linux/2014-04/100254.htm
+http://www.linuxidc.com/Linux/2014-04/100245.htm
+http://www.linuxidc.com/Linux/2014-04/100246.htm
+http://www.linuxidc.com/Linux/2014-04/100247.htm
+
+哈佛面试题及答案 ----没事多看看提高智商
+http://www.douban.com/note/220854216/
+
+微软公司等数据结构+算法面试100题(第1-100题)全部出炉
+http://blog.csdn.net/v_JULY_v/article/details/6057286
+
+
+AngularJS
+http://js.studio-kingdom.com/angularjs
+深入钻研Augular两年 谈谈其究竟适用于哪些场合
+http://www.csdn.net/article/2015-01-30/2823778-Augular
+写得太好了，我才用angular没多久就发现了文中说这些问题，老实说这框架实在说不上是有多好的，虽然是google的。以提升效率为目标，开始可能确实有所提升，但是用得时间越长，问题越多，效率实在是谈不上。
+
+
+chrome-extension://hgmloofddffdnphfgcellkdfbfbjeloo/RestClient.html#RequestPlace:default
+明贤集
+http://www.360doc.com/content/10/0710/06/333356_37983851.shtml
+https://www.zhihu.com/question/24482336
+https://www.zhihu.com/question/20491002
+
+
+Java时间格式大全
+http://blog.csdn.net/crystaldestiny/article/details/23700905
+JSP Cookie使用方法详解
+http://blog.csdn.net/crystaldestiny/article/details/21866607

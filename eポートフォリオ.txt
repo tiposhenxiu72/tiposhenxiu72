@@ -1,0 +1,137 @@
+eポートフォリオ
+インターンシップ・求人情報一覧
+http://localhost:8080/internship
+インターンシップ情報管理
+http://localhost:8080/mgmt/internship
+応募状況閲覧（一覧）
+http://localhost:8080/mgmt/internship/application
+
+result_case001
+
+実績編集 特許 画面	
+http://localhost:8080/portfolio/patent/
+実績編集 Works 画面
+http://localhost:8080/portfolio/works/
+
+
+	//学歴    000
+http://localhost:8080/portfolio/academic/
+	
+	// 業績情報・競争的資金等の研究課題
+http://localhost:8080/portfolio/competition/
+	
+
+3
+インターンシップ   9
+ポータル    2
+
+5
+実績編集 競争的資金等の研究課題 画面   6
+実績編集 学歴 画面       5
+66677778888
+
+広島工業大学
+工学部   
+ダンダム科
+ウガンダ
+（１回目）
+（２回目）
+result_case001
+result_case001
+単体テスト結果報告書_実績編集_学歴
+単体テスト結果報告書_実績編集_経歴
+単体テスト結果報告書_実績編集_受賞
+単体テスト結果報告書_実績編集_特許
+
+単体テスト結果報告書_業績情報・Works
+単体テスト結果報告書_業績情報・その他
+単体テスト結果報告書_業績情報・学位
+単体テスト結果報告書_業績情報・競争的資金等の研究課題
+20160212程
+結果報告書
+
+不具合
+指摘誤り
+テスト不備
+再確認OK
+指摘不備
+
+hd-matsiu@sraw.co.jp
+hd-matsiu02@sraw.co.jp
+hd-matsiu03@sraw.co.jp
+aaaaa@sraw.co.jp
+実績編集_Works（一覧） 画面
+実績編集_Works（編集） 画面
+一覧表示順序は業績情報・受賞の受賞年月の降順になっていない。
+更新確認のダイアログ表示しない。
+障害管理票一覧(福岡側)
+ダウンロードの内容おかしい、それで、アップロードも問題ある。
+http://www.lz13.cn/mingrenmingyan/43846.html
+这是一个很好的资源，感谢楼主无私的分享。
+	//学歴    000
+	http://localhost:8080/portfolio/academic/
+	// 業績情報・経歴    000
+	http://localhost:8080/portfolio/career/
+		// 業績情報・特許     result1    buzhengchang-----
+	http://localhost:8080/portfolio/patent/
+	// 業績情報・受賞  -------
+	http://localhost:8080/portfolio/prize/
+	
+		// 業績情報・Works
+	http://localhost:8080/portfolio/works/
+		// 業績情報・その他
+	http://localhost:8080/portfolio/others/
+	// 業績情報・学位
+	http://localhost:8080/portfolio/degree/
+		// 業績情報・競争的資金等の研究課題
+	http://localhost:8080/portfolio/competition/
+	
+	99999999999
+	100000000000
+		// 業績情報・論文
+	http://localhost:8080/portfolio/paper/
+	// 業績情報・講演・口頭発表等
+	http://localhost:8080/portfolio/conference/
+	// 業績情報・書籍
+	http://localhost:8080/portfolio/biblio/
+	// 業績情報・研究キーワード
+	http://localhost:8080/portfolio/keyword/
+	// 業績情報・研究分野
+	http://localhost:8080/portfolio/researchArea/
+	// 業績情報・所属学協会
+	http://localhost:8080/portfolio/society/
+
+
+
+	http://localhost:8080/portfolio/result/
+	
+	
+		// 業績情報・論文
+		model.addAttribute("gyPaperTblList", paperServiceImpl.findAllProfileView(userInfo, publicFlag));
+		// 業績情報・講演・口頭発表等
+		model.addAttribute("gyConferenceTblList", conferenceServiceImpl.findAllProfileView(userInfo, publicFlag));
+		// 業績情報・書籍
+		model.addAttribute("gyBiblioTblList", biblioServiceImpl.findAllProfileView(userInfo, publicFlag));
+		// 業績情報・研究キーワード
+		model.addAttribute("gyResearchKeywordTblList",
+				researchKeywordServiceImpl.findAllProfileView(userInfo, publicFlag));
+		// 業績情報・研究分野
+		model.addAttribute("gyResearchAreaTblList", researchAreaServiceImpl.findAllProfileView(userInfo, publicFlag));
+		// 業績情報・所属学協会
+		model.addAttribute("gySocietyTblList", societyServiceImpl.findAllProfileView(userInfo, publicFlag));
+		// 業績情報・Works
+		model.addAttribute("gyWorksTblList", worksServiceImpl.findAllProfileView(userInfo, publicFlag));
+		// 業績情報・特許
+		model.addAttribute("gyPatentTblList", patentServiceImpl.findAllProfileView(userInfo, publicFlag));
+		// 業績情報・学歴
+		model.addAttribute("gyAcademicTblList", academicServiceImpl.findAllProfileView(userInfo, publicFlag));
+		// 業績情報・経歴
+		model.addAttribute("gyCareerTblList", careerServiceImpl.findAllProfileView(userInfo, publicFlag));
+		// 業績情報・受賞
+		model.addAttribute("gyPrizeTblList", prizeServiceImpl.findAllProfileView(userInfo, publicFlag));
+		// 業績情報・その他
+		model.addAttribute("gyOthersTblList", othersServiceImpl.findAllProfileView(userInfo, publicFlag));
+		// 業績情報・学位
+		model.addAttribute("gyDegreeTblList", degreeServiceImpl.findAllProfileView(userInfo, publicFlag));
+		// 業績情報・競争的資金等の研究課題
+		model.addAttribute("GyCompetitionTblList", competitionServiceImpl.findAllProfileView(userInfo, publicFlag));

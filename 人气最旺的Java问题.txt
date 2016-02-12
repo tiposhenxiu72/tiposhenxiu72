@@ -1,0 +1,202 @@
+﻿人气最旺的Java问题
+
+4、HashMap 和 Hashtable 之间的不同?
+（1769个赞）
+Java中 HashMap 和 Hashtable的不同是什么？
+
+非多线程应用中使用哪个更有效率？
+
+解决方案
+
+Java 中 HashMap 和 HashTable 有几个不同点：
+
+Hashtable 是同步的，然而 HashMap不是。 这使得HashMap更适合非多线程应用，因为非同步对象通常执行效率优于同步对象。
+Hashtable 不允许 null 值和键。HashMap允许有一个 null 键和人一个 NULL 值。
+HashMap的一个子类是LinkedHashMap。所以，如果想预知迭代顺序（默认的插入顺序），只需将HashMap转换成一个LinkedHashMap。用Hashtable就不会这么简单。
+因为同步对你来说不是个问题，我推荐使用HashMap。如果同步成为问题，你可能还要看看ConcurrentHashMap。
+
+
+
+7、遍历HashMap的最佳方法
+（1504个赞）
+
+遍历HashMap中元素的最佳方法是什么？
+
+解决方案
+
+这样遍历entrySet：
+
+复制代码
+public static void printMap(Map mp) {
+    Iterator it = mp.entrySet().iterator();
+    while (it.hasNext()) {
+        Map.Entry pair = (Map.Entry)it.next();
+        System.out.println(pair.getKey() + " = " + pair.getValue());
+        it.remove(); // avoids a ConcurrentModificationException
+    }
+}
+
+
+
+8、（如何）从数组创建ArrayList
+（1468个赞）
+我有一个数组，初始化如下：
+
+Element[] array = {new Element(1), new Element(2), new Element(3)};
+我希望将这个数组转化成一个ArrayList类的对象。
+
+解决方案
+
+new ArrayList<Element>(Arrays.asList(array))
+
+
+10、使用Java在一个区间内产生随机整数数
+（1422个赞）
+
+我试着使用Java生成一个随机整数，但是随机被指定在一个范围里。例如，整数范围是5~10，就是说5是最小的随机值，10是最大的。5到10之间的书也可以是生成的随机数。
+ 
+解决方案
+标准的解决方式（Java1.7 之前）如下：
+
+复制代码
+import java.util.Random;
+ 
+public static int randInt(int min, int max) {
+ 
+    Random rand;
+    int randomNum = rand.nextInt((max - min) + 1) + min;
+ 
+    return randomNum;
+}
+复制代码
+请查看相关的JavaDoc。在实践中，java.util.Random 类总是优于 java.lang.Math.random()。
+
+特别是当标准库里有一个直接的API来完成这个工作，就没有必要重复制造轮子了。
+
+
+1. 把字符串常量放在前面
+
+通过把字符串常量放在比较函数equals()比较项的左侧来防止偶然的 NullPointerException 从来都不是一个坏主意，就像这样：
+
+// Bad
+if (variable.equals("literal")) { ... }
+ 
+// Good
+if ("literal".equals(variable)) { ... }
+
+
+if (file.isDirectory()) {
+    String[] files = file.list();
+ 
+    // Watch out
+    if (files != null) {
+        for (int i = 0; i < files.length; i++) {
+            ...
+        }
+    }
+}
+
+3. 不要相信“-1”
+
+我知道这很偏执，Javadoc中关于 String.indexOf() 的早期描述是这样的…
+
+“字符在字符序列中第一次出现的位置将作为结果[被返回]，如果字符不存在则返回-1。”
+
+所以，-1 就可以理所当然被拿来用，对吗？我说不对，看看这个：
+
+// Bad
+if (string.indexOf(character) != -1) { ... }
+ 
+// Good
+if (string.indexOf(character) >= 0) { ... }
+谁知道呢。也许在某个特定场合下他们将会需要另一种 编码值，如果不区分大小写的话，otherString 就会被包含进去…此时或许可以返回 -2呢？谁知道呢。
+
+毕竟，我们有非常多关于NULL——价值亿万美金的错误的讨论。为什么不开始讨论 -1呢，某种意义上来说 -1 是 null 在int类型下的另一种形式。
+
+5. 检查null和长度
+
+不管什么时候你有一个集合、数组或者其他的，确保它存在并且不为空。
+
+// Bad
+if (array.length > 0) { ... }
+ 
+// Good
+if (array != null && array.length > 0) { ... }
+
+
+6. 所有的方法都用 final 声明
+
+你可以告诉我任何你想要的开闭原则，不过那都是胡说八道。我不相信你（可以正确继承我的类），也不相信我自己（不会意外地继承我的类）。因此除了接口（专门用于继承）都应该是严格的final。可以查看我们的 Java 编码中 10 个微妙的最佳实践 中的#9。
+
+// Bad
+public void boom() { ... }
+ 
+// Good. Don't touch.
+public final void dontTouch() { ... }
+是的，写成final。如果这样做对你来说没有意义，你也可以通过修改或重写字节码来改变类和方法，或者发送功能请求。我敢肯定重写类/方法并不是一个好主意。
+
+7. 所有的变量和参数都用 final 声明
+
+// Good
+final void input(final String importantMessage) {
+    final String answer = "...";
+}
+8. 重载的时候不要相信泛型
+
+是的，这是会发生的。你觉得你写了一个超好的API，它真的是既酷炫又直观；接着就出现了一群用户，他们只是把一切类型生搬硬套进 Object 中 直到那该死的编译器停止工作，然后他们突然链接到了错误的方法，认为这一切都是你的错（事情总是这样）。
+
+思考一下这个：
+
+复制代码
+// Bad
+<T> void bad(T value) {
+    bad(Collections.singletonList(value));
+}
+ 
+<T> void bad(List<T> values) {
+    ...
+}
+ 
+// Good
+final <T> void good(final T value) {
+    if (value instanceof List)
+        good((List<?>) value);
+    else
+        good(Collections.singletonList(value));
+}
+ 
+final <T> void good(final List<T> values) {
+    ...
+}
+10. 用大括号隔开 switch 的每一个 case 块
+
+事实上，switch是最坑爹的语句，任何喝醉了或是赌输了的人都可以在某种语言中使用它。看看下面这个例子：
+
+复制代码
+// Bad, doesn't compile
+switch (value) {
+    case 1: int j = 1; break;
+    case 2: int j = 2; break;
+}
+ 
+// Good
+switch (value) {
+    case 1: {
+        final int j = 1;
+        break;
+    }
+    case 2: {
+        final int j = 2;
+        break;
+    }
+ 
+    // Remember:
+    default:
+        throw new ThreadDeath("That'll teach them");
+}
+
+结论
+
+编程时的强迫症有时候看起来会很奇怪，会使得代码往往比必需的还要冗长。你可能会想，“啊，这种情况永远不会发生！”，但是正如我所说的，在经历了20年左右的编程生涯后，你不会想要再去修正那些只是因为编程语言的古老和固有缺陷而导致的愚蠢而不必要的bug了。因为你知道…..
+
+https://youtu.be/oO3YmT2d-8k

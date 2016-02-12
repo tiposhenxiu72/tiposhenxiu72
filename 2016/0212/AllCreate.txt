@@ -1,0 +1,2396 @@
+-- Project Name : 広島大学　若手研究者の為ｎポートフォリオ
+-- Date/Time    : 2016/02/12 18:11:53
+-- Author       : hd-matsu
+-- RDBMS Type   : PostgreSQL
+-- Application  : A5:SQL Mk-2
+
+-- 養成科目回答実績添付ファイルバックアップテーブル
+create table NR_SUBJECT_UPLOAD_BKUP_TBL (
+  USER_KEY character varying(10) not null
+  , SAVE_DATE date not null
+  , RUBRIC_KEY character varying(10) not null
+  , SUBJECT_CODE character varying(10) not null
+  , UPLOAD_KEY character varying(10) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_SUBJECT_UPLOAD_BKUP_TBL_PKC primary key (USER_KEY,SAVE_DATE,RUBRIC_KEY,SUBJECT_CODE,UPLOAD_KEY)
+) ;
+
+-- 掲示板グループ共用ファイル
+create table KJ_GROUP_COMMON_FILE_TBL (
+  BOARD_GROUP_KEY character varying(10) not null
+  , UPLOAD_KEY character varying(10) not null
+  , TITLE varchar(100) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint KJ_GROUP_COMMON_FILE_TBL_PKC primary key (BOARD_GROUP_KEY,UPLOAD_KEY)
+) ;
+
+-- 養成能力回答実績バックアップテーブル
+create table NR_SUBJECT_ANSWER_BKUP_TBL (
+  USER_KEY character varying(10) not null
+  , RUBRIC_KEY character varying(10) not null
+  , SUBJECT_CODE character varying(10) not null
+  , SAVE_DATE date not null
+  , PARENT_SUBJECT_CODE character varying(10)
+  , DEPTH smallint not null
+  , ANSWER smallint
+  , ACHIEVE_PHASE varchar(10)
+  , ACTION_PLAN text
+  , EVIDENCE text
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_SUBJECT_ANSWER_BKUP_TBL_PKC primary key (USER_KEY,RUBRIC_KEY,SUBJECT_CODE,SAVE_DATE)
+) ;
+
+-- 自己評価レポートバックアップ
+create table NR_ACHIEVEMENT_REPORT_BKUP_TBL (
+  USER_KEY character varying(10) not null
+  , SAVE_DATE date not null
+  , ALL_INPUT_DATE timestamp
+  , ALL_ACHIEVEMENT varchar(2000)
+  , YEARLY_INPUT_DATE timestamp
+  , YEARLY_ACHIEVEMENT varchar(2000)
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_ACHIEVEMENT_REPORT_BKUP_TBL_PKC primary key (USER_KEY,SAVE_DATE)
+) ;
+
+-- ルーブリックレンズ機能
+create table NR_RUBRIC_LENSE (
+  RUBRIC_KEY character varying(10) not null
+  , LENSE_ID varchar(10) not null
+  , LENSE_NAME varchar(100) not null
+  , MEMO varchar(100)
+  , LENSE_IMAGE_KEY varchar(10)
+  , DISP_OPTION varchar(1)
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_RUBRIC_LENSE_PKC primary key (RUBRIC_KEY,LENSE_ID)
+) ;
+
+-- 自己評価レポート
+create table NR_ACHIEVEMENT_REPORT_TBL (
+  USER_KEY character varying(10) not null
+  , ALL_INPUT_DATE timestamp
+  , ALL_LIMIT_DATE timestamp
+  , ALL_ACHIEVEMENT varchar(2000)
+  , YEARLY_INPUT_DATE timestamp
+  , YEARLY_LIMIT_DATE timestamp
+  , YEARLY_ACHIEVEMENT varchar(2000)
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_ACHIEVEMENT_REPORT_TBL_PKC primary key (USER_KEY)
+) ;
+
+-- バッチ処理用抽出データ
+create table CM_BATCH_TARGET_TBL (
+  MAKE_DATE timestamp not null
+  , DATA_KBN varchar(2) not null
+  , REF_DATA_KEY character varying(10) not null
+  , INFO_MAKE_FLAG varchar(1) not null
+  , SCHEDULE_MAKE_FLAG varchar(1) not null
+  , MAIL_MAKE_FLAG varchar(1) not null
+  , SEND_USER_KEY character varying(10)
+  , SEND_ROLE varchar(30)
+  , SEND_PARTY_CODE character varying(10)
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint CM_BATCH_TARGET_TBL_PKC primary key (MAKE_DATE,DATA_KBN,REF_DATA_KEY)
+) ;
+
+-- 能力養成科目 履修状況テーブル
+create table NR_LESSON_COURSE_TBL (
+  LESSON_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , COURSE_STATUS varchar(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_LESSON_COURSE_TBL_PKC primary key (LESSON_KEY,USER_KEY)
+) ;
+
+-- アカウント申請テーブル
+create table US_REQUEST_TBL (
+  REQUEST_ID varchar(1024) not null
+  , REQUEST_DATE timestamp not null
+  , MAIL_ADDRESS varchar(256) not null
+  , LIMIT_DATE timestamp not null
+  , UPD_DATE timestamp not null
+  , constraint US_REQUEST_TBL_PKC primary key (REQUEST_ID)
+) ;
+
+-- 操作履歴
+create table US_OPERATION_HISTORY_TBL (
+  OPERATION_USER_KEY character varying(10) not null
+  , OPERATION_DATE timestamp not null
+  , OPERATION_FUNC_ID varchar(128) not null
+  , OPERATION_ACTION_ID varchar(128) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint US_OPERATION_HISTORY_TBL_PKC primary key (OPERATION_USER_KEY,OPERATION_DATE,OPERATION_FUNC_ID,OPERATION_ACTION_ID)
+) ;
+
+-- ＰＲ動画ファイル
+create table US_PRMOVIE_UPLOAD_TBL (
+  USER_KEY character varying(10) not null
+  , UPLOAD_KEY character varying(10) not null
+  , FILE_KBN varchar(2) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint US_PRMOVIE_UPLOAD_TBL_PKC primary key (USER_KEY,UPLOAD_KEY)
+) ;
+
+-- 研究分野テーブル
+create table MS_RESEARCH_AREA_TBL (
+  RESEARCH_AREA_CODE varchar(10) not null
+  , CODE_F varchar(10) not null
+  , FIELD_CODE varchar(2) not null
+  , SUBJECT_CODE varchar(2)
+  , RESEARCH_AREA_NAME varchar(100) not null
+  , RESEARCH_AREA_NAME_EN varchar(100) not null
+  , USE_FLAG varchar(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint MS_RESEARCH_AREA_TBL_PKC primary key (RESEARCH_AREA_CODE)
+) ;
+
+-- コンペティションファイル
+create table US_COMPETITION_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , INS_KBN varchar(1) not null
+  , TITLE varchar(255) not null
+  , UPLOAD_KEY character varying(10)
+  , LINK varchar(2000)
+  , INS_DATE timestamp not null
+  , PUBLIC_FLAG varchar(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint US_COMPETITION_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- ユーザ能力養成科目実績
+create table US_LESSON_TBL (
+  USER_KEY character varying(10) not null
+  , LESSON_DATE timestamp not null
+  , LESSON_KEY character varying(10) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint US_LESSON_TBL_PKC primary key (USER_KEY,LESSON_DATE,LESSON_KEY)
+) ;
+
+-- ユーザインターンシップ実績
+create table US_INTERNSHIP_TBL (
+  USER_KEY character varying(10) not null
+  , FROM_DATE timestamp not null
+  , TO_DATE timestamp not null
+  , PARTY_NAME varchar(100) not null
+  , USE_FLAG varchar(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint US_INTERNSHIP_TBL_PKC primary key (USER_KEY,FROM_DATE,TO_DATE,PARTY_NAME)
+) ;
+
+-- スケジュール
+create table CM_SCHEDULE_TBL (
+  SUHDULE_KEY character varying(10) not null
+  , SUHDULE_DATE date not null
+  , START_TIME varchar(10)
+  , END_TIME varchar(10)
+  , TITLE varchar(100) not null
+  , DATA_KBN varchar(1)
+  , SCHDULE_REF_KEY varchar(10)
+  , MAKE_USER_KEY character varying(10)
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint CM_SCHEDULE_TBL_PKC primary key (SUHDULE_KEY)
+) ;
+
+-- キャリア相談公開者
+create table CR_CONSUL_PUBLIC_USER_TBL (
+  CONSULTATION_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint CR_CONSUL_PUBLIC_USER_TBL_PKC primary key (CONSULTATION_KEY,USER_KEY)
+) ;
+
+-- お知らせ情報
+create table CM_INFO_TBL (
+  INFO_KEY character varying(10) not null
+  , SEND_DATE timestamp
+  , TITLE varchar(100)
+  , DATA_KBN varchar(02) not null
+  , OPE_KBN varchar(128) not null
+  , INFO_REF_KEY character varying(10)
+  , URL varchar(2000)
+  , MAKE_USER_KEY character varying(10) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint CM_INFO_TBL_PKC primary key (INFO_KEY)
+) ;
+
+-- メッセージボックス
+create table US_MESSAGE_BOX_TBL (
+  MESSAGE_KEY character varying(10) not null
+  , USER_KEY character varying(10)
+  , SEND_DATE timestamp
+  , MESSAGE_TITLE varchar(100)
+  , MESSAGE_CONTENTS text
+  , REF_MESSAGE_KEY character varying(10)
+  , FROM_USER_KEY character varying(10) not null
+  , TO_USER_KEY character varying(10) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint US_MESSAGE_BOX_TBL_PKC primary key (MESSAGE_KEY)
+) ;
+
+-- インターンシップ養成能力リレーション
+create table IT_INTERN_REL_SUBJECT_TBL (
+  INTERNSHIP_KEY character varying(10) not null
+  , RUBRIC_KEY character varying(10) not null
+  , SUBJECT_CODE character varying(10) not null
+  , RELATION_LEVEL varchar(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint IT_INTERN_REL_SUBJECT_TBL_PKC primary key (INTERNSHIP_KEY,RUBRIC_KEY,SUBJECT_CODE)
+) ;
+
+-- イベント養成能力リレーション
+create table EV_EVENT_REL_SUBJECT_TBL (
+  EVENT_KEY character varying(10) not null
+  , RUBRIC_KEY character varying(10) not null
+  , SUBJECT_CODE character varying(10) not null
+  , RELATION_LEVEL varchar(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint EV_EVENT_REL_SUBJECT_TBL_PKC primary key (EVENT_KEY,RUBRIC_KEY,SUBJECT_CODE)
+) ;
+
+-- イベント添付ファイル
+create table EV_EVENT_UPLOAD_TBL (
+  EVENT_KEY character varying(10) not null
+  , UPLOAD_KEY character varying(10) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint EV_EVENT_UPLOAD_TBL_PKC primary key (EVENT_KEY,UPLOAD_KEY)
+) ;
+
+-- インターンシップ添付ファイル
+create table IT_INTERN_UPLOAD_TBL (
+  INTERNSHIP_KEY character varying(10) not null
+  , UPLOAD_KEY character varying(10) not null
+  , UPLOAD_KBN varchar(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint IT_INTERN_UPLOAD_TBL_PKC primary key (INTERNSHIP_KEY,UPLOAD_KEY)
+) ;
+
+-- インターンシップ応募者添付ファイル
+create table IT_INTERN_RECRUIT_UPLOAD_TBL (
+  INTERNSHIP_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , UPLOAD_KEY character varying(10) not null
+  , UPLOAD_KBN varchar(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint IT_INTERN_RECRUIT_UPLOAD_TBL_PKC primary key (INTERNSHIP_KEY,USER_KEY,UPLOAD_KEY)
+) ;
+
+-- ファイルアップロードテーブル
+create table CM_FILE_UPLOAD_TBL (
+  UPLOAD_KEY character varying(10) not null
+  , FILE_KBN varchar(2) not null
+  , FILE_NAME character varying(256) not null
+  , FILE_PUT_PATH character varying(1000) not null
+  , FILE_SIZE bigint not null
+  , USER_KEY character varying(10) not null
+  , CALC_FLAG varchar(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint CM_FILE_UPLOAD_TBL_PKC primary key (UPLOAD_KEY)
+) ;
+
+-- お知らせ情報公開範囲
+create table CM_INFO_PUBLIC_TBL (
+  INFO_KEY character varying(10) not null
+  , SEQ_NO smallint not null
+  , PUBLIC_KBN varchar(1) not null
+  , ROLE varchar(30)
+  , PARTY_CODE character varying(10)
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint CM_INFO_PUBLIC_TBL_PKC primary key (INFO_KEY,SEQ_NO)
+) ;
+
+-- スケジュール公開範囲
+create table CM_SCHEDULE_PUBLIC_TBL (
+  SUHDULE_KEY character varying(10) not null
+  , SEQ_NO smallint not null
+  , PUBLIC_KBN varchar(1) not null
+  , ROLE varchar(30)
+  , PARTY_CODE character varying(10)
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint CM_SCHEDULE_PUBLIC_TBL_PKC primary key (SUHDULE_KEY,SEQ_NO)
+) ;
+
+-- ルーブリックユーザリレーション
+create table NR_RUBRIC_REL_USER_TBL (
+  RUBRIC_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_RUBRIC_REL_USER_TBL_PKC primary key (RUBRIC_KEY,USER_KEY)
+) ;
+
+-- ルーブリックテーブル
+create table NR_RUBRIC_TBL (
+  RUBRIC_KEY character varying(10) not null
+  , RUBRIC_CONTENTS xml
+  , RUBRIC_NAME varchar(100) not null
+  , RUBRIC_MEMO varchar(100) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_RUBRIC_TBL_PKC primary key (RUBRIC_KEY)
+) ;
+
+-- 定数テーブル
+create table MS_CODE_TBL (
+  JOSU_KBN character varying(4) not null
+  , JOSU_CODE character varying(6) not null
+  , JOSU_NAME varchar(600) not null
+  , JOSU_NAME_EN varchar(600)
+  , JOSU_NAME_ABBR varchar(300)
+  , JOSU_NAME_ABBR_EN varchar(300)
+  , SNTA_ZKSEI_1_TXT varchar(300)
+  , SNTA_ZKSEI_2_TXT varchar(300)
+  , SNTA_ZKSEI_3_TXT varchar(300)
+  , SNTA_ZKSEI_1_NUM bigint
+  , SNTA_ZKSEI_2_NUM bigint
+  , SNTA_ZKSEI_3_NUM bigint
+  , COMMENT_PROPERTY varchar(256)
+  , USE_FLAG varchar(1)
+  , HYOJI_SRT smallint
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint MS_CODE_TBL_PKC primary key (JOSU_KBN,JOSU_CODE)
+) ;
+
+-- 組織情報
+create table MS_PARTY_TBL (
+  PARTY_CODE character varying(10) not null
+  , PARTY_KBN varchar(1) not null
+  , PARTY_NAME character varying(256) not null
+  , PARTY_NAME_EN character varying(256) not null
+  , PARTY_NAME_ABBR character varying(20) not null
+  , PARTY_NAME_ABBR_EN character varying(20) not null
+  , DOMAIN varchar(500)
+  , ENTITY_ID varchar(1024)
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint MS_PARTY_TBL_PKC primary key (PARTY_CODE)
+) ;
+
+-- ロールメニューリレーション
+create table MS_ROLE_REL_MENU_TBL (
+  ROLE_CODE character varying(20) not null
+  , MENU_ID integer not null
+  , PERMISSION varchar(10) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint MS_ROLE_REL_MENU_TBL_PKC primary key (ROLE_CODE,MENU_ID)
+) ;
+
+-- メニューマスタ
+create table MS_MENU_TBL (
+  MENU_ID integer not null
+  , MENU_NAME character varying(256) not null
+  , MENU_NAME_EN character varying(256) not null
+  , MENU_NAME_ABBR character varying(20) not null
+  , MENU_NAME_ABBR_EN character varying(20) not null
+  , MENU_DISP_ORDER smallint not null
+  , ACTION_URL varchar(1000) not null
+  , MENU_LEVEL smallint not null
+  , OYA_MENU_ID integer not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint MS_MENU_TBL_PKC primary key (MENU_ID)
+) ;
+
+-- ロール情報
+create table MS_ROLE_TBL (
+  ROLE_CODE character varying(20) not null
+  , ROLE_NAME character varying(256) not null
+  , ROLE_NAME_EN character varying(256) not null
+  , ROLE varchar(30) not null
+  , DEGREE varchar(10)
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint MS_ROLE_TBL_PKC primary key (ROLE_CODE)
+) ;
+
+-- 業績情報・経歴
+create table GY_CAREER_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , CAREER_LANGUAGE varchar(16)
+  , FROMDATE character varying(8)
+  , TODATE character varying(8)
+  , DIVISION varchar(255)
+  , SECTION varchar(255)
+  , JOB varchar(255)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint GY_CAREER_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- 業績情報・受賞
+create table GY_PRIZE_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , PRIZE_LANGUAGE varchar(16)
+  , PUBLICATIONDATE character varying(8)
+  , ASSOCIATION varchar(255)
+  , TITLE varchar(255)
+  , SUBTITLE varchar(255)
+  , PARTNER varchar(255)
+  , PRIZETYPE varchar(1)
+  , COUNTRY varchar(255)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint GY_PRIZE_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- 業績情報・その他
+create table GY_OTHERS_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , OTHERS_LANGUAGE varchar(16)
+  , PUBLICATIONDATE character varying(8)
+  , SUMMARY varchar(1200)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint GY_OTHERS_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- 業績情報・学位
+create table GY_DEGREE_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , DEGREE_LANGUAGE varchar(16)
+  , DEGREENAME varchar(255)
+  , ORGANIZATION varchar(255)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint GY_DEGREE_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- 業績情報・Works
+create table GY_WORKS_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , WORKS_LANGUAGE varchar(16)
+  , TITLE varchar(255)
+  , AUTHOR varchar(3000)
+  , WORKTYPE varchar(1)
+  , FROMDATE character varying(8)
+  , TODATE character varying(8)
+  , VENUE varchar(255)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint GY_WORKS_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- 業績情報・競争的資金等の研究課題
+create table GY_COMPETITION_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , COMPETITION_LANGUAGE varchar(16)
+  , PROVIDER varchar(255)
+  , SYSTEM varchar(255)
+  , TITLE varchar(255)
+  , FROMDATE character varying(8)
+  , TODATE character varying(8)
+  , MEMBER varchar(255)
+  , FIELD varchar(255)
+  , CATEGORY varchar(255)
+  , AUTHOR varchar(255)
+  , AMOUNTTOTAL decimal(11)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint GY_COMPETITION_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- 業績情報・学歴
+create table GY_ACADEMIC_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , ACADEMIC_LANGUAGE varchar(16)
+  , TITLE varchar(255)
+  , DEPARTMENTNAME varchar(255)
+  , SUBJECTNAME varchar(255)
+  , COUNTRY varchar(255)
+  , FROMDATE character varying(8)
+  , TODATE character varying(8)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEy character varying(10) not null
+  , constraint GY_ACADEMIC_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- 業績情報・特許
+create table GY_PATENT_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , PATENT_LANGUAGE varchar(16)
+  , APPLICATIONID varchar(64)
+  , APPLICATIONDATE character varying(8)
+  , PUBLICID varchar(64)
+  , PUBLICDATE character varying(8)
+  , TRANSLATIONID varchar(64)
+  , TRANSLATIONDATE character varying(8)
+  , PATENTID varchar(64)
+  , PATENTDATE character varying(8)
+  , TITLE varchar(1200)
+  , APPLICATIONPERSON varchar(255)
+  , AUTHOR varchar(1200)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint GY_PATENT_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- 業績情報・所属学協会
+create table GY_SOCIETY_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , SOCIETY_LANGUAGE varchar(16)
+  , TITLE varchar(255)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint GY_SOCIETY_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- 業績情報・研究分野
+create table GY_RESEARCH_AREA_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , RESEARCH_AREA_LANGUAGE varchar(16)
+  , FIELDID varchar(100)
+  , FIELDNAME varchar(255)
+  , SUBJECTID varchar(100)
+  , SUBJECTNAME varchar(255)
+  , SUMMARYID varchar(100)
+  , SUMMARY varchar(255)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint GY_RESEARCH_AREA_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- 業績情報・研究キーワード
+create table GY_RESEARCH_KEYWORD_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , RESEARCH_KEYWORD_LANGUAGE varchar(16)
+  , TITLE varchar(255)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint GY_RESEARCH_KEYWORD_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- 業績情報・書籍
+create table GY_BIBLIO_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , BIBLIO_LANGUAGE varchar(16)
+  , TITLE varchar(255)
+  , AUTHOR varchar(3000)
+  , PUBLISHER varchar(255)
+  , PUBLICATIONDATE character varying(8)
+  , TOTALPAGENUMBER decimal(4)
+  , REPPAGENUMBER decimal(4)
+  , ISBN varchar(100)
+  , AUTHORTYPEID varchar(1)
+  , LANGUAGE varchar(1)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint GY_BIBLIO_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- 業績情報・講演・口頭発表等
+create table GY_CONFERENCE_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , CONFERENCE_LANGUAGE varchar(16)
+  , TITLE varchar(255)
+  , AUTHOR varchar(3000)
+  , JOURNAL varchar(255)
+  , PUBLICATIONDATE character varying(8)
+  , INVITED varchar(1)
+  , LANGUAGE varchar(1)
+  , CONFERENCECLASS varchar(1)
+  , CONFERENCETYPE varchar(1)
+  , PROMOTER varchar(255)
+  , VENUE varchar(255)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint GY_CONFERENCE_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- 業績情報・論文
+create table GY_PAPER_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , PAPER_LANGUAGE varchar(16)
+  , TITLE varchar(255)
+  , AUTHOR varchar(3000)
+  , JOURNAL varchar(255)
+  , VOLUME varchar(30)
+  , NUMBER varchar(30)
+  , STARTINGPAGE varchar(30)
+  , ENDINGPAGE varchar(30)
+  , PUBLICATIONDATE character varying(8)
+  , REFEREE varchar(1)
+  , LANGUAGE varchar(1)
+  , PAPERTYPEID varchar(2)
+  , DOI varchar(100)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint GY_PAPER_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- インターンシップ応募者
+create table IT_INTERN_RECRUIT_TBL (
+  INTERNSHIP_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , RECRUIT_DATE timestamp not null
+  , PARTY_CODE character varying(10) not null
+  , RECRUIT_GRADE varchar(100)
+  , RECRUIT_TEACHER varchar(100)
+  , RECRUIT_PARTY_NAME varchar(100)
+  , RECRUIT_START_DATE timestamp
+  , RECRUIT_END_DATE timestamp
+  , RECRUIT_STATUS varchar(100)
+  , RECRUIT_MEMO text
+  , SELECTION_KBN varchar(1) not null
+  , SELECTION_DATE timestamp
+  , SELECTION_USER_KEY character varying(10)
+  , DECISION_KBN varchar(1) not null
+  , DECISION_DATE timestamp
+  , DECISION_USER_KEY character varying(10)
+  , RC_FILE_INS_KBN varchar(1) not null
+  , GK_FILE_INS_KBN varchar(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint IT_INTERN_RECRUIT_TBL_PKC primary key (INTERNSHIP_KEY,USER_KEY)
+) ;
+
+-- インターンシップ公開範囲
+create table IT_INTERN_PUBLIC_TBL (
+  INTERNSHIP_KEY character varying(10) not null
+  , SEQ_NO smallint not null
+  , PUBLIC_KBN varchar(1)
+  , ROLE varchar(30)
+  , PARTY_CODE character varying(10)
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint IT_INTERN_PUBLIC_TBL_PKC primary key (INTERNSHIP_KEY,SEQ_NO)
+) ;
+
+-- インターンシップ
+create table IT_INTERN_TBL (
+  INTERNSHIP_KEY character varying(10) not null
+  , INTERNSHIP_KBN varchar(1) not null
+  , INTERNSHIP_START_DATE timestamp
+  , INTERNSHIP_END_DATE timestamp not null
+  , INTERNSHIP_TITLE varchar(100)
+  , INTERNSHIP_SEND_DATE timestamp not null
+  , INTERNSHIP_RANGE varchar(100)
+  , INTERNSHIP_PARTY_NAME varchar(100)
+  , INTERNSHIP_TELNO varchar(100)
+  , INTERNSHIP_RC_FILE_NEED_KBN varchar(1) not null
+  , INTERNSHIP_GK_FILE_NEED_KBN varchar(1) not null
+  , PARTY_CODE character varying(10) not null
+  , EVENT_UNIT varchar(100)
+  , SUBJECT_INS_KBN varchar(1)
+  , INTERNSHIP_MEMO text
+  , BATCH_STATUS varchar(1)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint IT_INTERN_TBL_PKC primary key (INTERNSHIP_KEY)
+) ;
+
+-- 支援制度
+create table SP_SUPPORT_TBL (
+  SUPPORT_KEY character varying(10) not null
+  , SUPPORT_SPKIKI_KBN varchar(1) not null
+  , SUPPORT_HIRAKU_KBN varchar(1)
+  , SUPPORT_SYB_CODE varchar(256)
+  , SUPPORT_AREA_KBN varchar(2)
+  , SUPPORT_KEYWORD varchar(100)
+  , SUPPORT_START_DATE timestamp
+  , SUPPORT_END_DATE timestamp
+  , SUPPORT_TITLE varchar(100)
+  , SUPPORT_CONTENT text
+  , URL character varying(2000)
+  , PARTY_CODE character varying(10) not null
+  , SUPPORT_INS_DATE timestamp
+  , BATCH_STATUS varchar(1)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint SP_SUPPORT_TBL_PKC primary key (SUPPORT_KEY)
+) ;
+
+-- イベント公開範囲
+create table EV_EVENT_PUBLIC_TBL (
+  EVENT_KEY character varying(10) not null
+  , SEQ_NO smallint not null
+  , PUBLIC_KBN varchar(1)
+  , ROLE varchar(30)
+  , PARTY_CODE character varying(10)
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint EV_EVENT_PUBLIC_TBL_PKC primary key (EVENT_KEY,SEQ_NO)
+) ;
+
+-- イベントテーブル
+create table EV_EVENT_TBL (
+  EVENT_KEY character varying(10) not null
+  , EVENT_TITLE varchar(100)
+  , EVENT_RECRUIT varchar(100)
+  , EVENT_SEND_DATE timestamp
+  , EVENT_TELNO varchar(100)
+  , PARTY_CODE character varying(10)
+  , EVENT_START_DATE timestamp
+  , EVENT_PLACE varchar(100)
+  , PARTY_NAME varchar(100)
+  , EVENT_UNIT varchar(100)
+  , SUBJECT_INS_KBN varchar(1)
+  , EVENT_MEMO text
+  , BATCH_STATUS varchar(1)
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint EV_EVENT_TBL_PKC primary key (EVENT_KEY)
+) ;
+
+-- キャリア相談実績
+create table CR_CONSUL_TBL (
+  CONSULTATION_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , CONSULTATION_INS_DATE timestamp not null
+  , REQUEST_KBN varchar(1) not null
+  , CONSULTATION_KBN varchar(2) not null
+  , USER_MEMO text
+  , CONSULTATION_USER_KEY character varying(10)
+  , CONSULTATION_DATE timestamp
+  , CONSULTATION_START varchar(5)
+  , CONSULTATION_END varchar(5)
+  , CONSULTATION_ROOM varchar(100)
+  , CONSULTATION_ORGANIZATION varchar(100)
+  , CONSULTATION_TELNO varchar(100)
+  , CONSULTATION_DATE_INFO text
+  , CONSULTATION_USER_INFO text
+  , CONSULTATION_STATUS varchar(1)
+  , ADVICER_USER_KEY character varying(10)
+  , CONSULTATION_MEMO text
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint CR_CONSUL_TBL_PKC primary key (CONSULTATION_KEY)
+) ;
+
+-- 掲示板スレッド投稿実績
+create table KJ_THRED_CONTRIBUTION_TBL (
+  THRED_KEY character varying(10) not null
+  , SEQ_NO smallint not null
+  , USER_KEY character varying(10) not null
+  , MEMO text not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint KJ_THRED_CONTRIBUTION_TBL_PKC primary key (THRED_KEY,SEQ_NO)
+) ;
+
+-- 掲示板スレッド参照実績
+create table KJ_THRED_READ_TBL (
+  THRED_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , READ_DATE timestamp not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint KJ_THRED_READ_TBL_PKC primary key (THRED_KEY,USER_KEY)
+) ;
+
+-- 掲示板スレッド添付ファイル
+create table KJ_THRED_UPLOAD_TBL (
+  THRED_KEY character varying(10) not null
+  , SEQ_NO smallint not null
+  , UPLOAD_KEY character varying(10) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint KJ_THRED_UPLOAD_TBL_PKC primary key (THRED_KEY,SEQ_NO,UPLOAD_KEY)
+) ;
+
+-- 掲示板スレッド
+create table KJ_THRED_TBL (
+  THRED_KEY character varying(10) not null
+  , THRED_NAME character varying(256) not null
+  , INS_DATE timestamp not null
+  , INS_USER_KEY character varying(10) not null
+  , BOARD_GROUP_KEY character varying(10) not null
+  , PUBLIC_FLAG character varying(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint KJ_THRED_TBL_PKC primary key (THRED_KEY)
+) ;
+
+-- 掲示板ユーザリレーション
+create table KJ_BOARD_REL_USER (
+  BOARD_GROUP_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , USER_STATUS_KBN varchar(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint KJ_BOARD_REL_USER_PKC primary key (BOARD_GROUP_KEY,USER_KEY)
+) ;
+
+-- 掲示板グループ
+create table KJ_BOARD_GROUP_TBL (
+  BOARD_GROUP_KEY character varying(10) not null
+  , BOARD_NAME character varying(256) not null
+  , COMMON_FLAG varchar(1) not null
+  , PUBLIC_FLAG character varying(1) not null
+  , ADMIN_USER_KEY character varying(10) not null
+  , OUTLINE text
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint KJ_BOARD_GROUP_TBL_PKC primary key (BOARD_GROUP_KEY)
+) ;
+
+-- 診断実績情報養成能力
+create table NR_GRADING_ANSWER_TBL (
+  USER_KEY character varying(10) not null
+  , GRADING_DATE timestamp not null
+  , GRADING_KBN varchar(1) not null
+  , RUBRIC_KEY character varying(10) not null
+  , SUBJECT_CODE character varying(10) not null
+  , SUBJECT_ANSWER smallint
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_GRADING_ANSWER_TBL_PKC primary key (USER_KEY,GRADING_DATE,GRADING_KBN,RUBRIC_KEY,SUBJECT_CODE)
+) ;
+
+-- 診断実績情報
+create table NR_GRADING_SUBJECT_TBL (
+  USER_KEY character varying(10) not null
+  , GRADING_DATE timestamp not null
+  , GRADING_KBN varchar(1) not null
+  , RUBRIC_KEY character varying(10) not null
+  , SUBJECT_CODE character varying(10) not null
+  , OYA_SUBJECT_CODE character varying(10)
+  , LEVEL_NO smallint not null
+  , AVERAGE_POINT decimal(4,3) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_GRADING_SUBJECT_TBL_PKC primary key (USER_KEY,GRADING_DATE,GRADING_KBN,RUBRIC_KEY,SUBJECT_CODE)
+) ;
+
+-- 養成能力回答実績添付ファイルテーブル
+create table NR_SUBJECT_UPLOAD_TBL (
+  USER_KEY character varying(10) not null
+  , RUBRIC_KEY character varying(10) not null
+  , SUBJECT_CODE character varying(10) not null
+  , UPLOAD_KEY character varying(10) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_SUBJECT_UPLOAD_TBL_PKC primary key (USER_KEY,RUBRIC_KEY,SUBJECT_CODE,UPLOAD_KEY)
+) ;
+
+-- 養成能力回答実績テーブル
+create table NR_SUBJECT_ANSWER_TBL (
+  USER_KEY character varying(10) not null
+  , RUBRIC_KEY character varying(10) not null
+  , SUBJECT_CODE character varying(10) not null
+  , PARENT_SUBJECT_CODE character varying(10)
+  , DEPTH smallint not null
+  , ANSWER smallint
+  , ACHIEVE_PHASE varchar(10)
+  , ACTION_PLAN text
+  , EVIDENCE text
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_SUBJECT_ANSWER_TBL_PKC primary key (USER_KEY,RUBRIC_KEY,SUBJECT_CODE)
+) ;
+
+-- トレーニング公開範囲
+create table NR_LESSON_PUBLIC_TBL (
+  LESSON_KEY character varying(10) not null
+  , PARTY_CODE character varying(10) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_LESSON_PUBLIC_TBL_PKC primary key (LESSON_KEY,PARTY_CODE)
+) ;
+
+-- 能力養成科目養成能力リレーション
+create table NR_LESSON_REL_SUBJECT_TBL (
+  LESSON_KEY character varying(10) not null
+  , RUBRIC_KEY character varying(10) not null
+  , SUBJECT_CODE character varying(10) not null
+  , RELATION_LEVEL varchar(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_LESSON_REL_SUBJECT_TBL_PKC primary key (LESSON_KEY,RUBRIC_KEY,SUBJECT_CODE)
+) ;
+
+-- 能力養成科目テーブル
+create table NR_LESSON_TBL (
+  LESSON_KEY character varying(10) not null
+  , LESSON_NAME character varying(256) not null
+  , PARTY_CODE character varying(10) not null
+  , LESSON_CODE varchar(256)
+  , LESSON_DEPARTMENT varchar(256) not null
+  , USER_NAME varchar(256) not null
+  , LESSON_TARGET varchar(1) not null
+  , LISTEN_FLAG varchar(1)
+  , LESSON_DATE timestamp
+  , LESSON_PERIOD varchar(100)
+  , RELAY_FLAG varchar(10)
+  , RELAY_PLACE varchar(256)
+  , LESSON_KBN varchar(256)
+  , UNIT smallint
+  , UNIT_INTERCHANGEABLE varchar(256)
+  , LESSON_COMPULSORY varchar(256)
+  , LESSON_BASE varchar(256)
+  , LESSON_INTENTION text
+  , LESSON_PLAN varchar(100)
+  , LESSON_MEMO text
+  , E_LINK text
+  , S_LINK text
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_LESSON_TBL_PKC primary key (LESSON_KEY)
+) ;
+
+-- 養成能力テーブル
+create table NR_SUBJECT_TBL (
+  RUBRIC_KEY character varying(10) not null
+  , SUBJECT_CODE character varying(10) not null
+  , BASE_FLAG varchar(1) not null
+  , CAREER_FLAG varchar(1) not null
+  , FULL_FLAG varchar(1)
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint NR_SUBJECT_TBL_PKC primary key (RUBRIC_KEY,SUBJECT_CODE)
+) ;
+
+-- 成果物ファイル
+create table US_RESULT_UPLOAD_TBL (
+  GYOSEKI_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , UPLOAD_KEY character varying(10) not null
+  , TITLE varchar(255) not null
+  , INS_DATE timestamp not null
+  , PUBLIC_FLAG varchar(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint US_RESULT_UPLOAD_TBL_PKC primary key (GYOSEKI_KEY)
+) ;
+
+-- ユーザお知らせ情報
+create table US_INFO_TBL (
+  INFO_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , SEND_DATE timestamp not null
+  , TITLE varchar(100) not null
+  , DATA_KBN varchar(02) not null
+  , OPE_KBN varchar(128) not null
+  , INFO_REF_KEY character varying(10)
+  , URL varchar(2000)
+  , MAKE_USER_KEY character varying(10) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint US_INFO_TBL_PKC primary key (INFO_KEY)
+) ;
+
+-- ユーザスケジュール
+create table US_SCHEDULE_TBL (
+  SUHDULE_KEY character varying(10) not null
+  , USER_KEY character varying(10) not null
+  , SUHDULE_DATE date not null
+  , START_TIME varchar(5)
+  , END_TIME varchar(5)
+  , TITLE varchar(100) not null
+  , DATA_KBN varchar(2)
+  , SCHDULE_REF_KEY varchar(10)
+  , MAKE_USER_KEY character varying(10)
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint US_SCHEDULE_TBL_PKC primary key (SUHDULE_KEY)
+) ;
+
+-- ユーザ情報ロールリレーション
+create table US_USER_REL_ROLE_TBL (
+  USER_KEY character varying(10) not null
+  , ROLE_CODE character varying(20) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint US_USER_REL_ROLE_TBL_PKC primary key (USER_KEY,ROLE_CODE)
+) ;
+
+-- ログイン情報テーブル
+create table US_LOGIN_INFO_TBL (
+  PORTAL_LOGIN_ID varchar(256) not null
+  , USER_KEY character varying(10) not null
+  , PASSWORD varchar(100)
+  , USE_FLAG varchar(1) not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint US_LOGIN_INFO_TBL_PKC primary key (PORTAL_LOGIN_ID)
+) ;
+
+-- ユーザ情報テーブル
+create table US_USER_TBL (
+  USER_KEY character varying(10) not null
+  , USER_PUBLIC_FLAG varchar(1) not null
+  , USER_KBN varchar(2) not null
+  , USER_FAMILY_NAME varchar(100)
+  , USER_FAMILY_NAME_KN varchar(100)
+  , USER_FAMILY_NAME_EN varchar(100)
+  , USER_MIDDLE_NAME varchar(100)
+  , USER_MIDDLE_NAME_KN varchar(100)
+  , USER_MIDDLE_NAME_EN varchar(100)
+  , USER_NAME varchar(100)
+  , USER_NAME_KN varchar(100)
+  , USER_NAME_EN varchar(100)
+  , MAIL_ADDRESS varchar(256)
+  , SEX varchar(1)
+  , AFFILIATION_NAME varchar(100)
+  , COUNTRY varchar(100)
+  , RESEARCH_SUBJECT varchar(100)
+  , DEGREE varchar(100)
+  , RESEARCH_AREA varchar(10)
+  , STUDENT_ID varchar(50)
+  , TEACHER_NAME varchar(100)
+  , TELNO varchar(20)
+  , JST_CODE varchar(10)
+  , PARTY_CODE character varying(10)
+  , MAIL_SETTING varchar(256)
+  , UPLOAD_KEY character varying(10)
+  , URL varchar(2000)
+  , FREE_INPUT1 text
+  , FREE_INPUT2 text
+  , FREE_INPUT3 text
+  , FREE_INPUT4 text
+  , FREE_INPUT5 text
+  , FREE_INPUT6 text
+  , FREE_INPUT7 text
+  , FREE_INPUT8 text
+  , FREE_INPUT9 text
+  , FREE_INPUT10 text
+  , INS_DATE timestamp not null
+  , UPD_DATE timestamp not null
+  , UPD_USER_KEY character varying(10) not null
+  , constraint US_USER_TBL_PKC primary key (USER_KEY)
+) ;
+
+-- 業績情報・研究分野VIEW
+create view GY_RESEARCH_AREA_VIEW as 
+SELECT	    a.USER_KEY,
+    		a.USER_PUBLIC_FLAG,
+    		a.USER_KBN,
+    		a.USER_FAMILY_NAME,
+    		a.USER_FAMILY_NAME_KN,
+    		a.USER_FAMILY_NAME_EN,
+    		a.USER_MIDDLE_NAME,
+    		a.USER_MIDDLE_NAME_KN,
+    		a.USER_MIDDLE_NAME_EN,
+    		a.USER_NAME,
+    		a.USER_NAME_KN,
+    		a.USER_NAME_EN,
+    		a.SEX,
+    		a.AFFILIATION_NAME,
+    		a.COUNTRY,
+    		a.RESEARCH_SUBJECT,
+    		a.DEGREE,
+    		a.RESEARCH_AREA,
+    		a.STUDENT_ID,
+    		a.TELNO,
+    		a.JST_CODE,
+    		a.PARTY_CODE,
+    		a.MAIL_SETTEING,
+    		a.UPLOAD_KEY,
+    		a.FREE_INPUT1,
+    		a.FREE_INPUT2,
+    		a.FREE_INPUT3,
+    		a.FREE_INPUT4,
+    		a.FREE_INPUT5,
+    		a.FREE_INPUT6,
+    		a.FREE_INPUT7,
+    		a.FREE_INPUT8,
+    		a.FREE_INPUT9,
+    		a.FREE_INPUT10,
+    		b.GYOSEKI_KEY,
+    		b.RESEARCH_AREA_LANGUAGE,
+			b.FIELDID,
+			b.FIELDNAME,
+			b.SUBJECTID,
+			b.SUBJECTNAME,
+			b.SUMMARYID,
+			b.SUMMARY,
+
+    		b.PUBLIC_FLAG
+FROM		US_USER_TBL				a,
+			GY_RESEARCH_AREA_TBL	b
+WHERE		a.USER_KEY		=	b.USER_KEY
+;
+
+-- 業績情報・研究キーワードVIEW
+create view GY_RESEARCH_KEYWORD_VIEW as 
+SELECT	    a.USER_KEY,
+    		a.USER_PUBLIC_FLAG,
+    		a.USER_KBN,
+    		a.USER_FAMILY_NAME,
+    		a.USER_FAMILY_NAME_KN,
+    		a.USER_FAMILY_NAME_EN,
+    		a.USER_MIDDLE_NAME,
+    		a.USER_MIDDLE_NAME_KN,
+    		a.USER_MIDDLE_NAME_EN,
+    		a.USER_NAME,
+    		a.USER_NAME_KN,
+    		a.USER_NAME_EN,
+    		a.SEX,
+    		a.AFFILIATION_NAME,
+    		a.COUNTRY,
+    		a.RESEARCH_SUBJECT,
+    		a.DEGREE,
+    		a.RESEARCH_AREA,
+    		a.STUDENT_ID,
+    		a.TELNO,
+    		a.JST_CODE,
+    		a.PARTY_CODE,
+    		a.MAIL_SETTEING,
+    		a.UPLOAD_KEY,
+    		a.FREE_INPUT1,
+    		a.FREE_INPUT2,
+    		a.FREE_INPUT3,
+    		a.FREE_INPUT4,
+    		a.FREE_INPUT5,
+    		a.FREE_INPUT6,
+    		a.FREE_INPUT7,
+    		a.FREE_INPUT8,
+    		a.FREE_INPUT9,
+    		a.FREE_INPUT10,
+    		b.GYOSEKI_KEY,
+    		b.RESEARCH_KEYWORD_LANGUAGE,
+    		b.TITLE,
+    		b.PUBLIC_FLAG
+FROM		US_USER_TBL				a,
+			GY_RESEARCH_KEYWORD_TBL	b
+WHERE		a.USER_KEY		=	b.USER_KEY
+;
+
+-- 業績情報・所属学協会VIEW
+create view GY_SOCIETY_VIEW as 
+SELECT	    a.USER_KEY,
+    		a.USER_PUBLIC_FLAG,
+    		a.USER_KBN,
+    		a.USER_FAMILY_NAME,
+    		a.USER_FAMILY_NAME_KN,
+    		a.USER_FAMILY_NAME_EN,
+    		a.USER_MIDDLE_NAME,
+    		a.USER_MIDDLE_NAME_KN,
+    		a.USER_MIDDLE_NAME_EN,
+    		a.USER_NAME,
+    		a.USER_NAME_KN,
+    		a.USER_NAME_EN,
+    		a.SEX,
+    		a.AFFILIATION_NAME,
+    		a.COUNTRY,
+    		a.RESEARCH_SUBJECT,
+    		a.DEGREE,
+    		a.RESEARCH_AREA,
+    		a.STUDENT_ID,
+    		a.TELNO,
+    		a.JST_CODE,
+    		a.PARTY_CODE,
+    		a.MAIL_SETTEING,
+    		a.UPLOAD_KEY,
+    		a.FREE_INPUT1,
+    		a.FREE_INPUT2,
+    		a.FREE_INPUT3,
+    		a.FREE_INPUT4,
+    		a.FREE_INPUT5,
+    		a.FREE_INPUT6,
+    		a.FREE_INPUT7,
+    		a.FREE_INPUT8,
+    		a.FREE_INPUT9,
+    		a.FREE_INPUT10,
+    		b.GYOSEKI_KEY,
+    		b.SOCIETY_LANGUAGE,
+    		b.TITLE,
+    		b.PUBLIC_FLAG
+FROM		US_USER_TBL		a,
+			GY_SOCIETY_TBL	b
+WHERE		a.USER_KEY		=	b.USER_KEY
+;
+
+-- インターンシップ応募者VIEW
+create view IT_INTERN_RECRUIT_VIEW as 
+ SELECT (a.internship_key::text || '#'::text) || a.user_key::text AS pkey,
+    a.internship_key,
+    a.user_key,
+    a.recruit_date,
+    a.party_code,
+    a.recruit_grade,
+    a.recruit_teacher,
+    a.recruit_party_name,
+    a.recruit_start_date,
+    a.recruit_end_date,
+    a.recruit_status,
+    a.recruit_memo,
+    a.decision_kbn,
+    a.decision_date,
+    a.decision_user_key,
+    a.rc_file_ins_kbn,
+    a.gk_file_ins_kbn,
+    a.upd_date,
+    a.upd_user_key,
+    b.user_family_name,
+    b.user_family_name_kn,
+    b.user_family_name_en,
+    b.user_middle_name,
+    b.user_middle_name_kn,
+    b.user_middle_name_en,
+    b.user_name,
+    b.user_name_kn,
+    b.user_name_en,
+    b.sex,
+    b.affiliation_name,
+    c.party_name,
+    c.party_name_en,
+    d.internship_kbn,
+    d.internship_start_date,
+    d.internship_end_date,
+    d.internship_title,
+    d.internship_send_date,
+    d.internship_range,
+    d.internship_party_name,
+    d.internship_telno,
+    d.internship_rc_file_need_kbn,
+    d.internship_gk_file_need_kbn,
+    d.event_unit,
+    d.subject_ins_kbn,
+    d.internship_memo
+   FROM it_intern_recruit_tbl a,
+    us_user_tbl b,
+    ms_party_tbl c,
+    it_intern_tbl d
+  WHERE a.user_key::text = b.user_key::text AND a.party_code::text = c.party_code::text AND a.internship_key::text = d.internship_key::text
+;
+
+-- スケジュール参照情報
+create view CM_SCHEDULE_INFO_VIEW as 
+select 	'5'|| '#' || SUPPORT_KEY		AS PKEY,
+		'5'						AS DATA_KBN,
+		SUPPORT_KEY				AS REF_KEY,
+		SUPPORT_START_DATE		AS SCHEDULE_START_DATE,
+		SUPPORT_END_DATE		AS SCHEDULE_END_DATE,
+		SUPPORT_TITLE			AS SCHEDULE_TITLE,
+		SUPPORT_CONTENT			AS SCHEDULE_MEMO,
+		PARTY_CODE				AS PARTY_CODE,
+		URL						AS SCHEDULE_URL,
+		NULL					AS SCHEDULE_TELNO,
+		NULL					AS SCHEDULE_PLACE
+from 	SP_SUPPORT_TBL
+where	SUPPORT_SPKIKI_KBN = '1'
+
+union all
+
+select 	'6'|| '#' ||SUPPORT_KEY		AS PKEY,
+		'6'						AS DATA_KBN,
+		SUPPORT_KEY				AS REF_KEY,
+		SUPPORT_START_DATE		AS SCHEDULE_START_DATE,
+		SUPPORT_END_DATE		AS SCHEDULE_END_DATE,
+		SUPPORT_TITLE			AS SCHEDULE_TITLE,
+		SUPPORT_CONTENT			AS SCHEDULE_MEMO,
+		PARTY_CODE				AS PARTY_CODE,
+		URL						AS SCHEDULE_URL,
+		NULL					AS SCHEDULE_TELNO,
+		NULL					AS SCHEDULE_PLACE
+from 	SP_SUPPORT_TBL
+where	SUPPORT_SPKIKI_KBN = '2'
+
+union all
+
+select	'1'|| '#' || EVENT_KEY			AS PKEY,
+		'1'						AS DATA_KBN,
+		EVENT_KEY				AS REF_KEY,
+		EVENT_SEND_DATE			AS SCHEDULE_START_DATE,
+		EVENT_START_DATE		AS SCHEDULE_END_DATE,
+		EVENT_TITLE				AS SCHEDULE_TITLE,
+		EVENT_MEMO				AS SCHEDULE_MEMO,
+		PARTY_CODE				AS PARTY_CODE,
+		NULL					AS SCHEDULE_URL,
+        EVENT_TELNO				AS SCHEDULE_TELNO,
+		EVENT_PLACE				AS SCHEDULE_PLACE
+from EV_EVENT_TBL
+
+union all
+
+select	'2'|| '#' ||INTERNSHIP_KEY	AS PKEY,
+		'2'						AS DATA_KBN,
+		INTERNSHIP_KEY			AS REF_KEY,
+		INTERNSHIP_START_DATE	AS SCHEDULE_START_DATE,
+		INTERNSHIP_END_DATE		AS SCHEDULE_END_DATE,
+		INTERNSHIP_TITLE		AS SCHEDULE_TITLE,
+		INTERNSHIP_MEMO			AS SCHEDULE_MEMO,
+		PARTY_CODE				AS PARTY_CODE,
+		NULL					AS SCHEDULE_URL,
+        INTERNSHIP_TELNO		AS SCHEDULE_TELNO,
+		NULL					AS SCHEDULE_PLACE
+from IT_INTERN_TBL
+;
+
+-- イベントVIEW
+create view EV_EVENT_VIEW as 
+SELECT
+    A.EVENT_KEY
+  , A.EVENT_TITLE
+  , A.EVENT_SEND_DATE
+  , A.EVENT_RECRUIT
+  , A.EVENT_TELNO
+  , A.PARTY_CODE
+  , A.EVENT_START_DATE
+  , A.EVENT_PLACE
+  , A.EVENT_MEMO
+  , A.EVENT_UNIT
+  , A.SUBJECT_INS_KBN
+  , A.PUBLIC_FLAG
+  , A.UPD_DATE
+  , A.UPD_USER_KEY
+  , '[' || ARRAY_TO_STRING(ARRAY_AGG(B.ROLE), '],[')  ||  ']' AS SEARCH_ROLE
+  , '[' || ARRAY_TO_STRING(ARRAY_AGG(C.PARTY_CODE), '],[')  ||  ']' AS SEARCH_PARTY_CODE
+  , ARRAY_TO_STRING(ARRAY_AGG(C.PARTY_NAME), ',') AS PARTY_NAME
+  , ARRAY_TO_STRING(ARRAY_AGG(C.PARTY_NAME_EN), ',') AS PARTY_NAME_EN
+ FROM
+  EV_EVENT_TBL A 
+  INNER JOIN EV_EVENT_PUBLIC_TBL B 
+    ON A.EVENT_KEY = B.EVENT_KEY 
+  INNER JOIN MS_PARTY_TBL C 
+    ON B.PARTY_CODE = C.PARTY_CODE 
+ GROUP BY
+    A.EVENT_KEY
+  , A.EVENT_TITLE
+  , A.EVENT_SEND_DATE
+  , A.EVENT_RECRUIT
+  , A.EVENT_TELNO
+  , A.PARTY_CODE
+  , A.PARTY_NAME
+  , A.EVENT_START_DATE
+  , A.EVENT_PLACE
+  , A.EVENT_MEMO
+  , A.EVENT_UNIT
+  , A.SUBJECT_INS_KBN
+  , A.PUBLIC_FLAG
+  , A.UPD_DATE
+  , A.UPD_USER_KEY
+;
+
+-- インターンシップ募集VIEW
+create view IT_INTERN_VIEW as 
+SELECT
+    A.INTERNSHIP_KEY
+  , A.INTERNSHIP_KBN
+  , A.INTERNSHIP_START_DATE
+  , A.INTERNSHIP_END_DATE
+  , A.INTERNSHIP_TITLE
+  , A.INTERNSHIP_SEND_DATE
+  , A.INTERNSHIP_RANGE
+  , A.INTERNSHIP_PARTY_NAME
+  , A.INTERNSHIP_TELNO
+  , A.INTERNSHIP_RC_FILE_NEED_KBN
+  , A.INTERNSHIP_GK_FILE_NEED_KBN
+  , A.PARTY_CODE
+  , A.EVENT_UNIT
+  , A.SUBJECT_INS_KBN
+  , A.INTERNSHIP_MEMO
+  , A.PUBLIC_FLAG
+  , A.UPD_DATE
+  , A.UPD_USER_KEY
+  , '[' || ARRAY_TO_STRING(ARRAY_AGG(B.ROLE), '],[')  ||  ']' AS SEARCH_ROLE
+  , '[' || ARRAY_TO_STRING(ARRAY_AGG(C.PARTY_CODE), '],[')  ||  ']' AS SEARCH_PARTY_CODE
+  , ARRAY_TO_STRING(ARRAY_AGG(C.PARTY_NAME), ',') AS PARTY_NAME
+  , ARRAY_TO_STRING(ARRAY_AGG(C.PARTY_NAME_EN), ',') AS PARTY_NAME_EN
+ FROM
+  IT_INTERN_TBL A 
+  INNER JOIN IT_INTERN_PUBLIC_TBL B 
+    ON A.INTERNSHIP_KEY = B.INTERNSHIP_KEY 
+  INNER JOIN MS_PARTY_TBL C 
+    ON B.PARTY_CODE = C.PARTY_CODE 
+ GROUP BY
+    A.INTERNSHIP_KEY
+  , A.INTERNSHIP_KBN
+  , A.INTERNSHIP_START_DATE
+  , A.INTERNSHIP_END_DATE
+  , A.INTERNSHIP_TITLE
+  , A.INTERNSHIP_SEND_DATE
+  , A.INTERNSHIP_RANGE
+  , A.INTERNSHIP_PARTY_NAME
+  , A.INTERNSHIP_TELNO
+  , A.INTERNSHIP_RC_FILE_NEED_KBN
+  , A.INTERNSHIP_GK_FILE_NEED_KBN
+  , A.PARTY_CODE
+  , A.EVENT_UNIT
+  , A.SUBJECT_INS_KBN
+  , A.INTERNSHIP_MEMO
+  , A.PUBLIC_FLAG
+  , A.UPD_DATE
+  , A.UPD_USER_KEY
+
+;
+
+-- ユーザ情報VIEW
+create view US_USER_VIEW as 
+ SELECT us_user_tbl.user_key,
+    us_user_tbl.user_public_flag,
+    us_user_tbl.user_kbn,
+    us_user_tbl.user_family_name,
+    us_user_tbl.user_family_name_kn,
+    us_user_tbl.user_family_name_en,
+    us_user_tbl.user_middle_name,
+    us_user_tbl.user_middle_name_kn,
+    us_user_tbl.user_middle_name_en,
+    us_user_tbl.user_name,
+    us_user_tbl.user_name_kn,
+    us_user_tbl.user_name_en,
+    us_user_tbl.mail_address,
+    us_user_tbl.sex,
+    us_user_tbl.affiliation_name,
+    us_user_tbl.country,
+    us_user_tbl.research_subject,
+    us_user_tbl.degree,
+    us_user_tbl.research_area,
+    us_user_tbl.student_id,
+    us_user_tbl.teacher_name,
+    us_user_tbl.telno,
+    us_user_tbl.jst_code,
+    us_user_tbl.party_code,
+    us_user_tbl.mail_setting,
+    us_user_tbl.upload_key, 
+	us_user_tbl.url,
+    us_user_tbl.free_input1,
+    us_user_tbl.free_input2,
+    us_user_tbl.free_input3,
+    us_user_tbl.free_input4,
+    us_user_tbl.free_input5,
+    us_user_tbl.free_input6,
+    us_user_tbl.free_input7,
+    us_user_tbl.free_input8,
+    us_user_tbl.free_input9,
+    us_user_tbl.free_input10,
+	us_user_tbl.ins_date,
+    us_user_tbl.upd_date,
+    us_user_tbl.upd_user_key,
+    ((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((btrim(COALESCE(us_user_tbl.user_family_name, ''::character varying)::text) || btrim(COALESCE(us_user_tbl.user_middle_name, ''::character varying)::text)) || btrim(COALESCE(us_user_tbl.user_name, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_family_name, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_middle_name, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_name, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_family_name, ''::character varying)::text)) || '　'::text) || btrim(COALESCE(us_user_tbl.user_middle_name, ''::character varying)::text)) || '　'::text) || btrim(COALESCE(us_user_tbl.user_name, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_family_name, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_name, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_family_name, ''::character varying)::text)) || '　'::text) || btrim(COALESCE(us_user_tbl.user_name, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_family_name_en, ''::character varying)::text)) || btrim(COALESCE(us_user_tbl.user_middle_name_en, ''::character varying)::text)) || btrim(COALESCE(us_user_tbl.user_name_en, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_family_name_en, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_middle_name_en, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_name_en, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_family_name_en, ''::character varying)::text)) || '　'::text) || btrim(COALESCE(us_user_tbl.user_middle_name_en, ''::character varying)::text)) || '　'::text) || btrim(COALESCE(us_user_tbl.user_name_en, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_family_name_en, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_name_en, ''::character varying)::text)) || ']'::text) || ' '::text) || btrim(COALESCE(us_user_tbl.user_family_name_en, ''::character varying)::text)) || '　'::text) || btrim(COALESCE(us_user_tbl.user_name_en, ''::character varying)::text)) || ']'::text) || ' '::text) || btrim(COALESCE(us_user_tbl.user_family_name_kn, ''::character varying)::text)) || btrim(COALESCE(us_user_tbl.user_middle_name_kn, ''::character varying)::text)) || btrim(COALESCE(us_user_tbl.user_name_kn, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_family_name_kn, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_middle_name_kn, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_name_kn, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_family_name_kn, ''::character varying)::text)) || '　'::text) || btrim(COALESCE(us_user_tbl.user_middle_name_kn, ''::character varying)::text)) || '　'::text) || btrim(COALESCE(us_user_tbl.user_name_kn, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_family_name_kn, ''::character varying)::text)) || ' '::text) || btrim(COALESCE(us_user_tbl.user_name_kn, ''::character varying)::text)) || ']'::text) || ' '::text) || btrim(COALESCE(us_user_tbl.user_family_name_kn, ''::character varying)::text)) || '　'::text) || btrim(COALESCE(us_user_tbl.user_name_kn, ''::character varying)::text)) || ']'::text) || ' '::text AS search_user_name
+   FROM us_user_tbl
+
+
+;
+
+comment on table NR_SUBJECT_UPLOAD_BKUP_TBL is '養成科目回答実績添付ファイルバックアップテーブル';
+comment on column NR_SUBJECT_UPLOAD_BKUP_TBL.USER_KEY is 'ユーザキー';
+comment on column NR_SUBJECT_UPLOAD_BKUP_TBL.SAVE_DATE is 'データ保存日';
+comment on column NR_SUBJECT_UPLOAD_BKUP_TBL.RUBRIC_KEY is 'ルーブリックキー';
+comment on column NR_SUBJECT_UPLOAD_BKUP_TBL.SUBJECT_CODE is '養成能力コード';
+comment on column NR_SUBJECT_UPLOAD_BKUP_TBL.UPLOAD_KEY is '添付ファイルアップロードキー';
+comment on column NR_SUBJECT_UPLOAD_BKUP_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_SUBJECT_UPLOAD_BKUP_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table KJ_GROUP_COMMON_FILE_TBL is '掲示板グループ共用ファイル';
+comment on column KJ_GROUP_COMMON_FILE_TBL.BOARD_GROUP_KEY is '掲示板グループキー';
+comment on column KJ_GROUP_COMMON_FILE_TBL.UPLOAD_KEY is 'ファイルアップロードキー';
+comment on column KJ_GROUP_COMMON_FILE_TBL.TITLE is 'タイトル';
+comment on column KJ_GROUP_COMMON_FILE_TBL.UPD_DATE is 'データ更新日';
+comment on column KJ_GROUP_COMMON_FILE_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_SUBJECT_ANSWER_BKUP_TBL is '養成能力回答実績バックアップテーブル';
+comment on column NR_SUBJECT_ANSWER_BKUP_TBL.USER_KEY is 'ユーザキー';
+comment on column NR_SUBJECT_ANSWER_BKUP_TBL.RUBRIC_KEY is 'ルーブリックキー';
+comment on column NR_SUBJECT_ANSWER_BKUP_TBL.SUBJECT_CODE is '養成能力コード';
+comment on column NR_SUBJECT_ANSWER_BKUP_TBL.SAVE_DATE is 'データ保存日';
+comment on column NR_SUBJECT_ANSWER_BKUP_TBL.PARENT_SUBJECT_CODE is '親養成能力コード';
+comment on column NR_SUBJECT_ANSWER_BKUP_TBL.DEPTH is '深さ';
+comment on column NR_SUBJECT_ANSWER_BKUP_TBL.ANSWER is '回答結果';
+comment on column NR_SUBJECT_ANSWER_BKUP_TBL.ACHIEVE_PHASE is '達成フェーズ';
+comment on column NR_SUBJECT_ANSWER_BKUP_TBL.ACTION_PLAN is 'アクションプラン';
+comment on column NR_SUBJECT_ANSWER_BKUP_TBL.EVIDENCE is 'エビデンス';
+comment on column NR_SUBJECT_ANSWER_BKUP_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_SUBJECT_ANSWER_BKUP_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_ACHIEVEMENT_REPORT_BKUP_TBL is '自己評価レポートバックアップ';
+comment on column NR_ACHIEVEMENT_REPORT_BKUP_TBL.USER_KEY is 'ユーザキー';
+comment on column NR_ACHIEVEMENT_REPORT_BKUP_TBL.SAVE_DATE is 'データ保存日';
+comment on column NR_ACHIEVEMENT_REPORT_BKUP_TBL.ALL_INPUT_DATE is '全体目標-記入日';
+comment on column NR_ACHIEVEMENT_REPORT_BKUP_TBL.ALL_ACHIEVEMENT is '全体目標-自由記述';
+comment on column NR_ACHIEVEMENT_REPORT_BKUP_TBL.YEARLY_INPUT_DATE is '年間目標-記入日';
+comment on column NR_ACHIEVEMENT_REPORT_BKUP_TBL.YEARLY_ACHIEVEMENT is '年間目標-自由記述';
+comment on column NR_ACHIEVEMENT_REPORT_BKUP_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_ACHIEVEMENT_REPORT_BKUP_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_RUBRIC_LENSE is 'ルーブリックレンズ機能';
+comment on column NR_RUBRIC_LENSE.RUBRIC_KEY is 'ルーブリックキー';
+comment on column NR_RUBRIC_LENSE.LENSE_ID is 'レンズ機能ID';
+comment on column NR_RUBRIC_LENSE.LENSE_NAME is 'レンズ機能名';
+comment on column NR_RUBRIC_LENSE.MEMO is '概要';
+comment on column NR_RUBRIC_LENSE.LENSE_IMAGE_KEY is '画像キー';
+comment on column NR_RUBRIC_LENSE.DISP_OPTION is '表示オプション';
+comment on column NR_RUBRIC_LENSE.UPD_DATE is 'データ更新日';
+comment on column NR_RUBRIC_LENSE.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_ACHIEVEMENT_REPORT_TBL is '自己評価レポート';
+comment on column NR_ACHIEVEMENT_REPORT_TBL.USER_KEY is 'ユーザキー';
+comment on column NR_ACHIEVEMENT_REPORT_TBL.ALL_INPUT_DATE is '全体目標-記入日';
+comment on column NR_ACHIEVEMENT_REPORT_TBL.ALL_LIMIT_DATE is '全体目標-期限日';
+comment on column NR_ACHIEVEMENT_REPORT_TBL.ALL_ACHIEVEMENT is '全体目標-自由記述';
+comment on column NR_ACHIEVEMENT_REPORT_TBL.YEARLY_INPUT_DATE is '年間目標-記入日';
+comment on column NR_ACHIEVEMENT_REPORT_TBL.YEARLY_LIMIT_DATE is '年間目標-期限日';
+comment on column NR_ACHIEVEMENT_REPORT_TBL.YEARLY_ACHIEVEMENT is '年間目標-自由記述';
+comment on column NR_ACHIEVEMENT_REPORT_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_ACHIEVEMENT_REPORT_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table CM_BATCH_TARGET_TBL is 'バッチ処理用抽出データ';
+comment on column CM_BATCH_TARGET_TBL.MAKE_DATE is '処理日付';
+comment on column CM_BATCH_TARGET_TBL.DATA_KBN is 'データ区分';
+comment on column CM_BATCH_TARGET_TBL.REF_DATA_KEY is '参照キー';
+comment on column CM_BATCH_TARGET_TBL.INFO_MAKE_FLAG is 'お知らせ情報作成フラグ';
+comment on column CM_BATCH_TARGET_TBL.SCHEDULE_MAKE_FLAG is 'スケジュール情報作成フラグ';
+comment on column CM_BATCH_TARGET_TBL.MAIL_MAKE_FLAG is 'eメール送信済みフラグ';
+comment on column CM_BATCH_TARGET_TBL.SEND_USER_KEY is '送信対象ユーザキー';
+comment on column CM_BATCH_TARGET_TBL.SEND_ROLE is '送信対象ロール';
+comment on column CM_BATCH_TARGET_TBL.SEND_PARTY_CODE is '送信対象組織';
+comment on column CM_BATCH_TARGET_TBL.UPD_DATE is 'データ更新日';
+comment on column CM_BATCH_TARGET_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_LESSON_COURSE_TBL is '能力養成科目 履修状況テーブル';
+comment on column NR_LESSON_COURSE_TBL.LESSON_KEY is '能力養成科目キー';
+comment on column NR_LESSON_COURSE_TBL.USER_KEY is 'ユーザキー';
+comment on column NR_LESSON_COURSE_TBL.COURSE_STATUS is '履修状況';
+comment on column NR_LESSON_COURSE_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_LESSON_COURSE_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table US_REQUEST_TBL is 'アカウント申請テーブル';
+comment on column US_REQUEST_TBL.REQUEST_ID is '申請ID';
+comment on column US_REQUEST_TBL.REQUEST_DATE is '発行日時';
+comment on column US_REQUEST_TBL.MAIL_ADDRESS is 'メールアドレス';
+comment on column US_REQUEST_TBL.LIMIT_DATE is '有効期限';
+comment on column US_REQUEST_TBL.UPD_DATE is 'データ更新日';
+
+comment on table US_OPERATION_HISTORY_TBL is '操作履歴';
+comment on column US_OPERATION_HISTORY_TBL.OPERATION_USER_KEY is '操作ユーザキー';
+comment on column US_OPERATION_HISTORY_TBL.OPERATION_DATE is '操作日';
+comment on column US_OPERATION_HISTORY_TBL.OPERATION_FUNC_ID is '操作機能ID';
+comment on column US_OPERATION_HISTORY_TBL.OPERATION_ACTION_ID is '操作ID';
+comment on column US_OPERATION_HISTORY_TBL.UPD_DATE is 'データ更新日';
+comment on column US_OPERATION_HISTORY_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table US_PRMOVIE_UPLOAD_TBL is 'ＰＲ動画ファイル';
+comment on column US_PRMOVIE_UPLOAD_TBL.USER_KEY is 'ユーザキー';
+comment on column US_PRMOVIE_UPLOAD_TBL.UPLOAD_KEY is 'アップロードキー';
+comment on column US_PRMOVIE_UPLOAD_TBL.FILE_KBN is 'ファイル区分	 01:PR動画。02:求める人材。03:活躍中の博士人材';
+comment on column US_PRMOVIE_UPLOAD_TBL.UPD_DATE is 'データ更新日';
+comment on column US_PRMOVIE_UPLOAD_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table MS_RESEARCH_AREA_TBL is '研究分野テーブル';
+comment on column MS_RESEARCH_AREA_TBL.RESEARCH_AREA_CODE is '研究分野コード';
+comment on column MS_RESEARCH_AREA_TBL.CODE_F is '科研費分類コード（コードＦ）';
+comment on column MS_RESEARCH_AREA_TBL.FIELD_CODE is '分類コード（レベル１）';
+comment on column MS_RESEARCH_AREA_TBL.SUBJECT_CODE is '分科コード（レベル２）';
+comment on column MS_RESEARCH_AREA_TBL.RESEARCH_AREA_NAME is '研究分野名称';
+comment on column MS_RESEARCH_AREA_TBL.RESEARCH_AREA_NAME_EN is '研究分野名称（英）';
+comment on column MS_RESEARCH_AREA_TBL.USE_FLAG is '有効／無効フラグ	 定数区分[0023]＝1:有効。0:無効';
+comment on column MS_RESEARCH_AREA_TBL.UPD_DATE is 'データ更新日';
+comment on column MS_RESEARCH_AREA_TBL.UPD_USER_KEY is 'データ更新者ID';
+
+comment on table US_COMPETITION_TBL is 'コンペティションファイル';
+comment on column US_COMPETITION_TBL.GYOSEKI_KEY is '業績キー';
+comment on column US_COMPETITION_TBL.USER_KEY is 'ユーザキー';
+comment on column US_COMPETITION_TBL.INS_KBN is '登録種別	 1:ファイル。2:Youtube。';
+comment on column US_COMPETITION_TBL.TITLE is 'タイトル';
+comment on column US_COMPETITION_TBL.UPLOAD_KEY is 'アップロードキー';
+comment on column US_COMPETITION_TBL.LINK is 'リンク先';
+comment on column US_COMPETITION_TBL.INS_DATE is '登録日';
+comment on column US_COMPETITION_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column US_COMPETITION_TBL.UPD_DATE is 'データ更新日';
+comment on column US_COMPETITION_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table US_LESSON_TBL is 'ユーザ能力養成科目実績';
+comment on column US_LESSON_TBL.USER_KEY is 'ユーザキー';
+comment on column US_LESSON_TBL.LESSON_DATE is '受講日';
+comment on column US_LESSON_TBL.LESSON_KEY is '能力養成科目キー';
+comment on column US_LESSON_TBL.UPD_DATE is 'データ更新日';
+comment on column US_LESSON_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table US_INTERNSHIP_TBL is 'ユーザインターンシップ実績';
+comment on column US_INTERNSHIP_TBL.USER_KEY is 'ユーザキー';
+comment on column US_INTERNSHIP_TBL.FROM_DATE is '派遣期間（FROM）';
+comment on column US_INTERNSHIP_TBL.TO_DATE is '派遣期間（TO）';
+comment on column US_INTERNSHIP_TBL.PARTY_NAME is '派遣先名称';
+comment on column US_INTERNSHIP_TBL.USE_FLAG is '有効／無効フラグ';
+comment on column US_INTERNSHIP_TBL.UPD_DATE is 'データ更新日';
+comment on column US_INTERNSHIP_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table CM_SCHEDULE_TBL is 'スケジュール';
+comment on column CM_SCHEDULE_TBL.SUHDULE_KEY is 'スケジュールキー';
+comment on column CM_SCHEDULE_TBL.SUHDULE_DATE is 'スケジュール日付';
+comment on column CM_SCHEDULE_TBL.START_TIME is '開始時間';
+comment on column CM_SCHEDULE_TBL.END_TIME is '終了時間';
+comment on column CM_SCHEDULE_TBL.TITLE is 'タイトル';
+comment on column CM_SCHEDULE_TBL.DATA_KBN is 'データ区分';
+comment on column CM_SCHEDULE_TBL.SCHDULE_REF_KEY is '参照キー';
+comment on column CM_SCHEDULE_TBL.MAKE_USER_KEY is '作成ユーザキー';
+comment on column CM_SCHEDULE_TBL.UPD_DATE is 'データ更新日';
+comment on column CM_SCHEDULE_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table CR_CONSUL_PUBLIC_USER_TBL is 'キャリア相談公開者';
+comment on column CR_CONSUL_PUBLIC_USER_TBL.CONSULTATION_KEY is '面談依頼キー';
+comment on column CR_CONSUL_PUBLIC_USER_TBL.USER_KEY is 'ユーザキー';
+comment on column CR_CONSUL_PUBLIC_USER_TBL.UPD_DATE is 'データ更新日';
+comment on column CR_CONSUL_PUBLIC_USER_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table CM_INFO_TBL is 'お知らせ情報';
+comment on column CM_INFO_TBL.INFO_KEY is 'お知らせ情報キーキー';
+comment on column CM_INFO_TBL.SEND_DATE is '配信日';
+comment on column CM_INFO_TBL.TITLE is 'タイトル';
+comment on column CM_INFO_TBL.DATA_KBN is 'データ区分';
+comment on column CM_INFO_TBL.OPE_KBN is '操作区分';
+comment on column CM_INFO_TBL.INFO_REF_KEY is '参照キー';
+comment on column CM_INFO_TBL.URL is 'リンク先';
+comment on column CM_INFO_TBL.MAKE_USER_KEY is '作成ユーザキー';
+comment on column CM_INFO_TBL.UPD_DATE is 'データ更新日';
+comment on column CM_INFO_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table US_MESSAGE_BOX_TBL is 'メッセージボックス';
+comment on column US_MESSAGE_BOX_TBL.MESSAGE_KEY is 'メッセージキー';
+comment on column US_MESSAGE_BOX_TBL.USER_KEY is 'ユーザキー';
+comment on column US_MESSAGE_BOX_TBL.SEND_DATE is '配信日';
+comment on column US_MESSAGE_BOX_TBL.MESSAGE_TITLE is 'タイトル';
+comment on column US_MESSAGE_BOX_TBL.MESSAGE_CONTENTS is '本文';
+comment on column US_MESSAGE_BOX_TBL.REF_MESSAGE_KEY is '返信元メッセージキー';
+comment on column US_MESSAGE_BOX_TBL.FROM_USER_KEY is '送信者ユーザキー';
+comment on column US_MESSAGE_BOX_TBL.TO_USER_KEY is '受信者ユーザキー';
+comment on column US_MESSAGE_BOX_TBL.UPD_DATE is 'データ更新日';
+comment on column US_MESSAGE_BOX_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table IT_INTERN_REL_SUBJECT_TBL is 'インターンシップ養成能力リレーション';
+comment on column IT_INTERN_REL_SUBJECT_TBL.INTERNSHIP_KEY is 'インターンシップキー';
+comment on column IT_INTERN_REL_SUBJECT_TBL.RUBRIC_KEY is 'ルーブリックキー';
+comment on column IT_INTERN_REL_SUBJECT_TBL.SUBJECT_CODE is '養成能力コード';
+comment on column IT_INTERN_REL_SUBJECT_TBL.RELATION_LEVEL is '関連レベル';
+comment on column IT_INTERN_REL_SUBJECT_TBL.UPD_DATE is 'データ更新日';
+comment on column IT_INTERN_REL_SUBJECT_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table EV_EVENT_REL_SUBJECT_TBL is 'イベント養成能力リレーション';
+comment on column EV_EVENT_REL_SUBJECT_TBL.EVENT_KEY is 'イベントキー';
+comment on column EV_EVENT_REL_SUBJECT_TBL.RUBRIC_KEY is 'ルーブリックキー';
+comment on column EV_EVENT_REL_SUBJECT_TBL.SUBJECT_CODE is '養成能力コード';
+comment on column EV_EVENT_REL_SUBJECT_TBL.RELATION_LEVEL is '関連レベル';
+comment on column EV_EVENT_REL_SUBJECT_TBL.UPD_DATE is 'データ更新日';
+comment on column EV_EVENT_REL_SUBJECT_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table EV_EVENT_UPLOAD_TBL is 'イベント添付ファイル';
+comment on column EV_EVENT_UPLOAD_TBL.EVENT_KEY is 'イベントキー';
+comment on column EV_EVENT_UPLOAD_TBL.UPLOAD_KEY is 'イベントファイルアップロードキー';
+comment on column EV_EVENT_UPLOAD_TBL.UPD_DATE is 'データ更新日';
+comment on column EV_EVENT_UPLOAD_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table IT_INTERN_UPLOAD_TBL is 'インターンシップ添付ファイル';
+comment on column IT_INTERN_UPLOAD_TBL.INTERNSHIP_KEY is 'インターンシップキー';
+comment on column IT_INTERN_UPLOAD_TBL.UPLOAD_KEY is '文書ファイルアップロードキー';
+comment on column IT_INTERN_UPLOAD_TBL.UPLOAD_KBN is 'ファイル種類';
+comment on column IT_INTERN_UPLOAD_TBL.UPD_DATE is 'データ更新日';
+comment on column IT_INTERN_UPLOAD_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table IT_INTERN_RECRUIT_UPLOAD_TBL is 'インターンシップ応募者添付ファイル';
+comment on column IT_INTERN_RECRUIT_UPLOAD_TBL.INTERNSHIP_KEY is 'インターンシップキー';
+comment on column IT_INTERN_RECRUIT_UPLOAD_TBL.USER_KEY is 'ユーザキー';
+comment on column IT_INTERN_RECRUIT_UPLOAD_TBL.UPLOAD_KEY is 'ファイルアップロードキー';
+comment on column IT_INTERN_RECRUIT_UPLOAD_TBL.UPLOAD_KBN is 'ファイル種類';
+comment on column IT_INTERN_RECRUIT_UPLOAD_TBL.UPD_DATE is 'データ更新日';
+comment on column IT_INTERN_RECRUIT_UPLOAD_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table CM_FILE_UPLOAD_TBL is 'ファイルアップロードテーブル';
+comment on column CM_FILE_UPLOAD_TBL.UPLOAD_KEY is 'アップロードキー';
+comment on column CM_FILE_UPLOAD_TBL.FILE_KBN is 'ファイル区分';
+comment on column CM_FILE_UPLOAD_TBL.FILE_NAME is 'ファイル名';
+comment on column CM_FILE_UPLOAD_TBL.FILE_PUT_PATH is 'ファイル格納パス';
+comment on column CM_FILE_UPLOAD_TBL.FILE_SIZE is 'ファイル容量';
+comment on column CM_FILE_UPLOAD_TBL.USER_KEY is 'ユーザキー';
+comment on column CM_FILE_UPLOAD_TBL.CALC_FLAG is '容量計算対象区分';
+comment on column CM_FILE_UPLOAD_TBL.UPD_DATE is 'データ更新日';
+comment on column CM_FILE_UPLOAD_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table CM_INFO_PUBLIC_TBL is 'お知らせ情報公開範囲';
+comment on column CM_INFO_PUBLIC_TBL.INFO_KEY is 'お知らせ情報キー';
+comment on column CM_INFO_PUBLIC_TBL.SEQ_NO is '連番';
+comment on column CM_INFO_PUBLIC_TBL.PUBLIC_KBN is '公開種類';
+comment on column CM_INFO_PUBLIC_TBL.ROLE is 'ロール';
+comment on column CM_INFO_PUBLIC_TBL.PARTY_CODE is '組織コード';
+comment on column CM_INFO_PUBLIC_TBL.UPD_DATE is 'データ更新日';
+comment on column CM_INFO_PUBLIC_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table CM_SCHEDULE_PUBLIC_TBL is 'スケジュール公開範囲';
+comment on column CM_SCHEDULE_PUBLIC_TBL.SUHDULE_KEY is 'スケジュールキー';
+comment on column CM_SCHEDULE_PUBLIC_TBL.SEQ_NO is '連番';
+comment on column CM_SCHEDULE_PUBLIC_TBL.PUBLIC_KBN is '公開種類';
+comment on column CM_SCHEDULE_PUBLIC_TBL.ROLE is 'ロール';
+comment on column CM_SCHEDULE_PUBLIC_TBL.PARTY_CODE is '組織コード';
+comment on column CM_SCHEDULE_PUBLIC_TBL.UPD_DATE is 'データ更新日';
+comment on column CM_SCHEDULE_PUBLIC_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_RUBRIC_REL_USER_TBL is 'ルーブリックユーザリレーション';
+comment on column NR_RUBRIC_REL_USER_TBL.RUBRIC_KEY is 'ルーブリックキー';
+comment on column NR_RUBRIC_REL_USER_TBL.USER_KEY is 'ユーザキー';
+comment on column NR_RUBRIC_REL_USER_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_RUBRIC_REL_USER_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_RUBRIC_TBL is 'ルーブリックテーブル';
+comment on column NR_RUBRIC_TBL.RUBRIC_KEY is 'ルーブリックキー';
+comment on column NR_RUBRIC_TBL.RUBRIC_CONTENTS is 'ルーブリック内容';
+comment on column NR_RUBRIC_TBL.RUBRIC_NAME is 'ルーブリック名称';
+comment on column NR_RUBRIC_TBL.RUBRIC_MEMO is 'ルーブリック概要';
+comment on column NR_RUBRIC_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_RUBRIC_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table MS_CODE_TBL is '定数テーブル';
+comment on column MS_CODE_TBL.JOSU_KBN is '定数区分';
+comment on column MS_CODE_TBL.JOSU_CODE is '定数コード';
+comment on column MS_CODE_TBL.JOSU_NAME is '定数コード名称（和）';
+comment on column MS_CODE_TBL.JOSU_NAME_EN is '定数コード名称（英）';
+comment on column MS_CODE_TBL.JOSU_NAME_ABBR is '定数コード名略称（和）';
+comment on column MS_CODE_TBL.JOSU_NAME_ABBR_EN is '定数コード名略称（英）';
+comment on column MS_CODE_TBL.SNTA_ZKSEI_1_TXT is 'その他文字属性１';
+comment on column MS_CODE_TBL.SNTA_ZKSEI_2_TXT is 'その他文字属性２';
+comment on column MS_CODE_TBL.SNTA_ZKSEI_3_TXT is 'その他文字属性３';
+comment on column MS_CODE_TBL.SNTA_ZKSEI_1_NUM is 'その他数値属性１';
+comment on column MS_CODE_TBL.SNTA_ZKSEI_2_NUM is 'その他数値属性２';
+comment on column MS_CODE_TBL.SNTA_ZKSEI_3_NUM is 'その他数値属性３';
+comment on column MS_CODE_TBL.COMMENT_PROPERTY is '注釈文章プロパティキー';
+comment on column MS_CODE_TBL.USE_FLAG is '有効／無効フラグ	 定数区分[0023]＝1:有効。0:無効';
+comment on column MS_CODE_TBL.HYOJI_SRT is '掲載順位';
+comment on column MS_CODE_TBL.UPD_DATE is 'データ更新日';
+comment on column MS_CODE_TBL.UPD_USER_KEY is 'データ更新者ID';
+
+comment on table MS_PARTY_TBL is '組織情報';
+comment on column MS_PARTY_TBL.PARTY_CODE is '組織コード';
+comment on column MS_PARTY_TBL.PARTY_KBN is '組織区分';
+comment on column MS_PARTY_TBL.PARTY_NAME is '組織名称（原語）';
+comment on column MS_PARTY_TBL.PARTY_NAME_EN is '組織名称（英訳）';
+comment on column MS_PARTY_TBL.PARTY_NAME_ABBR is '組織名略称（原語）';
+comment on column MS_PARTY_TBL.PARTY_NAME_ABBR_EN is '組織名略称（英訳）';
+comment on column MS_PARTY_TBL.DOMAIN is 'ドメイン';
+comment on column MS_PARTY_TBL.ENTITY_ID is '学認エンティティID';
+comment on column MS_PARTY_TBL.UPD_DATE is 'データ更新日';
+comment on column MS_PARTY_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table MS_ROLE_REL_MENU_TBL is 'ロールメニューリレーション';
+comment on column MS_ROLE_REL_MENU_TBL.ROLE_CODE is 'ロールコード';
+comment on column MS_ROLE_REL_MENU_TBL.MENU_ID is 'メニューID';
+comment on column MS_ROLE_REL_MENU_TBL.PERMISSION is 'パーミッション';
+comment on column MS_ROLE_REL_MENU_TBL.UPD_DATE is 'データ更新日';
+comment on column MS_ROLE_REL_MENU_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table MS_MENU_TBL is 'メニューマスタ';
+comment on column MS_MENU_TBL.MENU_ID is 'メニューID';
+comment on column MS_MENU_TBL.MENU_NAME is 'メニュー名（原語）';
+comment on column MS_MENU_TBL.MENU_NAME_EN is 'メニュー名（英訳）';
+comment on column MS_MENU_TBL.MENU_NAME_ABBR is 'メニュー名略称（原語）';
+comment on column MS_MENU_TBL.MENU_NAME_ABBR_EN is 'メニュー名略称（英訳）';
+comment on column MS_MENU_TBL.MENU_DISP_ORDER is 'メニュー表示順';
+comment on column MS_MENU_TBL.ACTION_URL is 'アクションURL';
+comment on column MS_MENU_TBL.MENU_LEVEL is '階層';
+comment on column MS_MENU_TBL.OYA_MENU_ID is '親メニューID';
+comment on column MS_MENU_TBL.UPD_DATE is 'データ更新日';
+comment on column MS_MENU_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table MS_ROLE_TBL is 'ロール情報';
+comment on column MS_ROLE_TBL.ROLE_CODE is 'ロールコード	 0000xなど';
+comment on column MS_ROLE_TBL.ROLE_NAME is 'ロール名称（原語）';
+comment on column MS_ROLE_TBL.ROLE_NAME_EN is 'ロール名称（英訳）';
+comment on column MS_ROLE_TBL.ROLE is 'ロール	 ROLE_XXXのフレームワークのROLEとなる。';
+comment on column MS_ROLE_TBL.DEGREE is '学位';
+comment on column MS_ROLE_TBL.UPD_DATE is 'データ更新日';
+comment on column MS_ROLE_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table GY_CAREER_TBL is '業績情報・経歴';
+comment on column GY_CAREER_TBL.GYOSEKI_KEY is '業績キー';
+comment on column GY_CAREER_TBL.USER_KEY is 'ユーザキー';
+comment on column GY_CAREER_TBL.CAREER_LANGUAGE is '業績リスト(経歴)・言語フラグ';
+comment on column GY_CAREER_TBL.FROMDATE is '年月(From)';
+comment on column GY_CAREER_TBL.TODATE is '年月(To)';
+comment on column GY_CAREER_TBL.DIVISION is '所属';
+comment on column GY_CAREER_TBL.SECTION is '部署';
+comment on column GY_CAREER_TBL.JOB is '職位・身分';
+comment on column GY_CAREER_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column GY_CAREER_TBL.UPD_DATE is 'データ更新日';
+comment on column GY_CAREER_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table GY_PRIZE_TBL is '業績情報・受賞';
+comment on column GY_PRIZE_TBL.GYOSEKI_KEY is '業績キー';
+comment on column GY_PRIZE_TBL.USER_KEY is 'ユーザキー';
+comment on column GY_PRIZE_TBL.PRIZE_LANGUAGE is '業績リスト(受賞)・言語フラグ';
+comment on column GY_PRIZE_TBL.PUBLICATIONDATE is '受賞年月';
+comment on column GY_PRIZE_TBL.ASSOCIATION is '授与機関';
+comment on column GY_PRIZE_TBL.TITLE is '賞名';
+comment on column GY_PRIZE_TBL.SUBTITLE is 'タイトル';
+comment on column GY_PRIZE_TBL.PARTNER is '受賞者(グループ)';
+comment on column GY_PRIZE_TBL.PRIZETYPE is '受賞区分コード';
+comment on column GY_PRIZE_TBL.COUNTRY is '受賞国';
+comment on column GY_PRIZE_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column GY_PRIZE_TBL.UPD_DATE is 'データ更新日';
+comment on column GY_PRIZE_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table GY_OTHERS_TBL is '業績情報・その他';
+comment on column GY_OTHERS_TBL.GYOSEKI_KEY is '業績キー';
+comment on column GY_OTHERS_TBL.USER_KEY is 'ユーザキー';
+comment on column GY_OTHERS_TBL.OTHERS_LANGUAGE is '業績リスト(その他)・言語フラグ';
+comment on column GY_OTHERS_TBL.PUBLICATIONDATE is '実施年月';
+comment on column GY_OTHERS_TBL.SUMMARY is '内容';
+comment on column GY_OTHERS_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column GY_OTHERS_TBL.UPD_DATE is 'データ更新日';
+comment on column GY_OTHERS_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table GY_DEGREE_TBL is '業績情報・学位';
+comment on column GY_DEGREE_TBL.GYOSEKI_KEY is '業績キー';
+comment on column GY_DEGREE_TBL.USER_KEY is 'ユーザキー';
+comment on column GY_DEGREE_TBL.DEGREE_LANGUAGE is '業績リスト(学位)・言語フラグ';
+comment on column GY_DEGREE_TBL.DEGREENAME is '学位名';
+comment on column GY_DEGREE_TBL.ORGANIZATION is '学位・授与機関';
+comment on column GY_DEGREE_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column GY_DEGREE_TBL.UPD_DATE is 'データ更新日';
+comment on column GY_DEGREE_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table GY_WORKS_TBL is '業績情報・Works';
+comment on column GY_WORKS_TBL.GYOSEKI_KEY is '業績キー';
+comment on column GY_WORKS_TBL.USER_KEY is 'ユーザキー';
+comment on column GY_WORKS_TBL.WORKS_LANGUAGE is '業績リスト(Works)・言語フラグ';
+comment on column GY_WORKS_TBL.TITLE is '作品名';
+comment on column GY_WORKS_TBL.AUTHOR is '発表者';
+comment on column GY_WORKS_TBL.WORKTYPE is '作品分類ID';
+comment on column GY_WORKS_TBL.FROMDATE is '発表年月(From)';
+comment on column GY_WORKS_TBL.TODATE is '発表年月(To)';
+comment on column GY_WORKS_TBL.VENUE is '発表場所・発表地等';
+comment on column GY_WORKS_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column GY_WORKS_TBL.UPD_DATE is 'データ更新日';
+comment on column GY_WORKS_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table GY_COMPETITION_TBL is '業績情報・競争的資金等の研究課題';
+comment on column GY_COMPETITION_TBL.GYOSEKI_KEY is '業績キー';
+comment on column GY_COMPETITION_TBL.USER_KEY is 'ユーザキー';
+comment on column GY_COMPETITION_TBL.COMPETITION_LANGUAGE is '業績リスト(競争的資金等の研究課題・言語フラグ';
+comment on column GY_COMPETITION_TBL.PROVIDER is '提供機関';
+comment on column GY_COMPETITION_TBL.SYSTEM is '制度名';
+comment on column GY_COMPETITION_TBL.TITLE is 'タイトル';
+comment on column GY_COMPETITION_TBL.FROMDATE is '研究期間(From)';
+comment on column GY_COMPETITION_TBL.TODATE is '研究期間(To)';
+comment on column GY_COMPETITION_TBL.MEMBER is '連携研究者';
+comment on column GY_COMPETITION_TBL.FIELD is '研究分野';
+comment on column GY_COMPETITION_TBL.CATEGORY is '研究種目';
+comment on column GY_COMPETITION_TBL.AUTHOR is '代表者';
+comment on column GY_COMPETITION_TBL.AMOUNTTOTAL is '配分額(総額)';
+comment on column GY_COMPETITION_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column GY_COMPETITION_TBL.UPD_DATE is 'データ更新日';
+comment on column GY_COMPETITION_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table GY_ACADEMIC_TBL is '業績情報・学歴';
+comment on column GY_ACADEMIC_TBL.GYOSEKI_KEY is '業績キー';
+comment on column GY_ACADEMIC_TBL.USER_KEY is 'ユーザキー';
+comment on column GY_ACADEMIC_TBL.ACADEMIC_LANGUAGE is '業績リスト(学歴)・言語フラグ';
+comment on column GY_ACADEMIC_TBL.TITLE is '学校名';
+comment on column GY_ACADEMIC_TBL.DEPARTMENTNAME is '学部等';
+comment on column GY_ACADEMIC_TBL.SUBJECTNAME is '学科等';
+comment on column GY_ACADEMIC_TBL.COUNTRY is '国名';
+comment on column GY_ACADEMIC_TBL.FROMDATE is '年月(From)';
+comment on column GY_ACADEMIC_TBL.TODATE is '年月(To)';
+comment on column GY_ACADEMIC_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column GY_ACADEMIC_TBL.UPD_DATE is 'データ更新日';
+comment on column GY_ACADEMIC_TBL.UPD_USER_KEy is 'データ更新者';
+
+comment on table GY_PATENT_TBL is '業績情報・特許';
+comment on column GY_PATENT_TBL.GYOSEKI_KEY is '業績キー';
+comment on column GY_PATENT_TBL.USER_KEY is 'ユーザキー';
+comment on column GY_PATENT_TBL.PATENT_LANGUAGE is '業績リスト(特許)・言語フラグ';
+comment on column GY_PATENT_TBL.APPLICATIONID is '出願番号';
+comment on column GY_PATENT_TBL.APPLICATIONDATE is '出願日';
+comment on column GY_PATENT_TBL.PUBLICID is '公開番号';
+comment on column GY_PATENT_TBL.PUBLICDATE is '公開日';
+comment on column GY_PATENT_TBL.TRANSLATIONID is '公表番号';
+comment on column GY_PATENT_TBL.TRANSLATIONDATE is '公表日';
+comment on column GY_PATENT_TBL.PATENTID is '特許番号';
+comment on column GY_PATENT_TBL.PATENTDATE is '発行日';
+comment on column GY_PATENT_TBL.TITLE is '発明の名称';
+comment on column GY_PATENT_TBL.APPLICATIONPERSON is '出願人';
+comment on column GY_PATENT_TBL.AUTHOR is '発明者';
+comment on column GY_PATENT_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column GY_PATENT_TBL.UPD_DATE is 'データ更新日';
+comment on column GY_PATENT_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table GY_SOCIETY_TBL is '業績情報・所属学協会';
+comment on column GY_SOCIETY_TBL.GYOSEKI_KEY is '業績キー';
+comment on column GY_SOCIETY_TBL.USER_KEY is 'ユーザキー';
+comment on column GY_SOCIETY_TBL.SOCIETY_LANGUAGE is '業績リスト(所属学協会)・言語フラグ';
+comment on column GY_SOCIETY_TBL.TITLE is '所属学協会名';
+comment on column GY_SOCIETY_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column GY_SOCIETY_TBL.UPD_DATE is 'データ更新日';
+comment on column GY_SOCIETY_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table GY_RESEARCH_AREA_TBL is '業績情報・研究分野';
+comment on column GY_RESEARCH_AREA_TBL.GYOSEKI_KEY is '業績キー';
+comment on column GY_RESEARCH_AREA_TBL.USER_KEY is 'ユーザキー';
+comment on column GY_RESEARCH_AREA_TBL.RESEARCH_AREA_LANGUAGE is '業績リスト(研究分野)・言語フラグ';
+comment on column GY_RESEARCH_AREA_TBL.FIELDID is '大分類ID';
+comment on column GY_RESEARCH_AREA_TBL.FIELDNAME is '大分類名称';
+comment on column GY_RESEARCH_AREA_TBL.SUBJECTID is '中分類ID';
+comment on column GY_RESEARCH_AREA_TBL.SUBJECTNAME is '中分類名称';
+comment on column GY_RESEARCH_AREA_TBL.SUMMARYID is '細目番号';
+comment on column GY_RESEARCH_AREA_TBL.SUMMARY is '細目';
+comment on column GY_RESEARCH_AREA_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column GY_RESEARCH_AREA_TBL.UPD_DATE is 'データ更新日';
+comment on column GY_RESEARCH_AREA_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table GY_RESEARCH_KEYWORD_TBL is '業績情報・研究キーワード';
+comment on column GY_RESEARCH_KEYWORD_TBL.GYOSEKI_KEY is '業績キー';
+comment on column GY_RESEARCH_KEYWORD_TBL.USER_KEY is 'ユーザキー';
+comment on column GY_RESEARCH_KEYWORD_TBL.RESEARCH_KEYWORD_LANGUAGE is '業績リスト(研究キーワード)・言語フラグ';
+comment on column GY_RESEARCH_KEYWORD_TBL.TITLE is 'キーワード';
+comment on column GY_RESEARCH_KEYWORD_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column GY_RESEARCH_KEYWORD_TBL.UPD_DATE is 'データ更新日';
+comment on column GY_RESEARCH_KEYWORD_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table GY_BIBLIO_TBL is '業績情報・書籍';
+comment on column GY_BIBLIO_TBL.GYOSEKI_KEY is '業績キー';
+comment on column GY_BIBLIO_TBL.USER_KEY is 'ユーザキー';
+comment on column GY_BIBLIO_TBL.BIBLIO_LANGUAGE is '業績リスト(書籍)・言語フラグ';
+comment on column GY_BIBLIO_TBL.TITLE is 'タイトル';
+comment on column GY_BIBLIO_TBL.AUTHOR is '著者';
+comment on column GY_BIBLIO_TBL.PUBLISHER is '出版社';
+comment on column GY_BIBLIO_TBL.PUBLICATIONDATE is '出版年月';
+comment on column GY_BIBLIO_TBL.TOTALPAGENUMBER is '総ページ数';
+comment on column GY_BIBLIO_TBL.REPPAGENUMBER is '担当ページ';
+comment on column GY_BIBLIO_TBL.ISBN is 'ID:ISBN';
+comment on column GY_BIBLIO_TBL.AUTHORTYPEID is '担当区分';
+comment on column GY_BIBLIO_TBL.LANGUAGE is '記述言語';
+comment on column GY_BIBLIO_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column GY_BIBLIO_TBL.UPD_DATE is 'データ更新日';
+comment on column GY_BIBLIO_TBL.UPD_USER_KEY is 'データ更新者ID';
+
+comment on table GY_CONFERENCE_TBL is '業績情報・講演・口頭発表等';
+comment on column GY_CONFERENCE_TBL.GYOSEKI_KEY is '業績キー';
+comment on column GY_CONFERENCE_TBL.USER_KEY is 'ユーザキー';
+comment on column GY_CONFERENCE_TBL.CONFERENCE_LANGUAGE is '業績リスト(講演・口頭発表等・言語フラグ';
+comment on column GY_CONFERENCE_TBL.TITLE is 'タイトル';
+comment on column GY_CONFERENCE_TBL.AUTHOR is '講演者';
+comment on column GY_CONFERENCE_TBL.JOURNAL is '会議名';
+comment on column GY_CONFERENCE_TBL.PUBLICATIONDATE is '開催年月日';
+comment on column GY_CONFERENCE_TBL.INVITED is '招待の有無';
+comment on column GY_CONFERENCE_TBL.LANGUAGE is '記述言語';
+comment on column GY_CONFERENCE_TBL.CONFERENCECLASS is '会議区分';
+comment on column GY_CONFERENCE_TBL.CONFERENCETYPE is '会議種別';
+comment on column GY_CONFERENCE_TBL.PROMOTER is '主催者';
+comment on column GY_CONFERENCE_TBL.VENUE is '開催地';
+comment on column GY_CONFERENCE_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column GY_CONFERENCE_TBL.UPD_DATE is 'データ更新日';
+comment on column GY_CONFERENCE_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table GY_PAPER_TBL is '業績情報・論文';
+comment on column GY_PAPER_TBL.GYOSEKI_KEY is '業績キー';
+comment on column GY_PAPER_TBL.USER_KEY is 'ユーザキー';
+comment on column GY_PAPER_TBL.PAPER_LANGUAGE is '業績リスト(論文)・言語フラグ';
+comment on column GY_PAPER_TBL.TITLE is 'タイトル';
+comment on column GY_PAPER_TBL.AUTHOR is '著者';
+comment on column GY_PAPER_TBL.JOURNAL is '誌名';
+comment on column GY_PAPER_TBL.VOLUME is '巻';
+comment on column GY_PAPER_TBL.NUMBER is '号';
+comment on column GY_PAPER_TBL.STARTINGPAGE is '開始ページ';
+comment on column GY_PAPER_TBL.ENDINGPAGE is '終了ページ';
+comment on column GY_PAPER_TBL.PUBLICATIONDATE is '出版年月';
+comment on column GY_PAPER_TBL.REFEREE is '査読の有無';
+comment on column GY_PAPER_TBL.LANGUAGE is '記述言語';
+comment on column GY_PAPER_TBL.PAPERTYPEID is '掲載種別';
+comment on column GY_PAPER_TBL.DOI is 'ID:DOI';
+comment on column GY_PAPER_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column GY_PAPER_TBL.UPD_DATE is 'データ更新日';
+comment on column GY_PAPER_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table IT_INTERN_RECRUIT_TBL is 'インターンシップ応募者';
+comment on column IT_INTERN_RECRUIT_TBL.INTERNSHIP_KEY is 'インターンシップキー';
+comment on column IT_INTERN_RECRUIT_TBL.USER_KEY is 'ユーザキー';
+comment on column IT_INTERN_RECRUIT_TBL.RECRUIT_DATE is '応募日';
+comment on column IT_INTERN_RECRUIT_TBL.PARTY_CODE is '組織コード';
+comment on column IT_INTERN_RECRUIT_TBL.RECRUIT_GRADE is '応募者学年';
+comment on column IT_INTERN_RECRUIT_TBL.RECRUIT_TEACHER is '応募者指導教員';
+comment on column IT_INTERN_RECRUIT_TBL.RECRUIT_PARTY_NAME is '応募者派遣先';
+comment on column IT_INTERN_RECRUIT_TBL.RECRUIT_START_DATE is '企業派遣期間（FROM）';
+comment on column IT_INTERN_RECRUIT_TBL.RECRUIT_END_DATE is '企業派遣期間（TO）';
+comment on column IT_INTERN_RECRUIT_TBL.RECRUIT_STATUS is '就職状況';
+comment on column IT_INTERN_RECRUIT_TBL.RECRUIT_MEMO is '備考';
+comment on column IT_INTERN_RECRUIT_TBL.SELECTION_KBN is '選考判定';
+comment on column IT_INTERN_RECRUIT_TBL.SELECTION_DATE is '選考日';
+comment on column IT_INTERN_RECRUIT_TBL.SELECTION_USER_KEY is '選考登録者';
+comment on column IT_INTERN_RECRUIT_TBL.DECISION_KBN is '合否判定';
+comment on column IT_INTERN_RECRUIT_TBL.DECISION_DATE is '判定日';
+comment on column IT_INTERN_RECRUIT_TBL.DECISION_USER_KEY is '判定登録者';
+comment on column IT_INTERN_RECRUIT_TBL.RC_FILE_INS_KBN is '応募文書登録区分';
+comment on column IT_INTERN_RECRUIT_TBL.GK_FILE_INS_KBN is '合格文書登録区分';
+comment on column IT_INTERN_RECRUIT_TBL.UPD_DATE is 'データ更新日';
+comment on column IT_INTERN_RECRUIT_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table IT_INTERN_PUBLIC_TBL is 'インターンシップ公開範囲';
+comment on column IT_INTERN_PUBLIC_TBL.INTERNSHIP_KEY is 'インターンシップキー';
+comment on column IT_INTERN_PUBLIC_TBL.SEQ_NO is '連番';
+comment on column IT_INTERN_PUBLIC_TBL.PUBLIC_KBN is '公開区分';
+comment on column IT_INTERN_PUBLIC_TBL.ROLE is 'ロール';
+comment on column IT_INTERN_PUBLIC_TBL.PARTY_CODE is '組織コード';
+comment on column IT_INTERN_PUBLIC_TBL.UPD_DATE is 'データ更新日';
+comment on column IT_INTERN_PUBLIC_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table IT_INTERN_TBL is 'インターンシップ';
+comment on column IT_INTERN_TBL.INTERNSHIP_KEY is 'インターンシップキー';
+comment on column IT_INTERN_TBL.INTERNSHIP_KBN is 'インターンシップ区分';
+comment on column IT_INTERN_TBL.INTERNSHIP_START_DATE is '応募期間（FROM）';
+comment on column IT_INTERN_TBL.INTERNSHIP_END_DATE is '応募期間（TO）';
+comment on column IT_INTERN_TBL.INTERNSHIP_TITLE is 'タイトル';
+comment on column IT_INTERN_TBL.INTERNSHIP_SEND_DATE is '配信日';
+comment on column IT_INTERN_TBL.INTERNSHIP_RANGE is '応募対象';
+comment on column IT_INTERN_TBL.INTERNSHIP_PARTY_NAME is '募集者';
+comment on column IT_INTERN_TBL.INTERNSHIP_TELNO is '連絡先';
+comment on column IT_INTERN_TBL.INTERNSHIP_RC_FILE_NEED_KBN is '応募文書要否区分';
+comment on column IT_INTERN_TBL.INTERNSHIP_GK_FILE_NEED_KBN is '合格文書要否区分';
+comment on column IT_INTERN_TBL.PARTY_CODE is '団体コード';
+comment on column IT_INTERN_TBL.EVENT_UNIT is '単位';
+comment on column IT_INTERN_TBL.SUBJECT_INS_KBN is '養成能力登録区分';
+comment on column IT_INTERN_TBL.INTERNSHIP_MEMO is 'メモ';
+comment on column IT_INTERN_TBL.BATCH_STATUS is 'バッチ処理状態';
+comment on column IT_INTERN_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0019]＝0:非公開。1:公開。';
+comment on column IT_INTERN_TBL.UPD_DATE is 'データ更新日';
+comment on column IT_INTERN_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table SP_SUPPORT_TBL is '支援制度';
+comment on column SP_SUPPORT_TBL.SUPPORT_KEY is '支援制度キー';
+comment on column SP_SUPPORT_TBL.SUPPORT_SPKIKI_KBN is '支援制度機器設備区分';
+comment on column SP_SUPPORT_TBL.SUPPORT_HIRAKU_KBN is 'HIRAKUリンク区分';
+comment on column SP_SUPPORT_TBL.SUPPORT_SYB_CODE is '支援制度種別コード';
+comment on column SP_SUPPORT_TBL.SUPPORT_AREA_KBN is '地域区分';
+comment on column SP_SUPPORT_TBL.SUPPORT_KEYWORD is 'キーワード';
+comment on column SP_SUPPORT_TBL.SUPPORT_START_DATE is '公開日';
+comment on column SP_SUPPORT_TBL.SUPPORT_END_DATE is '配信停止日';
+comment on column SP_SUPPORT_TBL.SUPPORT_TITLE is 'タイトル';
+comment on column SP_SUPPORT_TBL.SUPPORT_CONTENT is '概要';
+comment on column SP_SUPPORT_TBL.URL is 'リンク先';
+comment on column SP_SUPPORT_TBL.PARTY_CODE is '組織コード';
+comment on column SP_SUPPORT_TBL.SUPPORT_INS_DATE is '登録日';
+comment on column SP_SUPPORT_TBL.BATCH_STATUS is 'バッチ処理状態';
+comment on column SP_SUPPORT_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0019]＝0:非公開。1:公開。';
+comment on column SP_SUPPORT_TBL.UPD_DATE is 'データ更新日';
+comment on column SP_SUPPORT_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table EV_EVENT_PUBLIC_TBL is 'イベント公開範囲';
+comment on column EV_EVENT_PUBLIC_TBL.EVENT_KEY is 'イベントキー';
+comment on column EV_EVENT_PUBLIC_TBL.SEQ_NO is '連番';
+comment on column EV_EVENT_PUBLIC_TBL.PUBLIC_KBN is '公開区分';
+comment on column EV_EVENT_PUBLIC_TBL.ROLE is 'ロール';
+comment on column EV_EVENT_PUBLIC_TBL.PARTY_CODE is '組織コード';
+comment on column EV_EVENT_PUBLIC_TBL.UPD_DATE is 'データ更新日';
+comment on column EV_EVENT_PUBLIC_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table EV_EVENT_TBL is 'イベントテーブル';
+comment on column EV_EVENT_TBL.EVENT_KEY is 'イベントキー';
+comment on column EV_EVENT_TBL.EVENT_TITLE is 'タイトル';
+comment on column EV_EVENT_TBL.EVENT_RECRUIT is '応募対象者';
+comment on column EV_EVENT_TBL.EVENT_SEND_DATE is '配信日';
+comment on column EV_EVENT_TBL.EVENT_TELNO is '連絡先';
+comment on column EV_EVENT_TBL.PARTY_CODE is '組織コード';
+comment on column EV_EVENT_TBL.EVENT_START_DATE is '開催日時';
+comment on column EV_EVENT_TBL.EVENT_PLACE is '場所';
+comment on column EV_EVENT_TBL.PARTY_NAME is '募集者';
+comment on column EV_EVENT_TBL.EVENT_UNIT is '単位';
+comment on column EV_EVENT_TBL.SUBJECT_INS_KBN is '養成能力登録区分';
+comment on column EV_EVENT_TBL.EVENT_MEMO is 'メモ';
+comment on column EV_EVENT_TBL.BATCH_STATUS is 'バッチ処理状態';
+comment on column EV_EVENT_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0019]＝0:非公開。1:公開。';
+comment on column EV_EVENT_TBL.UPD_DATE is 'データ更新日';
+comment on column EV_EVENT_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table CR_CONSUL_TBL is 'キャリア相談実績';
+comment on column CR_CONSUL_TBL.CONSULTATION_KEY is '面談依頼キー';
+comment on column CR_CONSUL_TBL.USER_KEY is 'ユーザキー';
+comment on column CR_CONSUL_TBL.CONSULTATION_INS_DATE is '面談依頼登録日';
+comment on column CR_CONSUL_TBL.REQUEST_KBN is '依頼内容区分';
+comment on column CR_CONSUL_TBL.CONSULTATION_KBN is '相談項目区分';
+comment on column CR_CONSUL_TBL.USER_MEMO is '相談者メモ';
+comment on column CR_CONSUL_TBL.CONSULTATION_USER_KEY is '面談設定者';
+comment on column CR_CONSUL_TBL.CONSULTATION_DATE is '面談日';
+comment on column CR_CONSUL_TBL.CONSULTATION_START is '面談時間開始';
+comment on column CR_CONSUL_TBL.CONSULTATION_END is '面談時間終了';
+comment on column CR_CONSUL_TBL.CONSULTATION_ROOM is '面談場所';
+comment on column CR_CONSUL_TBL.CONSULTATION_ORGANIZATION is '担当窓口';
+comment on column CR_CONSUL_TBL.CONSULTATION_TELNO is '連絡先';
+comment on column CR_CONSUL_TBL.CONSULTATION_DATE_INFO is '相談員対応時間';
+comment on column CR_CONSUL_TBL.CONSULTATION_USER_INFO is '相談員情報';
+comment on column CR_CONSUL_TBL.CONSULTATION_STATUS is '相談状態';
+comment on column CR_CONSUL_TBL.ADVICER_USER_KEY is '相談者';
+comment on column CR_CONSUL_TBL.CONSULTATION_MEMO is '面談メモ';
+comment on column CR_CONSUL_TBL.UPD_DATE is 'データ更新日';
+comment on column CR_CONSUL_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table KJ_THRED_CONTRIBUTION_TBL is '掲示板スレッド投稿実績';
+comment on column KJ_THRED_CONTRIBUTION_TBL.THRED_KEY is 'スレッドキー';
+comment on column KJ_THRED_CONTRIBUTION_TBL.SEQ_NO is '連番';
+comment on column KJ_THRED_CONTRIBUTION_TBL.USER_KEY is 'ユーザキー';
+comment on column KJ_THRED_CONTRIBUTION_TBL.MEMO is 'メモ';
+comment on column KJ_THRED_CONTRIBUTION_TBL.UPD_DATE is 'データ更新日';
+comment on column KJ_THRED_CONTRIBUTION_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table KJ_THRED_READ_TBL is '掲示板スレッド参照実績';
+comment on column KJ_THRED_READ_TBL.THRED_KEY is 'スレッドキー';
+comment on column KJ_THRED_READ_TBL.USER_KEY is 'ユーザキー';
+comment on column KJ_THRED_READ_TBL.READ_DATE is '参照時間';
+comment on column KJ_THRED_READ_TBL.UPD_DATE is 'データ更新日';
+comment on column KJ_THRED_READ_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table KJ_THRED_UPLOAD_TBL is '掲示板スレッド添付ファイル';
+comment on column KJ_THRED_UPLOAD_TBL.THRED_KEY is 'スレッドキー';
+comment on column KJ_THRED_UPLOAD_TBL.SEQ_NO is '連番';
+comment on column KJ_THRED_UPLOAD_TBL.UPLOAD_KEY is '添付ファイルアップロードキー';
+comment on column KJ_THRED_UPLOAD_TBL.UPD_DATE is 'データ更新日';
+comment on column KJ_THRED_UPLOAD_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table KJ_THRED_TBL is '掲示板スレッド';
+comment on column KJ_THRED_TBL.THRED_KEY is 'スレッドキー';
+comment on column KJ_THRED_TBL.THRED_NAME is 'スレッド名称';
+comment on column KJ_THRED_TBL.INS_DATE is '作成日';
+comment on column KJ_THRED_TBL.INS_USER_KEY is '作成者';
+comment on column KJ_THRED_TBL.BOARD_GROUP_KEY is '掲示板グループコード';
+comment on column KJ_THRED_TBL.PUBLIC_FLAG is '公開フラグ';
+comment on column KJ_THRED_TBL.UPD_DATE is 'データ更新日';
+comment on column KJ_THRED_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table KJ_BOARD_REL_USER is '掲示板ユーザリレーション';
+comment on column KJ_BOARD_REL_USER.BOARD_GROUP_KEY is '掲示板グループキー';
+comment on column KJ_BOARD_REL_USER.USER_KEY is 'ユーザキー';
+comment on column KJ_BOARD_REL_USER.USER_STATUS_KBN is 'ユーザ状態区分';
+comment on column KJ_BOARD_REL_USER.UPD_DATE is 'データ更新日';
+comment on column KJ_BOARD_REL_USER.UPD_USER_KEY is 'データ更新者';
+
+comment on table KJ_BOARD_GROUP_TBL is '掲示板グループ';
+comment on column KJ_BOARD_GROUP_TBL.BOARD_GROUP_KEY is '掲示板グループキー';
+comment on column KJ_BOARD_GROUP_TBL.BOARD_NAME is '掲示板名称（原語）';
+comment on column KJ_BOARD_GROUP_TBL.COMMON_FLAG is '情報共有フラグ';
+comment on column KJ_BOARD_GROUP_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0019]＝0:非公開。1:公開。';
+comment on column KJ_BOARD_GROUP_TBL.ADMIN_USER_KEY is '管理者ユーザキー';
+comment on column KJ_BOARD_GROUP_TBL.OUTLINE is '概要';
+comment on column KJ_BOARD_GROUP_TBL.UPD_DATE is 'データ更新日';
+comment on column KJ_BOARD_GROUP_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_GRADING_ANSWER_TBL is '診断実績情報養成能力';
+comment on column NR_GRADING_ANSWER_TBL.USER_KEY is 'ユーザキー';
+comment on column NR_GRADING_ANSWER_TBL.GRADING_DATE is '診断日時';
+comment on column NR_GRADING_ANSWER_TBL.GRADING_KBN is '診断区分';
+comment on column NR_GRADING_ANSWER_TBL.RUBRIC_KEY is 'ルーブリックキー';
+comment on column NR_GRADING_ANSWER_TBL.SUBJECT_CODE is '養成能力コード';
+comment on column NR_GRADING_ANSWER_TBL.SUBJECT_ANSWER is '回答';
+comment on column NR_GRADING_ANSWER_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_GRADING_ANSWER_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_GRADING_SUBJECT_TBL is '診断実績情報';
+comment on column NR_GRADING_SUBJECT_TBL.USER_KEY is 'ユーザキー';
+comment on column NR_GRADING_SUBJECT_TBL.GRADING_DATE is '診断日時';
+comment on column NR_GRADING_SUBJECT_TBL.GRADING_KBN is '診断区分	 1:基礎能力診断、2:キャリアパス。3:フル診断';
+comment on column NR_GRADING_SUBJECT_TBL.RUBRIC_KEY is 'ルーブリックキー';
+comment on column NR_GRADING_SUBJECT_TBL.SUBJECT_CODE is '養成能力コード';
+comment on column NR_GRADING_SUBJECT_TBL.OYA_SUBJECT_CODE is '親養成能力コード';
+comment on column NR_GRADING_SUBJECT_TBL.LEVEL_NO is '階層数';
+comment on column NR_GRADING_SUBJECT_TBL.AVERAGE_POINT is '平均値';
+comment on column NR_GRADING_SUBJECT_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_GRADING_SUBJECT_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_SUBJECT_UPLOAD_TBL is '養成能力回答実績添付ファイルテーブル';
+comment on column NR_SUBJECT_UPLOAD_TBL.USER_KEY is 'ユーザキー';
+comment on column NR_SUBJECT_UPLOAD_TBL.RUBRIC_KEY is 'ルーブリックキー';
+comment on column NR_SUBJECT_UPLOAD_TBL.SUBJECT_CODE is '養成能力コード';
+comment on column NR_SUBJECT_UPLOAD_TBL.UPLOAD_KEY is '添付ファイルアップロードキー';
+comment on column NR_SUBJECT_UPLOAD_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_SUBJECT_UPLOAD_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_SUBJECT_ANSWER_TBL is '養成能力回答実績テーブル';
+comment on column NR_SUBJECT_ANSWER_TBL.USER_KEY is 'ユーザキー';
+comment on column NR_SUBJECT_ANSWER_TBL.RUBRIC_KEY is 'ルーブリックキー';
+comment on column NR_SUBJECT_ANSWER_TBL.SUBJECT_CODE is '養成能力コード';
+comment on column NR_SUBJECT_ANSWER_TBL.PARENT_SUBJECT_CODE is '親養成能力コード';
+comment on column NR_SUBJECT_ANSWER_TBL.DEPTH is '深さ';
+comment on column NR_SUBJECT_ANSWER_TBL.ANSWER is '回答結果';
+comment on column NR_SUBJECT_ANSWER_TBL.ACHIEVE_PHASE is '達成フェーズ';
+comment on column NR_SUBJECT_ANSWER_TBL.ACTION_PLAN is 'アクションプラン';
+comment on column NR_SUBJECT_ANSWER_TBL.EVIDENCE is 'エビデンス';
+comment on column NR_SUBJECT_ANSWER_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_SUBJECT_ANSWER_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_LESSON_PUBLIC_TBL is 'トレーニング公開範囲';
+comment on column NR_LESSON_PUBLIC_TBL.LESSON_KEY is '能力養成科目キー';
+comment on column NR_LESSON_PUBLIC_TBL.PARTY_CODE is '組織コード';
+comment on column NR_LESSON_PUBLIC_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_LESSON_PUBLIC_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_LESSON_REL_SUBJECT_TBL is '能力養成科目養成能力リレーション';
+comment on column NR_LESSON_REL_SUBJECT_TBL.LESSON_KEY is '能力養成科目キー';
+comment on column NR_LESSON_REL_SUBJECT_TBL.RUBRIC_KEY is 'ルーブリックキー';
+comment on column NR_LESSON_REL_SUBJECT_TBL.SUBJECT_CODE is '養成能力コード';
+comment on column NR_LESSON_REL_SUBJECT_TBL.RELATION_LEVEL is '関連レベル';
+comment on column NR_LESSON_REL_SUBJECT_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_LESSON_REL_SUBJECT_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_LESSON_TBL is '能力養成科目テーブル';
+comment on column NR_LESSON_TBL.LESSON_KEY is '能力養成科目キー';
+comment on column NR_LESSON_TBL.LESSON_NAME is '能力養成科目名称';
+comment on column NR_LESSON_TBL.PARTY_CODE is '組織コード	 開講団体コード';
+comment on column NR_LESSON_TBL.LESSON_CODE is '機関内講義コード';
+comment on column NR_LESSON_TBL.LESSON_DEPARTMENT is '開講部局';
+comment on column NR_LESSON_TBL.USER_NAME is '担当教員名';
+comment on column NR_LESSON_TBL.LESSON_TARGET is '受講対象者	 １．所属共通、所属共通（院） ２、全学共通、大学院共通　３、全連携機関共通';
+comment on column NR_LESSON_TBL.LISTEN_FLAG is '学外聴講／傍聴の可否';
+comment on column NR_LESSON_TBL.LESSON_DATE is '開講期';
+comment on column NR_LESSON_TBL.LESSON_PERIOD is '曜日・時限';
+comment on column NR_LESSON_TBL.RELAY_FLAG is '中継の有無';
+comment on column NR_LESSON_TBL.RELAY_PLACE is '中継聴講場所';
+comment on column NR_LESSON_TBL.LESSON_KBN is '授業形態	 １．講義　２．演習　３．実習　４．実験';
+comment on column NR_LESSON_TBL.UNIT is '単位';
+comment on column NR_LESSON_TBL.UNIT_INTERCHANGEABLE is '学外受講生の単位互換';
+comment on column NR_LESSON_TBL.LESSON_COMPULSORY is '必修選択の別';
+comment on column NR_LESSON_TBL.LESSON_BASE is '成績評価基準';
+comment on column NR_LESSON_TBL.LESSON_INTENTION is '授業の目的概要';
+comment on column NR_LESSON_TBL.LESSON_PLAN is '授業計画';
+comment on column NR_LESSON_TBL.LESSON_MEMO is '備考';
+comment on column NR_LESSON_TBL.E_LINK is 'eラーニングリンク';
+comment on column NR_LESSON_TBL.S_LINK is 'シラバスリンク';
+comment on column NR_LESSON_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_LESSON_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table NR_SUBJECT_TBL is '養成能力テーブル';
+comment on column NR_SUBJECT_TBL.RUBRIC_KEY is 'ルーブリックキー';
+comment on column NR_SUBJECT_TBL.SUBJECT_CODE is '養成能力コード';
+comment on column NR_SUBJECT_TBL.BASE_FLAG is '基礎能力診断フラグ';
+comment on column NR_SUBJECT_TBL.CAREER_FLAG is 'キャリアパス診断フラグ';
+comment on column NR_SUBJECT_TBL.FULL_FLAG is 'フル診断フラグ';
+comment on column NR_SUBJECT_TBL.UPD_DATE is 'データ更新日';
+comment on column NR_SUBJECT_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table US_RESULT_UPLOAD_TBL is '成果物ファイル';
+comment on column US_RESULT_UPLOAD_TBL.GYOSEKI_KEY is '業績キー';
+comment on column US_RESULT_UPLOAD_TBL.USER_KEY is 'ユーザキー';
+comment on column US_RESULT_UPLOAD_TBL.UPLOAD_KEY is 'アップロードキー';
+comment on column US_RESULT_UPLOAD_TBL.TITLE is 'タイトル';
+comment on column US_RESULT_UPLOAD_TBL.INS_DATE is '登録日';
+comment on column US_RESULT_UPLOAD_TBL.PUBLIC_FLAG is '公開フラグ	 定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column US_RESULT_UPLOAD_TBL.UPD_DATE is 'データ更新日';
+comment on column US_RESULT_UPLOAD_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table US_INFO_TBL is 'ユーザお知らせ情報';
+comment on column US_INFO_TBL.INFO_KEY is 'お知らせ情報キーキー';
+comment on column US_INFO_TBL.USER_KEY is 'ユーザキー';
+comment on column US_INFO_TBL.SEND_DATE is '配信日';
+comment on column US_INFO_TBL.TITLE is 'タイトル';
+comment on column US_INFO_TBL.DATA_KBN is 'データ区分';
+comment on column US_INFO_TBL.OPE_KBN is '操作区分';
+comment on column US_INFO_TBL.INFO_REF_KEY is '参照キー';
+comment on column US_INFO_TBL.URL is 'リンク先';
+comment on column US_INFO_TBL.MAKE_USER_KEY is '作成ユーザキー';
+comment on column US_INFO_TBL.UPD_DATE is 'データ更新日';
+comment on column US_INFO_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table US_SCHEDULE_TBL is 'ユーザスケジュール';
+comment on column US_SCHEDULE_TBL.SUHDULE_KEY is 'スケジュールキー';
+comment on column US_SCHEDULE_TBL.USER_KEY is 'ユーザキー';
+comment on column US_SCHEDULE_TBL.SUHDULE_DATE is 'スケジュール日付';
+comment on column US_SCHEDULE_TBL.START_TIME is '開始時間';
+comment on column US_SCHEDULE_TBL.END_TIME is '終了時間';
+comment on column US_SCHEDULE_TBL.TITLE is 'タイトル';
+comment on column US_SCHEDULE_TBL.DATA_KBN is 'データ区分';
+comment on column US_SCHEDULE_TBL.SCHDULE_REF_KEY is '参照キー';
+comment on column US_SCHEDULE_TBL.MAKE_USER_KEY is '作成ユーザキー';
+comment on column US_SCHEDULE_TBL.UPD_DATE is 'データ更新日';
+comment on column US_SCHEDULE_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table US_USER_REL_ROLE_TBL is 'ユーザ情報ロールリレーション';
+comment on column US_USER_REL_ROLE_TBL.USER_KEY is 'ユーザキー';
+comment on column US_USER_REL_ROLE_TBL.ROLE_CODE is 'ロールコード';
+comment on column US_USER_REL_ROLE_TBL.UPD_DATE is 'データ更新日';
+comment on column US_USER_REL_ROLE_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table US_LOGIN_INFO_TBL is 'ログイン情報テーブル';
+comment on column US_LOGIN_INFO_TBL.PORTAL_LOGIN_ID is 'ログインID';
+comment on column US_LOGIN_INFO_TBL.USER_KEY is 'ユーザキー';
+comment on column US_LOGIN_INFO_TBL.PASSWORD is 'パスワード';
+comment on column US_LOGIN_INFO_TBL.USE_FLAG is '有効／無効フラグ	 定数区分[0023]＝1:有効。0:無効';
+comment on column US_LOGIN_INFO_TBL.UPD_DATE is 'データ更新日';
+comment on column US_LOGIN_INFO_TBL.UPD_USER_KEY is 'データ更新者';
+
+comment on table US_USER_TBL is 'ユーザ情報テーブル';
+comment on column US_USER_TBL.USER_KEY is 'ユーザキー';
+comment on column US_USER_TBL.USER_PUBLIC_FLAG is 'ユーザ公開フラグ	 ユーザ情報自体の公開フラグ
+定数区分[0024]＝0：非公開。1：内部公開。2:全公開。';
+comment on column US_USER_TBL.USER_KBN is 'ユーザ区分	 ユーザ区分:
+10:個人ユーザ（若手研究者）
+20:個人ユーザ（教職員）
+30:個人ユーザ（相談員）
+40:運営協議会事務局・共同実施機関・連携大学
+50:連携機関窓口（企業、研究所）';
+comment on column US_USER_TBL.USER_FAMILY_NAME is '利用者姓(原語)';
+comment on column US_USER_TBL.USER_FAMILY_NAME_KN is '利用者姓(カナ)';
+comment on column US_USER_TBL.USER_FAMILY_NAME_EN is '利用者姓(英訳)';
+comment on column US_USER_TBL.USER_MIDDLE_NAME is '利用者ミドルネーム(原語)';
+comment on column US_USER_TBL.USER_MIDDLE_NAME_KN is '利用者ミドルネーム(カナ)';
+comment on column US_USER_TBL.USER_MIDDLE_NAME_EN is '利用者ミドルネーム(英訳)';
+comment on column US_USER_TBL.USER_NAME is '利用者名(原語)';
+comment on column US_USER_TBL.USER_NAME_KN is '利用者名(カナ)';
+comment on column US_USER_TBL.USER_NAME_EN is '利用者名(英訳)';
+comment on column US_USER_TBL.MAIL_ADDRESS is 'メールアドレス';
+comment on column US_USER_TBL.SEX is '性別	 １．男性　２．女性';
+comment on column US_USER_TBL.AFFILIATION_NAME is '所属名称';
+comment on column US_USER_TBL.COUNTRY is '国籍／生誕国';
+comment on column US_USER_TBL.RESEARCH_SUBJECT is '研究科';
+comment on column US_USER_TBL.DEGREE is '学年・職位';
+comment on column US_USER_TBL.RESEARCH_AREA is '研究分野';
+comment on column US_USER_TBL.STUDENT_ID is '学籍ID／職員ID';
+comment on column US_USER_TBL.TEACHER_NAME is '指導教員';
+comment on column US_USER_TBL.TELNO is '電話番号';
+comment on column US_USER_TBL.JST_CODE is 'ＪＳＴコード';
+comment on column US_USER_TBL.PARTY_CODE is '組織コード';
+comment on column US_USER_TBL.MAIL_SETTING is 'メール受信設定';
+comment on column US_USER_TBL.UPLOAD_KEY is '顔写真ファイルアップロードキー';
+comment on column US_USER_TBL.URL is 'リンク先';
+comment on column US_USER_TBL.FREE_INPUT1 is '入力欄１';
+comment on column US_USER_TBL.FREE_INPUT2 is '入力欄２';
+comment on column US_USER_TBL.FREE_INPUT3 is '入力欄３';
+comment on column US_USER_TBL.FREE_INPUT4 is '入力欄４';
+comment on column US_USER_TBL.FREE_INPUT5 is '入力欄５';
+comment on column US_USER_TBL.FREE_INPUT6 is '入力欄６';
+comment on column US_USER_TBL.FREE_INPUT7 is '入力欄７';
+comment on column US_USER_TBL.FREE_INPUT8 is '入力欄８';
+comment on column US_USER_TBL.FREE_INPUT9 is '入力欄９';
+comment on column US_USER_TBL.FREE_INPUT10 is '入力欄１０';
+comment on column US_USER_TBL.INS_DATE is '登録日';
+comment on column US_USER_TBL.UPD_DATE is 'データ更新日';
+comment on column US_USER_TBL.UPD_USER_KEY is 'データ更新者';

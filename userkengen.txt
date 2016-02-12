@@ -1,0 +1,48 @@
+﻿role_code	role_name	role_name_en	role	degree	upd_date	upd_user_key
+000000	システム管理者	admin	ROLE_ADMIN	​(NULL)​	2015/12/01	0000000001
+0000000000  admin@sraw.co.jp
+
+100001	個人ユーザ（博士課程前期）	personal user(Doc)	ROLE_USER1	10	2015/12/01	0000000001
+0000000001  fukutest01@sraw.co.jp
+
+100002	個人ユーザ（博士課程後期・一貫）	personal user(Doc)	ROLE_USER2	10	2015/12/01	0000000001
+0000000002  fukutest02@sraw.co.jp
+
+200001	個人ユーザ（任期付研究員）	personal user(PosDoc)	ROLE_USER3	11	2015/12/01	0000000001
+0000000003  fukutest03@sraw.co.jp
+
+300001	個人ユーザ（教職員）	personal user(teacher)	ROLE_USER4	12	2015/12/01	0000000001
+0000000010  fukutest10@sraw.co.jp
+
+400001	個人ユーザ（相談員）	personal user(tconsultant)	ROLE_USER5	​(NULL)​	2015/12/01	0000000001
+0000000012  fukutest12@sraw.co.jp
+
+500001	HIRAKU 運営協議会事務局	support	ROLE_MGMT1	​(NULL)​	2015/12/01	0000000001
+0000000004 fukutest04@sraw.co.jp      ROLE_MGMT1
+
+600001	共同実施機関窓口（山大・徳大）	office	ROLE_MGMT2	​(NULL)​	2015/12/01	0000000001
+0000000020  fukutest20@sraw.co.jp      ROLE_MGMT2
+
+700001	連携大学	other college	ROLE_MGMT3	​(NULL)​	2015/12/01	0000000001
+0000000005  fukutest05@sraw.co.jp     ROLE_MGMT3
+
+800001	連携期間窓口（企業、研究所）	other college2	ROLE_MGMT4	​(NULL)​	2015/12/01	0000000001
+0000000007  fukutest07@sraw.co.jp      ROLE_MGMT4
+
+900001	プラットフォーム以外	others	ROLE_OTHER	​(NULL)​	2015/12/01	0000000001
+0000000011  fukutest11@sraw.co.jp
+今の画面で、「養成能力リンククリック」　と　「注アイコン4マウスオーバー」がないです。
+
+URL：https://localhost:8080/account/regist/dba816151eacd2b79836e5e49c71b4e29d64007aa7062eea35c81a3546445f1b5bfc3a321b91bb0b
+
+
+http://localhost:8080/account/regist/dba816151eacd2b79836e5e49c71b4e29d64007aa7062eea35c81a3546445f1b5bfc3a321b91bb0b
+https://hiraku.hiroshima-u.ac.jp/account/regist/d7726f25079e618f64e4f58fe33ce5261fd6b4035d41ca6cba86746b2ae370409cc64b7e76f6aba8
+https://localhost:8080/account/regist/d7726f25079e618f64e4f58fe33ce5261fd6b4035d41ca6cba86746b2ae370409cc64b7e76f6aba8
+
+
+http://localhost:8080/account/regist/cb2c01cd07fc85ab7559e8757fba2a8735694f44f6c0804abf7e12393748cc4551d924344b4890ca
+
+
+http://localhost:8080/account/regist/36e44902ef2c64c4b609765a3f836d33025162050c5c8f5cfe888ab2f6a5efa537ca4069268aa762
+

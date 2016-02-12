@@ -1,0 +1,236 @@
+﻿git
+http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000
+http://blog.csdn.net/chaihuasong/article/details/37911723
+http://1ke.co/course/194
+http://www.ruanyifeng.com/blog/2014/06/git_remote.html
+	
+创建本地代码库（init）
+git init
+
+绑定本地代码库与远程仓库（remote | clone）
+如果是现在本地已经开发的一个全新项目需要推送到远程仓库，你需要先这么做：
+
+git remote add origin https://github.com/username/project.git
+如果是在别人已经开发过的仓库中继续开发，我们不需要预先建立并初始化本地仓库，直接执行下面这条命令就可以了：
+
+git clone https://github.com/username/project.git
+
+git status
+当我们通过git status看到有红色文件列表，而且其中有我们想要保存到远程仓库中的文件时，我们可通过git add <filename>命令，将相应文件添加到暂存区，我们也可以通过git add .命令，添加所有新增或有更新的文件，但这里要注意删除的文件不会被添加。
+
+添加删除的文件需要使用git add -u <filename>或git add -u .命令。
+
+使用git bash可以很方便的建立分支，我们只需执行git branch newbranch即可创建一个名为newbranch的分支，然后我们只需执行git checkout newbranch命令，即可将我们的工作环境切换到newbranch分支上。
+
+还有一种更为简便的方法，可以直接使用checkout命令，完成创建并切换到分支：
+
+git checkout -b newbranch
+
+git add .
+git commit -m 'newbranch 上的变动内容'
+git checkout master
+git merge newbranch
+
+
+将本地代码推送到远程仓库（push）
+当开发分支上的代码都被合并到主干分支上，并且所有的冲突都解决好后，我们就可以将主干分支的代码推送到远程仓库，提供给别人使用了。这一步很简单：
+
+git push origin master
+这里我们需要注意一下，和git merge命令一样，pull命令是有可能导致代码冲突的。而pull命令从某种意义来讲实际和fetch+merge命令一样，这里就不再对fetch做进一步说明了。
+
+git diff
+查看working tree和index file的差别，也可以：
+
+git diff --cached
+查看index file与commit的差别，还可以：
+
+git diff HEAD
+给代码库打标签（tag）
+tag命令，是用来给我们的代码库打标签的。听起来可能有些不太理解，其实日常使用中，通常是用来添加版本标记。
+
+git tag v1.0.0
+表明在这里我们发布了1.0.0版本。这样就可以很方便的让我们回顾项目每个版本的样子，历史就是这样用血写成的。我们也可以通过tag命令查看已有的标签，只需要执行：
+
+git tag
+
+打造自己的git命令
+git config --global alias.st status
+git config --global alias.br branch
+git config --global alias.co checkout
+git config --global alias.ci commit
+配置好后再输入git命令的时候就不用再输入一大段了，例如我们要查看状态，只需：
+
+git st
+
+svn上手非常容易，操作简单
+git功能强大，但是要熟练使用分支不算容易
+新手常见问题
+如何查看有哪些分支？
+git branch -a
+
+如何强制检出/切换分支或分支指定文件
+git checkout <branch> [file] [-f]
+强制更新，以branch版本的代码为主
+
+提交代码出现冲突冲突怎么办？
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+先切换分支，然后拉取分支上最新的代码覆盖到本地
+git pull
+添加或者提交代码，解决冲突之后
+git push
+
+实用指令
+reset
+
+git reset [file]
+取消暂存
+
+remote
+
+查看远程仓库名
+
+git remote -v
+查看远程仓库url
+
+git remote add <basename> <url>
+新增远程仓库
+
+git remote show <basename>
+查看远程仓库详细信息
+
+git remote rename <old basename> <new basename>
+重命名远程仓库
+merge
+
+git merge <branch name>
+将其他分支合并到本分支
+
+commit
+
+git commit -a -m 'xx'
+暂存并提交
+
+branch
+
+git branch
+查看本地仓库分支
+
+git branch -v
+查看本地仓库分支最后一次提交情况
+
+git branch -vv
+查看分支跟踪情况
+
+rebase
+
+git rebase [basebranch]
+变基是将一系列提交按照原有次序依次应用到另一分支上，而合并是把最终结果合在一起。
+
+小技巧
+查看配置
+
+git config -1
+
+设置别名
+
+git config --global alias.<name> <commend>
+我的设置：
+git config --global alias.st status
+git config --global alias.cm "commit -m"
+git config --global alias.ph "push origin <local_repository>:<remote_repository>"
+
+
+
+http://1ke.co/course/194
+3）验证是否成功，在git bash下输入
+
+$ ssh -T git@github.com
+
+4）接下来我们要做的就是把本地仓库传到github上去，在此之前还需要设置username和email，因为github每次commit都会记录他们
+ssh-keygen -t rsa -C "gxzr1987@163.com"
+ssh-keygen -t rsa -C "youremail@example.com"
+
+$ git config --global user.name "tiposhenxiu"
+$ git config --global user.email "gxzr1987@163.com"
+
+
+git config --global user.name "tiposhenxiu72"
+git config --global user.email "895356000@qq.com"
+ssh-keygen -t rsa -C "895356000@qq.com"
+
+
+https://github.com/tiposhenxiu/tiposhenxiu.git
+
+https://github.com/tiposhenxiu/tiposhenxiu
+git remote add origin git@github.com:yourName/yourRepo.git
+git remote add origin git@github.com/tiposhenxiu/tiposhenxiu.git
+坑跌的冒号
+git remote add origin git@github.com:tiposhenxiu/tiposhenxiu.git
+
+git clone -o jQuery git@github.com:tiposhenxiu/tiposhenxiu.git
+
+git clone git@github.com:tiposhenxiu/tiposhenxiu.git
+
+git remote add origin git@github.com:tiposhenxiu72/tiposhenxiu72.git
+
+Git远程仓库管理
+
+git remote -v # 查看远程服务器地址和仓库名称
+
+git remote show origin # 查看远程服务器仓库状态
+
+git remote add origin git@ github:robbin/robbin_site.git # 添加远程仓库地址
+
+git remote set-url origin git@ github.com:robbin/robbin_site.git # 设置远程仓库地址(用于修改远程仓库地址) git remote rm <repository> # 删除远程仓库
+
+
+
+创建远程仓库
+
+git clone --bare robbin_site robbin_site.git # 用带版本的项目创建纯版本仓库
+
+scp -r my_project.git git@ git.csdn.net:~ # 将纯仓库上传到服务器上
+
+mkdir robbin_site.git && cd robbin_site.git && git --bare init # 在服务器创建纯仓库
+
+git remote add origin git@ github.com:robbin/robbin_site.git # 设置远程仓库地址
+
+git push -u origin master # 客户端首次提交
+git push origin master
+git push -u origin develop # 首次将本地develop分支提交到远程develop分支，并且track
+
+git remote set-head origin master # 设置远程仓库的HEAD指向master分支
+
+
+远程仓库的删除和重命名
+在新版 Git 中可以用 git remote rename 命令修改某个远程仓库在本地的简称，比如想把 pb 改成 paul，可以这么运行：
+
+$ git remote rename pb paul
+$ git remote
+origin
+paul
+注意，对远程仓库的重命名，也会使对应的分支名称发生变化，原来的 pb/master 分支现在成了 paul/master。
+
+碰到远端仓库服务器迁移，或者原来的克隆镜像不再使用，又或者某个参与者不再贡献代码，那么需要移除对应的远端仓库，可以运行 git remote rm 命令：
+
+$ git remote rm paul
+$ git remote
+origin
+
+查看远程仓库信息
+我们可以通过命令 git remote show [remote-name] 查看某个远程仓库的详细信息，比如要看所克隆的 origin 仓库，可以运行：
+
+$ git remote show origin
+
+推送数据到远程仓库
+项目进行到一个阶段，要同别人分享目前的成果，可以将本地仓库中的数据推送到远程仓库。实现这个任务的命令很简单： git push [remote-name] [branch-name]。如果要把本地的 master 分支推送到 origin 服务器上（再次说明下，克隆操作会自动使用默认的 master 和 origin 名字），可以运行下面的命令：
+
+$ git push origin master
+
+从远程仓库抓取数据
+正如之前所看到的，可以用下面的命令从远程仓库抓取数据到本地：
+
+$ git fetch [remote-name]
