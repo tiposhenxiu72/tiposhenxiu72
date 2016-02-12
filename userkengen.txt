@@ -34,7 +34,7 @@
 今の画面で、「養成能力リンククリック」　と　「注アイコン4マウスオーバー」がないです。
 
 URL：https://localhost:8080/account/regist/dba816151eacd2b79836e5e49c71b4e29d64007aa7062eea35c81a3546445f1b5bfc3a321b91bb0b
-
+fukutest18@sraw.co.jp
 
 http://localhost:8080/account/regist/dba816151eacd2b79836e5e49c71b4e29d64007aa7062eea35c81a3546445f1b5bfc3a321b91bb0b
 https://hiraku.hiroshima-u.ac.jp/account/regist/d7726f25079e618f64e4f58fe33ce5261fd6b4035d41ca6cba86746b2ae370409cc64b7e76f6aba8
