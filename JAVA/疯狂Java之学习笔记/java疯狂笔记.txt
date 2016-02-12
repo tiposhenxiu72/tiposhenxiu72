@@ -1,0 +1,1582 @@
+﻿11
+举个例子来说，希望完成“猪八戒吃西瓜”这样一件事情。
+                         面向过程的思维：吃（猪八戒,西瓜）;     面向对象的思维：猪八戒.吃（西瓜）；
+						 
+						 Java提供了四种元注解，专门负责新注解的创建工作。
+						 
+Java5.0定义的元注解：
+　　　1.@Target,
+　　　 2.@Retention,
+　　　 3.@Documented,
+　　　 4.@Inherited
+
+在Java里面主要有三种注释：行注释、段落注释、文档注释
+//这是单行注释的范例
+
+   /*
+     *这是段注释的一个简单的例子
+     *这里是函数入口main方法
+     */
+	 
+	 　　[2]文档注释的三部分：
+　　根据在文档中显示的效果，文档注释可以分为三个部分，这里举个例子：
+/**
+ *testDoc方法的简单描述
+ *<p>testDoc方法的详细说明</p>
+ *@param testInput String 打印输入的字符串
+ *@return 没有任何返回值
+ **/
+ 
+  在这里补充一下javadoc注释的用法。
+ 
+javadoc工具能从java源文件中读取第三种注释，并能识别注释中用@标识的一些特殊变量（见表），制作成Html格式的类说明文档。 javadoc不但能对一个java源文件生成注释文档，而且能对目录和包生成交叉链接的html格式的类说明文档，十分方便。
+
+注释中可以出现的关键字，以@开头：
+@author        作者名
+@version       版本标识
+@parameter     参数名及其意义
+@since         最早出现的JDK版本
+@return        返回值
+@throws        异常类及抛出条件
+@deprecated    引起不推荐使用的警告
+@see           交叉参考
+
+/** 
+  *JavadocDemo.java,一个显示JavaDoc注释的Applet 
+  *<p>注意这只是HelloApplet的一个带注释的版本 
+  *@see java.applet.Applet 
+  *@see javax.swing.Japplet 
+  */  
+  
+     /** Applet必须有一个公共的无参数构造方法 
+     *@throws java.lang.IllegalArgumentException 
+     */  
+  
+   public JavadocDemo(){  
+      if(new java.util.Date().getDay()==0){  
+            throw new IllegalArgumentException("Never on a Sunday");  
+       }  
+   }  
+   
+   1.Java的八大基本数据类型为： 
+整型 
+byte字节型1字节 8bit  最大存储数据量是255，存放的数据范围是-128~127之间 
+short短整型2字节 16bit最大数据存储量是65536，数据范围是-32768~32767之间 
+int整型4字节 32bit最大数据存储容量是2的32次方减1，数据范围是负的2的31次方到正的2的31次方减1 
+long长整型8字节 64bit最大数据存储容量是2的64次方减1，数据范围为负的2的63次方到正的2的63次方减1 
+浮点型
+float单精度4字节 32bit数据范围在3.4e-45~1.4e38，直接赋值时必须在数字后加上f或F 
+double双精度8字节 64bit数据范围在4.9e-324~1.8e308，赋值时可以加d或D也可以不加 
+字符类型
+char字符型用单引号 
+布尔类型
+boolean布尔型true/false（只有真假两种结果）
+
+数据值域的知识说明： 
+1.一个bit是计算机考研存储的最小的数据单位。即1位，只可能是0或1. 
+2.一个byte由八个bit组成，即八位，可以表示256个整数值，又由于byte在Java中有符号之分（即正负数），所以范围位-128~127. 
+3.一个char在Java中由两个byte组成，用来表示一个字符，即unicode编码，是无符号类型。 
+4.int和float在Java中由4个byte组成。 
+5.每个long或double型变量占用八个byte的存储空间。 
+6.1T=1024G，1G=1024M，1M=1024K，1K=1024B 
+小心得：
+1.程序中的整数默认都是int型，即在方法调用直接传入的一个具体的整数值，默认情况下是int型。
+2.值域小的的类型可以自动转化为值域大的。值域大的不能直接转化为值域小的，但是可以通过强制转化实现
+
+
+Java中所有的基本数据类型都有固定的存储范围和所占内存空间的大小，而不受具体操作系统的影响，来保证Java程序的可移植性。整形数据默认为int数据类型，浮点型默认为double数据类型，如果要表示long型数据或float型数据，要在相应的数值后面加上l、L或f、F，否则会出现编译问题。
+在其他语言中如C语言中，字符型数据和整型数据是可以相互转换的，都是以ASCII码来存储，可以将字符型数据当整型数据来看待。
+
+二、基本数据类型间的转换
+1、boolean类型不能转换成任何其他数据类型。
+2、自动类型转换：容量小的数据类型可以自动转换成容量大的数据类型，如byte-short-int-long-float-double。byte、short、int不会互相转换，他们三者在计算时会转换成int类型。
+例：int a=257;byte b=(byte)a;在java中，int类型占4个字节，byte占一个字节，故int类型转化为byte类型会出现位丢失情况，即将int的低4位作为byte类型的值。int型变量的值为257，对应的二进制是100000001，后8位是00000001，第一个0表示符号位，表示正数，所以变量b的值为1。
+【备注：在计算机中，存储数据是通过内存地址来区分不同数据的，内存地址用十六进制数表示。在计算机存储单元中，一个ASCII码值占一个字节（8个二进制位），其中最高位符号位。事实上，计算机内的二进制数值是以补码形式表示的，正数的补码和原码的形式相同，负数的补码是将该数的绝对值的二进制形式，按位取反再加一。】
+int a=128;byte b=(byte)a;这时b的值是-128。因为变量a对应的二进制是10000000，对应第一位符号位是1，则a是负数，其负数的补码仍是10000000，故b的值是-128。
+3、强制类型转换：容量大的数据类型转换成容量小的数据类型时，要加上强制转换符，但这样有可能会造成精度降低或者数据溢出，要小心。
+
+//不用泛型  
+List list0 = new ArrayList();  
+list0.add("hello");  
+String str0 = (String) list0.get(0);  
+//用泛型，这样在获取对象的时候就不用类型转换  
+List<String> list = new ArrayList<String>();  
+list.add("hello");  
+String str = list.get(0);
+注意：泛型是没有数组的。编译器不承认 HashMap<K,V>[]这种形式的： Cannot create a generic array of HashMap<k,v> 
+    原因就是数组必须确定他每一个元素的类型。但是泛型在编译阶段有一个类型擦除的问题，也就是说编译器理解HashMap<Integer,Integer>和HashMap<String,String>都是同一种类型HashMap。如果泛型数组存在，那么HashMap<Integer,Integer>和HashMap<String,String>对象都可以加入到同一个HashMap[]数组中，这会造成灾难性的结果。 
+	
+	
+java中数据类型转换 
+ 
+ 
+1如何将字串 String 转换成整数 int?
+ 
+A. 有两个方法:
+ 
+1). int i = Integer.parseInt([String]); 或 
+i = Integer.parseInt([String],[int radix]);
+ 
+2). int i = Integer.valueOf(my_str).intValue();
+ 
+注: 字串转成 Double, Float, Long 的方法大同小异.
+
+2 如何将整数 int 转换成字串 String ?
+ 
+
+A. 有叁种方法:
+ 
+1.) String s = String.valueOf(i);
+ 
+2.) String s = Integer.toString(i);
+ 
+3.) String s = "" + i;
+ 
+注: Double, Float, Long 转成字串的方法大同小异.
+
+    如果一定要定义HashMap数组，可以使用HashMap[] aTweightList = new HashMap[10]; 形式，也就是HashMap常规类型。 
+
+这是一个例子,说的是JAVA中数据数型的转换.供大家学习引
+ 
+package cn.com.lwkj.erts.register;
+import java.sql.Date;
+public class TypeChange {
+  public TypeChange() {
+  }
+  //change the string type to the int type
+  public static  int stringToInt(String intstr)
+  {
+    Integer integer;
+    integer = Integer.valueOf(intstr);
+    return integer.intValue();
+  }
+  //change int type to the string type
+  public static String intToString(int value)
+  {
+    Integer integer = new Integer(value);
+    return integer.toString();
+  }
+  //change the string type to the float type
+  public static  float stringToFloat(String floatstr)
+  {
+    Float floatee;
+    floatee = Float.valueOf(floatstr);
+    return floatee.floatValue();
+  }
+  //change the float type to the string type
+  public static String floatToString(float value)
+  {
+    Float floatee = new Float(value);
+    return floatee.toString();
+  }
+  //change the string type to the sqlDate type
+  public static java.sql.Date stringToDate(String dateStr)
+  {
+    return  java.sql.Date.valueOf(dateStr);
+  }
+  //change the sqlDate type to the string type
+  public static String dateToString(java.sql.Date datee)
+  {
+    return datee.toString();
+  }
+ 
+  public static void main(String[] args)
+  {
+    java.sql.Date day ;
+    day = TypeChange.stringToDate("2003-11-3");
+    String strday = TypeChange.dateToString(day);
+    System.out.println(strday);
+  }
+
+}
+
+数据类型
+基本类型有以下四种：
+int长度数据类型有：byte(8bits)、short(16bits)、int(32bits)、long(64bits)、
+float长度数据类型有：单精度（32bits float）、双精度（64bits double）
+boolean类型变量的取值有：ture、false
+char数据类型有：unicode字符,16位
+对应的类类型：Integer、Float、Boolean、Character、Double、Short、Byte、Long
+转换原则
+从低精度向高精度转换
+byte 、short、int、long、float、double、char
+注：两个char型运算时，自动转换为int型；当char与别的类型运算时，也会先自动转换为int型的，再做其它类型的自动转换
+基本类型向类类型转换
+正向转换：通过类包装器来new出一个新的类类型的变量
+Integer a= new Integer(2);
+反向转换：通过类包装器来转换
+int b=a.intValue();
+类类型向字符串转换
+正向转换：因为每个类都是object类的子类，而所有的object类都有一个toString()函数，所以通过toString()函数来转换即可
+反向转换：通过类包装器new出一个新的类类型的变量
+eg1: int i=Integer.valueOf(“123”).intValue()
+说明：上例是将一个字符串转化成一个Integer对象，然后再调用这个对象的intValue()方法返回其对应的int数值。
+eg2: float f=Float.valueOf(“123”).floatValue()
+说明：上例是将一个字符串转化成一个Float对象，然后再调用这个对象的floatValue()方法返回其对应的float数值。
+eg3: boolean b=Boolean.valueOf(“123”).booleanValue()
+说明：上例是将一个字符串转化成一个Boolean对象，然后再调用这个对象的booleanValue()方法返回其对应的boolean数值。
+eg4:double d=Double.valueOf(“123”).doubleValue()
+说明：上例是将一个字符串转化成一个Double对象，然后再调用这个对象的doubleValue()方法返回其对应的double数值。
+eg5: long l=Long.valueOf(“123”).longValue()
+说明：上例是将一个字符串转化成一个Long对象，然后再调用这个对象的longValue()方法返回其对应的long数值。
+eg6: char=Character.valueOf(“123”).charValue()
+说明：上例是将一个字符串转化成一个Character对象，然后再调用这个对象的charValue()方法返回其对应的char数值。
+基本类型向字符串的转换
+正向转换：
+如：int a=12;
+String b;b=a+””;
+反向转换：
+通过类包装器
+eg1:int i=Integer.parseInt(“123”)
+说明：此方法只能适用于字符串转化成整型变量
+eg2: float f=Float.valueOf(“123”).floatValue()
+说明：上例是将一个字符串转化成一个Float对象，然后再调用这个对象的floatValue()方法返回其对应的float数值。
+eg3: boolean b=Boolean.valueOf(“123”).booleanValue()
+说明：上例是将一个字符串转化成一个Boolean对象，然后再调用这个对象的booleanValue()方法返回其对应的boolean数值。
+eg4:double d=Double.valueOf(“123”).doubleValue()
+说明：上例是将一个字符串转化成一个Double对象，然后再调用这个对象的doubleValue()方法返回其对应的double数值。
+eg5: long l=Long.valueOf(“123”).longValue()
+说明：上例是将一个字符串转化成一个Long对象，然后再调用这个对象的longValue()方法返回其对应的long数值。
+eg6: char=Character.valueOf(“123”).charValue()
+说明：上例是将一个字符串转化成一个Character对象，然后再调用这个对象的charValue()方法返回其对应的char数值。
+
+
+
+flag=true;   !(flag);  flag&&false;
+i+=3; 　　　　//等效于i=i+3;
+
+　⑸条件运算符 ? ：
+　　　例如：result=(sum= =0 ? 1 : num/sum);
+
+　　⑵运算符的优先次序
+　　表达式的运算按照运算符的优先顺序从高到低进行,同级运算符从左到右进行：
+　例如，下述条件语句分四步完成：
+　　Result=sum==0?1:num/sum;
+　　第1步：result=sum==0?1:(num/sum)
+　　第2步：result=(sum==0)?1:(num/sum)
+　　第3步：result=((sum==0)?1:(num/sum))
+第4步：result=
+
+⑶返回语句return
+　　return语句从当前方法中退出，返回到调用该方法的语句处，并从紧跟该语句的下一条语句继续程序的执行。返回语句有两种格式：
+　　return expression ;
+　　return;
+
+http://blog.csdn.net/u011225629/article/details/45271667
+排序大的分类可以分为两种：内排序和外排序。在排序过程中，全部记录存放在内存，则称为内排序，如果排序过程中需要使用外存，则称为外排序。下面讲的排序都是属于内排序。
+　　内排序有可以分为以下几类：
+　　(1)、插入排序：直接插入排序、二分法插入排序、希尔排序。
+　　(2)、选择排序：简单选择排序、堆排序。
+　　(3)、交换排序：冒泡排序、快速排序。
+　　(4)、归并排序
+　　(5)、基数排序
+
+总结：
+一、稳定性:
+　   稳定：冒泡排序、插入排序、归并排序和基数排序
+　　不稳定：选择排序、快速排序、希尔排序、堆排序
+二、平均时间复杂度
+　　O(n^2):直接插入排序，简单选择排序，冒泡排序。
+　　在数据规模较小时（9W内），直接插入排序，简单选择排序差不多。当数据较大时，冒泡排序算法的时间代价最高。性能为O(n^2)的算法基本上是相邻元素进行比较，基本上都是稳定的。
+　　O(nlogn):快速排序，归并排序，希尔排序，堆排序。
+　　其中，快排是最好的， 其次是归并和希尔，堆排序在数据量很大时效果明显。
+三、排序算法的选择
+　　1.数据规模较小
+  　　（1）待排序列基本序的情况下，可以选择直接插入排序；
+  　　（2）对稳定性不作要求宜用简单选择排序，对稳定性有要求宜用插入或冒泡
+　　2.数据规模不是很大
+　　（1）完全可以用内存空间，序列杂乱无序，对稳定性没有要求，快速排序，此时要付出log（N）的额外空间。
+　　（2）序列本身可能有序，对稳定性有要求，空间允许下，宜用归并排序
+　　3.数据规模很大
+   　　（1）对稳定性有求，则可考虑归并排序。
+    　　（2）对稳定性没要求，宜用堆排序
+　　4.序列初始基本有序（正序），宜用直接插入，冒泡
+
+疯狂Java之学习笔记（11）------------算法性能分析
+http://blog.csdn.net/u011225629/article/details/45271997
+
+
+int i = 10; 
+String str = String.valueOf(i); 
+Integer.parseInt(String s) : 将 s 转换成 int 
+
+substring 方法
+str＝str.substring(int beginIndex);
+截取掉str从首字母起长度为beginIndex的字符串，将剩余字符串赋值给str；
+str＝str.substring(int beginIndex，int endIndex);
+截取str中从beginIndex开始至endIndex结束时的字符串，并将其赋值给str;
+
+
+IndexOf 方法
+返回 String 对象内第一次出现子字符串的字符位置。
+strObj.indexOf(subString[, startIndex])
+参数：strObj 必选项。String 对象或文字。
+          subString 必选项。要在 String 对象中查找的子字符串。
+          starIndex 可选项。该整数值指出在 String 对象内开始查找的索引。如果省略，则从字符串的开始处查找。
+说明：indexOf 方法返回一个整数值，指出 String 对象内子字符串的开始位置。
+           如果没有找到子字符串，则返回-1。
+           如果 startindex 是负数，则 startindex 被当作零。
+           如果它比最大的字符位置索引还大，则它被当作最大的可能索引。从左向右执行查找。否则，该方法与 lastIndexOf 相同。
+		   
+		   
+		       String sr = "This is my third string!";  
+    String sx= "is";  
+    int index = sr.indexOf(sx);  
+    System.out.println(index);  
+    int index2 = sr.indexOf(sx,3);  
+    System.out.println(index2);  
+	
+	
+	数组中可分为以下几种：一维数组、二维数组、以及多维数组。
+	
+	定义数组
+　　方式1（推荐，更能表明数组类型）
+　　type[] 变量名 = new type[数组中元素的个数];
+　　比如：
+　　int[] a = new int[10];
+　　数组名，也即引用a，指向数组元素的首地址。
+　　方式2（同C语言）
+　　type变量名[] = new type[数组中元素的个数];
+　　如：
+　　int a[] = new int[10];
+
+　方式3定义时直接初始化
+　　type[] 变量名 = new type[]{逗号分隔的初始化值};
+　　其中红色部分可省略，所以又有两种：
+　　int[] a = {1,2,3,4};
+　　int[] a = new int[]{1,2,3,4};
+　　其中int[] a = new int[]{1,2,3,4};的第二个方括号中不能加上数组长度，因为元素个数是由后面花括号的内容决定的。
+
+　　java.util.Arrays中的方法全是static的。其中包括了equals()方法的各种重载版本。
+　　代码如下：
+ArrayEqualsTest.java
+import java.util.Arrays;
+public class ArrayEqualsTest
+{
+    //Compare the contents of two int arrays
+    public static boolean isEquals(int[] a, int[] b)
+    {
+        if( a == null || b == null )
+        { 
+            return false;
+        }
+        if(a.length != b.length)
+        {
+            return false;
+        }
+        for(int i = 0; i < a.length; ++i )
+        {
+            if(a[i] != b[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args)
+    {
+        int[] a = {1, 2, 3};
+        int[] b = {1, 2, 3};
+
+        System.out.println(isEquals(a,b));
+        System.out.println(Arrays.equals(a,b));
+    }
+}
+二维数组
+　　二维数组是数组的数组。
+二维数组基础
+　　基本的定义方式有两种形式，如：
+　　type[][] i = new type[2][3];（推荐）
+　　type i[][] = new type[2][3];
+
+public class ArrayTest4
+{
+    public static void main(String[] args)
+    {
+        //二维变长数组
+        int[][] a = new int[3][];
+        a[0] = new int[2];
+        a[1] = new int[3];
+        a[2] = new int[1];
+
+        //Error: 不能空缺第一维大小
+        //int[][] b = new int[][3];
+    }
+}
+
+for each的学习
+ 
+ 
+foreach语句是java5的新特征之一，在遍历数组、集合方面，foreach为开发人员提供了极大的方便。
+
+foreach的语句格式：
+for(元素类型t 元素变量x : 遍历对象obj){
+     引用了x的java语句;
+}
+
+下面通过两个例子简单例子看看foreach是如何简化编程的。代码如下：
+ 
+一、foreach简化数组和集合的遍历
+ 
+import java.util.Arrays;
+import java.util.List; 
+import java.util.ArrayList; 
+
+/**
+* Created by IntelliJ IDEA. 
+* User: leizhimin 
+* Date: 2007-12-3 
+* Time: 16:58:24 
+* Java5新特征之foreach语句使用总结 
+*/ 
+publicclass TestArray { 
+    public static void main(String args[]) { 
+        TestArray test = new TestArray(); 
+        test.test1(); 
+        test.listToArray(); 
+        test.testArray3(); 
+
+    } 
+
+    /**
+     * foreach语句输出一维数组 
+     */ 
+    publicvoid test1() { 
+        //定义并初始化一个数组 
+        int arr[] = {2, 3, 1}; 
+        System.out.println("----1----排序前的一维数组");
+        for (int x : arr) {
+            System.out.println(x); //逐个输出数组元素的值 
+        } 
+
+        //对数组排序 
+        Arrays.sort(arr); 
+
+        //利用java新特性for each循环输出数组 
+        System.out.println("----1----排序后的一维数组");
+        for (int x : arr) {
+            System.out.println(x); //逐个输出数组元素的值 
+        } 
+    } 
+
+    /**
+     * 集合转换为一维数组 
+     */ 
+    publicvoid listToArray() { 
+        //创建List并添加元素 
+        List<String> list = new ArrayList<String>();
+        list.add("1"); 
+        list.add("3"); 
+        list.add("4"); 
+
+        //利用froeach语句输出集合元素 
+        System.out.println("----2----froeach语句输出集合元素");
+        for (String x : list) { 
+            System.out.println(x); 
+        } 
+
+        //将ArrayList转换为数组 
+        Object s[] = list.toArray(); 
+
+        //利用froeach语句输出集合元素 
+        System.out.println("----2----froeach语句输出集合转换而来的数组元素");
+        for (Object x : s) { 
+            System.out.println(x.toString()); //逐个输出数组元素的值
+        } 
+    } 
+
+    /**
+     * foreach输出二维数组测试 
+     */ 
+    publicvoid testArray2() { 
+        int arr2[][] = {{4, 3}, {1, 2}};
+        System.out.println("----3----foreach输出二维数组测试");
+        for (int x[] : arr2) {
+            for (int e : x) {
+                System.out.println(e); //逐个输出数组元素的值 
+            } 
+        } 
+    } 
+
+    /**
+     * foreach输出三维数组 
+     */ 
+    publicvoid testArray3() { 
+        int arr[][][] = { 
+                {{1, 2}, {3, 4}}, 
+                {{5, 6}, {7, 8}} 
+        }; 
+
+        System.out.println("----4----foreach输出三维数组测试");
+        for (int[][] a2 : arr) {
+            for (int[] a1 : a2) {
+                for (int x : a1) {
+                    System.out.println(x); 
+                } 
+            } 
+        } 
+    } 
+}
+ 
+运行结果：
+----1----排序前的一维数组 
+2 
+3 
+1 
+----1----排序后的一维数组 
+1 
+2 
+3 
+----2----froeach语句输出集合元素 
+1 
+3 
+4 
+----2----froeach语句输出集合转换而来的数组元素 
+1 
+3 
+4 
+----4----foreach输出三维数组测试 
+1 
+2 
+3 
+4 
+5 
+6 
+7 
+8 
+
+Process finished with exit code 0
+
+二、foreach语句的局限性
+ 
+通过上面的例子可以发现，如果要引用数组或者集合的索引，则foreach语句无法做到，foreach仅仅老老实实地遍历数组或者集合一遍。下面看一个例子就明白了：
+publicclass TestArray2 { 
+
+    public static void main(String args[]) { 
+        //定义一个一维数组 
+        int arr[] = new int[4]; 
+        System.out.println("----未赋值前输出刚刚定义的数组----");
+        for (int x : arr) {
+            System.out.println(x); 
+        } 
+
+        //通过索引给数组元素赋值 
+        System.out.println("----通过循环变量给数组元素赋值----");
+        for (int i = 3; i > 0; i--) {
+            arr[i] = i; 
+        } 
+        //循环输出创建的数组 
+        System.out.println("----赋值后，foreach输出创建好的数组----");
+        for (int x : arr) {
+            System.out.println(x); 
+        } 
+    } 
+}
+
+运行结果：
+ 
+----未赋值前输出刚刚定义的数组---- 
+0 
+0 
+0 
+0 
+----通过循环变量给数组元素赋值---- 
+----赋值后，foreach输出创建好的数组---- 
+0 
+1 
+2 
+3 
+
+Process finished with exit code 0
+三、总结
+ 
+foreach语句是for语句特殊情况下的增强版本，简化了编程，提高了代码的可读性和安全性（不用怕数组越界）。相对老的for语句来说是个很好的补充。提倡能用foreach的地方就不要再用for了。在用到对集合或者数组索引的情况下，foreach显得力不从心，这个时候是用for语句的时候了。
+
+
+有五种对象(PO,VO,DAO,BO,POJO)  
+1、PO，持久对象(Persistent Object)，它们是由一组属性和属性的get和set方法组成。
+在o/r映射的时候出现的概念，如果没有o/r映射，没有这个概念存在了。通常对应数据模型(数据库),本身还有部分业务逻辑的处理。可以看成是与数据库中的表相映射的java对象。最简单的PO就是对应数据库中某个表中的一条记录，多个记录可以用PO的集合。PO中应该不包含任何对数据库的操作。PO的属性是跟数据库表的字段一一对应的。PO对象需要实现序列化接口。
+
+  2、VO:value object值对象。通常用于业务层之间的数据传递，和PO一样也是仅仅包含数据而已。
+    但应是抽象出的业务对象,可以和表对应,也可以不,这根据业务的需要.PO只能用在数据层，VO用在商业逻辑层和表示层。各层操作属于该层自己的数据对象，这样就可以降低各层之间的耦合，便于以后系统的维护和扩展。
+好处：这样可以减少大量的工作量（也就意味着减少bug，减少风险），也不需要担心未来的维护工作！
+
+3、DAO:J2EE 开发人员使用数据访问对象(Data Access Object DAO)设计模式，以便将低级别的数据访问逻辑与高级别的业务逻辑分离。
+     DAO是Data Access Object数据访问接口，数据访问：顾名思义就是与数据库打交道。夹在业务逻辑与数据库资源中间。
+　　在核心J2EE模式中是这样介绍DAO模式的：为了建立一个健壮的J2EE应用，应该将所有对数据源的访问操作抽象封装在一个公共API中。用程序设计的语言来说，就是建立一个接口，接口中定义了此应用程序中将会用到的所有事务方法。在这个应用程序中，当需要和数据源进行交互的时候则使用这个接口，并且编写一个单独的类来实现这个接口在逻辑上对应这个特定的数据存储。
+
+4、BO为Business Object的缩写，Business Object是业务对象层，表示应用程序领域内“事物”的所有实体类。
+     这些实体类驻留在服务器上，并利用服务类来协助完成它们的职责。 是对数据进行检索和处理的组件。是简单的真实世界的软件抽象。业务对象通常位于中间层
+	 
+	 5、POJO（Plain Old Java Objects）简单的Java对象，实际就是普通JavaBeans，是为了避免和EJB混淆所创造的简称。
+   在Java应用程序中的角色使用POJO名称是为了避免和EJB混淆起来, 而且简称比较直接. 其中有一些属性及其getter setter方法的类,没有业务逻辑，有时可以作为VO(value -object)或dto(Data Transform Object)来使用.当然,如果你有一个简单的运算属性也是可以的,但不允许有业务方法,也不能携带有connection之类的方法
+   
+   疯狂Java之学习笔记（15）-------------内部类
+   
+   一个内部类可以定义在另一个类里，可以定义在函数里，甚至可以作为一个表达式的一部分。
+　　Java中的内部类共分为四种：
+　　静态内部类static inner class (also called nested class)
+　　成员内部类member inner class
+　　局部内部类local inner class
+　　匿名内部类anonymous inner class
+
+重写方法的规则：
+1、参数列表必须完全与被重写的方法相同，否则不能称其为重写而是重载。
+2、返回的类型必须一直与被重写的方法的返回类型相同，否则不能称其为重写而是重载。
+3、访问修饰符的限制一定要大于被重写方法的访问修饰符（public>protected>default>private）
+4、重写方法一定不能抛出新的检查异常或者比被重写方法申明更加宽泛的检查型异常。例如：
+父类的一个方法申明了一个检查异常IOException，在重写这个方法是就不能抛出Exception,只能抛出IOException的子类异常，可以抛出非检查异常。
+ 
+而重载的规则：
+1、必须具有不同的参数列表；
+2、可以有不责骂的返回类型，只要参数列表不同就可以了；
+3、可以有不同的访问修饰符；
+4、可以抛出不同的异常；
+ 
+重写与重载的区别在于：
+重写多态性起作用，对调用被重载过的方法可以大大减少代码的输入量，同一个方法名只要往里面传递不同的参数就可以拥有不同的功能或返回值。
+用好重写和重载可以设计一个结构清晰而简洁的类，可以说重写和重载在编写代码过程中的作用非同一般.
+
+注意：没有赋值的变量，系统将按下列默认值进行初始化。
+数据类型	初始值
+byte	0
+short	0
+int	0
+long	0L
+char	'\u0000'
+float	0.0f
+double	0
+boolean	false
+所有引用类型	null（不引用任何对象）
+
+String是一 个特殊的包装类数据。可以用：
+String str = new String("abc");
+String str = "abc";
+两种的形式来创建，第一种是用new()来新 建对象的，它会在存放于堆中。每调用一次就会创建一个新的对象。
+－＞ String str = new String("abc");自己补充：应该说有会产生两个对象，一个为new String("abc")的实体对象放到内存堆中， 一个为堆栈对象ｓｔｒ 也就是类实例对象的引用对象。
+
+而第二种（String str = "abc";）是先在栈中创建一个对String类的对象引用变量str，然后查找栈中有没有存放"abc"，如果没有，则将"abc"存放进栈，并令str指向”abc”，如果已经有”abc” 则直接令str指向“abc”。
+比较类里面的数值是否相等时，用equals()方法；当 测试两个包装类的引用是否指向同一个对象时，用==， 下面用例子说明上面的理论。
+String str1 = "abc";
+String str2 = "abc";
+System.out.println(str1==str2); //true
+可以看出str1和 str2是指向同一个对象的。
+String str1 =new String ("abc");
+String str2 =new String ("abc");
+System.out.println(str1==str2); // false
+用new的方式是生成不同的对象。每一次生成一个 。
+   因此用第二种方式（String str = "abc";）创建多个”abc”字符串,在内存中其实只存在一个对象而已. 这种写法有利与节省内存空间. 同时它可以在一定程度上提高程序的运行速度，因为JVM会自动根据栈中数据的实际情况来决定是否有必要创建新对象。而对于String str = new String("abc")；的代码，则一概在堆中创建新对象，而不管其字符串值是否相等，是否有必要创建新对象，从而加重了程序的负担。
+   另一方面, 要注意: 我们在使用诸如String str = "abc"；的格式定义类时，总是想当然地认为，创建了String类的对象str。担心陷阱！对象可能并没有被创建！而可能只是指向一个先前已经创建的对象。只有通过new()方法才能保证每次都创建一个新的对象。由于String类的immutable性质，当String变量需要经常变换其值时，应该考虑使用StringBuffer类，以提高程序效率。
+   
+   
+    Java中的范围控制符有4个，分别是private、package(默认的范围)、protected、public,
+
+权限范围由小到大。
+
+方法及属性的访问控制
+
+    Private的访问范围是只有在本类中才可以访问
+
+    Package的访问范围是在本package中的所有类都可以访问
+
+    Protected的访问范围是该类的子类，及和它在同一package中的类可以访问
+
+    Public在任何地方都可以访问
+	
+	继承的初始化块
+Java初始化顺序
+1在new B一个实例时首先要进行类的装载。（类只有在使用New调用创建的时候才会被java类装载器装入）
+2，在装载类时，先装载父类A，再装载子类B
+3，装载父类A后，完成静态动作（包括静态代码和变量，它们的级别是相同的，安装代码中出现的顺序初始化）
+4，装载子类B后，完成静态动作
+类装载完成，开始进行实例化
+1，在实例化子类B时，先要实例化父类A
+2，实例化父类A时，先成员实例化（非静态代码）
+3，父类A的构造方法
+4，子类B的成员实例化（非静态代码）
+5，子类B的构造方法
+ 
+先初始化父类的静态代码--->初始化子类的静态代码-->初始化父类的非静态代码--->初始化父类构造函数--->初始化子类非静态代码--->初始化子类构造函数
+
+java中类/对象的初始化顺序以及静态代码块的使用
+一、对象的初始化顺序:(java类加载器加载类的顺序：
+(1)加载父类（以下序号相同，表明初始化是按代码从上到下的顺序来的）
+　　1.为父类的静态属性分配空间并赋于初值
+　　1.执行父类静态初始化块;
+(2)加载子类
+　　2.为子类的静态属性分配空间并赋于初值
+　　2.执行子类的静态的内容;
+(3)加载父类构造器
+　　3.初始化父类的非静态属性并赋于初值
+　　3.执行父类的非静态代码块;
+　　4.执行父类的构造方法;
+(4)加载子类构造器
+　　5.初始化子类的非静态属性并赋于初值
+　　5.执行子类的非静态代码块;
+　　6.执行子类的构造方法.
+总之一句话，静态代码块内容先执行（父先后子），接着执行父类非静态代码块和构造方法，然后执行子类非静态代码块和构造方法。
+
+
+String s = “123”;
+                                     int n = Integer.parseInt(s);
+									 
+另外一个parseInt方法：
+         public static int parseInt(String s, int radix)
+则实现将字符串按照参数radix指定的进制转换为int，使用示例如下：
+         //将字符串”120”按照十进制转换为int，则结果为120
+         int n = Integer.parseInt(“120”,10);
+         //将字符串”12”按照十六进制转换为int，则结果为18
+         int n = Integer.parseInt(“12”,16);
+         //将字符串”ff”按照十六进制转换为int，则结果为255
+         int n = Integer.parseInt(“ff”,16);
+这样可以实现更灵活的转换。
+
+b、toString方法
+                            public static String toString(int i)
+                            该方法的作用是将int类型转换为对应的String类型。
+                            使用示例代码如下：
+                                     int m = 1000;
+                                     String s = Integer.toString(m);
+                            则字符串s的值是”1000”。
+                            另外一个toString方法则实现将int值转换为特定进制的字符串：
+                                     public static int parseInt(String s, int radix)
+                            使用示例代码如下：
+                                     int m = 20;
+                                     String s = Integer.toString(m);
+                            则字符串s的值是”14”。
+			
+   其实，JDK自从1.5(5.0)版本以后，就引入了自动拆装箱的语法，也就是在进行基本数据类型和对应的包装类转换时，系统将自动进行，这将大大方便程序员的代码书写。
+   
+							      //int类型会自动转换为Integer类型
+                   int m = 12;
+                   Integer in = m;
+                   //Integer类型会自动转换为int类型
+                   int n = in;
+         所以在实际使用时的类型转换将变得很简单，系统将自动实现对应的转换。
+
+		 
+		 浮点数值不适合用于禁止出现舍入误差的金融计算中。例如System.out.println( 2.0 - 1.1);将打印0.899999999999999，而不是0.9。因为浮点数值采用二进制系统表示，而二进制无法精确表示分数1/10，就像十进制无法精确表示1/3一样。如果需要在数值计算中不含有舍入误差，就应该使用BigDecimal类。
+
+		 另外，一般的类是没有static的，只有内部类可以加上static来表示嵌套类。
+		 
+		 
+		 final
+     在Java中声明属性、方法和类时，可使用关键字final来修饰。
+     final变量即为常量，只能赋值一次；
+     final方法不能被子类重写；
+     final类不能被继承。
+	 1. final变量
+    声明 final 字段有助于优化器作出更好的优化决定，因为如果编译器知道字段的值不会更改，那么它能安全地在寄存器中高速缓存该值。final 字段还通过让编译器强制该字段为只读来提供额外的安全级别。
+	2. final方法
+    如果一个类不允许其子类覆盖某个方法，则可以把这个方法声明为final方法。
+    使用final方法的原因有二：
+    第一、把方法锁定，防止任何继承类修改它的意义和实现。
+    第二、高效。编译器在遇到调用final方法时候会转入内嵌inline机制，大大提高执行效率。
+ 
+注意，类中所有的private方法都被隐含是final的。由于无法取用private方法，则也无法重载之。
+
+3. final类
+    final类不能被继承，因此final类的成员方法没有机会被覆盖，默认都是final的。在设计类时候，如果这个类不需要有子类，类的实现细节不允许改变，并且确信这个类不会载被扩展，那么就设计为final类。
+	
+	1.abstract class 在 Java 语言中表示的是一种继承关系，一个类只能使用一次继承关系。但是，一个类却可以实现多个interface。
+
+　　2.在abstract class 中可以有自己的数据成员，也可以有非abstarct的成员方法，而在interface中，只能够有静态的不能被修改的数据成员（也就是必须是static final的，不过在 interface中一般不定义数据成员），所有的成员方法都是abstract的。
+
+　　3.abstract class和interface所反映出的设计理念不同。其实abstract class表示的是"is-a"关系，interface表示的是"like-a"关系。
+
+4.实现抽象类和接口的类必须实现其中的所有方法。抽象类中可以有非抽象方法。接口中则不能有实现方法。
+
+　　5.接口中定义的变量默认是public static final 型，且必须给其初值，所以实现类中不能重新定义，也不能改变其值。
+
+　　6.抽象类中的变量默认是 friendly 型，其值可以在子类中重新定义，也可以重新赋值。 
+
+　　7.接口中的方法默认都是 public,abstract 类型的。
+
+简言之抽象类是一种功能不全的类，接口只是一个抽象方法声明和静态不能被修改的数据的集合，两者都不能被实例化。
+　　从某种意义上说，接口是一种特殊形式的抽象类，在ｊａｖａ语言中抽象类表示的是一种继承关系，一个类只能继承继承一个抽象类，而一个类却可以实现多个接口。在许多情况下，接口确实可以代替抽象类，如果你不需要刻意表达属性上的继承的话。
+
+进一步理解，关于ｊａｖａ引入抽象类、接口的目的：
+ 
+1、从类的层次结构上看，抽象类是在层次的顶端，但在实际的设计当中，一般来说抽象类应当是后面才会出现。为什么？实际上抽象类的获取有点像数学中的提取公因式：ax+bx，x就是抽象类，如果你没有前面的式子，你怎么知道x是不是公因式呢？在这点上，也符合人们认识世界的过程，先具体后抽象。因此在设计过程中如果你得到大量的具体概念并从当中找到其共性时，这个共性的集合就是抽象类应当是没错的。 
+2、interface从表面上看，和抽象类很相似，但用法完全不同。它的基本功能就是把一些毫不相关的类（概念）集合在一起形成一个新的、可集中操作的“新类”。我给学生的一个典型例子就是“司机”。谁可以当司机？谁都可以，只要领取了驾照。所以我不管你是学生，白领、蓝领还是老板，只要有驾照就是司机。
+
+这时候，Car的对象并不关心这个司机到底是干什么的，他们的唯一共同点是领取了驾照（都实现了DriverLicence接口）。这个，应当是接口最强大的地方也是抽象类无法比拟的。 
+
+
+子虽然比较好的解决了我们对枚举类型的基本要求，但它显然不够简洁。如果我们要写很多这样的枚举类，那将会是一个不小的任务。并且重复的写类似的程序是非常枯燥和容易犯错误的。为了将程序员从这些繁琐的工作中解放出来，人们开发了一些工具软件来完成这些重复的工作。比如比较流行的JEnum，请参看《再谈在Java中使用枚举》（http://tech.ccidnet.com/pub/article/c1078_a95621_p1.html ）
+
+    这些工具软件其实是一些“程序生成器”。你按照它的语法规则定义你的枚举（语法相对简单直观），然后运行这些工具软件，它会将你的定义转化为一个完整的Java类，就像我们上面所写的那个程序一样。看到这里，读者也许会想：“为什么不能将这种工具软件的功能放到Java编译器中呢？那样我们不是就可以简单方便的定义枚举了吗？而具体的Java类程序由编译器来生成，我们不必再手工完成那么冗长的程序行，也不必使用什么第三方工具来生成这样的程序行了吗？”如果你有这样的想法，那么就要恭喜你了。因为你和Java的设计开发人员想到一块儿去了。好，现在就让我们来看看Java 1.5中新增的枚举的功能。
+
+Java 1.5的枚举类型
+
+    在新的Java 1.5中，如果定义我们上面提到的春夏秋冬四季的枚举，那么语句非常简单，如下所示
+ public enum Season
+{
+    SPRING, SUMMER, FALL, WINTER
+}
+
+1. 使用关键字enum
+  2. 类型名称，比如这里的Season
+  3. 一串允许的值，比如上面定义的春夏秋冬四季
+  4. 枚举可以单独定义在一个文件中，也可以嵌在其它Java类中
+  Java 1.5中还提供了一些辅助类。比如大家今后可能会经常用到EnumMap和EnumSet类。这些类是对枚举功能的一个补充和完善。
+  
+  
+  JAVA垃圾回收原理
+　　在Java虚拟机规范中，提及了如下几种类型的内存空间：
+      栈内存（Stack）：每个线程私有的。
+      堆内存（Heap）：所有线程公用的。
+      方法区（Method Area）：有点像以前常说的“进程代码段”，这里面存放了每个加载类的反射信息、类函数的代码、编译时常量等信息。
+      原生方法栈（Native Method Stack）：主要用于JNI中的原生代码，平时很少涉及。
+　　而Java的使用的是堆内存，java堆是一个运行时数据区，类的实例(对象)从中分配空间。Java虚拟机(JVM)的堆中储存着正在运行的应用程序所建立的所有对象，“垃圾回收”也是主要是和堆内存（Heap）有关。
+　　垃圾回收的概念就是JAVA虚拟机（JVM）回收那些不再被引用的对象内存的过程。一般我们认为正在被引用的对象状态为“alive”,而没有被应用或者取不到引用属性的对象状态为“dead”。垃圾回收是一个释放处于”dead”状态的对象的内存的过程。而垃圾回收的规则和算法被动态的作用于应用运行当中，自动回收。
+
+    1、权限访问修饰符 
+    public,protected,default,private,这四种级别的修饰符都可以用来修饰类、方法和字段。 
+
+              包外         子类          包内           类内 
+public      yes        yes          yes         yes 
+protected   no         yes          yes         yes 
+default     no         no           yes         yes 
+private     no         no           no          yes 
+  2、final修饰符 
+    final的意思是不可变，他可以修饰类、字段、方法。修饰类后类不能被扩展（extends），也就是不能被继承。修饰字段后字段的值不能被改变，因此如果有final修饰字段，应该对字段进行手动初始化。修饰方法后该方法不能被改变，也就是重写。 
+     3、abstract修饰符 
+     abstract是抽象的意思，用来修饰类和方法，修饰类后，该类为抽象类，不能被实例化，必需进行扩展。修饰方法后，该方法为抽象方法必须被子类重写（override）。 
+     4、static修饰符 
+     static用来修饰内部类，方法，字段。修饰内部类说明该内部类属于外部类而不属于外部类的某个实例。修饰字段说明该字段属于类而不属于类实例。修饰方法说明该方法属于类而不属于类实例。
+	 静态方法都是类的，静态变量都是对象的。
+	 
+	 
+	 7.Java 源码是经典学习范例
+Spring的源码设计精妙、结构清晰、匠心独用，处处体现着大师对Java设计模式灵活运用以及对Java技术的高深造诣。Spring框架源码无疑是Java技术的最佳实践范例。如果想在短时间内迅速提高自己的Java技术水平和应用开发水平，学习和研究Spring源码将会使你收到意想不到的效果。
+
+使用Spring构建的应用程序易于单元测试。
+开发一个spring项目.
+ 
+1. 引入spring的开发包(最小配置spring.jar 该包把常用的jar都包括, 还要 写日志包 common-logging.jar
+2. 创建spring的一个核心文件 applicationContext.xml, [hibernate有核心 hibernate.cfg.xml struts核心文件 struts-config.xml], 该文件一般放在src目录下,该文件中引入 xsd文件 ：
+可以从给出的案例中拷贝一份.
+3. 配置bean
+<!-- 在容器文件中配置bean(service/dao/domain/action/数据源) -->
+<!-- bean元素的作用是，当我们的spring框架加载时候，spring就会自动的创建一个bean对象，并放入内存 
+UserService userSerivce=new UserService();
+userSerivce.setName("韩顺平");
+-->
+<bean id="userService" class="com.service.UserService">
+<!-- 这里就体现出注入的概念. -->
+<property name="name">
+<value>韩顺平</value>
+</property>
+</bean>
+4. 在Test.java中，我们怎么使用
+//我们现在使用spring来完成上面的任务
+//1.得到spring 的applicationContext对象(容器对象)
+ApplicationContext ac=new ClassPathXmlApplicationContext("applicationContext.xml");
+UserService us=(UserService) ac.getBean("userService");
+us.sayHello();
+
+import org.springframework.context.ApplicationContext;  
+import org.springframework.context.support.ClassPathXmlApplicationContext;  
+  
+public class Say {  
+   
+    public static void main(String[] args) {  
+        <span style="color:#ff0000;">ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");  
+        HelloWorld hw = (HelloWorld) ac.getBean("say");  
+        hw.say();  
+</span>   }  
+      
+  
+} 
+ApplicationContext.xml:
+红色部分，标签里bean的id指定了包com.haixu.service下的类名HelloWorld，这里的class必须要写，而且要写对，不然，bean就会找不到对应的变量名也不会输出结果，另外，id的名字任意的，但习惯上最好是类名的首字母小写，类似于这里的HelloWorld类，id可写成：helloWorld，这样，在主函数Say中就不会写错。另外非常重要的一点是：在Say.java中的ac.getBean("say");中的say正是applicationContext.xml中Bean里的id值，千万谨记，因为Say中寻找Bean，就是通过这个id找到的。
+
+接着它将这个类的依赖注入进去，像这样
+Java代码 
+public static void setProperty(Object obj, String name, String value) {   
+        Class<? extends Object> clazz = obj.getClass();   
+        try {   
+            String methodName = returnSetMthodName(name);   
+            Method[] ms = clazz.getMethods();   
+            for (Method m : ms) {   
+                if (m.getName().equals(methodName)) {   
+                    if (m.getParameterTypes().length == 1) {   
+                        Class<?> clazzParameterType = m.getParameterTypes()[0];   
+                        setFieldValue(clazzParameterType.getName(), value, m,   
+                                obj);   
+                        break;   
+                    }   
+                }   
+            }   
+        } catch (SecurityException e) {   
+            throw new RuntimeException(e);   
+        } catch (IllegalArgumentException e) {   
+            throw new RuntimeException(e);   
+        } catch (IllegalAccessException e) {   
+            throw new RuntimeException(e);   
+        } catch (InvocationTargetException e) {   
+            throw new RuntimeException(e);   
+        }   
+}  
+
+if (value instanceof Map) {  
+                Iterator<?> entryIterator = ((Map<?, ?>) value).entrySet()  
+                        .iterator();  
+                Map<String, Object> map = new HashMap<String, Object>();  
+                while (entryIterator.hasNext()) {  
+                    Entry<?, ?> entryMap = (Entry<?, ?>) entryIterator.next();  
+                    if (entryMap.getValue() instanceof String[]) {  
+                        map.put((String) entryMap.getKey(),  
+                                getBean(((String[]) entryMap.getValue())[0]));  
+                    }  
+                }  
+                BeanProcesser.setProperty(obj, property, map);  
+            }  
+			
+public class B3 {  
+    static Random r =new Random(12);  
+    final int int1= r.nextInt(100);//产生0-99的随机数  
+    static final int INT_2= r.nextInt(100);  
+      
+  
+    public static void main(String[] args) {  
+        B3 b1=new B3();  
+        System.out.println("int1:"+b1.int1+"    INT_2:"+b1.INT_2);  
+        B3 b2=new B3();  
+        //b2.INT_2=100;//错误的赋值  
+        System.out.println("int1:"+b2.int1+"    INT_2:"+b2.INT_2);  
+  
+    }  
+  
+} 
+
+final 方法
+   使用final方法有两个原因。第一个原因是把方法锁定，以防止任何继承它的类修改它的含义。这是出于设计的考虑：想要确保在继承中使用的方法保持不变，并且不会被覆盖。
+   过去建议使用final方法的第二个原因是效率。在java的早期实现中，如果将一个方法指明为fianl，就是同意编译器将针对该方法的所有调用都转为内嵌调用。当编译器发现一个final方法调用命令时，它会根据自己的谨慎判断，跳过插入程序代码这种正常的调用方式而执行方法调用机制（将参数压入栈，跳至方法代码处执行，然后跳回并清理栈中的参数，处理返回值），并且以方法体中的实际代码的副本来代替方法调用。这将消除方法调用的开销。当然，如果一个方法很大，你的程序代码会膨胀，因而可能看不到内嵌所带来的性能上的提高，因为所带来的性能会花费于方法内的时间量而被缩减。
+   
+     final和private关键字
+   类中的所有private方法都是隐式的制定为final的。由于你无法访问private方法你也就无法覆盖它。可以对private方法添加final修饰词，但这毫无意义。
+   
+   请注意，final类的域可以根据个人的意愿选择是或不是final。不论类是否被定义为final，相同的规则同样适用于定义为final的域。然而，由于final是无法继承的，所以被final修饰的类中的方法都隐式的制定为fianl，因为你无法覆盖他们。在fianl类中可以给方法添加final，但这不会产生任何意义。
+   
+   所以一般在需要实现以下两个功能时使用静态变量：
+  在对象之间共享值时
+  方便访问变量时
+2、静态方法
+静态方法可以直接通过类名调用，任何的实例也都可以调用，
+因此静态方法中不能用this和super关键字，不能直接访问所属类的实例变量和实例方法(就是不带static的成员变量和成员成员方法)，只能访问所属类的静态成员变量和成员方法。
+因为实例成员与特定的对象关联！这个需要去理解，想明白其中的道理，不是记忆！！！
+因为static方法独立于任何实例，因此static方法必须被实现，而不能是抽象的abstract。
+
+4、static和final一块用表示什么
+static final用来修饰成员变量和成员方法，可简单理解为“全局常量”！
+
+一.static关键字的用途
+　　在《Java编程思想》P86页有这样一段话：
+　　“static方法就是没有this的方法。在static方法内部不能调用非静态方法，反过来是可以的。而且可以在没有创建任何对象的前提下，仅仅通过类本身来调用static方法。这实际上正是static方法的主要用途。”
+
+
+　另外记住，即使没有显示地声明为static，类的构造器实际上也是静态方法。
+
+在hashMap中，同样的值的map,顺序不同，equals时，false;
+      而在treeMap中，同样的值的map,顺序不同,equals时，true，说明，treeMap在equals()时是整理了顺序了的。
+hashtable与hashmap
+一.历史原因:Hashtable是基于陈旧的Dictionary类的，HashMap是Java 1.2引进的Map接口的一个实现
+二.同步性:Hashtable是线程安全的，也就是说是同步的，而HashMap是线程序不安全的，不是同步的
+三.值：只有HashMap可以让你将空值作为一个表的条目的key或value
+
+Iterator it = collection.iterator(); // 获得一个迭代子
+　　　　while(it.hasNext()) {
+　　　　　　Object obj = it.next(); // 得到下一个元素
+　　　　}
+　　由Collection接口派生的两个接口是List和Set。
+
+HashSet类：
+      1、HashSet不能重复存储equals相同的数据 。原因就是equals相同，数据的散列码也就相同（hashCode必须和equals兼容）。大量相同的数据将存放在同一个散列单元所指向的链表中，造成严重的散列冲突，对查找效率是灾难性的。
+      2、HashSet的存储是无序的 ，没有前后关系，他并不是线性结构的集合。
+      3、hashCode必须和equals必须兼容
+	  
+	  当向HashSet集合中存入一个元素师，HsahSet会调用对象的hashCode方法来得到对象的hashCode值，然后根据该HashCode值决定该对象的HashSet的位置。
+如果两个元素通过equals（）方法比较返回true，但他们的哈市COde方法返回值不相等，HashSet将会把他们存放在不同的位置！
+
+疯狂Java学习笔记（39）-----------Map集合
+Map 与 Set 有着惊人的相似 ，其Set 为无序列，Map为有序列！
+虽然Map集合中存放的是key-value对，Set集合中放的是单个对象，但如果我们把key-value对中的value当成key的附庸：key在哪里，value就在那里。这样我们就可以像对待Set一样对待Map了，事实上，map提供一个Entry内部类来封装key-value对，二计算Ｅｎｔｒｙ存储是则只考虑Ｅｎｔｒｙ封装的ｋｅｙ．
+
+　常用操作说明
+ 
+　　void clear()
+　　从此映射中移除所有映射关系（可选操作）。
+　　boolean containsKey(Object key)
+　　如果此映射包含指定键的映射关系，则返回 true。
+　　boolean containsValue(Object value)
+　　如果此映射将一个或多个键映射到指定值，则返回 true。
+　　Set<Map.Entry<K,V>> entrySet()
+　　返回此映射中包含的映射关系的 Set 视图。
+　　boolean equals(Object o)
+　　比较指定的对象与此映射是否相等。
+　　V get(Object key)
+　　返回指定键所映射的值；如果此映射不包含该键的映射关系，则返回 null。
+int hashCode()
+　　返回此映射的哈希码值。
+　　boolean isEmpty()
+　　如果此映射未包含键-值映射关系，则返回 true。
+　　Set<K> keySet()
+　　返回此映射中包含的键的 Set 视图。
+　　V put(K key, V value)
+　　将指定的值与此映射中的指定键关联（可选操作）。
+　　void putAll(Map<? extends K,? extends V> m)
+　　从指定映射中将所有映射关系复制到此映射中（可选操作）。
+　　V remove(Object key)
+　　如果存在一个键的映射关系，则将其从此映射中移除（可选操作）。
+int size()
+　　返回此映射中的键-值映射关系数。
+　　Collection<V> values()
+　　返回此映射中包含的值的 Collection 视图。
+
+Map的一般用法
+ 
+ 
+1.声明一个Map :
+   Map map = new HashMap();
+2 .向map中放值 ，注意： map是key-value的形式存放的，如：
+       map.put("sa","dd");
+3 .从map中取值 :
+    String str = map.get("sa").toString,
+    结果是： str = "dd'
+4 .遍历一个map,从中取得key和value :
+    Map m= new HashMap();
+    for(Object obj : map.keySet()){
+          Object value = map.get(obj );
+    }
+	
+	Map map = new HashMap();  
+map.put("Rajib Sarma","100");  
+map.put("Rajib Sarma","200");//The value "100" is replaced by "200".  
+map.put("Sazid Ahmed","200");  
+  
+Iterator iter = map.entrySet().iterator();  
+while (iter.hasNext()) {  
+    Map.Entry entry = (Map.Entry) iter.next();  
+    Object key = entry.getKey();  
+    Object val = entry.getValue();  
+}  
+
+package com.haixu.Map;  
+  
+import java.util.LinkedHashMap;  
+  
+public class LinkedHashtable {  
+      
+    public static void main(String[] args) {  
+        LinkedHashMap lhp = new LinkedHashMap();  
+          
+        lhp.put("Spring" ,1 );  
+        lhp.put("Struts" ,2 );  
+        lhp.put("Hibernate" , 3);  
+        for(Object key : lhp.keySet()){  
+            System.out.println(key + "--------------" + lhp.get(key));  
+        }  
+    }  
+  
+}  
+
+HashMap和Hashtable都实现了Map接口，但决定用哪一个之前先要弄清楚它们之间的分别。主要的区别有：线程安全性，同步(synchronization)，以及速度。
+
+HashMap几乎可以等价于Hashtable，除了HashMap是非synchronized的，并可以接受null(HashMap allows one null key and any number of null values.，而Hashtable则不行)。这就是说，HashMap中如果在表中没有发现搜索键，或者如果发现了搜索键，但它是一个空的值，那么get()将返回null。如果有必要，用containKey()方法来区别这两种情况。
+HashMap是非synchronized，而Hashtable是synchronized，这意味着Hashtable是线程安全的，多个线程可以共享一个Hashtable；而如果没有正确的同步的话，多个线程是不能共享HashMa的。 即是说，在多线程应用程序中，不用专门的操作就安全地可以使用Hashtable了；而对于HashMap，则需要额外的同步机制。但HashMap的同步问题可通过Collections的一个静态方法得到解决：
+            Map Collections.synchronizedMap(Map m)
+这个方法返回一个同步的Map，这个Map封装了底层的HashMap的所有方法，使得底层的HashMap即使是在多线程的环境中也是安全的。                                                                                              而而且Java 5提供了ConcurrentHashMap，它是HashTable的替代，比HashTable的扩展性更好。
+
+什么是Map.Entry？
+http://blog.csdn.net/u011225629/article/details/45875879
+Map是java中的接口，Map.Entry是Map的一个内部接口。  
+         Map提供了一些常用方法，如keySet()、entrySet()等方法，keySet()方法返回值是Map中key值的集合；entrySet()的返回值也是返回一个Set集合，此集合的类型为Map.Entry。  
+         Map.Entry是Map声明的一个内部接口，此接口为泛型，定义为Entry<K,V>。它表示Map中的一个实体（一个key-value对）。接口中有getKey(),getValue方法。  
+           
+        由以上可以得出，遍历Map的常用方法：  
+       1.  Map map = new HashMap();  
+           Irerator iterator = map.entrySet().iterator();  
+           while(iterator.hasNext()) {  
+                   Map.Entry entry = iterator.next();  
+                   Object key = entry.getKey();  
+                   //  
+           }  
+       2.Map map = new HashMap();   
+           Set  keySet= map.keySet();  
+           Irerator iterator = keySet.iterator;  
+           while(iterator.hasNext()) {  
+                   Object key = iterator.next();  
+                   Object value = map.get(key);  
+                   //  
+           }  
+   
+       另外，还有一种遍历方法是，单纯的遍历value值，Map有一个values方法，返回的是value的Collection集合。通过遍历collection也可以遍历value,如  
+      Map map = new HashMap();  
+      Collection c = map.values();  
+      Iterator iterator = c.iterator();  
+      while(iterator.hasNext()) {  
+             Object value = iterator.next();   
+}
+
+对于List的随机访问来说，就是只随机来检索位于特定位置的元素。 List 的 get(int index) 方法放回集合中由参数index指定的索引位置的对象，下标从“0” 开始。最基本的两种检索集合中的所有对象的方法： 
+
+
+      1： for循环和get()方法： 
+for(int i=0; i<list.size();i++){  
+ 
+System.out.println(list.get(i));  
+ 
+}  
+2： 使用 迭代器（Iterator）: 
+Iterator it=list.iterator();  
+ 
+while(it.hashNext()){  
+ 
+System.out.println(it.next());  
+ 
+}  
+
+注意：
+1、Collection没有get()方法来取得某个元素。只能通过iterator()遍历元素。
+2、Set和Collection拥有一模一样的接口。
+3、List，可以通过get()方法来一次取出一个元素。使用数字来选择一堆对象中的一个，get(0)...。(add/get)
+4、一般使用ArrayList。用LinkedList构造堆栈stack、队列queue。
+5、Map用 put(k,v) / get(k)，还可以使用containsKey()/containsValue()来检查其中是否含有某个key/value。
+      HashMap会利用对象的hashCode来快速找到key。
+6、Map中元素，可以将key序列、value序列单独抽取出来。
+使用keySet()抽取key序列，将map中的所有keys生成一个Set。
+使用values()抽取value序列，将map中的所有values生成一个Collection。
+为什么一个生成Set，一个生成Collection？那是因为，key总是独一无二的，value允许重复。
+
+
+疯狂Java学习笔记（44）----------探索equals()和hashCode()方法
+
+equals()和hashCode()区别？
+-------------------------------------------------
+equals()：反映的是对象或变量具体的值，即两个对象里面包含的值--可能是对象的引用，也可能是值类型的值。
+hashCode()：计算出对象实例的哈希码，并返回哈希码，又称为散列函数。根类Object的hashCode()方法的计算依赖于对象实例的D（内存地址），故每个Object对象的hashCode都是唯一的；当然，当对象所对应的类重写了hashCode()方法时，结果就截然不同了。
+之所以有hashCode方法，是因为在批量的对象比较中，hashCode要比equals来得快，很多集合都用到了hashCode，比如HashTable。
+ 
+两个obj，如果equals()相等，hashCode()一定相等。
+两个obj，如果hashCode()相等，equals()不一定相等（Hash散列值有冲突的情况，虽然概率很低）。
+所以：
+可以考虑在集合中，判断两个对象是否相等的规则是：
+第一步，如果hashCode()相等，则查看第二步，否则不相等;
+第二步，查看equals()是否相等，如果相等，则两obj相等，否则还是不相等。
+
+所以：
+可以考虑在集合中，判断两个对象是否相等的规则是：
+第一步，如果hashCode()相等，则查看第二步，否则不相等;
+第二步，查看equals()是否相等，如果相等，则两obj相等，否则还是不相等。
+ 
+1、首先equals()和hashcode()这两个方法都是从object类中继承过来的。
+
+equals()是对两个对象的地址值进行的比较（即比较引用是否相同）。
+
+hashCode()是一个本地方法，它的实现是根据本地机器相关的。
+
+2、Java语言对equals()的要求如下，这些要求是必须遵循的：
+
+A 对称性：如果x.equals(y)返回是“true”，那么y.equals(x)也应该返回是“true”。
+
+B 反射性：x.equals(x)必须返回是“true”。
+
+C 类推性：如果x.equals(y)返回是“true”，而且y.equals(z)返回是“true”，那么z.equals(x)也应该返回是“true”。
+
+D 一致性：如果x.equals(y)返回是“true”，只要x和y内容一直不变，不管你重复x.equals(y)多少次，返回都是“true”。
+
+任何情况下，x.equals(null)，永远返回是“false”；x.equals(和x不同类型的对象)永远返回是“false”。
+
+3、equals()相等的两个对象，hashcode()一定相等；
+
+反过来：hashcode()不等，一定能推出equals()也不等；
+
+hashcode()相等，equals()可能相等，也可能不等。 
+
+如何理解hashCode的作用:
+============================================================ 
+以java.lang.Object来理解,JVM每new一个Object,它都会将这个Object丢到一个Hash哈希表中去,这样的话,下次做Object的比较或者取这个对象的时候,它会根据对象的hashcode再从Hash表中取这个对象。这样做的目的是提高取对象的效率。具体过程是这样:
+1.new Object(),JVM根据这个对象的Hashcode值,放入到对应的Hash表对应的Key上,如果不同的对象确产生了相同的hash值,也就是发生了Hash key相同导致冲突的情况,那么就在这个Hash key的地方产生一个链表,将所有产生相同hashcode的对象放到这个单链表上去,串在一起。
+2.比较两个对象的时候,首先根据他们的hashcode去hash表中找他的对象,当两个对象的hashcode相同,那么就是说他们这两个对象放在Hash表中的同一个key上,那么他们一定在这个key上的链表上。那么此时就只能根据Object的equal方法来比较这个对象是否equal。当两个对象的hashcode不同的话，肯定他们不能equal.
+
+============================================================   
+改写equals时总是要改写hashCode
+
+
+
+例1  捕捉throw语句抛出的“除数为0”异常。
+
+
+[java] view plain copy print?在CODE上查看代码片派生到我的代码片
+public class TestException {  
+    public static void main(String[] args) {  
+        int a = 6;  
+        int b = 0;  
+        try { // try监控区域  
+              
+            if (b == 0) throw new ArithmeticException(); // 通过throw语句抛出异常  
+            System.out.println("a/b的值是：" + a / b);  
+        }  
+        catch (ArithmeticException e) { // catch捕捉异常  
+            System.out.println("程序出现异常，变量b不能为0。");  
+        }  
+        System.out.println("程序正常结束。");  
+    }  
+}  
+运行结果：程序出现异常，变量b不能为0。
+
+                    程序正常结束。
+					
+public class TestException {  
+    public static void main(String[] args) {  
+        int[] intArray = new int[3];  
+        try {  
+            for (int i = 0; i <= intArray.length; i++) {  
+                intArray[i] = i;  
+                System.out.println("intArray[" + i + "] = " + intArray[i]);  
+                System.out.println("intArray[" + i + "]模 " + (i - 2) + "的值:  "  
+                        + intArray[i] % (i - 2));  
+            }  
+        } catch (ArrayIndexOutOfBoundsException e) {  
+            System.out.println("intArray数组下标越界异常。");  
+        } catch (ArithmeticException e) {  
+            System.out.println("除数为0异常。");  
+        }  
+        System.out.println("程序正常结束。");  
+    }  
+}  
+运行结果：
+
+intArray[0] = 0
+
+intArray[0]模 -2的值:  0
+
+intArray[1] = 1
+
+intArray[1]模 -1的值:  0
+
+intArray[2] = 2
+
+除数为0异常。
+
+例5  带finally子句的异常处理程序。
+
+[java] view plain copy print?在CODE上查看代码片派生到我的代码片
+public class TestException {  
+    public static void main(String args[]) {  
+        int i = 0;  
+        String greetings[] = { " Hello world !", " Hello World !! ",  
+                " HELLO WORLD !!!" };  
+        while (i < 4) {  
+            try {  
+                // 特别注意循环控制变量i的设计，避免造成无限循环  
+                System.out.println(greetings[i++]);  
+            } catch (ArrayIndexOutOfBoundsException e) {  
+                System.out.println("数组下标越界异常");  
+            } finally {  
+                System.out.println("--------------------------");  
+            }  
+        }  
+    }  
+}  
+
+运行结果：
+
+Hello world !
+
+--------------------------
+
+Hello World !!
+
+--------------------------
+
+HELLO WORLD !!!
+
+--------------------------
+
+数组下标越界异常
+
+--------------------------
+
+    方法名后的throws Exception1,Exception2,...,ExceptionN 为声明要抛出的异常列表。当方法抛出异常列表的异常时，方法将不对这些类型及其子类类型的异常作处理，而抛向调用该方法的方法，由他去处理。例如：
+
+
+[java] view plain copy print?在CODE上查看代码片派生到我的代码片
+import java.lang.Exception;  
+public class TestException {  
+    static void pop() throws NegativeArraySizeException {  
+        // 定义方法并抛出NegativeArraySizeException异常  
+        int[] arr = new int[-3]; // 创建数组  
+    }  
+  
+    public static void main(String[] args) { // 主方法  
+        try { // try语句处理异常信息  
+            pop(); // 调用pop()方法  
+        } catch (NegativeArraySizeException e) {  
+            System.out.println("pop()方法抛出的异常");// 输出异常信息  
+        }  
+    }  
+  
+}  
+
+5.Java常见异常
+  
+在Java中提供了一些异常用来描述经常发生的错误，对于这些异常，有的需要程序员进行捕获处理或声明抛出，有的是由Java虚拟机自动进行捕获处理。Java中常见的异常类:
+
+1. runtimeException子类:
+    1、 java.lang.ArrayIndexOutOfBoundsException
+    数组索引越界异常。当对数组的索引值为负数或大于等于数组大小时抛出。
+    2、java.lang.ArithmeticException
+    算术条件异常。譬如：整数除零等。
+    3、java.lang.NullPointerException
+    空指针异常。当应用试图在要求使用对象的地方使用了null时，抛出该异常。譬如：调用null对象的实例方法、访问null对象的属性、计算null对象的长度、使用throw语句抛出null等等
+    4、java.lang.ClassNotFoundException
+    找不到类异常。当应用试图根据字符串形式的类名构造类，而在遍历CLASSPAH之后找不到对应名称的class文件时，抛出该异常。
+   5、java.lang.NegativeArraySizeException  数组长度为负异常
+   6、java.lang.ArrayStoreException 数组中包含不兼容的值抛出的异常
+   7、java.lang.SecurityException 安全性异常
+   8、java.lang.IllegalArgumentException 非法参数异常
+2.IOException
+IOException：操作输入流和输出流时可能出现的异常。
+EOFException   文件已结束异常
+FileNotFoundException   文件未找到异常
+3. 其他
+ClassCastException    类型转换异常类
+ArrayStoreException  数组中包含不兼容的值抛出的异常
+SQLException   操作数据库异常类
+NoSuchFieldException   字段未找到异常
+NoSuchMethodException   方法未找到抛出的异常
+NumberFormatException    字符串转换为数字抛出的异常
+StringIndexOutOfBoundsException 字符串索引超出范围抛出的异常
+IllegalAccessException  不允许访问某类异常
+InstantiationException  当应用程序试图使用Class类中的newInstance()方法创建一个类的实例，而指定的类对象无法被实例化时，抛出该异常
+
+例如
+public void write(Integer i, Integer[] ia);
+public void write(Double  d, Double[] da);
+的范型版本为
+public <T> void write(T t, T[] ta);
+
+ 注意，父类定义的类型参数不能被子类继承。
+ public class TestClassDefine<T, S extends T> {
+     ....  
+ }
+ 
+  public <T, S extends T> T testGenericMethodDefine(T t, S s){
+     ...
+ }
+ 
+ 
+  如果仅仅是想实现多态，请优先使用通配符解决。通配符的内容见下面章节。
+ public <T> void testGenericMethodDefine2(List<T> s){
+     ...
+ }
+ 应改为
+ public void testGenericMethodDefine2(List<？> s){
+     ...
+ }
+ 
+ 
+  3.3 通配符
+ 在上面两小节中，对是类型参数赋予具体的值，除此，还可以对类型参数赋予不确定值。例如
+ List<?> unknownList;
+ List<? extends Number> unknownNumberList;
+ List<? super Integer> unknownBaseLineIntgerList; 
+ 
+ Class有一个类型参数T, 你很可能会问，T 代表什么？它代表Class对象代表的类型。比如说，
+String.class类型代表 Class<String>，Serializable.class代表 Class<Serializable>。
+
+一个方法是显式的传递一个工厂对象，像下面的代码：
+interface Factory<T> {
+      public T[] make();
+}
+public <T> Collection<T> select(Factory<T> factory, String statement) { 
+       Collection<T> result = new ArrayList<T>();
+       /* run sql query using jdbc */
+       for ( int i=0; i<10; i++ ) { /* iterate over jdbc results */
+            T item = factory.make();
+            /* use reflection and set all of item’s fields from sql results */
+            result.add( item );
+       }
+       return result;
+}
+
+
+2.用过eclipse的同学应该做到Eclipse本身很快的，但是加上了myeclipse后，就狂占内存，而且速度狂慢，那如何让Eclipse拖着myeclipse狂飚呢? 
+解决方法: 
+
+第一步: 取消自动validation----validation有一堆，什么xml、jsp、jsf、js等等，我们没有必要全部都去自动校验一下，只是需要的时候才会手工校验一下，速度立马提升好几个档次！ 
+
+取消方法：windows-->perferences-->myeclipse-->validation,除开Manual下面的复选框全部选中之外，其他全部不选
+手工验证方法： 在要验证的文件上，单击鼠标右键-->myeclipse-->runvalidation 
+
+第二步: 取消Eclipse拼写检查:拼写检查会给我们带来不少的麻烦，我们的方法命名都会是单词的缩写，他也会提示有错，所以最好去掉，没有多大的用处 
+
+windows–>perferences–>general–>validation->editors->TextEditors->spelling 
+
+第三步：取消myeclipse的启动项 
+
+myeclipse会有很多的启动项，而其中很多我们都用不着，或者只用一两个，取消前面不用的就可以windows–>perferences–>general–>startupand shutdown 
+
+第四步：更改jsp默认打开的方式 
+
+安装了myeclipse后，编辑jsp页面，会打开他的编辑页面，同时也有预览页面，速度很慢，不适合开发。所以更改之 
+
+windows–>perferences–>general–>editors->file associations 
+
+第五步：更改代码提示快捷键:现在的代码提示快捷键，默认为ctrl+space，而我们输入法切换也是，所以会有冲突。谁叫myeclipse是外国人做的呢。。根本不需要切换输入法. 
+
+windows–>perferences–>general–>Keys 更改 contentassist 为 alt+/ 
+
+同时由于alt+/已经被word completion占用，所以得同时修改word completion的快捷键值 
+
+<!--[if !supportEmptyParas]--> 
+
+
+8.Hibernate完整示例代码：
+// 0. 加载配置和驱动等, 生成 Session 工厂(相当于连接池或者 DriverManager)
+Configurationconfig = new Configuration().configure();
+SessionFactorysessionFactory = config.buildSessionFactory();
+// 1. 打开 session
+Session session= sessionFactory.openSession();
+// 2. 打开事务(Transaction)
+org.hibernate.Transactiontran = session.beginTransaction();
+// 3. 生成实体类
+User bean = newUser();
+// 4. 给 bean 赋值
+bean.setUsername("zhangsan");
+// 5. 保存或者更新(并没有立即保存到数据)
+session.save(bean);
+// 6. 提交事务(真正的保存或者更新数据)
+tran.commit();
+// 7. 做查询, 首先创建查询对象
+StringqueryString = "from User";// HSQL 操作的是实体, 不是数据库表格
+Query query =getSession().createQuery(queryString);
+// 8. 读取查询结果
+java.util.List<User> result = query.list();
+
+
+什么是泛型？
+泛型（Generic type 或者 generics）是对 Java 语言的类型系统的一种扩展，
+ 泛型的主要目标是提高 Java 程序的类型安全。通过知道使用泛型定义的变量的类型限制，编译器可以在一个高得多的程度上验证类型假设。没有泛型，这些假设就只存在于程序员的头脑中（或者如果幸运的话，还存在于代码注释中）。
+ 泛型的一个附带好处是，消除源代码中的许多强制类型转换。这使得代码更加可读，并且减少了出错机会。
+ 该代码不使用泛型：
+List li = new ArrayList();
+li.put(new Integer(3));
+Integer i = (Integer) li.get(0);
+
+该代码使用泛型：
+List<Integer> li = new ArrayList<Integer>();
+li.put(new Integer(3));
+Integer i = li.get(0);
+
+下面的代码示例展示了 JDK 5.0 中集合框架中的 Map 接口的定义的一部分：
+
+public interface Map<K, V> {
+public void put(K key, V value);
+public V get(K key);
+}
+对于常见的泛型模式，推荐的名称是：
+K —— 键，比如映射的键。 
+V —— 值，比如 List 和 Set 的内容，或者 Map 中的值。 
+E —— 异常类。 
+T —— 泛型。
+使用类型通配符：
+void printList(List<?> l) { 
+for (Object o : l) 
+    System.out.println(o); 
+}
+上面代码中的问号是一个类型通配符。它读作“问号”。List<?> 是任何泛型 List 的父类型，所以您完全可以将 List<Object>、List<Integer> 或 List<List<List<Flutzpah>>> 传递给 printList()。
+
+现在来考虑一个二元 max() 方法的实现。您想要接受两个相同类型的参数，二者都是 Comparable，并且相互之间是 Comparable。幸运的是，如果使用泛型方法和有限制类型参数的话，这相当直观：
+public static <T extends Comparable<T>> T max(T t1, T t2) {
+if (t1.compareTo(t2) > 0)
+    return t1;
+else 
+    return t2;
+}
+在本例中，您定义了一个泛型方法，在类型 T 上泛型化，您约束该类型扩展（实现） Comparable<T>。两个参数都必须是 T 类型，这表示它们是相同类型，支持比较，并且相互可比较。容易！
+
+
+void method1() throws IOException{}  //合法    
+   
+//编译错误，必须捕获或声明抛出IOException    
+void method2(){    
+  method1();    
+}    
+   
+//合法，声明抛出IOException    
+void method3()throws IOException {    
+  method1();    
+}    
+   
+//合法，声明抛出Exception，IOException是Exception的子类    
+void method4()throws Exception {    
+  method1();    
+}    
+   
+//合法，捕获IOException    
+void method5(){    
+ try{    
+    method1();    
+ }catch(IOException e){…}    
+}    
+   
+//编译错误，必须捕获或声明抛出Exception    
+void method6(){    
+  try{    
+    method1();    
+  }catch(IOException e){throw new Exception();}    
+}    
+   
+//合法，声明抛出Exception    
+void method7()throws Exception{    
+ try{    
+  method1();    
+ }catch(IOException e){throw new Exception();}    
+}   
+
+
+package Test;  
+import java.lang.Exception;  
+public class TestException {  
+    static int quotient(int x, int y) throws MyException { // 定义方法抛出异常  
+        if (y < 0) { // 判断参数是否小于0  
+            throw new MyException("除数不能是负数"); // 异常信息  
+        }  
+        return x/y; // 返回值  
+    }  
+    public static void main(String args[]) { // 主方法  
+        int  a =3;  
+        int  b =0;   
+        try { // try语句包含可能发生异常的语句  
+            int result = quotient(a, b); // 调用方法quotient()  
+        } catch (MyException e) { // 处理自定义异常  
+            System.out.println(e.getMessage()); // 输出异常信息  
+        } catch (ArithmeticException e) { // 处理ArithmeticException异常  
+            System.out.println("除数不能为0"); // 输出提示信息  
+        } catch (Exception e) { // 处理其他异常  
+            System.out.println("程序发生了其他的异常"); // 输出提示信息  
+        }  
+    }  
+  
+}  
+class MyException extends Exception { // 创建自定义异常类  
+    String message; // 定义String类型变量  
+    public MyException(String ErrorMessagr) { // 父类方法  
+        message = ErrorMessagr;  
+    }  
+  
+    public String getMessage() { // 覆盖getMessage()方法  
+        return message;  
+    }  
+}  
+
+	 
+  
+
+
+
