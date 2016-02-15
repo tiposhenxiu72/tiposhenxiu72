@@ -1,0 +1,3912 @@
+﻿程序员最苦逼！中国单身男女比例太悲催
+http://www.codeceo.com/article/male-and-female-programmer.html
+
+2016-02-15    分类：资讯、首页精华暂无人评论     来源：快科技
+分享到： 更多
+对于单身汪来说，今天是难过的一天，因为秀恩爱的太多…
+
+现在，网易通过汇总大数据，送出了一些情人节有趣的数字，比如中国目前单身男女总数为2亿，其中男女比例为2：1，其中22-28岁的单身比例达到了50.14%，而26岁单身占比为6.72%。
+
+此外，单身职业排行榜中，程序员位列第一，而在单身城市中，天津、四川、黑龙江分列前三名，其中河南是全国逼婚中最严重的。
+
+CommonConst.java
+
+public interface CommonConst {
+
+    /** デフォルトロケール */
+    public static final Locale DEFAULT_LOCALE = Locale.JAPANESE;
+
+    /** デフォルトエンコーディング */
+    public static final String DEFAULT_ENDODEING = "UTF-8";
+
+    /** 内部日付フォーマット */
+    public static final String DEFAULT_YYYYMMDD = "yyyy/MM/dd";
+	
+	}
+	
+	
+EquipmentController.java
+
+	@Autowired
+	private SupportServiceImpl supportServiceImpl; // 支援制度と共通
+
+	private static final String LIST_PAGE = "equipment/list";
+
+	private static final String KBN = "2"; // 定数区分[0005]＝1:支援制度。2:機器設備利用
+
+	private static final String HIRAKU_KBN = "0027"; // 定数区分[0027]＝1:HIRAKUリンク集。2:HIRAKUリンク集外
+
+	//private static final String CODE_SYBCODE = "0022"; // 定数区分[0022] 機器設備利用の場合
+
+	private static final String AREA_KBN = "0030"; // 定数区分[0030]
+
+	private static final String PUBLIC_FLAG ="1"; // 固定値: 公開
+	
+	/**
+	 * 一覧
+	 *
+	 * @param name
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping({ "", "/", "/list" })
+	public String list(@ModelAttribute(CommonConst.FORM_NAME) SupportForm form, Model model, Locale locale) {
+
+		logger.infoCode("I0001", "list"); // I0001=メソッド開始:{0}
+
+		if (logger.isDebugEnabled() && userInfo != null) {
+			logger.debug("LoginUserKey=" + userInfo.getLoginUserKey());
+			logger.debug("TargetUserKey=" + userInfo.getTargetUserKey());
+		}
+
+		List<SpSupportDto> slist = new ArrayList<>();
+
+		//List<MsCodeDto> sybList = DbUtil.getJosuList(CODE_SYBCODE, locale);
+
+		List<MsCodeDto> hirakukbnList = DbUtil.getJosuList(HIRAKU_KBN, locale);
+
+		List<MsCodeDto> areaList = DbUtil.getJosuList(AREA_KBN, locale);
+
+		// 初期値
+		form.setSearchSpkikiKbn(KBN);
+		form.setSearchPublicFlag(null);
+		// 期間中
+		form.setSearchDateType(SupportServiceImpl.SEARCH_DATE_TYPE_CURRENT);
+
+		if (userInfo.isMgmt1()) {
+			// 運営協議会事務局の場合
+			form.setSearchDateType(null);
+			slist = supportServiceImpl.findAllLikeKeyWords(form, locale);
+		} else if (userInfo.isMgmt2() || userInfo.isMgmt3() || userInfo.isMgmt4()) {
+			// 連携大学の場合
+			slist = supportServiceImpl.findAllLikeKeyWords(form, locale);
+		} else {
+			// 運営協議会事務局、連携大学以外の場合
+			form.setSearchPublicFlag(PUBLIC_FLAG); // 定数区分[0019]＝0:非公開。1:公開。
+			slist = supportServiceImpl.findAllLikeKeyWords(form, locale);
+		}
+
+		Map<String, List<SpSupportDto>> mapList = new HashMap<String, List<SpSupportDto>>();
+
+		// HIRAKUリンク区分から一覧を生成
+		for (int i = 0; i < hirakukbnList.size(); i++) {
+			MsCodeDto dto = hirakukbnList.get(i);
+			List<SpSupportDto> list = new ArrayList<>();
+
+			for (int j = 0; j < slist.size(); j++) {
+				SpSupportDto sdto = slist.get(j);
+				// HIRAKUリンク区分毎に振り分け
+				if (sdto.getSupportHirakuKbn().contains(dto.getCode()))
+					list.add(sdto);
+			}
+			mapList.put(dto.getCode(), list);
+		}
+
+		//model.addAttribute("sybList", sybList);
+		model.addAttribute("hirakukbnList", hirakukbnList);
+		model.addAttribute("areaList", areaList);
+		model.addAttribute("mapList", mapList);
+		model.addAttribute(CommonConst.FORM_NAME, form);
+
+		// dump
+		modelDump(logger, model, "list");
+
+		logger.infoCode("I0002", "list"); // I0002=メソッド終了:{0}
+
+		return LIST_PAGE;
+	}
+}
+
+
+CommonController.java
+	/**
+	 * 学認対象のドメイン取得(idpリスト)
+	 *
+	 * @return
+	 */
+	protected List<Gakunin> getGakuninList() {
+		List<Gakunin> gakuninList = new ArrayList<Gakunin>();
+		try {
+			boolean gakuninFlag = systemSetting.isGakuninFlag();
+			String targetIdpListUrl = systemSetting.getGakuninIdpListUrl();
+			if (gakuninFlag && StringUtil.isNotNull(targetIdpListUrl)) {
+
+				HttpHeaders headers = new HttpHeaders();
+				List<MediaType> supportedMediaTypes = new ArrayList<MediaType>();
+				supportedMediaTypes.add(MediaType.ALL);
+				//supportedMediaTypes.add(MediaType.APPLICATION_OCTET_STREAM);
+				//supportedMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
+				//supportedMediaTypes.add(MediaType.APPLICATION_JSON);
+				HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
+
+				RestTemplate restTemplate = new RestTemplate();
+
+				// jsonで取得するメディアタイプ指定 ※重要
+				MappingJackson2HttpMessageConverter converter  = new MappingJackson2HttpMessageConverter();
+				converter.setSupportedMediaTypes(supportedMediaTypes);
+
+				restTemplate.getMessageConverters().add(converter);
+
+				ResponseEntity<Gakunin[]> responseEntity = restTemplate.exchange(targetIdpListUrl, HttpMethod.GET, requestEntity, Gakunin[].class);
+
+				Gakunin[] gakunins =responseEntity.getBody();
+				gakuninList = Arrays.asList(gakunins);
+
+				if (logger.isDebugEnabled()) {
+					for (Gakunin g : gakuninList) {
+						logger.debug("Idp EntityID={}", g.getEntityID());
+					}
+				}
+
+			}
+		} catch (Exception e) {
+			if (logger.isDebugEnabled()) {
+				e.printStackTrace();
+			}
+		}
+
+		return gakuninList;
+	}
+	
+		/**
+	 * 操作履歴
+	 *
+	 * @param operationFuncId 操作機能ID
+	 * @param operationActionId 操作ID
+	 */
+	public void operationHistory(String operationFuncId, String operationActionId) {
+		putOperationHistory(userInfo.getTargetUserKey(), operationFuncId, operationActionId, userInfo.getLoginUserKey());
+	}
+	
+	
+		/**
+	 * 操作履歴テーブルに操作履歴を出力する。
+	 *
+	 * @param operationUserKey
+	 * @param operationFuncId
+	 * @param operationActionId
+	 * @param updUserKey
+	 */
+	private void putOperationHistory(String operationUserKey, String operationFuncId,
+			String operationActionId, String updUserKey) {
+		try {
+			OperateInfoDto operateInfoDto = new OperateInfoDto();
+			operateInfoDto.setOerationFuncId(operationFuncId);
+			operateInfoDto.setOperationActionId(operationActionId);
+			operateInfoDto.setOperationDate(DateUtil.getNowTimestamp());
+			operateInfoDto.setOperationUserKey(operationUserKey);
+			operateInfoDto.setUpdDate(DateUtil.getNowTimestamp());
+			operateInfoDto.setUpdUserKey(updUserKey);
+			operationHistoryServiceImpl.insert(operateInfoDto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			;
+		}
+	}
+	
+	
+	
+EventController.java
+
+/*
+* ファイル名：IndexController.java
+*
+* <MODIFICATION HISTORY>
+*   (Rev.)     (Date)       (ID/NAME)   (Comment)
+*   Rev 1.00   2015/12/01   toishigawa  新規作成
+*/
+package jp.co.sraw.controller.event;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import jp.co.sraw.common.CommonController;
+import jp.co.sraw.dto.EvEventViewDto;
+import jp.co.sraw.dto.EventDto;
+import jp.co.sraw.entity.EvEventTbl;
+import jp.co.sraw.entity.EvEventUploadTbl;
+import jp.co.sraw.file.FileService;
+import jp.co.sraw.logger.LoggerWrapper;
+import jp.co.sraw.logger.LoggerWrapperFactory;
+import jp.co.sraw.service.EventServiceImpl;
+import jp.co.sraw.util.StringUtil;
+
+/**
+ * <B>EventControllerクラス</B>
+ * <P>
+ * Controllerのメソッドを提供する
+ */
+@Controller
+@RequestMapping("/event")
+public class EventController extends CommonController {
+
+	private static final LoggerWrapper logger = LoggerWrapperFactory.getLogger(EventController.class);
+
+	private static final int BUFFER_SIZE = 4096;
+
+	@PostConstruct
+	protected void init() {
+		logger.setMessageSource(messageSource);
+	}
+
+	@Autowired
+	private EventServiceImpl eventServiceImpl;
+
+	private static final String LIST_PAGE = "event/list";
+
+	private static final String FORM_NAME = "form";
+
+	@Autowired
+	private FileService fileService;
+
+	List<EventDto> slist = new ArrayList<>();
+
+	/**
+	 *
+	 *
+	 * @param name
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping({ "", "/", "/list" })
+	public String list(@ModelAttribute(FORM_NAME) final EventForm form, Model model, Locale locale) {
+
+		logger.infoCode("I0001");
+
+		List<EvEventViewDto> eventPresentList = new ArrayList<>();
+
+		eventPresentList = eventServiceImpl.findAllEventViewDto(userInfo, locale);
+
+		model.addAttribute("eventPresentList", eventPresentList);
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("LoginUserKey=" + userInfo.getLoginUserKey());
+			logger.debug("TargetUserKey=" + userInfo.getTargetUserKey());
+		}
+
+		// dump
+		modelDump(logger, model, "index");
+
+		return LIST_PAGE;
+	}
+
+	@RequestMapping({ "/download" })
+	public void download(HttpServletRequest request, HttpServletResponse response,
+			@ModelAttribute(FORM_NAME) final EventForm form) throws Exception {
+
+		ServletContext context = request.getServletContext();
+		String appPath = context.getRealPath("");
+		System.out.println("appPath = " + appPath);
+
+		EvEventTbl eventTbl = eventServiceImpl.getOne(form.getEventKey());
+
+		List<EvEventUploadTbl> uploadTabList = eventTbl.getEvEventUploadTbls();
+
+		List<String> downloadList = new ArrayList<>();
+		for (EvEventUploadTbl tbl : uploadTabList) {
+			downloadList.add(tbl.getId().getUploadKey());
+		}
+
+		String downloadFilePath = fileService.getFileWithZip(userInfo.getLoginUserKey(), downloadList);
+
+		if (StringUtil.isNull(downloadFilePath)) {
+			return;
+		}
+
+		File downloadFile = new File(downloadFilePath);
+		FileInputStream inputStream = new FileInputStream(downloadFile);
+
+		String mimeType = context.getMimeType("application/zip");
+		if (mimeType == null) {
+			mimeType = "application/octet-stream";
+		}
+		System.out.println("MIME type: " + mimeType);
+
+		response.setContentType(mimeType);
+		response.setContentLength((int) downloadFile.length());
+
+		String headerKey = "Content-Disposition";
+		String headerValue = String.format("attachment; filename=\"%s\"", eventTbl.getEventTitle() + ".zip");
+		response.setHeader(headerKey, headerValue);
+
+		// get output stream of the response
+		OutputStream outStream = response.getOutputStream();
+
+		byte[] buffer = new byte[BUFFER_SIZE];
+		int bytesRead = -1;
+
+		while ((bytesRead = inputStream.read(buffer)) != -1) {
+			outStream.write(buffer, 0, bytesRead);
+		}
+
+		inputStream.close();
+		outStream.close();
+
+	}
+}
+
+
+EventMgmtController.java
+
+/*
+* ファイル名：IndexController.java
+*
+* <MODIFICATION HISTORY>
+*   (Rev.)     (Date)       (ID/NAME)   (Comment)
+*   Rev 1.00   2015/12/01   toishigawa  新規作成
+*/
+package jp.co.sraw.controller.event;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.sraw.common.CommonConst;
+import jp.co.sraw.common.CommonController;
+import jp.co.sraw.dto.EvEventViewDto;
+import jp.co.sraw.entity.EvEventPublicTbl;
+import jp.co.sraw.entity.EvEventTbl;
+import jp.co.sraw.entity.MsPartyTbl;
+import jp.co.sraw.file.FileDto;
+import jp.co.sraw.file.FileService;
+import jp.co.sraw.file.UploadCtrlService;
+import jp.co.sraw.file.UploadForm;
+import jp.co.sraw.logger.LoggerWrapper;
+import jp.co.sraw.logger.LoggerWrapperFactory;
+import jp.co.sraw.service.EventServiceImpl;
+import jp.co.sraw.service.MsPartyServiceImpl;
+import jp.co.sraw.service.ViewServiceImpl;
+import jp.co.sraw.util.DateUtil;
+import jp.co.sraw.util.DbUtil;
+import jp.co.sraw.util.StringUtil;
+
+/**
+ * <B>EventMgmtControllerクラス</B>
+ * <P>
+ * Controllerのメソッドを提供する
+ */
+@Controller
+@RequestMapping(CommonConst.PATH_MGMT + "/event")
+public class EventMgmtController extends CommonController {
+
+	private static final LoggerWrapper logger = LoggerWrapperFactory.getLogger(EventMgmtController.class);
+
+	@Autowired
+	private EventServiceImpl eventServiceImpl;
+	@Autowired
+	private MsPartyServiceImpl msPartyServiceImpl;
+	@Autowired
+	private UploadCtrlService uploadCtrlService;
+
+	@Autowired
+	private FileService fileService;
+
+	private static final String REDIRECT_LIST = "redirect:list";
+	private static final String LIST_PAGE = "event/mgmt/list";
+	private static final String EDIT_PAGE = "event/mgmt/edit";
+
+	// 連携機関支援
+	private static final String KBN = "1"; // 定数区分[0005]＝1:イベント。2:機器設備利用
+
+	private static final String PUBLIC_FLAG = "1";
+
+	// 公開フラグ区分(管理向け)
+	private static final String KBN_PUBLICFLAG = "0019";
+
+	@PostConstruct
+	protected void init() {
+		logger.setMessageSource(messageSource);
+	}
+
+	@ModelAttribute(CommonConst.FORM_NAME)
+	public EventForm setupForm() {
+		EventForm form = new EventForm();
+		return form;
+	}
+
+	/**
+	 * 一覧画面表示
+	 *
+	 * @param form
+	 * @param model
+	 * @param locale
+	 * @return
+	 */
+	@RequestMapping({ "", "/", "/list" })
+	public String list(@ModelAttribute(CommonConst.FORM_NAME) EventForm form, Model model, Locale locale) {
+
+		logger.infoCode("I0001");
+
+		if (logger.isDebugEnabled() && userInfo != null) {
+			logger.debug("LoginUserKey=" + userInfo.getLoginUserKey());
+			logger.debug("TargetUserKey=" + userInfo.getTargetUserKey());
+		}
+
+		List<EvEventViewDto> eventPresentList = new ArrayList<>();
+		List<EvEventViewDto> eventPastList = new ArrayList<>();
+
+		// form.setPublicKbn(publicKbn);
+		form.setPublicFlag(null);
+
+		// イベント情報（限りなく）
+		form.setPageMode("current");
+		eventPresentList = eventServiceImpl.findAllEventViewDto(userInfo, ViewServiceImpl.SEARCH_DATE_TYPE_CURRENT,
+				locale);
+
+		// イベント情報（過去情報）
+		form.setPageMode("past");
+		eventPastList = eventServiceImpl.findAllEventViewDto(userInfo, ViewServiceImpl.SEARCH_DATE_TYPE_PAST, locale);
+
+		model.addAttribute("eventPresentList", eventPresentList);
+		model.addAttribute("eventPastList", eventPastList);
+
+		model.addAttribute("listPublicFlag", DbUtil.getJosuList(KBN_PUBLICFLAG, locale));
+
+		// dump
+		modelDump(logger, model, "index");
+
+		model.addAttribute(CommonConst.FORM_NAME, form);
+		logger.infoCode("I0002", EDIT_PAGE); // I0002=メソッド終了:{0}
+		return LIST_PAGE;
+	}
+
+	/**
+	 * 新規作成、編集画面表示(Edit)
+	 *
+	 * @param form
+	 * @param model
+	 * @param locale
+	 * @return
+	 */
+	@RequestMapping(value = { "/edit", "/copy" }, method = RequestMethod.POST)
+	public String edit(@ModelAttribute(CommonConst.FORM_NAME) EventForm form, Model model, Locale locale) {
+		logger.infoCode("I0001");
+
+		// 公開範囲(初期は全部非公開)
+		String[] partyKbn = new String[2];
+		// 組織区分 ＝’5’、’6’
+		partyKbn[0] = "5";
+		partyKbn[1] = "6";
+		List<MsPartyTbl> listParty = msPartyServiceImpl.findAllByPartyKbn(partyKbn);
+		model.addAttribute("listParty", listParty);
+
+		if (userInfo.hasMgmt1()) {
+			form.setPublicDisabled("disabled");
+		}
+
+		List<EvEventPublicTbl> publicList = new ArrayList<>();
+
+		///////////////////////////////////////////////////////////////////////////////////
+		// 編集、コピーの場合
+		///////////////////////////////////////////////////////////////////////////////////
+		if ((CommonConst.PAGE_MODE_EDIT.equals(form.getPageMode()) || CommonConst.PAGE_MODE_COPY.equals(form.getPageMode()))
+				&& StringUtil.isNotNull(form.getEventKey())) {
+
+			EvEventTbl eventTbl = eventServiceImpl.getOne(form.getEventKey());
+
+			if (eventTbl == null) {
+				model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.empty.data"); // error.data.message.empty.data=データがありません。
+			} else {
+				form.setEventStartDate(DateUtil.getDate(eventTbl.getEventStartDate(), CommonConst.DEFAULT_YYYYMMDD));
+				form.setEventSendDate(DateUtil.getDate(eventTbl.getEventSendDate(), CommonConst.DEFAULT_YYYYMMDD));
+				form.setUpdDate(eventTbl.getUpdDate());
+				form.setUpdUserKey(eventTbl.getUpdUserKey());
+
+				publicList = eventTbl.getEvEventPublicTbls();
+
+				Map<String, String> publicKbnMap = new HashMap<String, String>();
+
+				String[] publicPartyArray = new String[publicList.size()];
+				for (int i = 0; i < publicList.size(); i++) {
+					EvEventPublicTbl tbl = publicList.get(i);
+					publicPartyArray[i] = publicList.get(i).getPartyCode();
+					publicKbnMap.put(tbl.getPublicKbn(), tbl.getPublicKbn());
+				}
+
+				form.setPublicPartyArray(publicPartyArray);
+
+				String[] publicItemArray = new String[publicList.size()];
+				Iterator<Entry<String, String>> iterator = publicKbnMap.entrySet().iterator();
+				int i = 0;
+				while (iterator.hasNext()) {
+					Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
+					publicItemArray[i] = entry.getKey();
+					i++;
+				}
+
+				form.setPublicItemArray(publicItemArray);
+
+				form.setUploadFileList(eventServiceImpl.getUploadFileList(form, userInfo));
+
+				setPublicPartList(form, model, locale);
+			}
+
+			// 編集の場合
+			// form.setSupportSpkikiKbn(KBN);
+			if (CommonConst.PAGE_MODE_COPY.equals(form.getPageMode())) {
+				form.setPageMode(CommonConst.PAGE_MODE_ADD);
+			} else {
+				form.setPageMode(CommonConst.PAGE_MODE_EDIT);
+			}
+			form.setPageActionUrl(CommonConst.ACTION_URL_UPDATE); // update
+
+			model.addAttribute(CommonConst.FORM_NAME, form);
+			logger.infoCode("I0002", "edit"); // I0002=メソッド終了:{0}
+			return EDIT_PAGE;
+		}
+
+		///////////////////////////////////////////////////////////////////////////////////
+		// 新規追加の場合
+		///////////////////////////////////////////////////////////////////////////////////
+		if (CommonConst.PAGE_MODE_ADD.equals(form.getPageMode())) {
+
+			form = setupForm();
+
+			form.setPublicFlag(PUBLIC_FLAG);
+			form.setEventStartDate(DateUtil.getSysdate(CommonConst.DEFAULT_YYYYMMDD));
+			form.setEventSendDate(DateUtil.getSysdate(CommonConst.DEFAULT_YYYYMMDD));
+
+			Map<String, String> publicKbnMap = new HashMap<String, String>();
+
+			publicKbnMap.put("1", "1");
+			publicKbnMap.put("2", "2");
+			model.addAttribute("publicKbnMap", publicKbnMap);
+			model.addAttribute("publicList", publicList);
+
+			form.setPageMode(CommonConst.PAGE_MODE_ADD);
+			form.setPageActionUrl(CommonConst.ACTION_URL_CREATE); // create
+
+			model.addAttribute(CommonConst.FORM_NAME, form);
+
+			logger.infoCode("I0002", "edit"); // I0002=メソッド終了:{0}
+			return EDIT_PAGE;
+
+		}
+
+		model.addAttribute("listPublicFlag", DbUtil.getJosuList(KBN_PUBLICFLAG, locale));
+
+		// 項目が選択されていない場合
+		model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.not.select"); // error.data.message.not.select=項目が選択されていません。
+		logger.errorCode("E0014", "edit"); // E0014=メソッド異常終了:{0}
+		return REDIRECT_LIST;
+	}
+
+	private void setPublicPartList(EventForm form, Model model, Locale locale) {
+
+		// 公開範囲(初期は全部非公開)
+		String[] partyKbn = new String[2];
+		// 組織区分 ＝’5’、’6’
+		partyKbn[0] = "5";
+		partyKbn[1] = "6";
+		List<MsPartyTbl> listParty = msPartyServiceImpl.findAllByPartyKbn(partyKbn);
+
+		List<EvEventPublicTbl> publicList = new ArrayList<>();
+
+		String[] publicPartyArray = form.getPublicPartyArray();
+		Map<String, String> publicMap = new HashMap<>();
+		for (int i = 0; i < publicPartyArray.length; i++) {
+			String partyCode = publicPartyArray[i];
+			publicMap.put(partyCode, partyCode);
+		}
+
+		List<MsPartyTbl> noPublicPartyList = new ArrayList<>();
+		List<MsPartyTbl> publicPartyList = new ArrayList<>();
+		for (int i = 0; i < listParty.size(); i++) {
+			MsPartyTbl tbl = listParty.get(i);
+			if (!publicMap.containsKey(tbl.getPartyCode())) {
+				noPublicPartyList.add(tbl);
+			} else {
+				publicPartyList.add(tbl);
+			}
+		}
+
+		model.addAttribute("publicList", publicPartyList);
+		model.addAttribute("listParty", noPublicPartyList);
+
+		Map<String, String> publicKbnMap = new HashMap<String, String>();
+
+		String[] publicItemArray = form.getPublicItemArray();
+		for (int i = 0; i < publicItemArray.length; i++) {
+			publicKbnMap.put(publicItemArray[i], publicItemArray[i]);
+		}
+
+		model.addAttribute("publicKbnMap", publicKbnMap);
+
+	}
+
+	/*
+	 * *************************************************************************
+	 */
+	/* DB更新 */
+	/*
+	 * *************************************************************************
+	 */
+
+	/**
+	 * 新規データ追加、データ更新
+	 *
+	 * @param form
+	 * @param bindingResult
+	 * @param model
+	 * @param attributes
+	 * @param locale
+	 * @return
+	 */
+	@RequestMapping(value = { "/update", "/create" }, method = RequestMethod.POST)
+	public String create(MultipartHttpServletRequest request,
+			@Validated @ModelAttribute(CommonConst.FORM_NAME) final EventForm form,
+			BindingResult bindingResult, Model model,
+			RedirectAttributes attributes, Locale locale) {
+
+		logger.infoCode("I0001"); // I0001=メソッド開始:{0}
+
+		String key = "eventKey=" + form.getEventKey();
+		logger.infoCode("I1009", key); // I1009=入力したデータ。key={0}
+
+		if (userInfo.hasMgmt1()) {
+			form.setPublicDisabled("disabled");
+		}
+
+		try {
+
+			///////////////////////////////////////////////////////////////////////////////////
+			// バリデーションエラーがある場合
+			if (bindingResult.hasErrors()) {
+				if (logger.isDebugEnabled()) {
+					logger.debugCode("W1010", bindingResult.getFieldError()); // W1010=Validationチェックエラーがありました。
+				}
+				model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.valid.data"); // error.data.message.valid.data=入力項目に誤りがあります。
+
+				logger.infoCode("I0002", form.getPageActionUrl()); // I0002=メソッド終了:{0}
+				throw new Exception();
+			}
+
+			UploadForm uploadForm = new UploadForm();
+			uploadForm.setFileNotNull(true);
+			uploadForm.setUserInfo(userInfo);
+			uploadForm.setPageMode(form.getPageMode());
+			// 更新の場合
+			if (CommonConst.PAGE_MODE_EDIT.equals(form.getPageMode())) {
+				List<FileDto> preUploadFileList = eventServiceImpl.getUploadFileList(form, userInfo);
+				uploadForm.setPreUploadFileList(preUploadFileList);
+			}
+			uploadCtrlService.setForm(uploadForm);
+			//
+			if (uploadCtrlService.beoforeProcess(request) > 0) {
+				model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.valid.data"); // error.data.message.valid.data=入力項目に誤りがあります。
+				throw new Exception();
+			}
+			form.setUploadFileList(uploadForm.getUploadFileList());
+
+			///////////////////////////////////////////////////////////////////////////////////
+			// DB登録
+			///////////////////////////////////////////////////////////////////////////////////
+			if (eventServiceImpl.update(form, userInfo)) {
+
+				// 操作履歴
+				if (CommonConst.PAGE_MODE_EDIT.equals(form.getPageMode())) {
+					this.operationHistory(CommonConst.OP_FUNC_EVENT, CommonConst.OP_ACTION_UPDATE);
+				} else {
+					this.operationHistory(CommonConst.OP_FUNC_EVENT, CommonConst.OP_ACTION_INSERT);
+				}
+				// DB更新が成功した場合
+				uploadCtrlService.afterProcessSuccess();
+				///////////////////////////////////////////////////////////////////////////////////
+				// 更新の場合
+				if (CommonConst.PAGE_MODE_EDIT.equals(form.getPageMode())) {
+					// DB更新が成功した場合
+					logger.infoCode("I1004", key); // I1004=更新しました。{0}
+					attributes.addFlashAttribute(CommonConst.PAGE_SUCCESS_MESSAGE, "message.data.update.success"); // message.data.update.success=データを更新しました。
+				}
+
+				// 新規追加の場合
+				if (CommonConst.PAGE_MODE_ADD.equals(form.getPageMode())) {
+					// DB更新が成功した場合
+					logger.infoCode("I1005", key); // I1005=新規作成しました。{0}
+					// 一覧画面に戻る
+					attributes.addFlashAttribute(CommonConst.PAGE_SUCCESS_MESSAGE, "message.data.create.success"); // message.data.create.success=データを新規追加しました。
+				}
+
+				logger.infoCode("I0002", form.getPageActionUrl()); // I0002=メソッド終了:{0}
+				return REDIRECT_LIST;
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		setPublicPartList(form, model, locale);
+
+		// DB更新が失敗した場合
+		uploadCtrlService.afterProcessFailure();
+		logger.errorCode("E1007", key); // E1007=登録に失敗しました。{0}
+		model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.db.regist"); // error.data.message.db.regist=登録が失敗しました。
+
+		logger.errorCode("E0014", form.getPageActionUrl()); // E0014=メソッド異常終了:{0}
+		return EDIT_PAGE;
+	}
+
+	/**
+	 * データ削除
+	 *
+	 * @param form
+	 * @param model
+	 * @param attributes
+	 * @return
+	 */
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public String delete(@ModelAttribute(CommonConst.FORM_NAME) final EventForm form, Model model,
+			RedirectAttributes attributes) {
+
+		logger.infoCode("I0001"); // I0001=メソッド開始:{0}
+
+		String key = "eventKey=" + form.getEventKey();
+		logger.infoCode("I1008", key); // I1008=選択したデータ。key={0}
+
+		List<FileDto> preUploadFileList = eventServiceImpl.getUploadFileList(form, userInfo);
+
+		if (eventServiceImpl.delete(userInfo, form)) {
+
+			// 操作履歴
+			this.operationHistory(CommonConst.OP_FUNC_EVENT, CommonConst.OP_ACTION_DELETE);
+			// DB更新が成功した場合
+			logger.infoCode("I1003", key); // I1003=削除しました。{0}
+
+			for (FileDto dto : preUploadFileList) {
+				int deleteResult = fileService.deleteUploadFile(dto.getUploadKey());
+			}
+
+			attributes.addFlashAttribute(CommonConst.PAGE_SUCCESS_MESSAGE, "message.data.delete.success"); // message.data.delete.success=データを削除しました。
+
+			logger.infoCode("I0002", form.getPageActionUrl()); // I0002=メソッド終了:{0}
+			return REDIRECT_LIST;
+		} else {
+			// DB更新が失敗した場合
+			logger.errorCode("E1009", key); // E1009=削除に失敗しました。{0}
+
+			attributes.addFlashAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.db.remove"); // error.data.message.db.remove=削除が失敗しました。
+
+			logger.errorCode("E0014", form.getPageActionUrl()); // E0014=メソッド異常終了:{0}
+			return REDIRECT_LIST;
+		}
+	}
+
+	/**
+	 * ダイレクトアクセス対策
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = { "/edit", "/copy", "/create", "/update", "/delete" }, method = RequestMethod.GET)
+	public String redirect() {
+		logger.warnCode("W1009"); // W1009=URLダイレクトアクセスがありました。
+		return CommonConst.REDIRECT_INDEX;
+	}
+
+}
+
+
+EventForm.java
+
+/*
+* ファイル名：EventForm.java
+*
+* <MODIFICATION HISTORY>
+*   (Rev.)     (Date)       (ID/NAME)   (Comment)
+*   Rev 1.00   2015/12/01   toishigawa  新規作成
+*/
+package jp.co.sraw.controller.event;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.maru.m4hv.extensions.constraints.ActualDate;
+import org.maru.m4hv.extensions.constraints.CharLength;
+
+import jp.co.sraw.common.CommonConst;
+import jp.co.sraw.common.CommonForm;
+import jp.co.sraw.file.FileDto;
+import jp.co.sraw.util.DateUtil;
+import jp.co.sraw.util.StringUtil;
+
+/**
+ * <B>EventFormクラス</B>
+ * <P>
+ * Formのメソッドを提供する
+ */
+public class EventForm extends CommonForm {
+
+	private String searchDateType; // 検索条件：期間
+
+	private String searchPublicFlag; // 検索条件：公開フラグ
+
+	private String eventKey;
+
+	@NotBlank
+	@CharLength(max = 10000)
+	private String eventMemo;
+
+	@NotBlank
+	@CharLength(max = 100)
+	private String eventPlace;
+
+	@CharLength(max = 100)
+	private String eventRecruit;
+
+	@NotBlank
+	@ActualDate
+	private String eventStartDate;
+
+	@NotBlank
+	@ActualDate
+	private String eventSendDate;
+
+	@NotBlank
+	@CharLength(max = 100)
+	private String eventTelno;
+
+	@NotBlank
+	@CharLength(max = 100)
+	private String eventTitle;
+
+	@CharLength(max = 100)
+	private String eventUnit;
+
+	private String partyCode;
+
+	@NotBlank
+	@CharLength(max = 100)
+	private String partyName;
+
+	private String publicFlag;
+
+	private String subjectInsKbn;
+
+	private Timestamp updDate;
+
+	private String updUserKey;
+
+	private String publicKbn;
+
+	private String role;
+
+	private String publicDisabled;
+
+	private List<FileDto> uploadFileList = new ArrayList<FileDto>();
+
+	private String uploadFileNames;
+
+	public String getUploadFileNames() {
+		String fileNames = "";
+		String splitStr = "";
+		if (this.uploadFileList.size() > 0) {
+			for (FileDto dto : this.uploadFileList) {
+				fileNames = fileNames + splitStr + dto.getUploadName();
+				splitStr = ",";
+			}
+			return fileNames;
+		}
+		return uploadFileNames;
+	}
+
+	public void setUploadFileNames(String uploadFileNames) {
+		this.uploadFileNames = uploadFileNames;
+	}
+
+	@NotBlank
+	private String publicPartyList;
+
+	public List<FileDto> getUploadFileList() {
+		return uploadFileList;
+	}
+
+	public void setUploadFileList(List<FileDto> uploadFileList) {
+		this.uploadFileList = uploadFileList;
+	}
+
+	public String getEventKey() {
+		return this.eventKey;
+	}
+
+	public void setEventKey(String eventKey) {
+		this.eventKey = eventKey;
+	}
+
+	public String getEventMemo() {
+		return this.eventMemo;
+	}
+
+	public void setEventMemo(String eventMemo) {
+		this.eventMemo = eventMemo;
+	}
+
+	public String getEventPlace() {
+		return this.eventPlace;
+	}
+
+	public void setEventPlace(String eventPlace) {
+		this.eventPlace = eventPlace;
+	}
+
+	public String getEventRecruit() {
+		return this.eventRecruit;
+	}
+
+	public void setEventRecruit(String eventRecruit) {
+		this.eventRecruit = eventRecruit;
+	}
+
+	public String getEventTelno() {
+		return this.eventTelno;
+	}
+
+	public void setEventTelno(String eventTelno) {
+		this.eventTelno = eventTelno;
+	}
+
+	public String getEventTitle() {
+		return this.eventTitle;
+	}
+
+	public void setEventTitle(String eventTitle) {
+		this.eventTitle = eventTitle;
+	}
+
+	public String getEventUnit() {
+		return this.eventUnit;
+	}
+
+	public void setEventUnit(String eventUnit) {
+		this.eventUnit = eventUnit;
+	}
+
+	public String getPartyCode() {
+		return this.partyCode;
+	}
+
+	public void setPartyCode(String partyCode) {
+		this.partyCode = partyCode;
+	}
+
+	public String getPartyName() {
+		return this.partyName;
+	}
+
+	public void setPartyName(String partyName) {
+		this.partyName = partyName;
+	}
+
+	public String getPublicFlag() {
+		return this.publicFlag;
+	}
+
+	public void setPublicFlag(String publicFlag) {
+		this.publicFlag = publicFlag;
+	}
+
+	public String getSubjectInsKbn() {
+		return this.subjectInsKbn;
+	}
+
+	public void setSubjectInsKbn(String subjectInsKbn) {
+		this.subjectInsKbn = subjectInsKbn;
+	}
+
+	public String getUpdUserKey() {
+		return this.updUserKey;
+	}
+
+	public void setUpdUserKey(String updUserKey) {
+		this.updUserKey = updUserKey;
+	}
+
+	public String getEventStartDate() {
+		return eventStartDate;
+	}
+
+	public Timestamp getEventStartDateAsTimestamp() {
+		return DateUtil.getTimestamp(this.eventStartDate, CommonConst.DEFAULT_YYYYMMDD);
+	}
+
+	public void setEventStartDate(String eventStartDate) {
+		this.eventStartDate = StringUtil.htmlFilter(eventStartDate);
+	}
+
+	public String getEventSendDate() {
+		return eventSendDate;
+	}
+
+	public Timestamp getEventSendDateAsTimestamp() {
+		return DateUtil.getTimestamp(this.eventSendDate, CommonConst.DEFAULT_YYYYMMDD);
+	}
+
+	public void setEventSendDate(String eventSendDate) {
+		this.eventSendDate = StringUtil.htmlFilter(eventSendDate);
+	}
+
+	public String getPublicKbn() {
+		return publicKbn;
+	}
+
+	public void setPublicKbn(String publicKbn) {
+		this.publicKbn = publicKbn;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getPublicDisabled() {
+		return publicDisabled;
+	}
+
+	public void setPublicDisabled(String publicDisabled) {
+		this.publicDisabled = publicDisabled;
+	}
+
+	public Timestamp getUpdDate() {
+		return updDate;
+	}
+
+	public void setUpdDate(Timestamp updDate) {
+		this.updDate = updDate;
+	}
+
+	public String getSearchDateType() {
+		return searchDateType;
+	}
+
+	public void setSearchDateType(String searchDateType) {
+		this.searchDateType = searchDateType;
+	}
+
+	public String getSearchPublicFlag() {
+		return searchPublicFlag;
+	}
+
+	public void setSearchPublicFlag(String searchPublicFlag) {
+		this.searchPublicFlag = searchPublicFlag;
+	}
+
+	private String publicItemArray;
+
+	/**
+	 * @return publicItemArray
+	 */
+	public String[] getPublicItemArray() {
+		String[] array = new String[] {};
+		if (this.publicItemArray != null)
+			array = this.publicItemArray.replace("，", ",").split(",");
+		return array;
+	}
+
+	/**
+	 * @param publicItemArray
+	 *            セットする publicItemArray
+	 */
+	public void setPublicItemArray(String[] publicItemArray) {
+		String separator = "";
+		String sybCode = "";
+		for (int i = 0; i < publicItemArray.length; i++) {
+			sybCode = sybCode + separator + publicItemArray[i];
+			separator = ",";
+		}
+		this.publicItemArray = sybCode;
+	}
+
+	public boolean checkHasPublicItem(String kbh) {
+		return this.publicItemArray.contains(kbh);
+	}
+
+	public String getPublicPartyList() {
+		return publicPartyList;
+	}
+
+	public void setPublicPartyList(String publicPartyList) {
+		this.publicPartyList = publicPartyList;
+	}
+
+	public String[] getPublicPartyArray() {
+		String[] array = new String[] {};
+		if (this.publicPartyList != null)
+			array = this.publicPartyList.replace("，", ",").split(",");
+		return array;
+	}
+
+	public void setPublicPartyArray(String[] publicPartyArray) {
+		String partyList = "";
+		for (String party : publicPartyArray) {
+			partyList = partyList + party + ",";
+		}
+		this.publicPartyList = partyList;
+	}
+}
+
+
+HomeController.java
+	/**
+	 * 全RoleCode一覧を取得(表示用)
+	 *
+	 * @param locale
+	 * @return
+	 */
+	@ModelAttribute("roleCodeMap")
+	protected Map<String, String> roleCodeMap(Locale locale){
+
+		List<MsRoleTbl> roleList = msRoleServiceImpl.findAll();
+		Map<String, String> map = new HashMap<String, String>();
+		for (MsRoleTbl r : roleList) {
+			String name = r.getRoleName();
+			if (!CommonConst.DEFAULT_LOCALE.getLanguage().equals(locale.getLanguage())) {
+				name = r.getRoleNameEn();
+			}
+			map.put(r.getRoleCode(), name);
+		}
+
+		return map;
+	}
+
+	/**
+	 * Index画面
+	 *
+	 * @param name
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping({"", "/"})
+	public String list(Model model, Locale locale) {
+
+		logger.infoCode("I0001", "index"); // I0001=メソッド開始:{0}
+
+		if (logger.isDebugEnabled() && userInfo != null) {
+			logger.debug("LoginUserKey="+ userInfo.getLoginUserKey());
+			logger.debug("TargetUserKey="+ userInfo.getTargetUserKey());
+		}
+
+		//1-2.個人用お知らせ情報取得
+		List<UsInfoTbl> usInfoList = homeServiceImpl.findAllUsInfoByUserKey(userInfo.getTargetUserKey());
+
+		//1-3.組織。及び、ロール向けお知らせ情報取得
+		List<CmInfoTbl> cmInfoList = homeServiceImpl.findAllCmInfoByPartyOrRoll(userInfo.getTargetPartyCode(), userInfo.getTargetRole().getAuthority());
+
+		//1-2、1-3で取得した情報をマージする。
+		ObjectUtil objectUtil = new ObjectUtil();
+		List<CmInfoDto> infoList = new ArrayList<CmInfoDto>();
+
+		for (UsInfoTbl usInfoTbl : usInfoList){
+			CmInfoDto cmInfoDto = new CmInfoDto();
+			objectUtil.getObjectCopyValue(cmInfoDto, usInfoTbl);
+			infoList.add(cmInfoDto);
+		}
+		for (CmInfoTbl cmInfoTbl : cmInfoList){
+			CmInfoDto cmInfoDto = new CmInfoDto();
+			objectUtil.getObjectCopyValue(cmInfoDto, cmInfoTbl);
+			infoList.add(cmInfoDto);
+		}
+
+		//1-6.操作履歴
+		List<UsOperationHistoryDto> operationHistoryList = homeServiceImpl.findAllUsOperationHistory(userInfo.getTargetUserKey());
+
+		HomeForm from = new HomeForm();
+		model.addAttribute("form", from);
+		model.addAttribute("infoList", infoList);
+		model.addAttribute("operationHistoryList", operationHistoryList);
+
+		// dump
+		modelDump(logger, model, "list");
+
+		logger.infoCode("I0002", "list"); // I0002=メソッド終了:{0}
+		return LIST_PAGE;
+	}
+
+	
+	
+	InternshipApplicationController.java
+	
+		// インターンシップ区分
+	private static final String KBN = "0002"; // インターンシップ区分
+
+	private static final String PUBLIC_FLAG = "1"; // 固定値: 公開
+	
+		/**
+	 * ３．８．合否結果閲覧（一覧）
+	 *
+	 * @param model
+	 * @param locale
+	 * @return
+	 */
+	@RequestMapping({ "", "/", "/list" })
+	public String index(Model model, Locale locale) {
+
+		logger.infoCode("I0001");
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("LoginUserKey=" + userInfo.getLoginUserKey());
+			logger.debug("TargetUserKey=" + userInfo.getTargetUserKey());
+		}
+
+		List<MsCodeDto> kbnList = DbUtil.getJosuList(KBN, locale);
+
+		List<ItInternRecruitView> resultList = internshipServiceImpl.findAllItInternRecruitView(null,
+				userInfo.getLoginUserKey());
+
+		Map<String, List<ItInternRecruitView>> mapList = new HashMap<String, List<ItInternRecruitView>>();
+		// 区分から一覧を生成
+		for (int i = 0; i < kbnList.size(); i++) {
+			MsCodeDto dto = kbnList.get(i);
+			//
+			List<ItInternRecruitView> inteList = new ArrayList<>();
+			for (int j = 0; j < resultList.size(); j++) {
+				ItInternRecruitView data = resultList.get(j);
+				// 区分毎に振り分け
+				if (data.getInternshipKbn().contains(dto.getCode())) {
+					inteList.add(data);
+				}
+			}
+			mapList.put(dto.getCode(), inteList);
+		}
+
+		model.addAttribute("kbnList", kbnList);
+		model.addAttribute("mapList", mapList);
+
+		// dump
+		modelDump(logger, model, "index");
+
+		return LIST_PAGE;
+	}
+
+	
+		/**
+	 *
+	 * @param form
+	 * @param model
+	 * @param attributes
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/download", method = RequestMethod.POST)
+	public void download(HttpServletRequest request, HttpServletResponse response,
+			@ModelAttribute(CommonConst.FORM_NAME) final ItInternRecruitForm form) throws IOException {
+
+		logger.infoCode("I0001"); // I0001=メソッド開始:{0}
+
+		ServletContext context = request.getServletContext();
+		String appPath = context.getRealPath("");
+		System.out.println("appPath = " + appPath);
+
+		List<FileDto> uploadList = internshipServiceImpl.getRecuritUploadFileList(form, userInfo);
+		List<String> downloadList = new ArrayList<>();
+		for (FileDto dto : uploadList) {
+			// 合格書類（’２’）
+			if (dto.getFileKbn().equals("2")) {
+				downloadList.add(dto.getUploadKey());
+			}
+		}
+
+		dowloadService.downloadZip(request, response, userInfo.getLoginUserKey(), form.getInternshipKey(),
+				downloadList);
+
+	}
+
+	/**
+	 *
+	 * @param form
+	 * @param model
+	 * @param attributes
+	 * @return
+	 */
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public String upload(@ModelAttribute(CommonConst.FORM_NAME) final InternshipForm form, Model model,
+			RedirectAttributes attributes) {
+
+		logger.infoCode("I0001"); // I0001=メソッド開始:{0}
+
+		String key = "internshipKey=" + form.getInternshipKey() + ", userKey=" + userInfo.getTargetUserKey();
+
+		// 更新テーブル：インターンシップ応募者テーブル
+		if (internshipServiceImpl.updateInternRecruitForGohiKeka(userInfo, form)) {
+			// DB更新が成功した場合
+			logger.infoCode("I1004", key); // I1004=更新しました。{0}
+		} else {
+			// DB更新が失敗した場合
+			logger.errorCode("E1008", key); // E1008=更新に失敗しました。{0}
+			model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.db.regist"); // error.data.message.db.regist=登録が失敗しました。
+		}
+
+		// 更新テーブル：インターンシップ応募者添付ファイル
+		if (internshipServiceImpl.updateInternRecruitUploadForGohiKeka(userInfo, form)) {
+			// DB更新が成功した場合
+			logger.infoCode("I1004", key); // I1004=更新しました。{0}
+		} else {
+			// DB更新が失敗した場合
+			logger.errorCode("E1008", key); // E1008=更新に失敗しました。{0}
+			model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.db.regist"); // error.data.message.db.regist=登録が失敗しました。
+		}
+
+		// お知らせ情報、お知らせ情報公開範囲登録
+		if (internshipServiceImpl.insertCmInfo(userInfo, //
+				form.getInternshipTitle(), //
+				form.getInternshipKey(), //
+				"2", //
+				CommonConst.OP_ACTION_UPLOAD, //
+				"1", //
+				"ROLE_MGMT2", //
+				userInfo.getTargetPartyCode())) {
+			// DB更新が成功した場合
+			logger.infoCode("I1005", key); // I1005=新規作成しました。{0}
+		} else {
+			// DB更新が失敗した場合
+			logger.errorCode("E1007", key); // E1007=登録に失敗しました。{0}
+			model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.db.regist"); // error.data.message.db.regist=登録が失敗しました。
+		}
+
+		return LIST_PAGE;
+	}
+
+	
+	DownloadService.java
+	
+	@Service
+public class DownloadService {
+
+	@Autowired
+	private FileService fileService;
+
+	public void downloadZip(HttpServletRequest request, HttpServletResponse response, String userKey, String fileName,
+			List<String> downloadList) throws IOException {
+		ServletContext context = request.getServletContext();
+		String appPath = context.getRealPath("");
+		System.out.println("appPath = " + appPath);
+
+		String downloadFilePath = fileService.getFileWithZip(userKey, downloadList);
+
+		if (StringUtil.isNull(downloadFilePath)) {
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
+
+		File downloadFile = new File(downloadFilePath);
+		FileInputStream inputStream = new FileInputStream(downloadFile);
+
+		if (StringUtil.isNotNull(fileName)) {
+			fileName = fileName + ".zip";
+		} else {
+			fileName = downloadFile.getName();
+		}
+
+		String mimeType = context.getMimeType("application/zip");
+		if (mimeType == null) {
+			mimeType = "application/octet-stream";
+		}
+		System.out.println("MIME type: " + mimeType);
+
+		response.setContentType(mimeType);
+		response.setContentLength((int) downloadFile.length());
+
+		String headerKey = "Content-Disposition";
+		String headerValue = String.format("attachment; filename=\"%s\"", fileName);
+		response.setHeader(headerKey, headerValue);
+
+		// get output stream of the response
+		OutputStream outStream = response.getOutputStream();
+
+		byte[] buffer = new byte[4096];
+		int bytesRead = -1;
+
+		while ((bytesRead = inputStream.read(buffer)) != -1) {
+			outStream.write(buffer, 0, bytesRead);
+		}
+
+		inputStream.close();
+		outStream.close();
+	}
+}
+
+
+FileService.java
+
+package jp.co.sraw.file;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
+import org.hibernate.SQLQuery;
+import org.hibernate.transform.Transformers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
+import jp.co.sraw.common.CommonConst;
+import jp.co.sraw.common.CommonService;
+import jp.co.sraw.entity.CmFileUploadTbl;
+import jp.co.sraw.repository.CmFileUploadTblRepository;
+import jp.co.sraw.util.DateUtil;
+import jp.co.sraw.util.FileUtil;
+import jp.co.sraw.util.StringUtil;
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.util.Zip4jConstants;
+
+@Scope("prototype")
+@Service
+public class FileService extends CommonService {
+
+	/** 当日日付の年月フォーマット */
+	public static final String DEFAULT_YYYYMM = "yyyyMM";
+
+	/** ファイル格納先のフォルダ名 */
+	//public static final String WIN_PATH_ROOT = "/opt/eportfolio/data";
+
+	@Autowired
+	private CmFileUploadTblRepository repository;
+
+	@Autowired
+	private EntityManager entityManager;
+
+	@Autowired
+	private FileStorage fileStorage;
+
+	@Override
+	protected void init() {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	/**
+	 * 指定されたファイルをファイルサーバの指定フォルダに圧縮して格納する
+	 *
+	 * @param targetUserKey
+	 * @param fileList
+	 * @return
+	 */
+	public List<FileDto> publicUploadFileList(String targetUserKey, String loginUserKey, List<FileDto> fileList) {
+		List<FileDto> uploadList = new ArrayList<>();
+		try {
+			for (FileDto dto : fileList) {
+				String uploadKey = putUploadFile(dto, targetUserKey, loginUserKey);
+				if (uploadKey != null) {
+					dto.setUploadKey(uploadKey);
+					uploadList.add(dto);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return uploadList;
+	}
+
+	/**
+	 * 指定されたファイルをファイルサーバの指定フォルダに圧縮して格納する
+	 *
+	 * @param fileDto
+	 * @param operationUserKey
+	 * @return
+	 */
+	public String putUploadFile(FileDto fileDto, String targetUserKey, String loginUserKey) {
+
+		fileDto.setStoragePath(this.makeFilePath(targetUserKey));
+
+		//
+		String uploadKey = this.putFileUploadTbl(fileDto.getFileKbn(), fileDto.getUploadName(),
+				fileDto.getStoragePath(), fileDto.getSize(), targetUserKey, "1", loginUserKey);
+		if (uploadKey == null) {
+			return null;
+		}
+
+		fileDto.setUploadKey(uploadKey);
+
+		// 1.テンポラリファイルを置く場所のフォルダ名を生成する。
+		boolean b = FileUtil.putFile(fileDto.getFile(), fileDto.getUploadPath());
+		// エラーがなるの場合
+		if (!b) {
+			this.deleteFileUploadTbl(fileDto.getUploadKey());
+			return null;
+		}
+
+		// 2.テンポラリに書き込んだファイルをzip４jで圧縮する。
+		int zipResult = this.makeZipFile(fileDto);
+		// エラーがなるの場合
+		if (zipResult > 0) {
+			this.deleteFileUploadTbl(fileDto.getUploadKey());
+			return null;
+		}
+
+		// 3.引数のファイル格納パスにファイルを出力する。
+		int storageResult = fileStorage.putFile(fileDto);
+		// エラーがなるの場合
+		if (storageResult > 0) {
+			this.deleteFileUploadTbl(fileDto.getUploadKey());
+			return null;
+		} else {
+			FileUtil.deleteFile(fileDto.getZipPath());
+		}
+
+		return uploadKey;
+	}
+
+	/**
+	 *
+	 * @param operationUserKey
+	 * @param downloadList
+	 * @return
+	 */
+	public String getFileWithZip(String operationUserKey, List<String> downloadList) {
+		List<FileDto> fileList = new ArrayList<>();
+		for (String uploadKey : downloadList) {
+			FileDto fileDto = this.getFile(uploadKey);
+			if (fileDto != null) {
+				fileList.add(fileDto);
+			} else {
+				return null;
+			}
+		}
+		String zipFileName = makeZipFileList(fileList, false);
+		return zipFileName;
+	}
+
+	/**
+	 *
+	 * @param uploadKey
+	 * @return
+	 */
+	public int deleteUploadFile(String uploadKey) {
+		FileDto dto = getFileUploalDto(uploadKey);
+		int storageResult = fileStorage.deleteFile(dto);
+		if (storageResult == 0) {
+			this.deleteFileUploadTbl(uploadKey);
+			return storageResult;
+		}
+		return storageResult;
+	}
+
+	/**
+	 * ユーザキーを元にファイルの格納先となるファイル格納パスを生成する
+	 *
+	 * @param operationUserKey
+	 *            操作対象者ユーザキー
+	 * @return ファイル格納パス
+	 */
+	public String makeFilePath(String operationUserKey) {
+		// チェック
+		if (StringUtil.isNull(operationUserKey) || operationUserKey.length() < 10) {
+			return null;
+		}
+		String filePath = "";
+//		// windowsの場合
+//		String osName = System.getProperty("os.name").toLowerCase();
+//		if (osName.startsWith("windows")) {
+//			filePath = WIN_PATH_ROOT;
+//		}
+		filePath = filePath + CommonConst.PATH_CHAR + operationUserKey.substring(1);
+		filePath = filePath + CommonConst.PATH_CHAR + operationUserKey.substring(2, 4);
+		filePath = filePath + CommonConst.PATH_CHAR + operationUserKey.substring(5, 7);
+		filePath = filePath + CommonConst.PATH_CHAR + operationUserKey.substring(8, 10);
+		filePath = filePath + CommonConst.PATH_CHAR + DateUtil.getSysdate(DEFAULT_YYYYMM);
+		return filePath;
+	}
+
+	/**
+	 * ファイルアップロードテーブルから対象データの取得を行う。
+	 *
+	 * @param uploadKey
+	 *            アップロードキー
+	 * @return ファイルアップロードテーブルDTO
+	 */
+	public FileDto getFileUploalDto(String uploadKey) {
+		if (StringUtil.isNull(uploadKey))
+			return null;
+		CmFileUploadTbl tbl = repository.findOne(uploadKey);
+		if (tbl == null)
+			return null;
+		FileDto dto = new FileDto();
+		dto.setUploadKey(tbl.getUploadKey());
+		dto.setUploadName(tbl.getFileName());
+		dto.setStoragePath(tbl.getFilePutPath());
+		return dto;
+	}
+
+	/**
+	 * ファイルアップロードテーブルから対象データの削除を行う。
+	 *
+	 * @param uploadKey
+	 *            アップロードキー
+	 */
+	public void deleteFileUploadTbl(String uploadKey) {
+		repository.delete(uploadKey);
+	}
+
+	/**
+	 *
+	 * ファイルアップロードテーブルの登録を行う。
+	 *
+	 * @param uploadKey
+	 *            アップロードキー
+	 * @param fileKbn
+	 *            ファイル区分
+	 * @param fileName
+	 *            ファイル名
+	 * @param filePath
+	 *            ファイル格納パス
+	 * @param fileSize
+	 *            ファイル容量
+	 * @param targetUserKey
+	 *            操作対象者ユーザキー
+	 * @param calcKbn
+	 *            容量計算対象区分
+	 * @param updUserKey
+	 *            ログイン者ユーザキー
+	 * @return true:正常終了。false:エラー。
+	 */
+	public String putFileUploadTbl(String fileKbn, String fileName, String filePath, Long fileSize,
+			String targetUserKey, String calcKbn, String updUserKey) {
+		if (StringUtil.isNull(fileName) || StringUtil.isNull(filePath) || StringUtil.isNull(targetUserKey)
+				|| StringUtil.isNull(updUserKey) || fileSize == 0l)
+			return null;
+		if (StringUtil.isNull(fileKbn)) {
+			fileKbn = "99";
+		}
+		CmFileUploadTbl entity = new CmFileUploadTbl();
+		entity.setFileKbn(fileKbn);
+		entity.setFileName(fileName);
+		entity.setFilePutPath(filePath);
+		entity.setUserKey(targetUserKey);
+		entity.setUpdUserKey(updUserKey);
+		entity.setCalcFlag(calcKbn);
+		entity.setFileSize(fileSize);
+		entity.setUpdDate(DateUtil.getNowTimestamp());
+		repository.saveAndFlush(entity);
+		return entity.getUploadKey();
+	}
+
+	/**
+	 * ファイルアップロードテーブルから容量制限対象ファイルの使用済み容量を取得する。
+	 *
+	 * @param operationUserKey
+	 *            操作対象者のユーザキー
+	 * @return 使用済み容量
+	 */
+	public long getUserUsedFileSize(String operationUserKey) {
+		String fileSizeValue = getSqlValue("FileService.getUserUsedFileSize", "userKey", operationUserKey);
+		if (StringUtil.isNotNull(fileSizeValue)) {
+			try {
+				long fileSize = Long.parseLong(fileSizeValue);
+				return fileSize;
+			} catch (Exception e) {
+				return 0l;
+			}
+		}
+		return 0l;
+	}
+
+	/**
+	 * 定数テーブルからファイル使用容量制限値を取得する。
+	 *
+	 * @param operationUserKey
+	 *            操作対象者のユーザ区分
+	 * @return 使用容量制限値
+	 */
+	public long getFileSizeLimit(String operationUserKbn) {
+		String fileSizeValue = getSqlValue("FileService.getUserUsedFileSize", "userKbn", operationUserKbn);
+		if (StringUtil.isNotNull(fileSizeValue)) {
+			try {
+				long fileSize = Long.parseLong(fileSizeValue);
+				return fileSize;
+			} catch (Exception e) {
+				return 0l;
+			}
+		}
+		return 0l;
+	}
+
+	/**
+	 *
+	 * @param sqlName
+	 * @param paraName
+	 * @param paraValue
+	 * @return
+	 */
+	private String getSqlValue(String sqlName, String paraName, String paraValue) {
+
+		Query query = entityManager.createNamedQuery(sqlName);
+
+		query.setParameter(paraName, paraValue);
+		query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+
+		List<Map> resultList = query.getResultList();
+
+		for (int i = 0; i < resultList.size(); i++) {
+			return (String) resultList.get(i).get("VALUE");
+		}
+
+		return null;
+	}
+
+	/**
+	 * 指定されたファイル格納パス、ファル名のﾘｽﾄを元にZIPファイルを作成する
+	 *
+	 * @param fileDto
+	 * @return
+	 */
+	public int makeZipFile(FileDto fileDto) {
+		ZipFile zipfile = null;
+		try {
+			if (fileDto == null) {
+				return 2;
+			}
+
+			zipfile = new ZipFile(fileDto.getZipPath());
+			ZipParameters parameters = new ZipParameters();
+			parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
+			parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
+			parameters.setEncryptionMethod(Zip4jConstants.ENC_METHOD_AES);
+			parameters.setAesKeyStrength(Zip4jConstants.AES_STRENGTH_256);
+
+			parameters.setEncryptFiles(true);
+			parameters.setPassword(CommonConst.SECRET_KEY);
+
+			File sourceFile = new File(fileDto.getUploadPath());
+			zipfile.addFile(sourceFile, parameters);
+
+			FileUtil.deleteFile(fileDto.getUploadPath());
+
+		} catch (ZipException e) {
+			e.printStackTrace();
+			return 1;
+		}
+		return 0;
+	}
+
+	/**
+	 * 指定されたファイル格納パス、ファル名のﾘｽﾄを元にZIPファイルを作成する
+	 *
+	 * @param fileList
+	 * @param encrypt
+	 * @return
+	 */
+	public String makeZipFileList(List<FileDto> fileList, boolean encrypt) {
+		ZipFile zipfile = null;
+		String zipFileName = FileDto.TEMP_ROOT + "/" + UUID.randomUUID() + ".zip";
+		try {
+			if (fileList.size() == 0) {
+				return null;
+			}
+
+			zipfile = new ZipFile(zipFileName);
+			ZipParameters parameters = new ZipParameters();
+			parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
+			parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
+			parameters.setEncryptFiles(false);
+			parameters.setEncryptionMethod(Zip4jConstants.ENC_METHOD_AES);
+			parameters.setAesKeyStrength(Zip4jConstants.AES_STRENGTH_256);
+
+			parameters.setSourceExternalStream(true);
+
+			if (encrypt) {
+				parameters.setEncryptFiles(encrypt);
+				parameters.setPassword(CommonConst.SECRET_KEY);
+			}
+
+			for (FileDto fileDto : fileList) {
+				File sourceFile = new File(fileDto.getUploadPath());
+				parameters.setFileNameInZip(fileDto.getUploadName());
+				zipfile.addFile(sourceFile, parameters);
+			}
+
+		} catch (ZipException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return zipFileName;
+	}
+
+	/**
+	 * 取得したファイルをzip４jで解凍する。
+	 *
+	 * @param fileDto
+	 * @return
+	 */
+	public int unZipFile(FileDto fileDto) {
+		try {
+			ZipFile zipFile = new ZipFile(fileDto.getZipPath());
+			if (zipFile.isEncrypted()) {
+				zipFile.setPassword(CommonConst.SECRET_KEY);
+			}
+			zipFile.extractAll(fileDto.getUnZipPath());
+		} catch (ZipException e) {
+			e.printStackTrace();
+			return 1;
+		}
+		return 0;
+	}
+
+	/**
+	 * 指定したファイルを元にファイルサーバ共有フォルダからファイルを取得し、解凍を行いファイルを返す
+	 *
+	 * @param filePath
+	 *            ファイル格納パス
+	 * @param uploadKey
+	 *            ファイル名（アップロードキー）
+	 * @return
+	 */
+	public FileDto getFile(String uploadKey) {
+		// 1.引数のファイル格納パスからファイルを取得する。
+		FileDto fileDto = getFileUploalDto(uploadKey);
+		if (fileDto != null) {
+			int i = fileStorage.getFile(fileDto);
+			if (i == 0) {
+				// 2.取得したファイルをzip４jで解凍する。
+				i = unZipFile(fileDto);
+				if (i == 0) {
+					return fileDto;
+				}
+				return null;
+			}
+		}
+		return null;
+	}
+
+}
+
+
+InternshipController.java
+
+	/**
+	 *
+	 * @param form
+	 * @param model
+	 * @param attributes
+	 * @return
+	 */
+	@RequestMapping(value = "/apply", method = RequestMethod.POST)
+	public String upload(@ModelAttribute(CommonConst.FORM_NAME) final InternshipForm form,
+			MultipartHttpServletRequest request, Model model, RedirectAttributes attributes) {
+
+		logger.infoCode("I0001"); // I0001=メソッド開始:{0}
+
+		String key = "internshipKey=" + form.getInternshipKey() + ", userKey=" + userInfo.getTargetUserKey();
+
+		ItInternRecruitTblPK pk = new ItInternRecruitTblPK();
+		pk.setInternshipKey(form.getInternshipKey());
+		pk.setUserKey(userInfo.getTargetUserKey());
+
+		//
+		UploadForm uploadForm = new UploadForm();
+
+		// 3-1． 応募済みのチェック
+		if (internshipServiceImpl.getOneInternRecruit(pk) == null) {
+
+			if (form.getInternshipRcFileNeedKbn().equals("1")) {
+				uploadForm.setFileNotNull(true);
+				uploadForm.setUserInfo(userInfo);
+				uploadForm.setPageMode(CommonConst.PAGE_MODE_ADD);
+				uploadCtrlService.setForm(uploadForm);
+				if (uploadCtrlService.beoforeProcess(request) > 0) {
+					//
+					model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.valid.data"); // error.data.message.valid.data=入力項目に誤りがあります。
+				} else {
+					// 登録テーブル：インターンシップ応募者テーブル
+					form.setUploadFileList(uploadForm.getUploadFileList());
+					if (internshipServiceImpl.insertInternRecruit(userInfo, form)) {
+						// DB更新が成功した場合
+						uploadCtrlService.afterProcessSuccess();
+						// 操作履歴を出力する。
+						this.operationHistory(CommonConst.OP_FUNC_INTERNSHIP_APPLY, CommonConst.OP_ACTION_APPLY);
+						logger.infoCode("I1005", key); // I1005=新規作成しました。{0}
+					} else {
+						// DB更新が失敗した場合
+						uploadCtrlService.afterProcessFailure();
+						logger.errorCode("E1007", key); // E1007=登録に失敗しました。{0}
+						model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.db.regist"); // error.data.message.db.regist=登録が失敗しました。
+					}
+				}
+			}
+
+		} else {
+			// DB更新が失敗した場合
+			logger.errorCode("E1007", key); // E1007=登録に失敗しました。{0}
+			model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.db.regist"); // error.data.message.db.regist=登録が失敗しました。
+		}
+
+		return REDIRECT_LIST;
+	}
+	
+	
+	UploadCtrlService.java
+	
+	package jp.co.sraw.file;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import jp.co.sraw.common.CommonConst;
+import jp.co.sraw.common.CommonService;
+
+@Scope("prototype")
+@Service
+public class UploadCtrlService extends CommonService {
+
+	@Autowired
+	private FileService fileService;
+
+	private String actionName = CommonConst.FILE_ACTION_NONE;
+
+	private UploadForm form = null;
+
+	public UploadForm getForm() {
+		return form;
+	}
+
+	public void setForm(UploadForm form) {
+		this.form = form;
+	}
+
+	@Override
+	protected void init() {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	public int beoforeProcess(MultipartHttpServletRequest request) {
+
+		boolean hasUploadFile = false;
+
+		Iterator<String> itrator = request.getFileNames();
+
+		List<FileDto> fileList = new ArrayList<>();
+
+		while (itrator.hasNext()) {
+			String fileName = itrator.next();
+			List<MultipartFile> fList = request.getFiles(fileName);
+			for (MultipartFile file : fList) {
+				if (file.getSize() > 0) {
+					hasUploadFile = true;
+					FileDto fileDto = new FileDto();
+					fileDto.setFieldName(fileName);
+					fileDto.setUploadName(file.getOriginalFilename());
+					fileDto.SetFileKbn("99");
+					fileDto.setFile(file);
+					fileList.add(fileDto);
+				}
+			}
+		}
+
+		if (form.getPageMode().equals(CommonConst.PAGE_MODE_EDIT)) {
+
+			// 先回のアップロードファイルが必要です
+			if (form.getFileNotNull()) {
+				if (form.getPreUploadFileList().size() == 0) {
+					// 必要なファイルが存在しません。
+					return 1;
+				}
+				// 本回のアップロードファイルが必要がない
+				if (!form.getFileNotNull()) {
+					actionName = CommonConst.FILE_ACTION_DEL;
+				}
+			}
+
+			// 本回のアップロードファイルが必要です
+			if (form.getFileNotNull()) {
+
+				if (hasUploadFile) {
+					// アップロードファイルがあるの場合
+					actionName = CommonConst.FILE_ACTION_CHANGE;
+				} else {
+					// アップロードファイルがないの場合
+					actionName = CommonConst.FILE_ACTION_NONE;
+				}
+			}
+
+		} else {
+			// 新規の場合
+			if (form.getFileNotNull()) {
+				// アップロードファイルが必要の場合
+				if (hasUploadFile) {
+					actionName = CommonConst.FILE_ACTION_ADD;
+				} else {
+					// アップロードファイルがない
+					return 1;
+				}
+			}
+		}
+
+		if (actionName.equals(CommonConst.FILE_ACTION_ADD) || actionName.equals(CommonConst.FILE_ACTION_CHANGE)) {
+
+			List<FileDto> uploadFileList = fileService.publicUploadFileList(form.getUserInfo().getTargetUserKey(),
+					form.getUserInfo().getLoginUserKey(), fileList);
+
+			if (uploadFileList.size() == 0) {
+				return 1;
+			} else {
+				form.setUploadFileList(uploadFileList);
+			}
+		} else {
+			form.setUploadFileList(form.getPreUploadFileList());
+		}
+
+		return 0;
+	}
+
+	/**
+	 *
+	 */
+	public void afterProcessFailure() {
+
+		// 編集の場合はエラーがある
+		if (actionName.equals(CommonConst.FILE_ACTION_ADD) || actionName.equals(CommonConst.FILE_ACTION_CHANGE)) {
+			for (FileDto dto : form.getUploadFileList()) {
+				fileService.deleteUploadFile(dto.getUploadKey());
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	public void afterProcessSuccess() {
+		// 成功するで
+		if (actionName.equals(CommonConst.FILE_ACTION_CHANGE) || actionName.equals(CommonConst.FILE_ACTION_DEL)) {
+			for (FileDto dto : form.getPreUploadFileList()) {
+				fileService.deleteUploadFile(dto.getUploadKey());
+			}
+		}
+	}
+
+}
+
+
+InternshipForm.java
+
+	public String getInternshipRcFile() {
+		String rcSplit = "";
+		if (this.uploadFileList.size() > 0) {
+			String rcFile = "";
+			for (FileDto dto : this.uploadFileList) {
+				if (dto.getFileKbn().equals("1")) {
+					rcFile = rcFile + rcSplit + dto.getUploadName();
+					rcSplit = ",";
+				}
+			}
+			return rcFile;
+		}
+		return internshipRcFile;
+	}
+
+	public void setInternshipRcFile(String internshipRcFile) {
+		this.internshipRcFile = internshipRcFile;
+	}
+	
+		/**
+	 * 応募文書の場合、’１’。合格文書の場合、’２’。
+	 *
+	 * @param uploadFileList
+	 */
+	public void setUploadFileList(List<FileDto> uploadFileList) {
+		this.uploadFileList = uploadFileList;
+	}
+
+	public void setUploadFileListFromDB(List<FileDto> uploadFileList) {
+		if (uploadFileList != null && uploadFileList.size() > 0)
+			for (FileDto dto : uploadFileList) {
+				// 応募文書の場合、’１’。
+				if (dto.getFileKbn().equals("1")) {
+					dto.setFieldName("gkFiles");
+				}
+				// 合格文書の場合、’２’。
+				if (dto.getFileKbn().equals("2")) {
+					dto.setFieldName("rcFiles");
+				}
+			}
+		this.uploadFileList = uploadFileList;
+	}
+
+	public void setUploadFileListFromHtml(List<FileDto> uploadFileList) {
+		if (uploadFileList != null && uploadFileList.size() > 0)
+			for (FileDto dto : uploadFileList) {
+				// 応募文書の場合、’１’。
+				if (dto.getFieldName().equals("gkFiles")) {
+					dto.SetFileKbn("1");
+				}
+				// 合格文書の場合、’２’。
+				if (dto.getFieldName().equals("rcFiles")) {
+					dto.SetFileKbn("2");
+				}
+			}
+		this.uploadFileList = uploadFileList;
+	}
+	
+	
+	
+	InternshipMgmtApplicationController.java
+		/**
+	 *
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param attributes
+	 * @param locale
+	 * @return
+	 */
+	@RequestMapping(value = "/download/list", method = RequestMethod.POST)
+	@ResponseBody
+	public Resource downloadExcel(@ModelAttribute(ITINTERNRECRUITFORM_NAME) final ItInternRecruitForm form,
+			HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes attributes,
+			Locale locale) {
+		logger.infoCode("I0001", request.getRequestURI());
+
+		excelService.setXlsTemplateName("internship.xls");
+		ItInternRecruitExcelHelper helper = new ItInternRecruitExcelHelper();
+
+		List<ItInternRecruitView> entityList = internshipServiceImpl.findAllItInternRecruitView(form.getInternshipKey(),
+				null);
+
+		ByteArrayOutputStream baos = excelService.getExcel(userInfo, entityList, helper);
+		if (baos == null) { // 失敗?
+			// 500エラーとする。
+			logger.errorCode("E0014", "failed to prepare excel file");
+			throw new RuntimeException();
+		}
+
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + "internship.xls");
+
+		logger.infoCode("I0002");
+		return new ByteArrayResource(baos.toByteArray());
+	}
+
+	/**
+	 * ダイレクトアクセス対策
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = { "/edit", "/copy", "/create", "/update", "/delete" }, method = RequestMethod.GET)
+	public String redirect() {
+		logger.warnCode("W1009"); // W1009=URLダイレクトアクセスがありました。
+		return CommonConst.REDIRECT_INDEX;
+	}
+
+	/**
+	 *
+	 * @param request
+	 * @param response
+	 * @param form
+	 * @throws Exception
+	 */
+	@RequestMapping({ "/download/apply" })
+	public void downloadApply(HttpServletRequest request, HttpServletResponse response,
+			@ModelAttribute(ITINTERNRECRUITFORM_NAME) final ItInternRecruitForm form) throws Exception {
+		download(request, response, form, "1");
+	}
+
+	/**
+	 *
+	 * @param request
+	 * @param response
+	 * @param form
+	 * @throws Exception
+	 */
+	@RequestMapping({ "/download/pass" })
+	public void downloadPass(HttpServletRequest request, HttpServletResponse response,
+			@ModelAttribute(ITINTERNRECRUITFORM_NAME) final ItInternRecruitForm form) throws Exception {
+		download(request, response, form, "2");
+	}
+
+	/**
+	 *
+	 * @param request
+	 * @param response
+	 * @param form
+	 * @param fileKbn
+	 * @throws IOException
+	 */
+	private void download(HttpServletRequest request, HttpServletResponse response, ItInternRecruitForm form,
+			String fileKbn) throws IOException {
+
+		ServletContext context = request.getServletContext();
+		String appPath = context.getRealPath("");
+		System.out.println("appPath = " + appPath);
+
+		ItInternRecruitTbl itInternRecruitTbl = internshipServiceImpl.getOneInternRecruit(form.getId());
+
+		List<ItInternRecruitUploadTbl> uploadTabList = itInternRecruitTbl.getItInternRecruitUploadTbls();
+
+		List<String> downloadList = new ArrayList<>();
+		for (ItInternRecruitUploadTbl tbl : uploadTabList) {
+			if (tbl.getUploadKbn().equals(fileKbn)) {
+				downloadList.add(tbl.getId().getUploadKey());
+			}
+		}
+
+		dowloadService.downloadZip(request, response, userInfo.getLoginUserKey(),
+				itInternRecruitTbl.getId().getInternshipKey(), downloadList);
+
+	}
+
+	
+	ItInternRecruitExcelHelper helper = new ItInternRecruitExcelHelper();
+	ItInternRecruitExcelHelper.java
+	package jp.co.sraw.controller.internship;
+
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.stereotype.Service;
+
+import jp.co.sraw.common.CommonForm;
+import jp.co.sraw.entity.ItInternRecruitView;
+import jp.co.sraw.file.AbstractExcelHelper;
+import jp.co.sraw.util.PoiBook;
+
+@Service
+public class ItInternRecruitExcelHelper extends AbstractExcelHelper<ItInternRecruitView> {
+
+	private final String DATA_SHEET_NAME = "INTERNSHIP";
+
+	@Override
+	public void buildExcelDocument(PoiBook workbook, List<ItInternRecruitView> list) {
+		workbook.activeSheet = workbook.book.getSheet(DATA_SHEET_NAME);
+
+		for (int i = 0; i < list.size(); i++) {
+			ItInternRecruitView form = list.get(i);
+			form.setViewType(CommonForm.VIEW_TYPE_FORM);
+			int rowno = i + 1;
+			// 種別
+			workbook.changeValue(rowno, 0, form.getInternshipKbn());
+			// 応募期間(FROM)
+			workbook.changeValue(rowno, 1, getDateInfo(form.getRecruitStartDate()));
+			// 応募期間(TO)
+			workbook.changeValue(rowno, 2, getDateInfo(form.getRecruitEndDate()));
+			// 見出し
+			workbook.changeValue(rowno, 3, form.getInternshipTitle());
+			// 募集者
+			workbook.changeValue(rowno, 4, form.getInternshipPartyName());
+			// 応募者氏名
+			workbook.changeValue(rowno, 5, form.getUserNameKn());
+			// 応募者所属
+			workbook.changeValue(rowno, 6, form.getRecruitPartyName());
+			// 応募者性別
+			workbook.changeValue(rowno, 7, form.getSex());
+			// 合否結果
+			workbook.changeValue(rowno, 8, form.getDecisionKbn());
+			// 応募者学年
+			workbook.changeValue(rowno, 9, form.getRecruitGrade());
+			// 応募者指導教員
+			workbook.changeValue(rowno, 10, form.getRecruitTeacher());
+			// 応募者派遣先
+			workbook.changeValue(rowno, 11, form.getRecruitPartyName());
+			// 企業派遣期間(FROM)
+			workbook.changeValue(rowno, 12, getDateInfo(form.getRecruitStartDate()));
+			// 企業派遣期間(TO)
+			workbook.changeValue(rowno, 13, getDateInfo(form.getRecruitEndDate()));
+			// 就職状況
+			workbook.changeValue(rowno, 14, form.getRecruitStatus());
+			// 備考欄
+			workbook.changeValue(rowno, 15, form.getRecruitMemo());
+		}
+	}
+
+	@Override
+	public Sheet getSheet(Workbook workbook) {
+		return workbook.getSheet(DATA_SHEET_NAME);
+	}
+
+	@Override
+	public ItInternRecruitView getForm(Row row) {
+
+		ItInternRecruitView form = new ItInternRecruitView();
+
+		return form;
+	}
+
+}
+
+
+ByteArrayOutputStream baos = excelService.getExcel(userInfo, entityList, helper);
+ExcelService.java
+package jp.co.sraw.file;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import jp.co.sraw.common.CommonConst;
+import jp.co.sraw.common.CommonForm;
+import jp.co.sraw.common.UserInfo;
+import jp.co.sraw.logger.LoggerWrapper;
+import jp.co.sraw.logger.LoggerWrapperFactory;
+import jp.co.sraw.util.PoiBook;
+
+@SuppressWarnings("rawtypes")
+@Service
+public class ExcelService<F extends CommonForm, H extends AbstractExcelHelper> {
+
+	private static final LoggerWrapper logger = LoggerWrapperFactory.getLogger(ExcelService.class);
+
+	private String xlsTemplateName;
+
+	public String getXlsTemplateName() {
+		return xlsTemplateName;
+	}
+
+	public void setXlsTemplateName(String xlsTemplateName) {
+		this.xlsTemplateName = xlsTemplateName;
+	}
+
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream getExcel(UserInfo userInfo, List<F> list, H helper) {
+
+		String templatePath = CommonConst.RESPATH_DOC_TEMPLATE + this.xlsTemplateName;
+
+		try (PoiBook book = PoiBook.fromResource(templatePath)) {
+			helper.buildExcelDocument(book, list);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			book.write(baos);
+			return baos;
+		} catch (IOException e) {
+			logger.error("IOException exporting a execlfile ");
+			return null;
+		} catch (Exception e) {
+			logger.error("unexpected error while exporting a excelfile ");
+			return null;
+		}
+	}
+
+}
+
+
+public class ExcelService<F extends CommonForm, H extends AbstractExcelHelper> {
+CommonForm.java
+/**
+ * <B>CommonFormクラス</B>
+ * <P>
+ * Formのメソッドを提供する
+ */
+public class CommonForm implements Serializable {
+
+	public final static String VIEW_TYPE_FORM = "VIEW_TYPE_FORM";
+	public final static String VIEW_TYPE_DB = "VIEW_TYPE_DB";
+	public final static String VIEW_TYPE_EXCEL = "VIEW_TYPE_EXCEL";
+
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String pageActionUrl;
+
+	private String pageMode;
+
+	private String confirmMessageRegist; // regist確認ダイアログ表示メッセージ
+
+	private String confirmMessageUpdate; // update確認ダイアログ表示メッセージ
+
+	private String confirmMessageDelete; // delete確認ダイアログ表示メッセージ
+
+	@Override
+	public String toString() {
+		// return new ToStringCreator(this).toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.DEFAULT_STYLE);
+	}
+	}
+	
+	AbstractExcelHelper.java
+	package jp.co.sraw.file;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.stereotype.Service;
+
+import jp.co.sraw.common.CommonForm;
+import jp.co.sraw.util.PoiBook;
+
+@Service
+public abstract class AbstractExcelHelper<F extends CommonForm> {
+
+	public static final String DELIMITER = ":";
+
+	public List<F> getFormList(Workbook workbook) {
+
+		Sheet sheet = getSheet(workbook);
+
+		int startRow = 1;
+
+		List<F> list = new ArrayList<>();
+
+		for (int i = startRow; i <= sheet.getLastRowNum(); i++) {
+			Row row = sheet.getRow(i);
+			if (row != null) {
+				list.add(getForm(row));
+			}
+		}
+		return list;
+	}
+
+	public abstract Sheet getSheet(Workbook workbook);
+
+	public abstract F getForm(Row row);
+
+	protected String getCellValue(Row row, int sortNo) {
+		if (row.getCell(sortNo) == null)
+			return null;
+		int cellType = row.getCell(sortNo).getCellType();
+		String result = "";
+		switch (cellType) {
+		case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_BLANK:
+			break;
+		case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_BOOLEAN:
+			break;
+		case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_ERROR:
+			break;
+		case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_FORMULA:
+			break;
+		case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_NUMERIC:
+			result = String.valueOf(row.getCell(sortNo).getNumericCellValue());
+			break;
+		case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING:
+			result = row.getCell(sortNo).getStringCellValue();
+		default:
+			break;
+		}
+		if (result.contains(DELIMITER))
+			result = result.substring(0, result.indexOf(DELIMITER));
+		return result;
+	}
+
+	protected int getCellIntValue(Row row, int sortNo) {
+		if (row.getCell(sortNo) == null)
+			return 0;
+		int cellType = row.getCell(sortNo).getCellType();
+		int result = 0;
+		try {
+			switch (cellType) {
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_BLANK:
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_BOOLEAN:
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_ERROR:
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_FORMULA:
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_NUMERIC:
+				result = (int) row.getCell(sortNo).getNumericCellValue();
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING:
+				result = Integer.parseInt(row.getCell(sortNo).getStringCellValue());
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	protected BigDecimal getCellBigDecimal(Row row, int sortNo) {
+		if (row.getCell(sortNo) == null)
+			return null;
+		int cellType = row.getCell(sortNo).getCellType();
+		BigDecimal result = new BigDecimal(0);
+		try {
+			switch (cellType) {
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_BLANK:
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_BOOLEAN:
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_ERROR:
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_FORMULA:
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_NUMERIC:
+				result = new BigDecimal(row.getCell(sortNo).getNumericCellValue());
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING:
+				result = new BigDecimal(row.getCell(sortNo).getStringCellValue());
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public String getDateInfo(Timestamp time) {
+		if (time != null) {
+			return time.toString();
+		}
+		return "";
+	}
+
+	public void buildExcelDocument(PoiBook workbook, List<F> list) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+}
+
+
+	protected BigDecimal getCellBigDecimal(Row row, int sortNo) {
+		if (row.getCell(sortNo) == null)
+			return null;
+		int cellType = row.getCell(sortNo).getCellType();
+		BigDecimal result = new BigDecimal(0);
+		try {
+			switch (cellType) {
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_BLANK:
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_BOOLEAN:
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_ERROR:
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_FORMULA:
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_NUMERIC:
+				result = new BigDecimal(row.getCell(sortNo).getNumericCellValue());
+				break;
+			case org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING:
+				result = new BigDecimal(row.getCell(sortNo).getStringCellValue());
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
+	LoginController.java
+/*
+* ファイル名：LoginController.java
+*
+* <MODIFICATION HISTORY>
+*   (Rev.)     (Date)       (ID/NAME)   (Comment)
+*   Rev 1.00   2015/12/01   toishigawa  新規作成
+*/
+package jp.co.sraw.controller.login;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import jp.co.sraw.common.CommonConst;
+import jp.co.sraw.common.CommonController;
+import jp.co.sraw.common.UserInfo;
+import jp.co.sraw.config.WebSecurityConfig;
+import jp.co.sraw.dto.PartyDto;
+import jp.co.sraw.entity.MsPartyTbl;
+import jp.co.sraw.logger.LoggerWrapper;
+import jp.co.sraw.logger.LoggerWrapperFactory;
+import jp.co.sraw.security.gakunin.Gakunin;
+import jp.co.sraw.service.MsPartyServiceImpl;
+import jp.co.sraw.service.UserInfoServiceImpl;
+import jp.co.sraw.util.StringUtil;
+
+/**
+* <B>LoginControllerクラス</B>
+* <P>
+* Controllerのメソッドを提供する
+*/
+@Controller
+@RequestMapping("/")
+public class LoginController extends CommonController {
+
+	private static final LoggerWrapper logger = LoggerWrapperFactory.getLogger(LoginController.class);
+
+	/** SSOページ用URL */
+	private static final String ACTION_SSO_URL = "/ssologin";
+
+	@Autowired
+	private UserInfoServiceImpl userInfoServiceImpl;
+
+	@Autowired
+	private MsPartyServiceImpl msPartyServiceImpl;
+
+	@PostConstruct
+	protected void init() {
+		logger.setMessageSource(messageSource);
+	}
+
+	/**
+	 * DB認証画面遷移＆クッキー認証
+	 *
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/login")
+	public String login(HttpServletRequest request, HttpServletResponse response, Model model, Locale locale) {
+		logger.infoCode("I0001");
+
+		// 有効な remember-me Cookie が存在する場合にはログイン画面を表示させず自動ログインさせる
+		TokenBasedRememberMeServices rememberMeServices = new TokenBasedRememberMeServices(
+				WebSecurityConfig.REMEMBERME_KEY, userInfoServiceImpl);
+		// クッキー取得
+		rememberMeServices.setCookieName(WebSecurityConfig.COOKIE_NAME);
+		//
+		Authentication rememberMeAuth = rememberMeServices.autoLogin(request, response);
+		if (rememberMeAuth != null) {
+			SecurityContextHolder.getContext().setAuthentication(rememberMeAuth);
+
+			logger.infoCode("I0002", "login"); // I0002=メソッド終了:{0}
+			return "redirect:" + WebSecurityConfig.DEFAULT_SUCCESS_URL;
+		}
+
+		// 学認するドメイン一覧取得
+		Map<String, String> idpMap = new HashMap<String, String>();
+		// 機関一覧取得
+		List<PartyDto> partyList = getPartyList(locale);
+		// 学認するドメインとidpのURLを設定
+		for (Gakunin gakunin : super.getGakuninList()) {
+			try {
+				URL url = new URL(gakunin.getEntityID());
+				for (PartyDto p : partyList) {
+					String domain = p.getDomain();
+					if (StringUtil.isNotNull(domain) && url.getHost().endsWith(domain)) {
+						idpMap.put(domain, gakunin.getEntityID());
+						break;
+					}
+				}
+			} catch (Exception e) {
+				if (logger.isDebugEnabled()) {
+					e.printStackTrace();
+				}
+			}
+		}
+		//
+		model.addAttribute("idpMap", idpMap);
+
+		logger.infoCode("I0002", "login"); // I0002=メソッド終了:{0}
+		return "login/login";
+	}
+
+	/**
+	 * ログアウト
+	 *
+	 * @return
+	 */
+	@RequestMapping("/logout")
+	public String logout() {
+		logger.infoCode("I0001");
+		return "login/login";
+	}
+
+
+	/**
+	 * SSO認証(暫定)
+	 *
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/ssologin")
+	public String urllogin(HttpServletRequest request, HttpServletResponse response) {
+		logger.infoCode("I0001");
+
+		boolean gakuninFlag = systemSetting.isGakuninFlag();
+		String gakuninLoginId = systemSetting.getGakuninLoginId();
+		if (gakuninFlag && StringUtil.isNotNull(gakuninLoginId)) {
+			try {
+
+				// ヘッダーパラメータ取得
+				String username = request.getHeader(gakuninLoginId);
+
+				if (StringUtil.isNotNull(username)) {
+					// username パラメータで指定されたメールアドレスのユーザが user_info テーブルに存在するかチェックする
+					UserInfo lendingUserInfo = userInfoServiceImpl.loadUserByUsername(username);
+					if (lendingUserInfo != null) {
+						// UsernamePasswordAuthenticationToken を生成して SecurityContext にセットする
+						UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(lendingUserInfo, null,
+								lendingUserInfo.getAuthorities());
+
+						// org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+						// setDetails メソッドを見て実装しています
+						AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
+						token.setDetails(authenticationDetailsSource.buildDetails(request));
+						SecurityContextHolder.getContext().setAuthentication(token);
+
+						// 認証前のリクエストURL取得
+						// SavedRequest
+						HttpSessionRequestCache httpSession = new HttpSessionRequestCache();
+						SavedRequest savedRequest = httpSession.getRequest(request, response);
+						String requestUrl = WebSecurityConfig.DEFAULT_SUCCESS_URL;
+						if (savedRequest != null) {
+							if (StringUtil.isNotNull(savedRequest.getRedirectUrl())) {
+								requestUrl = savedRequest.getRedirectUrl();
+							}
+						}
+
+						logger.infoCode("I0002", "ssologin"); // I0002=メソッド終了:{0}
+						return "redirect:"+ requestUrl;
+					}
+				}
+			} catch (UsernameNotFoundException e) {
+				logger.infoCode("I0002", "ssologin"); // I0002=メソッド終了:{0}
+				return "redirect:"+ WebSecurityConfig.DEFAULT_LOGIN_ERROR_URL;
+			}
+		}
+		return "redirect:"+ WebSecurityConfig.DEFAULT_LOGIN_URL;
+	}
+
+	/**
+	 * 組織一覧を取得
+	 *
+	 * @param locale
+	 * @return
+	 */
+	private List<PartyDto> getPartyList(Locale locale){
+
+		logger.infoCode("I0001", "partyList"); // I0001=メソッド開始:{0}
+
+		List<MsPartyTbl> mList = msPartyServiceImpl.findAllByPartyKbn(null);
+		List<PartyDto> resultList = new ArrayList<PartyDto>();
+		for (MsPartyTbl m : mList) {
+			String name = m.getPartyName();
+			if (!CommonConst.DEFAULT_LOCALE.getLanguage().equals(locale.getLanguage())) {
+				name = m.getPartyNameEn();
+			}
+			PartyDto dto = new PartyDto();
+			dto.setCode(m.getPartyCode());
+			dto.setName(name);
+			dto.setKbn(m.getPartyKbn());
+			dto.setDomain(m.getDomain());
+			resultList.add(dto);
+		}
+
+		logger.infoCode("I0002", "partyList"); // I0002=メソッド終了:{0}
+		return resultList;
+	}
+
+}
+
+
+MessageBoxController.java
+/*
+* ファイル名：IndexController.java
+*
+* <MODIFICATION HISTORY>
+*   (Rev.)     (Date)       (ID/NAME)   (Comment)
+*   Rev 1.00   2015/12/01   toishigawa  新規作成
+*/
+package jp.co.sraw.controller.messagebox;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.sraw.common.CommonConst;
+import jp.co.sraw.common.CommonController;
+import jp.co.sraw.dto.MessageBoxDto;
+import jp.co.sraw.logger.LoggerWrapper;
+import jp.co.sraw.logger.LoggerWrapperFactory;
+import jp.co.sraw.service.MessageBoxServiceImpl;
+import jp.co.sraw.util.ObjectUtil;
+import jp.co.sraw.util.StringUtil;
+
+/**
+ * <B>SupportControllerクラス</B>
+ * <P>
+ * Controllerのメソッドを提供する
+ */
+@Controller
+@RequestMapping("/messagebox")
+public class MessageBoxController extends CommonController {
+
+	private static final LoggerWrapper logger = LoggerWrapperFactory.getLogger(MessageBoxController.class);
+
+	@PostConstruct
+	protected void init() {
+		logger.setMessageSource(messageSource);
+	}
+
+	@Autowired
+	private MessageBoxServiceImpl messageBoxServiceImpl;
+
+	private static final String REDIRECT_LIST_RECV = "redirect:/messagebox/recv/";
+	private static final String REDIRECT_LIST_SEND = "redirect:/messagebox/send/";
+
+	private static final String LIST_PAGE_RECV = "messagebox/recvlist";
+	private static final String LIST_PAGE_SEND = "messagebox/sendlist";
+
+	private static final String EDIT_PAGE = "messagebox/edit";
+
+	private static final String VIEW_PAGE_RECV = "messagebox/recvview";
+	private static final String VIEW_PAGE_SEND = "messagebox/sendview";
+
+	private static final String PAGE_ACTION_URL_RECV_VIEW = "/messagebox/recv/view";
+	private static final String PAGE_ACTION_URL_PORTFOLIO_DETAIL = "/portfolio/detail/"; // ProfileControllerの詳細表示のパスを確認
+
+
+
+
+	@ModelAttribute(CommonConst.FORM_NAME)
+	public MessageBoxForm setupForm() {
+		MessageBoxForm form = new MessageBoxForm();
+		return form;
+	}
+
+	/**
+	 * 受信トレイ
+	 *
+	 * @param form
+	 * @param model
+	 * @param locale
+	 * @return
+	 */
+	@RequestMapping({"", "/", "/recv", "/recv/", "/recv/list" })
+	public String recvlist(@ModelAttribute(CommonConst.FORM_NAME) final MessageBoxForm form, Model model, Locale locale) {
+
+		logger.infoCode("I0001", "recvlist"); // I0001=メソッド開始:{0}
+
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("LoginUserKey=" + userInfo.getLoginUserKey());
+			logger.debug("TargetUserKey=" + userInfo.getTargetUserKey());
+		}
+
+		List<MessageBoxDto> messageboxList = new ArrayList<>();
+
+		messageboxList = messageBoxServiceImpl.findAll(userInfo, false, locale);
+
+		model.addAttribute("messageboxList", messageboxList);
+
+		// dump
+		modelDump(logger, model, "recvlist");
+
+		logger.infoCode("I0002", "recvlist"); // I0002=メソッド終了:{0}
+
+		return LIST_PAGE_RECV;
+
+
+	}
+
+	/**
+	 * 送信トレイ
+	 *
+	 * @param form
+	 * @param model
+	 * @param locale
+	 * @return
+	 */
+	@RequestMapping({ "/send", "/send/", "/send/list" })
+	public String sendlist(@ModelAttribute(CommonConst.FORM_NAME) final MessageBoxForm form, Model model, Locale locale) {
+
+		logger.infoCode("I0001", "sendlist"); // I0001=メソッド開始:{0}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("LoginUserKey=" + userInfo.getLoginUserKey());
+			logger.debug("TargetUserKey=" + userInfo.getTargetUserKey());
+		}
+
+		List<MessageBoxDto> messageboxList = new ArrayList<>();
+
+		messageboxList = messageBoxServiceImpl.findAll(userInfo, true, locale);
+
+		model.addAttribute("messageboxList", messageboxList);
+
+		// dump
+		modelDump(logger, model, "sendlist");
+
+		logger.infoCode("I0002", "sendlist"); // I0002=メソッド終了:{0}
+
+		return LIST_PAGE_SEND;
+	}
+
+	/**
+	 * 受信詳細
+	 *
+	 * @param form
+	 * @param model
+	 * @param locale
+	 * @return
+	 */
+	@RequestMapping(value = "/recv/view", method = RequestMethod.POST)
+	public String recvview(@ModelAttribute(CommonConst.FORM_NAME) MessageBoxForm form, Model model, Locale locale) {
+		logger.infoCode("I0001", "recvview"); // I0001=メソッド開始:{0}
+
+		MessageBoxDto m = messageBoxServiceImpl.findOne(userInfo, form, false, locale);
+		if (m == null) {
+			// DB更新が失敗した場合
+			model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.valid.data"); // error.data.message.valid.data=入力項目に誤りがあります。
+
+			logger.errorCode("E0014", "recvview"); // E0014=メソッド異常終了:{0}
+
+			return REDIRECT_LIST_RECV;
+		}
+		ObjectUtil objectUtil = new ObjectUtil();
+		objectUtil.getObjectCopyValue(form, m);
+
+		model.addAttribute(CommonConst.FORM_NAME, form);
+		logger.infoCode("I0002", "recvview"); // I0002=メソッド終了:{0}
+		return VIEW_PAGE_RECV;
+	}
+
+	/**
+	 * 送信詳細
+	 *
+	 * @param form
+	 * @param model
+	 * @param locale
+	 * @return
+	 */
+	@RequestMapping(value = "/send/view", method = RequestMethod.POST)
+	public String sendview(@ModelAttribute(CommonConst.FORM_NAME) MessageBoxForm form, Model model, Locale locale) {
+		logger.infoCode("I0001", "sendview"); // I0001=メソッド開始:{0}
+
+		MessageBoxDto m = messageBoxServiceImpl.findOne(userInfo, form, true, locale);
+		if (m == null) {
+			// DB更新が失敗した場合
+			model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.valid.data"); // error.data.message.valid.data=入力項目に誤りがあります。
+
+			logger.errorCode("E0014", "sendview"); // E0014=メソッド異常終了:{0}
+
+			return REDIRECT_LIST_SEND;
+		}
+		ObjectUtil objectUtil = new ObjectUtil();
+		objectUtil.getObjectCopyValue(form, m);
+
+		model.addAttribute(CommonConst.FORM_NAME, form);
+		logger.infoCode("I0002", "sendview"); // I0002=メソッド終了:{0}
+		return VIEW_PAGE_SEND;
+	}
+
+	/**
+	 * 新規メッセージ作成
+	 *
+	 * @param model
+	 * @param locale
+	 * @return
+	 */
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public String create(@ModelAttribute(CommonConst.FORM_NAME) MessageBoxForm form, Model model, Locale locale) {
+
+		logger.infoCode("I0001", "create"); // I0001=メソッド開始:{0}
+
+		// ポートフォリオのメッセージ送信より宛先を受け取る。
+		// 宛先を設定(返信と同じ画面を使用するため)
+		form.setToUserFullName(form.getUserFullName());
+		form.setToUserKey(form.getUserKey());
+		// 差出人
+		form.setUserKey(userInfo.getTargetUserKey());
+		form.setFromUserKey(userInfo.getTargetUserKey());
+		form.setFromUserFullName(userInfo.getTargetUserName());
+
+		// 確認ダイアログのメッセージ
+		form.setConfirmMessageRegist(messageSource.getMessage("message.confirm.send", null, locale));
+
+		// 戻り先設定
+		form.setPageMode(CommonConst.PAGE_MODE_ADD);
+		form.setPageActionUrl(PAGE_ACTION_URL_PORTFOLIO_DETAIL + form.getToUserKey());
+		model.addAttribute(CommonConst.FORM_NAME, form);
+
+		logger.infoCode("I0002", "create"); // I0002=メソッド終了:{0}
+		return EDIT_PAGE;
+	}
+
+	/**
+	 * 返信(編集画面)
+	 *
+	 * @param form
+	 * @param model
+	 * @param locale
+	 * @return
+	 */
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public String edit(@ModelAttribute(CommonConst.FORM_NAME) MessageBoxForm form, Model model, Locale locale) {
+		logger.infoCode("I0001", "edit"); // I0001=メソッド開始:{0}
+
+		MessageBoxDto m = messageBoxServiceImpl.findOne(userInfo, form, false, locale);
+		if (m == null) {
+			// DB更新が失敗した場合
+			model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.valid.data"); // error.data.message.valid.data=入力項目に誤りがあります。
+
+			logger.errorCode("E0014", "edit"); // E0014=メソッド異常終了:{0}
+
+			return REDIRECT_LIST_RECV;
+		}
+		ObjectUtil objectUtil = new ObjectUtil();
+		objectUtil.getObjectCopyValue(form, m);
+
+		// 返信
+		String toUserKey = form.getToUserKey();
+		String toUserFullName = form.getToUserFullName();
+		String fromUserKey = form.getFromUserKey();
+		String fromUserFullName = form.getFromUserFullName();
+		form.setToUserKey(fromUserKey);
+		form.setToUserFullName(fromUserFullName);
+		form.setFromUserKey(toUserKey);
+		form.setFromUserFullName(toUserFullName);
+		form.setMessageTitle(appendResvMessageTitle(form.getMessageTitle()));
+		form.setMessageContents(appendResvMessageContents(form.getMessageContents()));
+
+		// 確認ダイアログのメッセージ
+		form.setConfirmMessageRegist(messageSource.getMessage("message.confirm.send", null, locale));
+
+		// 戻り先設定
+		form.setPageMode(CommonConst.PAGE_MODE_EDIT);
+		form.setPageActionUrl(PAGE_ACTION_URL_RECV_VIEW);
+		model.addAttribute(CommonConst.FORM_NAME, form);
+
+		logger.infoCode("I0002", "edit"); // I0002=メソッド終了:{0}
+		return EDIT_PAGE;
+	}
+
+	/**
+	 * 返信実行(送信)
+	 *
+	 * @param form
+	 * @param bindingResult
+	 * @param model
+	 * @param attributes
+	 * @param locale
+	 * @return
+	 */
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String update(@Validated @ModelAttribute(CommonConst.FORM_NAME) final MessageBoxForm form, BindingResult bindingResult, Model model, RedirectAttributes attributes, Locale locale) {
+
+		logger.infoCode("I0001", "update"); // I0001=メソッド開始:{0}
+
+		String rtn = REDIRECT_LIST_RECV;
+		// 戻り先設定
+		if (CommonConst.PAGE_MODE_EDIT.equals(form.getPageMode())) {
+			form.setPageMode(CommonConst.PAGE_MODE_EDIT);
+			form.setPageActionUrl(PAGE_ACTION_URL_RECV_VIEW);
+		} else {
+			form.setPageMode(CommonConst.PAGE_MODE_ADD);
+			form.setPageActionUrl(PAGE_ACTION_URL_PORTFOLIO_DETAIL + form.getToUserKey());
+			rtn = "redirect:"+ form.getPageActionUrl();
+		}
+
+		///////////////////////////////////////////////////////////////////////////////////
+		// バリデーションエラーがある場合
+		if (bindingResult.hasErrors()) {
+			if (logger.isDebugEnabled()) {
+				logger.debugCode("W1010", bindingResult.getFieldError()); // W1010=Validationチェックエラーがありました。
+			}
+			model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.valid.data"); // error.data.message.valid.data=入力項目に誤りがあります。
+
+			model.addAttribute(CommonConst.FORM_NAME, form);
+
+			logger.infoCode("I0002", "update"); // I0002=メソッド終了:{0}
+			return EDIT_PAGE;
+		}
+
+		String newMessageKey = "";
+		try {
+			if (messageBoxServiceImpl.update(userInfo, form, newMessageKey)) {
+				// DB更新が成功した場合
+				String key = "messageKey=" + newMessageKey;
+				logger.infoCode("I1005", key); // I1005=新規作成しました。{0}
+
+				super.operationHistory(CommonConst.OP_FUNC_MESSAGEBOX, CommonConst.OP_ACTION_INSERT); // 操作ログ保存
+
+				attributes.addFlashAttribute(CommonConst.PAGE_SUCCESS_MESSAGE, "message.data.messagebox.success"); // message.data.messagebox.success=メッセージを送信しました。
+
+				logger.infoCode("I0002", "update"); // I0002=メソッド終了:{0}
+				return rtn;
+			}
+		} catch (Exception e) {
+			if (logger.isDebugEnabled()) {
+				e.printStackTrace();
+			}
+		}
+
+		logger.infoCode("I0002", "update"); // I0002=メソッド終了:{0}
+
+		// DB更新が失敗した場合
+		model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.db.regist"); // error.data.message.db.regist=登録が失敗しました。
+		logger.errorCode("E0014", "update"); // E0014=メソッド異常終了:{0}
+		return rtn;
+	}
+
+	/**
+	 * 受信メッセージ削除
+	 *
+	 * @param form
+	 * @param model
+	 * @param attributes
+	 * @return
+	 */
+	@RequestMapping(value = "/recv/delete", method = RequestMethod.POST)
+	public String recvdelete(@ModelAttribute(CommonConst.FORM_NAME) final MessageBoxForm form, Model model, RedirectAttributes attributes) {
+
+		logger.infoCode("I0001", "recvdelete"); // I0001=メソッド開始:{0}
+
+		String key = "messageKey=" + form.getMessageKey();
+
+		if (messageBoxServiceImpl.delete(userInfo, form)) {
+			// DB更新が成功した場合
+			logger.infoCode("I1003", key); // I1003=削除しました。{0}
+
+			super.operationHistory(CommonConst.OP_FUNC_MESSAGEBOX, CommonConst.OP_ACTION_DELETE); // 操作ログ保存
+
+			attributes.addFlashAttribute(CommonConst.PAGE_SUCCESS_MESSAGE, "message.data.delete.success"); // message.data.delete.success=データを削除しました。
+
+			attributes.addFlashAttribute(CommonConst.FORM_NAME, form);
+			logger.infoCode("I0002", "recvdelete"); // I0002=メソッド終了:{0}
+			return REDIRECT_LIST_RECV;
+		} else {
+
+			attributes.addFlashAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.db.remove"); // error.data.message.db.remove=削除が失敗しました。
+
+			model.addAttribute(CommonConst.FORM_NAME, form);
+			logger.errorCode("E0014", "recvdelete"); // E0014=メソッド異常終了:{0}
+			return REDIRECT_LIST_RECV;
+		}
+	}
+
+	/**
+	 * 送信メッセージ削除
+	 *
+	 * @param form
+	 * @param model
+	 * @param attributes
+	 * @return
+	 */
+	@RequestMapping(value = "/send/delete", method = RequestMethod.POST)
+	public String senddelete(@ModelAttribute(CommonConst.FORM_NAME) final MessageBoxForm form, Model model, RedirectAttributes attributes) {
+
+		logger.infoCode("I0001", "senddelete"); // I0001=メソッド開始:{0}
+
+		String key = "messageKey=" + form.getMessageKey();
+
+		if (messageBoxServiceImpl.delete(userInfo, form)) {
+			// DB更新が成功した場合
+			logger.infoCode("I1003", key); // I1003=削除しました。{0}
+
+			super.operationHistory(CommonConst.OP_FUNC_MESSAGEBOX, CommonConst.OP_ACTION_DELETE); // 操作ログ保存
+
+			attributes.addFlashAttribute(CommonConst.PAGE_SUCCESS_MESSAGE, "message.data.delete.success"); // message.data.delete.success=データを削除しました。
+
+			attributes.addFlashAttribute(CommonConst.FORM_NAME, form);
+			logger.infoCode("I0002", "senddelete"); // I0002=メソッド終了:{0}
+			return REDIRECT_LIST_SEND;
+		} else {
+
+			attributes.addFlashAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.db.remove"); // error.data.message.db.remove=削除が失敗しました。
+
+			model.addAttribute(CommonConst.FORM_NAME, form);
+			logger.errorCode("E0014", "senddelete"); // E0014=メソッド異常終了:{0}
+			return REDIRECT_LIST_SEND;
+		}
+	}
+
+	/**
+	 * ダイレクトアクセス対策
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = {"/edit", "/recv/view", "/send/view", "/create", "/update", "/recv/delete", "/send/delete"}, method = RequestMethod.GET)
+	public String redirect() {
+		logger.warnCode("W1009"); // W1009=URLダイレクトアクセスがありました。
+		return CommonConst.REDIRECT_INDEX;
+	}
+
+	/**
+	 * 返信時の件名に引用符「Re:」追加
+	 *
+	 * @param message
+	 * @return
+	 */
+	private String appendResvMessageTitle(String messageTitle) {
+		String appendStr = "Re:";
+		if (messageTitle != null) {
+			if (!messageTitle.startsWith(appendStr)) {
+				return appendStr +" "+ messageTitle;
+			}
+		} else {
+			return "";
+		}
+		return messageTitle;
+	}
+
+	/**
+	 * 返信時の本文に引用符「>」追加
+	 *
+	 * @param message
+	 * @return
+	 */
+	private String appendResvMessageContents(String messageContents) {
+		StringBuilder b = new StringBuilder();
+		String appendStr = ">";
+		if (messageContents != null) {
+			String tmp = StringUtil.nl2Lf(messageContents);
+			String[] lines = tmp.split("\r?\n");
+			b.append("\n"); // 一行目に空文字追加
+			for (String s : lines) {
+				b.append("\n"); // 一行目に空文字追加
+				if (s.startsWith(appendStr +" ")) {
+					b.append(appendStr + s );
+				} else {
+					b.append(appendStr +" "+ s);
+				}
+			}
+		} else {
+			return "";
+		}
+		return b.toString();
+	}
+
+}
+
+
+MessageBoxForm.java
+/*
+* ファイル名：MessageBoxForm.java
+*
+* <MODIFICATION HISTORY>
+*   (Rev.)     (Date)       (ID/NAME)   (Comment)
+*   Rev 1.00   2015/12/01   toishigawa  新規作成
+*/
+package jp.co.sraw.controller.messagebox;
+
+import java.sql.Timestamp;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.maru.m4hv.extensions.constraints.CharLength;
+
+import jp.co.sraw.common.CommonForm;
+
+/**
+ * <B>MessageBoxFormクラス</B>
+ * <P>
+ * Formのメソッドを提供する
+ */
+public class MessageBoxForm extends CommonForm {
+
+	private String messageKey;
+
+	@NotBlank
+	private String userKey; // 持ち主
+
+	private String userFullName; // 持ち主
+
+	private Timestamp sendDate;
+
+	@NotBlank
+	@CharLength(max = 100)
+	private String messageTitle;
+
+	@NotBlank
+	private String messageContents;
+
+	private String refMessageKey;
+
+	private String fromUserKey; // 送信者キー
+
+	private String fromUserFullName; // 送信者名
+
+	private String toUserKey; // 受信者キー
+
+	private String toUserFullName; // 受信者名
+
+	private Timestamp updDate;
+
+	private String updUserKey;
+
+	/**
+	 * @return messageKey
+	 */
+	public String getMessageKey() {
+		return messageKey;
+	}
+
+	/**
+	 * @param messageKey セットする messageKey
+	 */
+	public void setMessageKey(String messageKey) {
+		this.messageKey = messageKey;
+	}
+
+	/**
+	 * @return userKey
+	 */
+	public String getUserKey() {
+		return userKey;
+	}
+
+	/**
+	 * @param userKey セットする userKey
+	 */
+	public void setUserKey(String userKey) {
+		this.userKey = userKey;
+	}
+
+	/**
+	 * @return userFullName
+	 */
+	public String getUserFullName() {
+		return userFullName;
+	}
+
+	/**
+	 * @param userFullName セットする userFullName
+	 */
+	public void setUserFullName(String userFullName) {
+		this.userFullName = userFullName;
+	}
+
+	/**
+	 * @return sendDate
+	 */
+	public Timestamp getSendDate() {
+		return sendDate;
+	}
+
+	/**
+	 * @param sendDate セットする sendDate
+	 */
+	public void setSendDate(Timestamp sendDate) {
+		this.sendDate = sendDate;
+	}
+
+	/**
+	 * @return messageTitle
+	 */
+	public String getMessageTitle() {
+		return messageTitle;
+	}
+
+	/**
+	 * @param messageTitle セットする messageTitle
+	 */
+	public void setMessageTitle(String messageTitle) {
+		this.messageTitle = messageTitle;
+	}
+
+	/**
+	 * @return messageContents
+	 */
+	public String getMessageContents() {
+		return messageContents;
+	}
+
+	/**
+	 * @param messageContents セットする messageContents
+	 */
+	public void setMessageContents(String messageContents) {
+		this.messageContents = messageContents;
+	}
+
+	/**
+	 * @return refMessageKey
+	 */
+	public String getRefMessageKey() {
+		return refMessageKey;
+	}
+
+	/**
+	 * @param refMessageKey セットする refMessageKey
+	 */
+	public void setRefMessageKey(String refMessageKey) {
+		this.refMessageKey = refMessageKey;
+	}
+
+	/**
+	 * @return fromUserKey
+	 */
+	public String getFromUserKey() {
+		return fromUserKey;
+	}
+
+	/**
+	 * @param fromUserKey セットする fromUserKey
+	 */
+	public void setFromUserKey(String fromUserKey) {
+		this.fromUserKey = fromUserKey;
+	}
+
+	/**
+	 * @return fromUserFullName
+	 */
+	public String getFromUserFullName() {
+		return fromUserFullName;
+	}
+
+	/**
+	 * @param fromUserFullName セットする fromUserFullName
+	 */
+	public void setFromUserFullName(String fromUserFullName) {
+		this.fromUserFullName = fromUserFullName;
+	}
+
+	/**
+	 * @return toUserKey
+	 */
+	public String getToUserKey() {
+		return toUserKey;
+	}
+
+	/**
+	 * @param toUserKey セットする toUserKey
+	 */
+	public void setToUserKey(String toUserKey) {
+		this.toUserKey = toUserKey;
+	}
+
+	/**
+	 * @return toUserFullName
+	 */
+	public String getToUserFullName() {
+		return toUserFullName;
+	}
+
+	/**
+	 * @param toUserFullName セットする toUserFullName
+	 */
+	public void setToUserFullName(String toUserFullName) {
+		this.toUserFullName = toUserFullName;
+	}
+
+	/**
+	 * @return updDate
+	 */
+	public Timestamp getUpdDate() {
+		return updDate;
+	}
+
+	/**
+	 * @param updDate セットする updDate
+	 */
+	public void setUpdDate(Timestamp updDate) {
+		this.updDate = updDate;
+	}
+
+	/**
+	 * @return updUserKey
+	 */
+	public String getUpdUserKey() {
+		return updUserKey;
+	}
+
+	/**
+	 * @param updUserKey セットする updUserKey
+	 */
+	public void setUpdUserKey(String updUserKey) {
+		this.updUserKey = updUserKey;
+	}
+
+}
+
+
+MessageBoxServiceImpl.java
+/*
+* ファイル名：UserServiceImpl.java
+*
+* <MODIFICATION HISTORY>
+*   (Rev.)     (Date)       (ID/NAME)   (Comment)
+*   Rev 1.00   2015/12/01   toishigawa  新規作成
+*/
+package jp.co.sraw.service;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import jp.co.sraw.common.CommonConst;
+import jp.co.sraw.common.CommonService;
+import jp.co.sraw.common.UserInfo;
+import jp.co.sraw.controller.messagebox.MessageBoxForm;
+import jp.co.sraw.dto.MessageBoxDto;
+import jp.co.sraw.entity.UsMessageBoxTbl;
+import jp.co.sraw.entity.UsUserTbl;
+import jp.co.sraw.logger.LoggerWrapper;
+import jp.co.sraw.logger.LoggerWrapperFactory;
+import jp.co.sraw.repository.UsMessageBoxTblRepository;
+import jp.co.sraw.util.DateUtil;
+import jp.co.sraw.util.StringUtil;
+
+/**
+ * <B>UserServiceクラス</B>
+ * <P>
+ * ユーザーサービスのメソッドを提供する
+ */
+@Scope("prototype")
+@Service
+@Transactional(readOnly = true)
+public class MessageBoxServiceImpl extends CommonService {
+
+	@Autowired
+	private UsMessageBoxTblRepository usMessageBoxTblRepository;
+
+	@Autowired
+	private UserServiceImpl userServiceImpl;
+
+	private static final LoggerWrapper logger = LoggerWrapperFactory.getLogger(MessageBoxServiceImpl.class);
+
+	@PostConstruct
+	protected void init() {
+		logger.setMessageSource(messageSource);
+	}
+
+	/**
+	 * orderBy
+	 *
+	 * @return
+	 */
+	private Sort orderBy() {
+		// 日付（降順）
+		return new Sort(Sort.Direction.DESC, "sendDate");
+	}
+
+	/**
+	 * メッセージ取得
+	 *
+	 * @param userKey
+	 * @return
+	 */
+	public List<MessageBoxDto> findAll(UserInfo userInfo, boolean sendFlag, Locale locale) {
+		logger.infoCode("I0001"); // I0001=メソッド開始:{0}
+
+		// 条件
+		Specification<UsMessageBoxTbl> whereUserKey =  new Specification<UsMessageBoxTbl>() {
+			@Override
+			public Predicate toPredicate(Root<UsMessageBoxTbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.equal(root.get("usUserTbl").get("userKey"), userInfo.getTargetUserKey());
+			}
+		};
+		// 送信者
+		Specification<UsMessageBoxTbl> whereSendUserKey =  new Specification<UsMessageBoxTbl>() {
+			@Override
+			public Predicate toPredicate(Root<UsMessageBoxTbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				if (sendFlag) {
+					return cb.equal(root.get("fromUserKey"), userInfo.getTargetUserKey());
+				} else {
+					return cb.equal(root.get("toUserKey"), userInfo.getTargetUserKey());
+				}
+			}
+		};
+
+		List<UsMessageBoxTbl> mList = usMessageBoxTblRepository.findAll(Specifications.where(whereUserKey).and(whereSendUserKey), orderBy());
+
+		List<MessageBoxDto> rltList = new ArrayList<MessageBoxDto>();
+		Map<String, UsUserTbl> userMap = new HashMap<String, UsUserTbl>();
+		for (UsMessageBoxTbl m : mList) {
+			MessageBoxDto dto = new MessageBoxDto();
+
+			// 取得
+			UsUserTbl toUser = new UsUserTbl();
+			UsUserTbl fromUser = new UsUserTbl();
+			if (StringUtil.isNotNull(m.getFromUserKey())) {
+				//
+				if (userMap.containsKey(m.getFromUserKey())) {
+					fromUser = userMap.get(m.getFromUserKey());
+				} else {
+					fromUser = userServiceImpl.findOne(m.getFromUserKey());
+					userMap.put(m.getFromUserKey(), fromUser);
+				}
+			}
+			if (StringUtil.isNotNull(m.getToUserKey())) {
+				//
+				if (userMap.containsKey(m.getToUserKey())) {
+					toUser = userMap.get(m.getToUserKey());
+				} else {
+					toUser = userServiceImpl.findOne(m.getToUserKey());
+					userMap.put(m.getToUserKey(), toUser);
+				}
+			}
+			setDto(m, dto, toUser, fromUser, locale);
+
+			rltList.add(dto);
+		}
+
+		logger.infoCode("I0002"); // I0002=メソッド終了:{0}
+		return rltList;
+	}
+
+
+	/**
+	 * メッセージ作成(常に新規)
+	 *
+	 * @param userInfo
+	 * @param form
+	 * @param newMessageKey
+	 * @return
+	 */
+	@Transactional
+	public boolean update(UserInfo userInfo, MessageBoxForm form, String newMessageKey) throws Exception {
+		logger.infoCode("I0001");
+		try {
+			Timestamp nowtime = DateUtil.getNowTimestamp();
+
+			// 送信宛
+			UsMessageBoxTbl toEntity = new UsMessageBoxTbl();
+			UsUserTbl toUsUserTbl = new UsUserTbl();
+			toUsUserTbl.setUserKey(form.getToUserKey());
+			toEntity.setUsUserTbl(toUsUserTbl);
+			toEntity.setToUserKey(form.getToUserKey());
+			toEntity.setFromUserKey(userInfo.getTargetUserKey());
+			toEntity.setMessageContents(form.getMessageContents());
+			toEntity.setMessageTitle(form.getMessageTitle());
+			toEntity.setRefMessageKey(form.getRefMessageKey());
+			toEntity.setSendDate(nowtime);
+			//
+			toEntity.setUpdDate(nowtime);
+			toEntity.setUpdUserKey(userInfo.getLoginUserKey());
+			//
+			toEntity = usMessageBoxTblRepository.save(toEntity);
+
+			// 自分宛
+			UsMessageBoxTbl fromEntity = new UsMessageBoxTbl();
+			UsUserTbl fromUsUserTbl = new UsUserTbl();
+			fromUsUserTbl.setUserKey(userInfo.getTargetUserKey());
+			fromEntity.setUsUserTbl(fromUsUserTbl);
+			fromEntity.setToUserKey(form.getToUserKey());
+			fromEntity.setFromUserKey(userInfo.getTargetUserKey());
+			fromEntity.setMessageContents(form.getMessageContents());
+			fromEntity.setMessageTitle(form.getMessageTitle());
+			fromEntity.setRefMessageKey(form.getRefMessageKey());
+			fromEntity.setSendDate(nowtime);
+			//
+			fromEntity.setUpdDate(nowtime);
+			fromEntity.setUpdUserKey(userInfo.getLoginUserKey());
+			//
+			fromEntity = usMessageBoxTblRepository.save(fromEntity);
+
+
+			if (toEntity != null) {
+				usMessageBoxTblRepository.flush();
+				newMessageKey = toEntity.getMessageKey();
+				logger.infoCode("I0002");
+				return true;
+			}
+
+		} catch (Exception e) {
+			logger.errorCode("E1007", e); // E1007=登録に失敗しました。{0}
+			throw e;
+		}
+		return false;
+	}
+
+	@Transactional
+	public boolean delete(UserInfo userInfo, MessageBoxForm form) {
+		logger.infoCode("I0001");
+		try {
+
+			int c = usMessageBoxTblRepository.delete(form.getMessageKey(), form.getUpdDate());
+
+			if (c > 0) {
+				usMessageBoxTblRepository.flush();
+				logger.infoCode("I0002");
+				return true;
+			}
+		} catch (Exception e) {
+			logger.errorCode("E1009", e); // E1009=削除に失敗しました。{0}
+		}
+		return false;
+	}
+
+	/**
+	 * eventKey指定取得
+	 *
+	 * @param eventKey
+	 * @return
+	 */
+	public UsMessageBoxTbl getOne(final String messageKey) {
+		return usMessageBoxTblRepository.getOne(messageKey);
+	}
+
+
+	public MessageBoxDto findOne(UserInfo userInfo, MessageBoxForm form, boolean sendFlag, Locale locale) {
+		logger.infoCode("I0001"); // I0001=メソッド開始:{0}
+
+		// 条件
+		Specification<UsMessageBoxTbl> whereUserKey =  new Specification<UsMessageBoxTbl>() {
+			@Override
+			public Predicate toPredicate(Root<UsMessageBoxTbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.equal(root.get("usUserTbl").get("userKey"), userInfo.getTargetUserKey());
+			}
+		};
+		// 送信者
+		Specification<UsMessageBoxTbl> whereSendUserKey =  new Specification<UsMessageBoxTbl>() {
+			@Override
+			public Predicate toPredicate(Root<UsMessageBoxTbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				if (sendFlag) {
+					return cb.equal(root.get("fromUserKey"), userInfo.getTargetUserKey());
+				} else {
+					return cb.equal(root.get("toUserKey"), userInfo.getTargetUserKey());
+				}
+			}
+		};
+		Specification<UsMessageBoxTbl> whereMessageKey = new Specification<UsMessageBoxTbl>() {
+			@Override
+			public Predicate toPredicate(Root<UsMessageBoxTbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.equal(root.get("messageKey"), form.getMessageKey ());
+			}
+		};
+		Specification<UsMessageBoxTbl> whereUpdDate = DateUtil.isNull(form.getUpdDate()) ? null
+			: new Specification<UsMessageBoxTbl>() {
+				@Override
+				public Predicate toPredicate(Root<UsMessageBoxTbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					return cb.equal(root.get("updDate"), form.getUpdDate());
+				}
+			};
+
+		UsMessageBoxTbl m = usMessageBoxTblRepository.findOne(Specifications.where(whereUserKey).and(whereSendUserKey).and(whereMessageKey).and(whereUpdDate));
+		MessageBoxDto dto = new MessageBoxDto();
+		setDto(m, dto, userServiceImpl.findOne(m.getToUserKey()), userServiceImpl.findOne(m.getFromUserKey()), locale);
+
+		logger.infoCode("I0002"); // I0002=メソッド終了:{0}
+		return dto;
+	}
+
+	/**
+	 * EntityからDtoにセット
+	 *
+	 * @param from
+	 * @param toDto
+	 * @param toUser
+	 * @param fromUser
+	 * @param locale
+	 */
+	private void setDto(UsMessageBoxTbl from, MessageBoxDto toDto, UsUserTbl toUser, UsUserTbl fromUser, Locale locale) {
+		String userFullName ="";
+		String toUserFullName = "";
+		String fromUserFullName = "";
+		toDto.setMessageKey(from.getMessageKey());
+		toDto.setUserKey(from.getUsUserTbl().getUserKey()); // 持ち主
+		toDto.setToUserKey(from.getToUserKey()); // 受信者キー
+		toDto.setFromUserKey(from.getFromUserKey()); // 送信者キー
+		toDto.setMessageContents(from.getMessageContents());
+		toDto.setMessageTitle(from.getMessageTitle());
+		toDto.setRefMessageKey(from.getRefMessageKey());
+		toDto.setSendDate(from.getSendDate());
+		toDto.setUpdDate(from.getUpdDate());
+		toDto.setUpdUserKey(from.getUpdUserKey());
+
+		// 表示する氏名
+		if (CommonConst.DEFAULT_LOCALE.getLanguage().equals(locale.getLanguage())) {
+			userFullName = StringUtil.getUserName(from.getUsUserTbl().getUserKbn(), from.getUsUserTbl().getUserFamilyName(), from.getUsUserTbl().getUserMiddleName(), from.getUsUserTbl().getUserName());
+			toUserFullName = StringUtil.getUserName(toUser.getUserKbn(), toUser.getUserFamilyName(), toUser.getUserMiddleName(), toUser.getUserName());
+			fromUserFullName = StringUtil.getUserName(fromUser.getUserKbn(), fromUser.getUserFamilyName(), fromUser.getUserMiddleName(), fromUser.getUserName());
+		} else {
+			userFullName = StringUtil.getUserNameEn(from.getUsUserTbl().getUserKbn(), from.getUsUserTbl().getUserFamilyNameEn(), from.getUsUserTbl().getUserMiddleNameEn(), from.getUsUserTbl().getUserNameEn());
+			toUserFullName = StringUtil.getUserNameEn(toUser.getUserKbn(), toUser.getUserFamilyNameEn(), toUser.getUserMiddleNameEn(), toUser.getUserNameEn());
+			fromUserFullName = StringUtil.getUserNameEn(fromUser.getUserKbn(), fromUser.getUserFamilyNameEn(), fromUser.getUserMiddleNameEn(), fromUser.getUserNameEn());
+		}
+		toDto.setUserFullName(userFullName); // 持ち主
+		toDto.setToUserFullName(toUserFullName); // 送信者名(受信のとき相手。送信のとき自分)
+		toDto.setFromUserFullName(fromUserFullName); // 送信者名(受信のとき相手。送信のとき自分)
+	}
+
+}
+
+
+
+
+
+	
+	
+
+
+
+
+
+	
