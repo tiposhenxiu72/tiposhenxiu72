@@ -6185,6 +6185,403 @@ public abstract class MultiHandleServiceImpl<T extends GyHasTtitleTbl, F extends
 
 
 
+20160217
+
+package jp.co.sraw.context;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AppContextService {
+
+	@Autowired
+	private ApplicationContext context;
+
+	public RoleObject getRole(String roleId) throws Exception {
+		String[] roleList = context.getBeanNamesForType(RoleObject.class);
+		for (String beanName : roleList) {
+			if (beanName.contains("role_" + roleId)) {
+				return (RoleObject) context.getBean(beanName);
+			}
+		}
+		throw new Exception();
+	}
+
+}
+
+package jp.co.sraw.context;
+
+public class RoleObject {
+
+	public String getDetailPageUrl() {
+		return detailPageUrl;
+	}
+
+	public void setDetailPageUrl(String detailPageUrl) {
+		this.detailPageUrl = detailPageUrl;
+	}
+
+	private String detailPageUrl;
+}
+
+
+/*
+* ファイル名：SearchController.java
+*
+* <MODIFICATION HISTORY>
+*   (Rev.)     (Date)       (ID/NAME)   (Comment)
+*   Rev 1.00   2015/01/01   toishigawa  新規作成
+*/
+package jp.co.sraw.controller.search;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import jp.co.sraw.common.CommonConst;
+import jp.co.sraw.context.AppContextService;
+import jp.co.sraw.context.RoleObject;
+import jp.co.sraw.controller.portfolio.ProfileCommonController;
+import jp.co.sraw.controller.portfolio.form.PortfolioProfileForm;
+import jp.co.sraw.dto.MsCodeDto;
+import jp.co.sraw.dto.SearchDto;
+import jp.co.sraw.entity.UsUserTbl;
+import jp.co.sraw.logger.LoggerWrapper;
+import jp.co.sraw.logger.LoggerWrapperFactory;
+import jp.co.sraw.service.SearchServiceImpl;
+import jp.co.sraw.service.UserServiceImpl;
+import jp.co.sraw.util.DbUtil;
+import jp.co.sraw.util.StringUtil;
+
+/**
+ * <B>SearchControllerクラス</B>
+ * <P>
+ * Controllerのメソッドを提供する
+ */
+@Controller
+@RequestMapping("/search")
+@SessionAttributes(SearchController.SEARCH_FORM_NAME)
+public class SearchController extends ProfileCommonController {
+
+	private static final LoggerWrapper logger = LoggerWrapperFactory.getLogger(SearchController.class);
+
+	@Autowired
+	private SearchServiceImpl searchServiceImpl;
+
+	@Autowired
+	private UserServiceImpl userServiceImpl;
+
+	@Autowired
+	private AppContextService appContext;
+
+	protected static final String SEARCH_FORM_NAME ="searchForm";
+
+	private static final String LIST_PAGE_USER = "search/userList";
+
+	private static final String LIST_PAGE_PARTY = "search/partyList";
+
+	private static final String LIST_PAGE_STAFF = "search/staffList";
+
+	private static final String CODE_PARTY_KBN = "0007"; // 組織区分 定数区分[0007] 企業と大学の場合
+
+	private static final String[] USER_KBN_PARTY_LIST = new String[]{"40", "50"}; // ユーザー区分 企業と大学の場合
+
+	private static final String[] PARTY_KBN_LIST = new String[]{"5", "6"}; // 組織区分 国立大学, 公私立大学
+
+	private static final String CODE_USER_KBN = "0036"; // ユーザー区分 定数区分[0036] 若手研究者 {"11","12","13"}
+
+	private static final String CODE_STAFF_KBN = "0037"; // ユーザー区分 定数区分[0037] 相談員、教職員  {"21","31"}
+
+	private static final String[] PUBLIC_FLAG_INSIDE = new String[]{"1", "2"}; // 内部、全公開
+
+	private static final String[] PUBLIC_FLAG_OUTSIDE = new String[]{"2"}; // 内部、全公開
+
+	@PostConstruct
+	protected void init() {
+		logger.setMessageSource(messageSource);
+	}
+
+	@ModelAttribute(SEARCH_FORM_NAME)
+	public SearchForm setupForm() {
+		SearchForm form = new SearchForm();
+		return form;
+	}
+
+	/**
+	 * 検索結果表示用の明細(内部)
+	 *
+	 * @param form
+	 * @param searchUserKey
+	 * @param model
+	 * @param locale
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = { "/detail/{searchUserKey}" })
+	public String userDetail(@ModelAttribute(CommonConst.FORM_NAME) PortfolioProfileForm form,
+			@PathVariable String searchUserKey, HttpServletResponse response, Model model, Locale locale) throws Exception {
+
+		logger.infoCode("I0001", "userDetail"); // I0001=メソッド開始:{0}
+
+		RoleObject roleObject =null;
+		String[] publicFlags = PUBLIC_FLAG_INSIDE; // 公開判定
+		form.setPublicFlag("1"); // 内部公開の場合
+		// 表示しようとしている人がコンソーシアム外の場合
+		if (userInfo.isOther()) {
+			publicFlags = PUBLIC_FLAG_OUTSIDE;
+			form.setPublicFlag("2"); // 外部公開の場合
+		}
+		//
+		if (searchUserKey != null && StringUtil.isNotNull(searchUserKey)) {
+			// ユーザ情報取得
+			UsUserTbl usUserTbl = userServiceImpl.findOne(searchUserKey);
+			if (usUserTbl == null
+					|| (usUserTbl != null && !Arrays.asList(publicFlags).contains(usUserTbl.getUserPublicFlag()))) {
+				// データがない。または公開対象では無い場合
+				// 404を返す。
+				try {
+					response.sendError(HttpServletResponse.SC_NOT_FOUND);
+				} catch (IOException e) {
+					return null;
+				}
+			}
+
+			model.addAttribute("usUserTbl", usUserTbl);
+			this.setListToModel(form, model, searchUserKey);
+
+			roleObject = appContext.getRole(usUserTbl.getUserKbn());
+		}
+
+		// 閲覧表示
+		form.setButtonFlag("0");
+		this.setListToModel(model, "0042", locale);
+		model.addAttribute(CommonConst.FORM_NAME, form);
+
+		// dump
+		modelDump(logger, model, "userDetail");
+
+		logger.infoCode("I0002", "userDetail"); // I0002=メソッド終了:{0}
+
+		return roleObject.getDetailPageUrl();
+	}
+
+	/**
+	 * 一覧
+	 *
+	 * @param name
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping({ "", "/", "/user", "/user/{mode}" })
+	public String userList(@Validated @ModelAttribute(SEARCH_FORM_NAME) SearchForm form, BindingResult bindingResult, @PathVariable("mode") Optional<String> mode, Model model, Locale locale) {
+
+		logger.infoCode("I0001", "userList"); // I0001=メソッド開始:{0}
+
+		if (logger.isDebugEnabled() && userInfo != null) {
+			logger.debug("LoginUserKey=" + userInfo.getLoginUserKey());
+			logger.debug("TargetUserKey=" + userInfo.getTargetUserKey());
+		}
+
+		List<SearchDto> userList = new ArrayList<SearchDto>();
+
+		// 検索条件リセット"0"
+		if ((mode.isPresent() && "0".equals(mode.get())) || "0".equals(form.getSearched())) {
+			form = setupForm();
+		}
+
+		// 検索実施"1"の場合
+		if ((mode.isPresent() && "1".equals(mode.get())) || "1".equals(form.getSearched())) {
+
+			// 検索済み
+			form.setSearched("1");
+
+			///////////////////////////////////////////////////////////////////////////////////
+			// バリデーションエラーがある場合
+			if (bindingResult.hasErrors()) {
+				if (logger.isDebugEnabled()) {
+					logger.debugCode("W1010", bindingResult.getFieldError()); // W1010=Validationチェックエラーがありました。
+				}
+				model.addAttribute(CommonConst.PAGE_DANGER_MESSAGE, "error.data.message.valid.data"); // error.data.message.valid.data=入力項目に誤りがあります。
+
+				model.addAttribute(SEARCH_FORM_NAME, form);
+
+				logger.infoCode("I0002", "userList"); // I0002=メソッド終了:{0}
+				return LIST_PAGE_USER;
+			}
+
+			// 公開
+			List<String> publicFlagList = Arrays.asList(PUBLIC_FLAG_INSIDE); // 内部公開の場合
+			// 表示しようとしている人がコンソーシアム外の場合
+			if (userInfo.isOther()) {
+				publicFlagList = Arrays.asList(PUBLIC_FLAG_OUTSIDE); // 外部公開の場合
+			}
+			// 表示組織区分
+			List<String> pertyKbnList = Arrays.asList(PARTY_KBN_LIST);
+			// 表示役割区分
+			List<MsCodeDto> userKbnList = DbUtil.getJosuList(CODE_USER_KBN, locale);
+			List<String> whereUserKbnList = new ArrayList<String>();
+			for (MsCodeDto code : userKbnList) {
+				whereUserKbnList.add(code.getCode());
+			}
+
+			userList = searchServiceImpl.searchUserList(form, whereUserKbnList, pertyKbnList, publicFlagList);
+		}
+
+		//
+		model.addAttribute("userList", userList);
+		model.addAttribute(SEARCH_FORM_NAME, form);
+
+		// dump
+		modelDump(logger, model, "userList");
+
+		logger.infoCode("I0002", "userList"); // I0002=メソッド終了:{0}
+
+		return LIST_PAGE_USER;
+	}
+
+	/**
+	 * 一覧
+	 *
+	 * @param name
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping({ "/staff" })
+	public String staffList(@ModelAttribute(SEARCH_FORM_NAME) SearchForm form, Model model, Locale locale) {
+
+		logger.infoCode("I0001", "staffList"); // I0001=メソッド開始:{0}
+
+		if (logger.isDebugEnabled() && userInfo != null) {
+			logger.debug("LoginUserKey=" + userInfo.getLoginUserKey());
+			logger.debug("TargetUserKey=" + userInfo.getTargetUserKey());
+		}
+
+		// 公開
+		List<String> publicFlagList = Arrays.asList(PUBLIC_FLAG_INSIDE); // 内部公開の場合
+		// 表示しようとしている人がコンソーシアム外の場合
+		if (userInfo.isOther()) {
+			publicFlagList = Arrays.asList(PUBLIC_FLAG_OUTSIDE); // 外部公開の場合
+		}
+		// 表示役割区分
+		List<MsCodeDto> staffKbnList = DbUtil.getJosuList(CODE_STAFF_KBN, locale);
+		List<String> whereStaffKbnList = new ArrayList<String>();
+		for (MsCodeDto code : staffKbnList) {
+			whereStaffKbnList.add(code.getCode());
+		}
+		// 教員、相談員一覧を取得
+		List<SearchDto> searchList = searchServiceImpl.searchStaffList(whereStaffKbnList, publicFlagList);
+
+		Map<String, List<SearchDto>> mapList = new HashMap<String, List<SearchDto>>();
+
+		// 区分から一覧を生成
+		for (MsCodeDto kbn : staffKbnList) {
+			List<SearchDto> list = new ArrayList<SearchDto>();
+			for (SearchDto sdto : searchList) {
+				// 区分毎に振り分け
+				if (kbn.getCode().equals(sdto.getUserKbn())) {
+					list.add(sdto);
+				}
+			}
+			mapList.put(kbn.getCode(), list);
+		}
+
+		model.addAttribute("staffKbnList", staffKbnList);
+		model.addAttribute("mapList", mapList);
+		model.addAttribute(SEARCH_FORM_NAME, form);
+
+		// dump
+		modelDump(logger, model, "staffList");
+
+		logger.infoCode("I0002", "staffList"); // I0002=メソッド終了:{0}
+
+		return LIST_PAGE_STAFF;
+	}
+
+	/**
+	 * 一覧
+	 *
+	 * @param name
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping({ "/party" })
+	public String partyList(@ModelAttribute(SEARCH_FORM_NAME) SearchForm form, Model model, Locale locale) {
+
+		logger.infoCode("I0001", "partyList"); // I0001=メソッド開始:{0}
+
+		if (logger.isDebugEnabled() && userInfo != null) {
+			logger.debug("LoginUserKey=" + userInfo.getLoginUserKey());
+			logger.debug("TargetUserKey=" + userInfo.getTargetUserKey());
+		}
+
+		// 公開
+		List<String> publicFlagList = Arrays.asList(PUBLIC_FLAG_INSIDE); // 内部公開の場合
+		// 表示しようとしている人がコンソーシアム外の場合
+		if (userInfo.isOther()) {
+			publicFlagList = Arrays.asList(PUBLIC_FLAG_OUTSIDE); // 外部公開の場合
+		}
+		// 表示企業区分
+		List<MsCodeDto> partyKbnList = DbUtil.getJosuList(CODE_PARTY_KBN, locale);
+		// ユーザー区分
+		List<String> whereUserKbnList = Arrays.asList(USER_KBN_PARTY_LIST);
+		List<String> wherePartyKbnList = new ArrayList<String>();
+		for (MsCodeDto code : partyKbnList) {
+			wherePartyKbnList.add(code.getCode());
+		}
+		// 組織一覧を取得
+		List<SearchDto> searchList = searchServiceImpl.searchPartyList(whereUserKbnList, wherePartyKbnList, publicFlagList);
+
+		Map<String, List<SearchDto>> mapList = new HashMap<String, List<SearchDto>>();
+
+		// 区分から一覧を生成
+		for (MsCodeDto kbn : partyKbnList) {
+			List<SearchDto> list = new ArrayList<SearchDto>();
+			for (SearchDto sdto : searchList) {
+				// 区分毎に振り分け
+				if (kbn.getCode().equals(sdto.getPartyKbn())) {
+					list.add(sdto);
+				}
+			}
+			mapList.put(kbn.getCode(), list);
+		}
+
+		model.addAttribute("partyKbnList", partyKbnList);
+		model.addAttribute("mapList", mapList);
+		model.addAttribute(SEARCH_FORM_NAME, form);
+
+		// dump
+		modelDump(logger, model, "partyList");
+
+		logger.infoCode("I0002", "partyList"); // I0002=メソッド終了:{0}
+
+		return LIST_PAGE_PARTY;
+	}
+}
+
+
+
+
+
 
 
 
