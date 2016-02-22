@@ -6579,6 +6579,1784 @@ public class SearchController extends ProfileCommonController {
 }
 
 
+SearchForm.java
+
+
+/*
+* ファイル名：SupportForm.java
+*
+* <MODIFICATION HISTORY>
+*   (Rev.)     (Date)       (ID/NAME)   (Comment)
+*   Rev 1.00   2015/12/01   toishigawa  新規作成
+*/
+package jp.co.sraw.controller.search;
+
+import org.maru.m4hv.extensions.constraints.CharLength;
+
+import jp.co.sraw.common.CommonForm;
+
+/**
+ * <B>SupportFormクラス</B>
+ * <P>
+ * Formのメソッドを提供する
+ */
+public class SearchForm extends CommonForm {
+
+	// 検索済み判定
+	private String searched; // 検索済み:1
+
+	// 表示用(ポートフォリオ表示共有のため)
+	private String baseInfoFlag;
+
+	// 検索条件
+	@CharLength(max = 1000)
+	private String searchKeyword;             // 検索条件：キーワード
+
+	private String searchPartyCode;           // 検索条件：所属機関
+	private String searchResearchAreaField;   // 検索条件：研究分野（大分類）
+	private String searchResearchAreaSubject; // 検索条件：研究分野（中分類）
+	private String searchResearchAreaCode;    // 検索条件：研究分野（小分類）
+
+	private String userKey;
+
+	/**
+	 * @return searchKeyword
+	 */
+	public String getSearchKeyword() {
+		return searchKeyword;
+	}
+
+	/**
+	 * @param searchKeyword セットする searchKeyword
+	 */
+	public void setSearchKeyword(String searchKeyword) {
+		this.searchKeyword = searchKeyword;
+	}
+
+	/**
+	 * @return searchPartyCode
+	 */
+	public String getSearchPartyCode() {
+		return searchPartyCode;
+	}
+
+	/**
+	 * @param searchPartyCode セットする searchPartyCode
+	 */
+	public void setSearchPartyCode(String searchPartyCode) {
+		this.searchPartyCode = searchPartyCode;
+	}
+
+	/**
+	 * @return searchResearchAreaField
+	 */
+	public String getSearchResearchAreaField() {
+		return searchResearchAreaField;
+	}
+
+	/**
+	 * @param searchResearchAreaField セットする searchResearchAreaField
+	 */
+	public void setSearchResearchAreaField(String searchResearchAreaField) {
+		this.searchResearchAreaField = searchResearchAreaField;
+	}
+
+	/**
+	 * @return searchResearchAreaSubject
+	 */
+	public String getSearchResearchAreaSubject() {
+		return searchResearchAreaSubject;
+	}
+
+	/**
+	 * @param searchResearchAreaSubject セットする searchResearchAreaSubject
+	 */
+	public void setSearchResearchAreaSubject(String searchResearchAreaSubject) {
+		this.searchResearchAreaSubject = searchResearchAreaSubject;
+	}
+
+	/**
+	 * @return searchResearchAreaCode
+	 */
+	public String getSearchResearchAreaCode() {
+		return searchResearchAreaCode;
+	}
+
+	/**
+	 * @param searchResearchAreaCode セットする searchResearchAreaCode
+	 */
+	public void setSearchResearchAreaCode(String searchResearchAreaCode) {
+		this.searchResearchAreaCode = searchResearchAreaCode;
+	}
+
+	/**
+	 * @return userKey
+	 */
+	public String getUserKey() {
+		return userKey;
+	}
+
+	/**
+	 * @param userKey セットする userKey
+	 */
+	public void setUserKey(String userKey) {
+		this.userKey = userKey;
+	}
+
+	/**
+	 * @return searched
+	 */
+	public String getSearched() {
+		return searched;
+	}
+
+	/**
+	 * @param searched セットする searched
+	 */
+	public void setSearched(String searched) {
+		this.searched = searched;
+	}
+
+	/**
+	 * @return baseInfoFlag
+	 */
+	public String getBaseInfoFlag() {
+		return baseInfoFlag;
+	}
+
+	/**
+	 * @param baseInfoFlag セットする baseInfoFlag
+	 */
+	public void setBaseInfoFlag(String baseInfoFlag) {
+		this.baseInfoFlag = baseInfoFlag;
+	}
+}
+
+
+SearchServiceImpl.java
+/*
+* ファイル名：SearchServiceImpl.java
+*
+* <MODIFICATION HISTORY>
+*   (Rev.)     (Date)       (ID/NAME)   (Comment)
+*   Rev 1.00   2015/02/01   toishigawa  新規作成
+*/
+package jp.co.sraw.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import jp.co.sraw.common.CommonConst;
+import jp.co.sraw.common.CommonService;
+import jp.co.sraw.controller.search.SearchForm;
+import jp.co.sraw.dto.SearchDto;
+import jp.co.sraw.entity.GyResearchAreaView;
+import jp.co.sraw.entity.GyResearchKeywordView;
+import jp.co.sraw.entity.GySocietyView;
+import jp.co.sraw.entity.MsCodeTbl;
+import jp.co.sraw.entity.MsPartyTbl;
+import jp.co.sraw.entity.MsResearchAreaTbl;
+import jp.co.sraw.entity.UsCompetitionTbl;
+import jp.co.sraw.entity.UsUserView;
+import jp.co.sraw.logger.LoggerWrapper;
+import jp.co.sraw.logger.LoggerWrapperFactory;
+import jp.co.sraw.repository.GyResearchAreaViewRepository;
+import jp.co.sraw.repository.GyResearchKeywordViewRepository;
+import jp.co.sraw.repository.GySocietyViewRepository;
+import jp.co.sraw.repository.MsPartyTblRepository;
+import jp.co.sraw.repository.UsCompetitionTblRepository;
+import jp.co.sraw.repository.UsUserViewRepository;
+import jp.co.sraw.util.StringUtil;
+
+/**
+ * <B>SearchServiceImplクラス</B>
+ * <P>
+ * 検索サービスのメソッドを提供する
+ */
+@Scope("prototype")
+@Service
+@Transactional(readOnly = true)
+public class SearchServiceImpl extends CommonService {
+
+	@Autowired
+	private UsUserViewRepository usUserViewRepository;
+
+	@Autowired
+	private MsPartyTblRepository msPartyTblRepository;
+
+	@Autowired
+	private GyResearchAreaViewRepository gyResearchAreaViewRepository;
+
+	@Autowired
+	private GyResearchKeywordViewRepository gyResearchKeywordViewRepository;
+
+	@Autowired
+	private GySocietyViewRepository gySocietyViewRepository;
+
+	@Autowired
+	private UsCompetitionTblRepository usCompetitionTblRepository;
+
+	@Autowired
+	MsCodeServiceImpl msCodeServiceImpl;
+
+	@Autowired
+	MsResearchAreaServiceImpl msResearchAreaServiceImpl;
+
+	private static final LoggerWrapper logger = LoggerWrapperFactory.getLogger(SearchServiceImpl.class);
+
+	private static final String DEGREE_KBN = "0035";  // 定数区分[0035] 学年/職位
+
+
+
+
+	@PostConstruct
+	protected void init() {
+		logger.setMessageSource(messageSource);
+	}
+
+	/**
+	 * orderByParty 組織向け
+	 *
+	 * @return
+	 */
+	private Sort orderByParty() {
+		//
+		return new Sort(Sort.Direction.ASC, "partyCode", "userFamilyName", "userFamilyNameKn", "userFamilyNameEn");
+	}
+
+	/**
+	 * orderByUser 若手研究者、相談員/教職員、向け
+	 *
+	 * @return
+	 */
+	private Sort orderByUser() {
+		//
+		return new Sort(Sort.Direction.ASC, "partyCode", "userFamilyName", "userFamilyNameKn", "userFamilyNameEn", "userMiddleName", "userMiddleNameKn", "userMiddleNameEn", "userName", "userNameKn", "userNameEn");
+	}
+
+	/**
+	 * ポートフォリオ閲覧 検索（検索(若手研究者)）
+	 *
+	 * @param form
+	 * @param whereUserKbnList
+	 * @param pertyKbnList
+	 * @param publicFlagList
+	 * @return
+	 */
+	public List<SearchDto> searchUserList(SearchForm form, List<String> whereUserKbnList, List<String> pertyKbnList, List<String> publicFlagList) {
+		logger.infoCode("I0001");
+
+		String searchKeyword = form.getSearchKeyword();                         // 検索条件：キーワード
+		String searchPartyCode = form.getSearchPartyCode();                     // 検索条件：所属機関
+		String searchResearchAreaField = form.getSearchResearchAreaField();     // 検索条件：研究分野（大分類）
+		String searchResearchAreaSubject = form.getSearchResearchAreaSubject(); // 検索条件：研究分野（中分類）
+		String searchResearchAreaCode = form.getSearchResearchAreaCode();       // 検索条件：研究分野（小分類）
+
+		//////////////////////////////////////////////////////////////////////////////////
+		// 検索対象 キーワード：ユーザ情報VIEWの学位・職位(日本語、英語)名称(like, or)
+		// 学年/職位
+		List<String> degreeCodeList = new ArrayList<String>();
+		if (StringUtil.isNotNull(searchKeyword)) {
+			List<MsCodeTbl> keywordByDegreeList = msCodeServiceImpl.findAllJosuKbn(SearchServiceImpl.DEGREE_KBN, searchKeyword);
+			for (MsCodeTbl m : keywordByDegreeList) {
+				degreeCodeList.add(m.getId().getJosuCode());
+			}
+		}
+
+		//////////////////////////////////////////////////////////////////////////////////
+		// 組織情報
+//		List<String> partyCodeList = new ArrayList<String>();
+//		if (StringUtil.isNotNull(searchKeyword)) {
+//			// 条件
+//			// キーワード
+//			Specification<MsPartyTbl> wherePartyKeyword = new Specification<MsPartyTbl>() {
+//				@Override
+//				public Predicate toPredicate(Root<MsPartyTbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//					Predicate predicate = cb.disjunction();
+//					predicate = cb.or(predicate, cb.like(cb.lower(root.get("partyName")), "%"+ searchKeyword.toLowerCase() +"%"));
+//					predicate = cb.or(predicate, cb.like(cb.lower(root.get("partyNameEn")), "%"+ searchKeyword.toLowerCase() +"%"));
+//					predicate = cb.or(predicate, cb.like(cb.lower(root.get("partyNameAbbr")), "%"+ searchKeyword.toLowerCase() +"%"));
+//					predicate = cb.or(predicate, cb.like(cb.lower(root.get("partyNameAbbrEn")), "%"+ searchKeyword.toLowerCase() +"%"));
+//					return predicate;
+//				}
+//			};
+//			List<MsPartyTbl> partyList = msPartyTblRepository.findAll(Specifications.where(wherePartyKeyword));
+//			for (MsPartyTbl m : partyList) {
+//				partyCodeList.add(m.getPartyCode());
+//			}
+//		}
+
+		//////////////////////////////////////////////////////////////////////////////////
+		// 検索対象 キーワード：研究分野の大、中分類(日本語、英語)名称(like, or)
+		// 研究分野の大分類
+//		List<String> researchAreaFieldCodeList = new ArrayList<String>();
+//		if (StringUtil.isNotNull(searchKeyword)) {
+//			List<MsCodeTbl> keywordByResearchAreaFieldCodeList = msCodeServiceImpl.findAllJosuKbn(MsResearchAreaServiceImpl.FIELD_CODE_KBN, searchKeyword);
+//			for (MsCodeTbl m : keywordByResearchAreaFieldCodeList) {
+//				researchAreaFieldCodeList.add(m.getId().getJosuCode());
+//			}
+//		}
+//		// 研究分野の中分類
+//		List<String> researchAreaSubjectCodeList = new ArrayList<String>();
+//		if (StringUtil.isNotNull(searchKeyword)) {
+//			List<MsCodeTbl> keywordByResearchAreaSubjectCodeList = msCodeServiceImpl.findAllJosuKbn(MsResearchAreaServiceImpl.SUBJECT_CODE_KBN, searchKeyword);
+//			for (MsCodeTbl m : keywordByResearchAreaSubjectCodeList) {
+//				researchAreaSubjectCodeList.add(m.getId().getJosuCode());
+//			}
+//		}
+//		// 研究分野の細目
+//		List<String> researchAreaResearchAreaCodeList = new ArrayList<String>();
+//		if (StringUtil.isNotNull(searchKeyword)) {
+//			List<MsResearchAreaTbl> keywordByResearchAreaResearchAreaCodeList = msResearchAreaServiceImpl.findAllKeyword(searchKeyword, CommonConst.USE_FALG_ACTIVE);
+//			for (MsResearchAreaTbl m : keywordByResearchAreaResearchAreaCodeList) {
+//				researchAreaResearchAreaCodeList.add(m.getResearchAreaCode());
+//			}
+//		}
+
+		// ユーザー絞込み用
+		Set<String> userKeySet = new HashSet<String>();
+		boolean searcUserKeyhFlag = false; // 検索条件有り判定
+
+		// 研究分野
+		if (StringUtil.isNotNull(searchKeyword) || StringUtil.isNotNull(searchResearchAreaField) || StringUtil.isNotNull(searchResearchAreaSubject) || StringUtil.isNotNull(searchResearchAreaCode)) {
+
+			//////////////////////////////////////////////////////////////////////////////////
+			// 研究分野
+			// 検索対象 キーワード      ：研究分野情報VIEWの(大分類名称or中分類名称or細目名称)(like)
+			// and
+			// 検索対象 研究分野のコード：研究分野情報VIEWの(大分類コード and 中分類コード and 細目コード)(equal)
+			//
+			// ユーザー絞込み
+//			Specification<GyResearchAreaTblView> whereResearchAreaUserKey =  new Specification<GyResearchAreaTblView>() {
+//				@Override
+//				public Predicate toPredicate(Root<GyResearchAreaTblView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//					Predicate predicate = cb.disjunction();
+//					for (String userKey : userKeyList) {
+//						predicate = cb.or(predicate, cb.equal(root.get("userKey"), userKey));
+//					}
+//					return predicate;
+//				}
+//			};
+			// 共通:必須
+			Specification<GyResearchAreaView> whereResearchAreaUserKbn =  new Specification<GyResearchAreaView>() {
+				@Override
+				public Predicate toPredicate(Root<GyResearchAreaView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					Predicate predicate = cb.disjunction();
+					for (String kbn : whereUserKbnList) {
+						predicate = cb.or(predicate, cb.equal(root.get("userKbn"), kbn));
+					}
+					return predicate;
+				}
+			};
+			Specification<GyResearchAreaView> whereResearchAreaUserPublicFlag = new Specification<GyResearchAreaView>() {
+				@Override
+				public Predicate toPredicate(Root<GyResearchAreaView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					Predicate  predicate = cb.disjunction();
+					for (String flag : publicFlagList) {
+						predicate = cb.or(predicate, cb.equal(root.get("userPublicFlag"), flag));
+					}
+					return predicate;
+				}
+			};
+			Specification<GyResearchAreaView> whereResearchAreaPublicFlag = new Specification<GyResearchAreaView>() {
+				@Override
+				public Predicate toPredicate(Root<GyResearchAreaView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					Predicate  predicate = cb.disjunction();
+					for (String flag : publicFlagList) {
+						predicate = cb.or(predicate, cb.equal(root.get("publicFlag"), flag));
+					}
+					return predicate;
+				}
+			};
+//			// 学年/職位
+//			Specification<GyResearchAreaTblView> whereResearchAreaDegree = degreeCodeList.size() == 0 ? null
+//					: new Specification<GyResearchAreaTblView>() {
+//				@Override
+//				public Predicate toPredicate(Root<GyResearchAreaTblView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//					Predicate  predicate = cb.disjunction();
+//					for (String degreeCode : degreeCodeList) {
+//						predicate = cb.or(predicate, cb.equal(root.get("degree"), degreeCode));
+//					}
+//					return predicate;
+//				}
+//			};
+			// 組織コードの場合はand
+			Specification<GyResearchAreaView> whereResearchAreaParty = StringUtil.isNull(searchPartyCode) ? null
+					: new Specification<GyResearchAreaView>() {
+				@Override
+				public Predicate toPredicate(Root<GyResearchAreaView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					return cb.equal(root.get("partyCode"), searchPartyCode);
+				}
+			};
+			// 研究分野のコード
+			Specification<GyResearchAreaView> whereResearchArea = (StringUtil.isNull(searchKeyword) && StringUtil.isNull(searchResearchAreaField) && StringUtil.isNull(searchResearchAreaSubject) && StringUtil.isNull(searchResearchAreaCode)) ? null
+					: new Specification<GyResearchAreaView>() {
+				@Override
+				public Predicate toPredicate(Root<GyResearchAreaView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					// 1=1
+					Predicate predicate = cb.disjunction();
+					// コード
+					// 1=1
+					Predicate predicate1 = cb.conjunction();
+					boolean codeFlag = false;
+					if (StringUtil.isNotNull(searchResearchAreaField)) {
+						predicate1 = cb.and(predicate1, cb.equal(root.get("fieldid"), searchResearchAreaField));
+						codeFlag = true;
+					}
+					if (StringUtil.isNotNull(searchResearchAreaSubject)) {
+						predicate1 = cb.and(predicate1, cb.equal(root.get("subjectid"), searchResearchAreaSubject));
+						codeFlag = true;
+					}
+					if (StringUtil.isNotNull(searchResearchAreaCode)) {
+						predicate1 = cb.and(predicate1, cb.equal(root.get("summaryid"), searchResearchAreaCode));
+						codeFlag = true;
+					}
+					// 研究分野コードが選択されている場合
+					if (!codeFlag) {
+						//predicate1 = cb.disjunction();
+					}
+
+					// キーワード
+					// 0=1
+					Predicate predicate2 = cb.disjunction();
+					if (StringUtil.isNotNull(searchKeyword)) {
+						predicate2 = cb.or(predicate2, cb.like(cb.lower(root.get("fieldname")), "%"+ searchKeyword.toLowerCase() +"%"));
+						predicate2 = cb.or(predicate2, cb.like(cb.lower(root.get("subjectname")), "%"+ searchKeyword.toLowerCase() +"%"));
+						predicate2 = cb.or(predicate2, cb.like(cb.lower(root.get("summary")), "%"+ searchKeyword.toLowerCase() +"%"));
+
+						// or条件の場合、条件が多いとStackOverflowErrorとなる。
+						//for (String code : researchAreaFieldCodeList) {
+						//	predicate2 = cb.or(predicate2, cb.equal(root.get("fieldid"), code));
+						//}
+						//for (String code : researchAreaSubjectCodeList) {
+						//	predicate2 = cb.or(predicate2, cb.equal(root.get("subjectid"), code));
+						//}
+						//for (String code : researchAreaResearchAreaCodeList) {
+						//	predicate2 = cb.or(predicate2, cb.equal(root.get("summaryid"), code));
+						//}
+
+						// inで実行。PostgreSQLのinの最大は2000個。
+						// fieldidは、最大14個 ※2016年時点
+						//if (researchAreaFieldCodeList.size() > 0) {
+						//	predicate2 = cb.or(predicate2, root.get("fieldid").in(researchAreaFieldCodeList));
+						//}
+						// subjectidは、最大76個 ※2016年時点
+						//if (researchAreaSubjectCodeList.size() > 0) {
+						//	predicate2 = cb.or(predicate2, root.get("subjectid").in(researchAreaSubjectCodeList));
+						//}
+						// summaryidは、最大319個 ※2016年時点
+						//if (researchAreaResearchAreaCodeList.size() > 0) {
+						//	predicate2 = cb.or(predicate2, root.get("summaryid").in(researchAreaResearchAreaCodeList));
+						//}
+
+						// Subquery
+						// 研究分野の大分類
+						Subquery<GyResearchAreaView> fieldSubquery = query.subquery(GyResearchAreaView.class);
+						Root<MsCodeTbl> fieldSubqueryRoot = fieldSubquery.from(MsCodeTbl.class);
+						fieldSubquery
+						.where(
+								cb.and(cb.equal(fieldSubqueryRoot.get("id").get("josuKbn"), MsResearchAreaServiceImpl.FIELD_CODE_KBN),
+								cb.or(cb.like(cb.lower(fieldSubqueryRoot.get("josuName")), "%"+ searchKeyword.toLowerCase() +"%"),
+										cb.like(cb.lower(fieldSubqueryRoot.get("josuNameEn")), "%"+ searchKeyword.toLowerCase() +"%"),
+										cb.like(cb.lower(fieldSubqueryRoot.get("josuNameAbbr")), "%"+ searchKeyword.toLowerCase() +"%"),
+										cb.like(cb.lower(fieldSubqueryRoot.get("josuNameAbbrEn")), "%"+ searchKeyword.toLowerCase() +"%"))));
+						predicate2 = cb.or(predicate2, root.get("fieldid").in(fieldSubquery.select(fieldSubqueryRoot.get("id").get("josuCode"))));
+						// 研究分野の中分類
+						Subquery<GyResearchAreaView> subjectSubquery = query.subquery(GyResearchAreaView.class);
+						Root<MsCodeTbl> subjectSubqueryRoot = subjectSubquery.from(MsCodeTbl.class);
+						subjectSubquery
+						.where(
+								cb.and(cb.equal(subjectSubqueryRoot.get("id").get("josuKbn"), MsResearchAreaServiceImpl.SUBJECT_CODE_KBN),
+								cb.or(cb.like(cb.lower(subjectSubqueryRoot.get("josuName")), "%"+ searchKeyword.toLowerCase() +"%"),
+										cb.like(cb.lower(subjectSubqueryRoot.get("josuNameEn")), "%"+ searchKeyword.toLowerCase() +"%"),
+										cb.like(cb.lower(subjectSubqueryRoot.get("josuNameAbbr")), "%"+ searchKeyword.toLowerCase() +"%"),
+										cb.like(cb.lower(subjectSubqueryRoot.get("josuNameAbbrEn")), "%"+ searchKeyword.toLowerCase() +"%"))));
+						predicate2 = cb.or(predicate2, root.get("subjectid").in(subjectSubquery.select(subjectSubqueryRoot.get("id").get("josuCode"))));
+						// 研究分野の細目
+						Subquery<GyResearchAreaView> researchAreaCodeSubquery = query.subquery(GyResearchAreaView.class);
+						Root<MsResearchAreaTbl> researchAreaCodeSubqueryRoot = researchAreaCodeSubquery.from(MsResearchAreaTbl.class);
+						researchAreaCodeSubquery
+						.where(
+								cb.and(cb.equal(researchAreaCodeSubqueryRoot.get("useFlag"), CommonConst.USE_FALG_ACTIVE),
+								cb.or(cb.like(cb.lower(researchAreaCodeSubqueryRoot.get("researchAreaName")), "%"+ searchKeyword.toLowerCase() +"%"),
+										cb.like(cb.lower(researchAreaCodeSubqueryRoot.get("researchAreaNameEn")), "%"+ searchKeyword.toLowerCase() +"%"))));
+						predicate2 = cb.or(predicate2, root.get("summaryid").in(researchAreaCodeSubquery.select(researchAreaCodeSubqueryRoot.get("researchAreaCode"))));
+
+					} else {
+						// キーワードが選択されていない場合
+						// 1=1
+						//predicate2 = cb.conjunction();
+					}
+					//
+					predicate = cb.or(predicate, predicate1, predicate2);
+					return predicate;
+				}
+			};
+
+			// 研究分野 結果一覧
+			List<GyResearchAreaView> keywordByResearchAreaList = gyResearchAreaViewRepository.findAll(
+					Specifications
+					//.where(whereResearchAreaUserKey)
+					.where(whereResearchAreaUserKbn)
+					.and(whereResearchAreaUserPublicFlag)
+					.and(whereResearchAreaPublicFlag)
+					.and(whereResearchAreaParty)
+					//.and(whereResearchAreaDegree)
+					.and(whereResearchArea));
+
+//			// ユーザー絞込み用
+//			if (StringUtil.isNotNull(searchResearchAreaField) || StringUtil.isNotNull(searchResearchAreaSubject) || StringUtil.isNotNull(searchResearchAreaCode)) {
+//				// and検索なので書き換え
+//				userKeySet.clear();
+//			} else if (StringUtil.isNotNull(searchKeyword)) {
+//				// or検索なので追加
+//				;
+//			}
+
+			for (GyResearchAreaView m : keywordByResearchAreaList) {
+				userKeySet.add(m.getUserKey());
+			}
+
+			searcUserKeyhFlag = true;
+		}
+
+		// キーワード
+		if (StringUtil.isNotNull(searchKeyword)) {
+			//////////////////////////////////////////////////////////////////////////////////
+			// 研究キーワード情報
+			// 検索対象 キーワード：研究キーワード情報のキーワード(like)
+			// ユーザー絞込み
+//			Specification<GyResearchKeywordView> whereResearchKeywordUserKey = new Specification<GyResearchKeywordView>() {
+//				@Override
+//				public Predicate toPredicate(Root<GyResearchKeywordView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//					Predicate predicate = cb.disjunction();
+//					for (String userKey : userKeyList) {
+//						predicate = cb.or(predicate, cb.equal(root.get("userKey"), userKey));
+//					}
+//					return predicate;
+//				}
+//			};
+			// 共通:必須
+			Specification<GyResearchKeywordView> whereResearchKeywordUserKbn = new Specification<GyResearchKeywordView>() {
+				@Override
+				public Predicate toPredicate(Root<GyResearchKeywordView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					Predicate predicate = cb.disjunction();
+					for (String kbn : whereUserKbnList) {
+						predicate = cb.or(predicate, cb.equal(root.get("userKbn"), kbn));
+					}
+					return predicate;
+				}
+			};
+			Specification<GyResearchKeywordView> whereResearchKeywordUserPublicFlag = new Specification<GyResearchKeywordView>() {
+				@Override
+				public Predicate toPredicate(Root<GyResearchKeywordView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					Predicate  predicate = cb.disjunction();
+					for (String flag : publicFlagList) {
+						predicate = cb.or(predicate, cb.equal(root.get("userPublicFlag"), flag));
+					}
+					return predicate;
+				}
+			};
+			Specification<GyResearchKeywordView> whereResearchKeywordPublicFlag = new Specification<GyResearchKeywordView>() {
+				@Override
+				public Predicate toPredicate(Root<GyResearchKeywordView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					Predicate  predicate = cb.disjunction();
+					for (String flag : publicFlagList) {
+						predicate = cb.or(predicate, cb.equal(root.get("publicFlag"), flag));
+					}
+					return predicate;
+				}
+			};
+//			// 学年/職位
+//			Specification<GyResearchKeywordView> whereResearchKeywordDegree = degreeCodeList.size() == 0 ? null
+//					: new Specification<GyResearchKeywordView>() {
+//				@Override
+//				public Predicate toPredicate(Root<GyResearchKeywordView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//					Predicate  predicate = cb.disjunction();
+//					for (String degreeCode : degreeCodeList) {
+//						predicate = cb.or(predicate, cb.equal(root.get("degree"), degreeCode));
+//					}
+//					return predicate;
+//				}
+//			};
+			// 組織コードの場合はand
+			Specification<GyResearchKeywordView> whereResearchKeywordParty = StringUtil.isNull(searchPartyCode) ? null
+					: new Specification<GyResearchKeywordView>() {
+				@Override
+				public Predicate toPredicate(Root<GyResearchKeywordView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					return cb.equal(root.get("partyCode"), searchPartyCode);
+				}
+			};
+			// キーワード
+			Specification<GyResearchKeywordView> whereResearchKeywordKeyword = StringUtil.isNull(searchKeyword) ? null
+					: new Specification<GyResearchKeywordView>() {
+				@Override
+				public Predicate toPredicate(Root<GyResearchKeywordView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					Predicate predicate = cb.disjunction();
+					predicate = cb.or(predicate, cb.like(cb.lower(root.get("title")), "%"+ searchKeyword.toLowerCase() +"%"));
+					return predicate;
+				}
+			};
+			// 所属学協会 結果一覧
+			List<GyResearchKeywordView> keywordByResearchKeywordList = gyResearchKeywordViewRepository.findAll(
+					Specifications
+					//.where(whereResearchKeywordUserKey)
+					.where(whereResearchKeywordUserKbn)
+					.and(whereResearchKeywordUserPublicFlag)
+					.and(whereResearchKeywordPublicFlag)
+					.and(whereResearchKeywordParty)
+					//.and(whereResearchKeywordDegree)
+					.and(whereResearchKeywordKeyword));
+
+			// ユーザー絞込み用
+			for (GyResearchKeywordView m : keywordByResearchKeywordList) {
+				// or検索なので追加
+				userKeySet.add(m.getUserKey());
+			}
+
+			//////////////////////////////////////////////////////////////////////////////////
+			// 所属学協会情報
+			// 検索対象 キーワード：所属学協会情報VIEWの所属学協会名(like)
+			// ユーザー絞込み
+//			Specification<GySocietyView> whereSocietyUserKey = new Specification<GySocietyView>() {
+//				@Override
+//				public Predicate toPredicate(Root<GySocietyView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//					Predicate predicate = cb.disjunction();
+//					for (String userKey : userKeyList) {
+//						predicate = cb.or(predicate, cb.equal(root.get("userKey"), userKey));
+//					}
+//					return predicate;
+//				}
+//			};
+			// 共通:必須
+			Specification<GySocietyView> whereSocietyUserKbn = new Specification<GySocietyView>() {
+				@Override
+				public Predicate toPredicate(Root<GySocietyView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					Predicate predicate = cb.disjunction();
+					for (String kbn : whereUserKbnList) {
+						predicate = cb.or(predicate, cb.equal(root.get("userKbn"), kbn));
+					}
+					return predicate;
+				}
+			};
+			Specification<GySocietyView> whereSocietyUserPublicFlag = new Specification<GySocietyView>() {
+				@Override
+				public Predicate toPredicate(Root<GySocietyView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					Predicate  predicate = cb.disjunction();
+					for (String flag : publicFlagList) {
+						predicate = cb.or(predicate, cb.equal(root.get("userPublicFlag"), flag));
+					}
+					return predicate;
+				}
+			};
+			Specification<GySocietyView> whereSocietyPublicFlag = new Specification<GySocietyView>() {
+				@Override
+				public Predicate toPredicate(Root<GySocietyView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					Predicate  predicate = cb.disjunction();
+					for (String flag : publicFlagList) {
+						predicate = cb.or(predicate, cb.equal(root.get("publicFlag"), flag));
+					}
+					return predicate;
+				}
+			};
+//			// 学年/職位
+//			Specification<GySocietyView> whereSocietyDegree = degreeCodeList.size() == 0 ? null
+//					: new Specification<GySocietyView>() {
+//				@Override
+//				public Predicate toPredicate(Root<GySocietyView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//					Predicate  predicate = cb.disjunction();
+//					for (String degreeCode : degreeCodeList) {
+//						predicate = cb.or(predicate, cb.equal(root.get("degree"), degreeCode));
+//					}
+//					return predicate;
+//				}
+//			};
+			// 組織コードの場合はand
+			Specification<GySocietyView> whereSocietyParty = StringUtil.isNull(searchPartyCode) ? null
+					: new Specification<GySocietyView>() {
+				@Override
+				public Predicate toPredicate(Root<GySocietyView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					return cb.equal(root.get("partyCode"), searchPartyCode);
+				}
+			};
+			// キーワード
+			Specification<GySocietyView> whereSocietyKeyword = StringUtil.isNull(searchKeyword) ? null
+					: new Specification<GySocietyView>() {
+				@Override
+				public Predicate toPredicate(Root<GySocietyView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					Predicate predicate = cb.disjunction();
+					predicate = cb.or(predicate, cb.like(cb.lower(root.get("title")), "%"+ searchKeyword.toLowerCase() +"%"));
+					return predicate;
+				}
+			};
+			// 所属学協会 結果一覧
+			List<GySocietyView> keywordBySocietyList = gySocietyViewRepository.findAll(
+					Specifications
+					//.where(whereSocietyUserKey)
+					.where(whereSocietyUserKbn)
+					.and(whereSocietyUserPublicFlag)
+					.and(whereSocietyPublicFlag)
+					.and(whereSocietyParty)
+					//.and(whereSocietyDegree)
+					.and(whereSocietyKeyword));
+
+			// ユーザー絞込み用
+			for (GySocietyView m : keywordBySocietyList) {
+				// or検索なので追加
+				userKeySet.add(m.getUserKey());
+			}
+
+			searcUserKeyhFlag = true;
+		}
+
+		// ユーザー絞込み
+		List<String> userKeyList = new ArrayList<String>();
+		userKeyList.addAll(userKeySet);
+
+		//////////////////////////////////////////////////////////////////////////////////
+		// ユーザー情報
+		// 検索対象 キーワード：ユーザ情報VIEWの検索用の氏名カラム(like)
+		// or
+		// 検索対象 キーワード：ユーザ情報VIEWの所属名称(like)
+		// or
+		// 検索対象 キーワード：ユーザ情報VIEWの研究科(like)
+		// 共通:必須
+		Specification<UsUserView> whereUserKey = !searcUserKeyhFlag ? null
+				:  new Specification<UsUserView>() {
+			@Override
+			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				Predicate predicate = cb.disjunction();
+
+				// 条件が多いとStackOverflowErrorとなる。
+				//for (String userKey : userKeyList) {
+				//	predicate = cb.or(predicate, cb.equal(root.get("userKey"), userKey));
+				//}
+				// 大量の条件を作成する場合
+				List<Predicate> objList = new ArrayList<Predicate>();
+				objList.add(predicate);
+				for (String userKey : userKeyList) {
+					objList.add(cb.equal(root.get("userKey"), userKey));
+				}
+				predicate = cb.or((Predicate[])objList.toArray(new Predicate[0]));
+
+				return predicate;
+			}
+		};
+
+		Specification<UsUserView> whereKeywordUserKbn = new Specification<UsUserView>() {
+			@Override
+			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				Predicate predicate = cb.disjunction();
+				for (String kbn : whereUserKbnList) {
+					predicate = cb.or(predicate, cb.equal(root.get("userKbn"), kbn));
+				}
+				return predicate;
+			}
+		};
+		Specification<UsUserView> whereKeywordUserPublicFlag = new Specification<UsUserView>() {
+			@Override
+			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				Predicate  predicate = cb.disjunction();
+				for (String flag : publicFlagList) {
+					predicate = cb.or(predicate, cb.equal(root.get("userPublicFlag"), flag));
+				}
+				return predicate;
+			}
+		};
+		// 組織コードの場合はand
+		Specification<UsUserView> whereKeywordPartyCode = StringUtil.isNull(searchPartyCode) ? null
+				: new Specification<UsUserView>() {
+			@Override
+			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.equal(root.get("partyCode"), searchPartyCode);
+			}
+		};
+//		// 学年/職位はor
+//		Specification<UsUserView> whereKeywordDegree = degreeCodeList.size() == 0 ? null
+//				: new Specification<UsUserView>() {
+//			@Override
+//			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//				Predicate  predicate = cb.disjunction();
+//				for (String degreeCode : degreeCodeList) {
+//					predicate = cb.or(predicate, cb.equal(root.get("degree"), degreeCode));
+//				}
+//				return predicate;
+//			}
+//		};
+//		// 組織 キーワードの場合はor
+//		Specification<UsUserView> whereKeywordPartyName = partyCodeList.size() == 0 ? null
+//				: new Specification<UsUserView>() {
+//			@Override
+//			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//				Predicate  predicate = cb.disjunction();
+//				for (String partyCode : partyCodeList) {
+//					predicate = cb.or(predicate, cb.equal(root.get("partyCode"), partyCode));
+//				}
+//				return predicate;
+//			}
+//		};
+		// キーワードはor
+		Specification<UsUserView> whereKeywordKeyword = StringUtil.isNull(searchKeyword) ? null
+				: new Specification<UsUserView>() {
+			@Override
+			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				// 0=1
+				Predicate predicate = cb.disjunction();
+				// 学年/職位
+				for (String degreeCode : degreeCodeList) {
+					predicate = cb.or(predicate, cb.equal(root.get("degree"), degreeCode));
+				}
+				// 組織
+				//for (String partyCode : partyCodeList) {
+				//	predicate = cb.or(predicate, cb.equal(root.get("partyCode"), partyCode));
+				//}
+				Subquery<UsUserView> partySubquery = query.subquery(UsUserView.class);
+				Root<MsPartyTbl> partySubqueryRoot = partySubquery.from(MsPartyTbl.class);
+				partySubquery
+				.where(
+						cb.or(cb.like(cb.lower(partySubqueryRoot.get("partyName")), "%"+ searchKeyword.toLowerCase() +"%"),
+								cb.like(cb.lower(partySubqueryRoot.get("partyNameEn")), "%"+ searchKeyword.toLowerCase() +"%"),
+								cb.like(cb.lower(partySubqueryRoot.get("partyNameAbbr")), "%"+ searchKeyword.toLowerCase() +"%"),
+								cb.like(cb.lower(partySubqueryRoot.get("partyNameAbbrEn")), "%"+ searchKeyword.toLowerCase() +"%")));
+				predicate = cb.or(predicate, root.get("partyCode").in(partySubquery.select(partySubqueryRoot.get("partyCode"))));
+
+
+				// 所属、研究科
+				predicate = cb.or(predicate, cb.like(cb.lower(root.get("searchUserName")), "%"+ searchKeyword.toLowerCase() +"%"));
+				predicate = cb.or(predicate, cb.like(cb.lower(root.get("affiliationName")), "%"+ searchKeyword.toLowerCase() +"%"));
+				predicate = cb.or(predicate, cb.like(cb.lower(root.get("researchSubject")), "%"+ searchKeyword.toLowerCase() +"%"));
+
+				return predicate;
+			}
+		};
+		List<UsUserView> keywordByUserList = usUserViewRepository.findAll(
+				Specifications.where(whereUserKey).and(whereKeywordUserKbn).and(whereKeywordUserPublicFlag)
+				.and(whereKeywordPartyCode)
+				//.and(whereKeywordDegree)
+				//.and(whereKeywordPartyName)
+				.and(whereKeywordKeyword));
+
+//		// ユーザー絞込み用
+//		for (UsUserView m : keywordByUserList) {
+//			userKeySet.add(m.getUserKey());
+//		}
+
+		List<SearchDto> list = getSearchDto(keywordByUserList, publicFlagList);
+
+
+//		//////////////////////////////////////////////////////////////////////////////////
+//		// 全体の結果
+//		// 若手研究者(ユーザー)検索
+//		// 条件
+//		Specification<UsUserView> whereUserKey =  new Specification<UsUserView>() {
+//			@Override
+//			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//				Predicate predicate = cb.disjunction();
+//
+//				// 条件が多いとStackOverflowErrorとなる。
+//				//for (String userKey : userKeyList) {
+//				//	predicate = cb.or(predicate, cb.equal(root.get("userKey"), userKey));
+//				//}
+//				// 大量の条件を作成する場合
+//				List<Predicate> objList = new ArrayList<Predicate>();
+//				objList.add(predicate);
+//				for (String userKey : userKeyList) {
+//					objList.add(cb.equal(root.get("userKey"), userKey));
+//				}
+//				predicate = cb.or((Predicate[])objList.toArray(new Predicate[0]));
+//
+//				return predicate;
+//			}
+//		};
+//		Specification<UsUserView> whereUserKbn =  new Specification<UsUserView>() {
+//			@Override
+//			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//				Predicate predicate = cb.disjunction();
+//				for (String kbn : whereUserKbnList) {
+//					predicate = cb.or(predicate, cb.equal(root.get("userKbn"), kbn));
+//				}
+//				return predicate;
+//			}
+//		};
+//		Specification<UsUserView> whereUserPublicFlag = new Specification<UsUserView>() {
+//			@Override
+//			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//				Predicate  predicate = cb.disjunction();
+//				for (String flag : publicFlagList) {
+//					predicate = cb.or(predicate, cb.equal(root.get("userPublicFlag"), flag));
+//				}
+//				return predicate;
+//			}
+//		};
+//
+//		//////////////////////////////////////////////////////////////////////////////////
+//		// ユーザー情報
+//		List<UsUserView> userList = usUserViewRepository.findAll(
+//				Specifications
+//				.where(whereUserKey)
+//				.and(whereUserKbn)
+//				.and(whereUserPublicFlag)
+//				, orderByUser());
+//
+//		// セット
+//		List<SearchDto> list = getSearchDto(userList);
+
+		logger.infoCode("I0002");
+		return list;
+	}
+
+	/**
+	 * ポートフォリオ閲覧 検索（検索(相談員/教職員)）
+	 *
+	 * @param staffKbnList
+	 * @param publicFlagList
+	 * @return
+	 */
+	public List<SearchDto> searchStaffList(List<String> staffKbnList, List<String> publicFlagList) {
+		logger.infoCode("I0001");
+
+		// 相談員/教職員(ユーザー)検索
+		// 条件
+		Specification<UsUserView> whereUserKbn =  new Specification<UsUserView>() {
+			@Override
+			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				Predicate predicate = cb.disjunction();
+				for (String kbn : staffKbnList) {
+					predicate = cb.or(predicate, cb.equal(root.get("userKbn"), kbn));
+				}
+				return predicate;
+			}
+		};
+		Specification<UsUserView> whereUserPublicFlag = new Specification<UsUserView>() {
+			@Override
+			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				Predicate  predicate = cb.disjunction();
+				for (String flag : publicFlagList) {
+					predicate = cb.or(predicate, cb.equal(root.get("userPublicFlag"), flag));
+				}
+				return predicate;
+			}
+		};
+
+		// ユーザー情報
+		List<UsUserView> userList = usUserViewRepository.findAll(Specifications.where(whereUserKbn).and(whereUserPublicFlag), orderByUser());
+
+		// セット
+		List<SearchDto> list = getSearchDto(userList, publicFlagList);
+
+		logger.infoCode("I0002");
+		return list;
+	}
+
+	/**
+	 * ポートフォリオ閲覧 検索（企業と大学）
+	 *
+	 * @param whereUserKbnList
+	 * @param wherePartyKbnList
+	 * @param publicFlagList
+	 * @return
+	 */
+	public List<SearchDto> searchPartyList(List<String> whereUserKbnList, List<String> wherePartyKbnList, List<String> publicFlagList){
+		// 検索（企業と大学）
+		logger.infoCode("I0001");
+
+		// 組織区分取得のため組織コード一覧を取得する。
+		// 条件
+		Specification<MsPartyTbl> wherePartyKbn =  new Specification<MsPartyTbl>() {
+			@Override
+			public Predicate toPredicate(Root<MsPartyTbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				Predicate predicate = cb.disjunction();
+				for (String kbn : wherePartyKbnList) {
+					predicate = cb.or(predicate, cb.equal(root.get("partyKbn"), kbn));
+				}
+				return predicate;
+			}
+		};
+		// 組織情報
+		List<MsPartyTbl> partyList = msPartyTblRepository.findAll(Specifications.where(wherePartyKbn));
+
+		// 組織(ユーザー)検索
+		// 条件
+		Specification<UsUserView> whereUserKbn =  new Specification<UsUserView>() {
+			@Override
+			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				Predicate predicate = cb.disjunction();
+				for (String kbn : whereUserKbnList) {
+					predicate = cb.or(predicate, cb.equal(root.get("userKbn"), kbn));
+				}
+				return predicate;
+			}
+		};
+		Specification<UsUserView> whereUserPublicFlag = new Specification<UsUserView>() {
+			@Override
+			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				Predicate  predicate = cb.disjunction();
+				for (String flag : publicFlagList) {
+					predicate = cb.or(predicate, cb.equal(root.get("userPublicFlag"), flag));
+				}
+				return predicate;
+			}
+		};
+		Specification<UsUserView> wherePartyCode = new Specification<UsUserView>() {
+			@Override
+			public Predicate toPredicate(Root<UsUserView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				Predicate predicate = cb.disjunction();
+				for (MsPartyTbl m : partyList) {
+					predicate = cb.or(predicate, cb.equal(root.get("partyCode"), m.getPartyCode()));
+				}
+				return predicate;
+			}
+		};
+
+		// ユーザー情報
+		List<UsUserView> userList = usUserViewRepository.findAll(Specifications.where(whereUserKbn).and(whereUserPublicFlag).and(wherePartyCode), orderByParty());
+
+		// セット
+		List<SearchDto> list = getSearchDto(userList, publicFlagList);
+
+		logger.infoCode("I0002");
+		return list;
+	}
+
+	/**
+	 * SearchDtoにセット
+	 *
+	 * @param userList
+	 * @param partyMap
+	 * @return
+	 */
+	private List<SearchDto> getSearchDto(List<UsUserView> userList, List<String> publicFlagList) {
+		List<SearchDto> list = new ArrayList<>();
+
+		// 組織情報
+		List<MsPartyTbl> partyList = msPartyTblRepository.findAll();
+		// Map
+		Map<String, MsPartyTbl> partyMap = new HashMap<String, MsPartyTbl>();
+		for (MsPartyTbl m : partyList) {
+			partyMap.put(m.getPartyCode(), m);
+		}
+
+		// 学年/職位
+		List<MsCodeTbl> degreeList = msCodeServiceImpl.findAllJosuKbn(SearchServiceImpl.DEGREE_KBN);
+		Map<String, MsCodeTbl> degreeMap = new HashMap<String, MsCodeTbl>();
+		for (MsCodeTbl m : degreeList) {
+			degreeMap.put(m.getId().getJosuCode(), m);
+		}
+
+		// ３分間コンペティション
+		List<UsCompetitionTbl> competitionList = findAllUsCompetition(userList, publicFlagList);
+		Set<String> competitionSet = new HashSet<String>();
+		for (UsCompetitionTbl competition : competitionList) {
+			competitionSet.add(competition.getUsUserTbl().getUserKey());
+		}
+
+		//
+		for (UsUserView u : userList) {
+
+			SearchDto dto = new SearchDto();
+			// 情報
+			dto.setUserKey(u.getUserKey());
+			dto.setUserKbn(u.getUserKbn());
+			dto.setPartyCode(u.getPartyCode());
+			dto.setUserFamilyName(u.getUserFamilyName());
+			dto.setUserFamilyNameEn(u.getUserFamilyNameEn());
+			dto.setUserMiddleName(u.getUserMiddleName());
+			dto.setUserMiddleNameEn(u.getUserMiddleNameEn());
+			dto.setUserName(u.getUserName());
+			dto.setUserNameEn(u.getUserNameEn());
+			dto.setAffiliationName(u.getAffiliationName());
+			dto.setResearchSubject(u.getResearchSubject());
+			dto.setDegree(u.getDegree());
+			String freeInput1cut = u.getFreeInput1();
+			if (freeInput1cut != null && freeInput1cut.length() > 20) {
+				freeInput1cut = freeInput1cut.substring(0, 20) + "...";
+			}
+			dto.setFreeInput1(u.getFreeInput1()); // 自由記載欄／自己アピール
+			dto.setFreeInput1cut(freeInput1cut); // 自由記載欄／自己アピール20文字
+			dto.setFreeInput2(u.getFreeInput2()); // 略歴／機関紹介・ＰＲ／大学窓口・紹介
+			dto.setUrl(u.getUrl());
+			// ３分間コンペティション有無
+			if (competitionSet.contains(u.getUserKey())) {
+				dto.setCompetitionMoveFlag(true);
+			} else {
+				dto.setCompetitionMoveFlag(false);
+			}
+
+			//
+			// 表示する氏名
+			String userFullName ="";
+			String userFullNameEn ="";
+			userFullName = StringUtil.getUserName(u.getUserKbn(), u.getUserFamilyName(), u.getUserMiddleName(), u.getUserName());
+			userFullNameEn = StringUtil.getUserNameEn(u.getUserKbn(), u.getUserFamilyNameEn(), u.getUserMiddleNameEn(), u.getUserNameEn());
+			dto.setUserFullName(userFullName);
+			dto.setUserFullNameEn(userFullNameEn);
+			// 組織情報
+			if (partyMap.containsKey(u.getPartyCode())) {
+				MsPartyTbl p = partyMap.get(u.getPartyCode());
+				dto.setPartyKbn(p.getPartyKbn());
+				dto.setPartyName(p.getPartyName());
+				dto.setPartyNameEn(p.getPartyNameEn());
+			}
+			// 学年・職位
+			if (degreeMap.containsKey(u.getDegree())) {
+				MsCodeTbl m = degreeMap.get(u.getDegree());
+				dto.setDegreeName(m.getJosuName());
+				dto.setDegreeNameEn(m.getJosuNameEn());
+			}
+
+			list.add(dto);
+		}
+
+		return list;
+	}
+
+
+	/**
+	 * ３分間コンペティション取得
+	 *
+	 * @param userList
+	 * @param publicFlagList
+	 * @return
+	 */
+	public List<UsCompetitionTbl> findAllUsCompetition(List<UsUserView> userList, List<String> publicFlagList) {
+
+		// ユーザーキー
+		Specification<UsCompetitionTbl> whereUserKey = new Specification<UsCompetitionTbl>() {
+			@Override
+			public Predicate toPredicate(Root<UsCompetitionTbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				Predicate predicate = cb.disjunction();
+				// 大量の条件を作成する場合
+				List<Predicate> objList = new ArrayList<Predicate>();
+				objList.add(predicate);
+				for (UsUserView userView : userList) {
+					objList.add(cb.equal(root.get("usUserTbl").get("userKey"), userView.getUserKey()));
+				}
+				predicate = cb.or((Predicate[])objList.toArray(new Predicate[0]));
+
+				return predicate;
+			}
+		};
+
+		// 取得条件：
+		Specification<UsCompetitionTbl> wherePublicFlag = new Specification<UsCompetitionTbl>() {
+			@Override
+			public Predicate toPredicate(Root<UsCompetitionTbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				Predicate  predicate = cb.disjunction();
+				for (String flag : publicFlagList) {
+					predicate = cb.or(predicate, cb.equal(root.get("publicFlag"), flag));
+				}
+				return predicate;
+			}
+		};
+
+		List<UsCompetitionTbl> list = (List<UsCompetitionTbl>) usCompetitionTblRepository
+				.findAll((Specification<UsCompetitionTbl>) Specifications.where(whereUserKey).and(wherePublicFlag));
+
+		return list;
+	}
+
+}
+
+
+
+
+PrizeExcelHelper.java
+package jp.co.sraw.controller.portfolio.excel;
+
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.stereotype.Service;
+
+import jp.co.sraw.common.CommonForm;
+import jp.co.sraw.controller.portfolio.form.GyPrizeForm;
+import jp.co.sraw.util.PoiBook;
+
+@Service
+public class PrizeExcelHelper extends PortfolioExcelHelper<GyPrizeForm> {
+
+	public PrizeExcelHelper() {
+		this.DATA_SHEET_NAME = "PRIZE";
+	}
+
+	@Override
+	public void buildExcelDocument(PoiBook workbook, List<GyPrizeForm> list) {
+		workbook.activeSheet = workbook.book.getSheet(DATA_SHEET_NAME);
+
+		for (int i = 0; i < list.size(); i++) {
+			GyPrizeForm form = list.get(i);
+			form.setViewType(CommonForm.VIEW_TYPE_EXCEL);
+			int rowno = i + 1;
+			// 言語区分
+			// workbook.changeValue(rowno, 0, form.getLanguage());
+			// 受賞年月
+			workbook.changeValue(rowno, 0, form.getPublicationdate());
+			// 授与機関
+			workbook.changeValue(rowno, 1, form.getAssociation());
+			// 賞名
+			workbook.changeValue(rowno, 2, form.getSubtitle());
+			// タイトル
+			workbook.changeValue(rowno, 3, form.getTitle());
+			// 受賞者(グループ)
+			workbook.changeValue(rowno, 4, form.getPartner());
+			// 受賞区分コード
+			workbook.changeValue(rowno, 5, form.getPrizetype());
+			// 受賞国
+			workbook.changeValue(rowno, 6, form.getCountry());
+			// 公開範囲
+			workbook.changeValue(rowno, 7, form.getPublicFlag());
+		}
+	}
+
+	@Override
+	public Sheet getSheet(Workbook workbook) {
+		return workbook.getSheet(DATA_SHEET_NAME);
+	}
+
+	@Override
+	public GyPrizeForm getForm(Row row) {
+		GyPrizeForm form = new GyPrizeForm();
+
+		// 言語区分
+		// form.setLanguage(getCellValue(row, 0));
+		// 受賞年月
+		form.setPublicationdate(getCellValue(row, 0, true));
+		// 授与機関
+		form.setAssociation(getCellValue(row, 1));
+		// 賞名
+		form.setTitle(getCellValue(row, 2));
+		// タイトル
+		form.setSubtitle(getCellValue(row, 3));
+		// 受賞者(グループ)
+		form.setPartner(getCellValue(row, 4));
+		// 受賞区分コード
+		form.setPrizetype(getCellValue(row, 5));
+		// 受賞国
+		form.setCountry(getCellValue(row, 6));
+		// 公開範囲
+		form.setPublicFlag(getCellValue(row, 7));
+
+		return form;
+	}
+
+}
+
+
+PortfolioExcelHelper.java
+package jp.co.sraw.controller.portfolio.excel;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.ss.usermodel.Sheet;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import jp.co.sraw.controller.portfolio.form.PortfolioForm;
+import jp.co.sraw.dto.MsCodeDto;
+import jp.co.sraw.entity.MsResearchAreaTbl;
+import jp.co.sraw.file.AbstractExcelHelper;
+import jp.co.sraw.service.MsResearchAreaServiceImpl;
+import jp.co.sraw.util.DbUtil;
+import jp.co.sraw.util.PoiBook;
+import jp.co.sraw.util.StringUtil;
+
+@Service
+public abstract class PortfolioExcelHelper<F extends PortfolioForm> extends AbstractExcelHelper<F> {
+
+	public static final String DELIMITER = ":";
+
+	private final String CONTENTS_SHEET_NAME = "CONTENTS";
+
+	protected String DATA_SHEET_NAME = "";
+
+	@Autowired
+	public MsResearchAreaServiceImpl serviceImpl;
+
+	public String getSeetName() {
+		return DATA_SHEET_NAME;
+	}
+
+	public void clearSheets(PoiBook workbook) {
+		for (int i = workbook.book.getNumberOfSheets() - 1; i >= 0; i--) {
+			Sheet tmpSheet = workbook.book.getSheetAt(i);
+			if (!tmpSheet.getSheetName().equals(CONTENTS_SHEET_NAME)
+					&& !tmpSheet.getSheetName().equals(DATA_SHEET_NAME)) {
+				workbook.book.removeSheetAt(i);
+			}
+		}
+	}
+
+	public void activeSheet(PoiBook workbook) {
+		workbook.book.setActiveSheet(0);
+	}
+
+	public String getSummaryFORMFormat(String areaCode) {
+		if (StringUtil.isNull(areaCode)) {
+			return "";
+		}
+		MsResearchAreaTbl tbl = serviceImpl.findOne(areaCode);
+		if (tbl != null) {
+			return tbl.getResearchAreaName();
+		}
+		return areaCode;
+	}
+
+	public String getSummaryExcelFormat(String areaCode) {
+		if (StringUtil.isNull(areaCode)) {
+			return "";
+		}
+		MsResearchAreaTbl tbl = serviceImpl.findOne(areaCode);
+		if (tbl != null) {
+			return tbl.getResearchAreaCode() + DELIMITER + tbl.getResearchAreaName();
+		}
+		return areaCode + DELIMITER + "";
+	}
+
+	public String getTitle(String title, String code) {
+		if (StringUtil.isNull(code)) {
+			return "";
+		}
+		Map<String, MsCodeDto> map = DbUtil.getJosuMap(code);
+		MsCodeDto dto = map.get(title);
+		if (dto != null) {
+			return dto.getValue();
+		}
+		return title;
+	}
+
+	private String[] codelist = new String[] { "0024", "0204", "0206", "0203", "0209", "0210", "0208", "0213", "0201",
+			"0211", "0221", "0222", "0017" };
+
+	public void buildSelectItemList(PoiBook workbook) {
+		workbook.activeSheet = workbook.book.getSheet(CONTENTS_SHEET_NAME);
+
+		int colno = 0;
+		List<MsCodeDto> langlist = DbUtil.getJosuList("0041");
+		for (int i = 0; i < langlist.size(); i++) {
+			MsCodeDto dto = langlist.get(i);
+			workbook.changeValue(i, colno, dto.getValue() + DELIMITER + dto.getValue());
+		}
+
+		for (int i = 0; i < codelist.length; i++) {
+			colno++;
+			List<MsCodeDto> list = DbUtil.getJosuList(codelist[i]);
+			for (int j = 0; j < list.size(); j++) {
+				MsCodeDto dto = list.get(j);
+				workbook.changeValue(j, colno, dto.getCode() + DELIMITER + dto.getValue());
+			}
+		}
+
+		colno++;
+
+		List<MsResearchAreaTbl> list1 = serviceImpl.findAllResearchArea();
+		for (int i = 0; i < list1.size(); i++) {
+			MsResearchAreaTbl dto = list1.get(i);
+			workbook.changeValue(i, colno, dto.getResearchAreaCode() + DELIMITER + dto.getResearchAreaName());
+		}
+
+	}
+}
+
+
+
+AbstractExcelHelper.java
+package jp.co.sraw.file;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellValue;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.FormulaError;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.springframework.stereotype.Service;
+
+import jp.co.sraw.common.CommonForm;
+import jp.co.sraw.util.PoiBook;
+import jp.co.sraw.util.StringUtil;
+
+@Service
+public abstract class AbstractExcelHelper<F extends CommonForm> {
+
+	public static final String DELIMITER = ":";
+
+	public List<F> getFormList(Workbook workbook) {
+
+		Sheet sheet = getSheet(workbook);
+
+		int startRow = 1;
+
+		List<F> list = new ArrayList<>();
+
+		for (int i = startRow; i <= sheet.getLastRowNum(); i++) {
+			Row row = sheet.getRow(i);
+			if (row != null) {
+				list.add(getForm(row));
+			}
+		}
+		return list;
+	}
+
+	public abstract Sheet getSheet(Workbook workbook);
+
+	public abstract F getForm(Row row);
+
+	/**
+	 * セル取得
+	 *
+	 * @param row
+	 * @param sortNo
+	 * @return
+	 */
+	protected String getCellValue(Row row, int sortNo) {
+		return getCellValue(row, sortNo, false);
+	}
+	/**
+	 *
+	 *
+	 * @param row
+	 * @param sortNo
+	 * @param formatFlag 数値整形 (YYYYMMDD、YYYYMM、YYYYの場合に使用)
+	 * @return
+	 */
+	protected String getCellValue(Row row, int sortNo, boolean formatFlag) {
+		if (row.getCell(sortNo) == null)
+			return null;
+		int cellType = row.getCell(sortNo).getCellType();
+		String result = "";
+		switch (cellType) {
+		case Cell.CELL_TYPE_BLANK:
+			result = getStringRangeValue(row.getCell(sortNo));
+			break;
+		case Cell.CELL_TYPE_ERROR:
+			byte errorCode = row.getCell(sortNo).getErrorCellValue();
+			FormulaError error = FormulaError.forInt(errorCode);
+			result = error.getString();
+			break;
+		case Cell.CELL_TYPE_FORMULA:
+			result = getStringFormulaValue(row.getCell(sortNo));
+			break;
+		case Cell.CELL_TYPE_NUMERIC:
+			result = getStringValue(row.getCell(sortNo));
+			// 数値整形 (YYYYMMDD、YYYYMM、YYYYの場合に使用)
+			if (formatFlag && StringUtil.isNotNull(result)) {
+				DecimalFormat format = new DecimalFormat("0.#");
+				result = format.format(row.getCell(sortNo).getNumericCellValue());
+			}
+			break;
+		case Cell.CELL_TYPE_BOOLEAN:
+		case Cell.CELL_TYPE_STRING:
+			result = getStringValue(row.getCell(sortNo));
+			break;
+		default:
+			break;
+		}
+		if (StringUtil.isNotNull(result) && result.contains(DELIMITER))
+			result = result.substring(0, result.indexOf(DELIMITER));
+		return result;
+	}
+
+	protected int getCellIntValue(Row row, int sortNo) {
+		if (row.getCell(sortNo) == null)
+			return 0;
+		int cellType = row.getCell(sortNo).getCellType();
+		int result = 0;
+		try {
+			switch (cellType) {
+			case Cell.CELL_TYPE_BLANK:
+				result = Integer.parseInt(getStringRangeValue(row.getCell(sortNo)));
+				break;
+			case Cell.CELL_TYPE_BOOLEAN:
+			case Cell.CELL_TYPE_ERROR:
+				break;
+			case Cell.CELL_TYPE_FORMULA:
+				result = Integer.parseInt(getStringFormulaValue(row.getCell(sortNo)));
+				break;
+			case Cell.CELL_TYPE_NUMERIC:
+			case Cell.CELL_TYPE_STRING:
+				result = Integer.parseInt(getStringValue(row.getCell(sortNo)));
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	protected BigDecimal getCellBigDecimal(Row row, int sortNo) {
+		if (row.getCell(sortNo) == null)
+			return null;
+		int cellType = row.getCell(sortNo).getCellType();
+		BigDecimal result = new BigDecimal(-1);
+		try {
+			switch (cellType) {
+			case Cell.CELL_TYPE_BLANK:
+			case Cell.CELL_TYPE_BOOLEAN:
+			case Cell.CELL_TYPE_ERROR:
+				break;
+			case Cell.CELL_TYPE_FORMULA:
+				result = new BigDecimal(getStringFormulaValue(row.getCell(sortNo)));
+				break;
+			case Cell.CELL_TYPE_NUMERIC:
+			case Cell.CELL_TYPE_STRING:
+				result = new BigDecimal(getStringValue(row.getCell(sortNo)));
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public String getDateInfo(Timestamp time) {
+		if (time != null) {
+			return time.toString();
+		}
+		return "";
+	}
+
+	public void buildExcelDocument(PoiBook workbook, List<F> list) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	/**
+	 * セルの数式を計算し、Stringとして取得する
+	 *
+	 * @param cell
+	 * @return
+	 */
+	private String getStringFormulaValue(Cell cell) {
+		assert cell.getCellType() == Cell.CELL_TYPE_FORMULA;
+
+		Workbook book = cell.getSheet().getWorkbook();
+		CreationHelper helper = book.getCreationHelper();
+		FormulaEvaluator evaluator = helper.createFormulaEvaluator();
+		CellValue value = evaluator.evaluate(cell);
+		switch (value.getCellType()) {
+		case Cell.CELL_TYPE_STRING:
+			return value.getStringValue();
+		case Cell.CELL_TYPE_NUMERIC:
+			return Double.toString(value.getNumberValue());
+		case Cell.CELL_TYPE_BOOLEAN:
+			return Boolean.toString(value.getBooleanValue());
+		default:
+			return null;
+		}
+	}
+
+	/**
+	 * 結合セルの値をStringとして取得する
+	 *
+	 * @param cell
+	 * @return
+	 */
+	public String getStringRangeValue(Cell cell) {
+		int rowIndex = cell.getRowIndex();
+		int columnIndex = cell.getColumnIndex();
+
+		Sheet sheet = cell.getSheet();
+		int size = sheet.getNumMergedRegions();
+		for (int i = 0; i < size; i++) {
+			CellRangeAddress range = sheet.getMergedRegion(i);
+			if (range.isInRange(rowIndex, columnIndex)) {
+				Cell firstCell = getCell(sheet, range.getFirstRow(), range.getFirstColumn()); // 左上のセルを取得
+				return getStringValue(firstCell);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * セルの取得
+	 *
+	 * @param sheet
+	 * @param rowIndex
+	 * @param columnIndex
+	 * @return
+	 */
+	public Cell getCell(Sheet sheet, int rowIndex, int columnIndex) {
+		Row row = sheet.getRow(rowIndex);
+		if (row != null) {
+			Cell cell = row.getCell(columnIndex);
+			return cell;
+		}
+		return null;
+	}
+
+	/**
+	 * セルの値をStringとして取得する例
+	 *
+	 * @param cell
+	 * @return
+	 */
+	public String getStringValue(Cell cell) {
+		if (cell == null) {
+			return null;
+		}
+		switch (cell.getCellType()) {
+		case Cell.CELL_TYPE_STRING:
+			return cell.getStringCellValue();
+		case Cell.CELL_TYPE_NUMERIC:
+			return Double.toString(cell.getNumericCellValue());
+		case Cell.CELL_TYPE_BOOLEAN:
+			return Boolean.toString(cell.getBooleanCellValue());
+		case Cell.CELL_TYPE_FORMULA:
+			return getStringFormulaValue(cell);
+		case Cell.CELL_TYPE_BLANK:
+			return getStringRangeValue(cell);
+		case Cell.CELL_TYPE_ERROR:
+			byte errorCode = cell.getErrorCellValue();
+			FormulaError error = FormulaError.forInt(errorCode);
+			return error.getString();
+		default:
+			return null;
+		}
+	}
+
+
+}
+
+
+
+
+OperationHistoryServiceImpl.java
+历史纪录
+/*
+* ファイル名：UserServiceImpl.java
+*
+* <MODIFICATION HISTORY>
+*   (Rev.)     (Date)       (ID/NAME)   (Comment)
+*   Rev 1.00   2015/12/01   toishigawa  新規作成
+*/
+package jp.co.sraw.service;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import jp.co.sraw.common.CommonService;
+import jp.co.sraw.dto.OperateInfoDto;
+import jp.co.sraw.entity.UsOperationHistoryTbl;
+import jp.co.sraw.entity.UsOperationHistoryTblPK;
+import jp.co.sraw.logger.LoggerWrapper;
+import jp.co.sraw.logger.LoggerWrapperFactory;
+import jp.co.sraw.repository.UsOperationHistoryTblRepository;
+import jp.co.sraw.util.StringUtil;
+
+/**
+ * <B>OperationHistoryServiceImplクラス</B>
+ * <P>
+ * ユーザーサービスのメソッドを提供する
+ */
+@Scope("prototype")
+@Service
+@Transactional(readOnly = false)
+public class OperationHistoryServiceImpl extends CommonService {
+
+	@Autowired
+	private UsOperationHistoryTblRepository usOperationHistoryTblRepository;
+
+	private static final LoggerWrapper logger = LoggerWrapperFactory.getLogger(OperationHistoryServiceImpl.class);
+
+	@PostConstruct
+	protected void init() {
+		logger.setMessageSource(messageSource);
+	}
+
+	/**
+	 * 新規追加、更新
+	 *
+	 * @param form
+	 * @param userInfo
+	 * @return
+	 */
+	@Transactional
+	public boolean insert(OperateInfoDto dto) {
+		logger.infoCode("I0001"); // I0001=メソッド開始:{0}
+		try {
+			boolean error = false;
+			if (StringUtil.isNull(dto.getOperationUserKey())) {
+				logger.errorCode("E0015");
+				error = true;
+			}
+			if (StringUtil.isNull(dto.getOerationFuncId())) {
+				logger.errorCode("E1016");
+				error = true;
+			}
+			if (StringUtil.isNull(dto.getOperationActionId())) {
+				logger.errorCode("E1017");
+				error = true;
+			}
+			if (StringUtil.isNull(dto.getUpdUserKey())) {
+				logger.errorCode("E1018");
+				error = true;
+			}
+			if (error) {
+				throw new Exception();
+			}
+
+			UsOperationHistoryTbl entity = new UsOperationHistoryTbl();
+
+			UsOperationHistoryTblPK pk = new UsOperationHistoryTblPK();
+			pk.setOperationActionId(dto.getOperationActionId());
+			pk.setOperationDate(dto.getOperationDate());
+			pk.setOperationFuncId(dto.getOerationFuncId());
+			pk.setOperationUserKey(dto.getOperationUserKey());
+
+			entity.setId(pk);
+			entity.setUpdDate(dto.getUpdDate());
+			entity.setUpdUserKey(dto.getUpdUserKey());
+
+			entity = usOperationHistoryTblRepository.saveAndFlush(entity);
+
+			if (entity != null) {
+				logger.infoCode("I0002"); // I0002=メソッド終了:{0}
+				return true;
+			}
+
+		} catch (Exception e) {
+			logger.errorCode("E1007", e); // E1007=登録に失敗しました。{0}
+		}
+		return false;
+	}
+
+}
 
 
 

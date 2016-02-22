@@ -1,0 +1,69 @@
+﻿pl/sql 过程分页显示小案例
+http://blog.csdn.net/chunqiuwei/article/details/7827153
+
+：编写一个过程，要求可以输入表名，输入每页显示的记录数，输入当前页，返回总记录数，总页数，和返回的结果集
+                    ---------------------------------------------------------------------
+                     SQL>create or replace package testPackage as type test_cursor(游标名) is ref cursor(游标)
+                         end testPackage
+                     SQL>create procedure p8(table_name in varchar2,--表名
+                          pageSize in number,                       --当前显示的记录数
+                          pageNow in number,--当前页
+                                                                    --下面都是要返回的内容，其值在过程处理中赋予
+                          myrows out number,                        --总记录数
+                          myPageCount out number,                   --总页数
+                          p_cursor out testPackage.test_cursor      --返回的结果集
+                           ) is
+                         --定义sql语句
+                         v_sql varchar2(1000);
+                       
+                         v_begin number := (pageNow - 1)*pageSize + 1; -- 每页显示的最少数
+                         v_end number := pageNow * pageSize;           --每页显示的最大数
+                         
+                         bgein
+                            v_sql := 'select * rownum from (SQL>select a1.*,rownum rn from (select name,sal from '||table_name||'） 
+                              a1 where rownum<='||v_end||') where  rownum>'||v_begin||'';
+                            
+                            open p_cursor for v_sql;                                --打开一个游标，将游标和sql语句关联起来
+                            v_sql : = 'select  count(*) from '||table_name'';       --计算myrows和myPageCount
+                            
+                            execute immediate v_sql into  myrows ;                  --执行sql，并把返回值赋给myrows来记录总记录数
+                           
+                            if mod（myrows,pageSize）= 0 then                       --计算总页数,注意思路，很好理解
+                               myPageCount := myrows/Pagesiez;
+                            else 
+                               myPageCount := myrows/Pagesiez + 1;
+                            end if
+                           
+                            close p_cursor;                                         --关闭游标
+                         end;
+                         /
+                      ------------------------------------------------------------------------------------------------------
+                      Class.forName("oracle.jdbc.driver.OracleDriver");
+                      Connection ct = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:
+                       
+                     CallableStatement cs = ct.prepareCall("{call p8(?,?,?,?,?,?)}");
+                     
+                     //给？赋值
+                     cs.setString(1,"myTable");
+                     sc.setInt(2,5);
+                     sc.setInt(3,1);
+                     //给out参数？赋值
+                     cs.registOutPrameter(4,oracle.jdbc.OracleTypes.INTEGER);//这侧记录总数
+                     cs.registOutPrameter(5,oracle.jdbc.OracleTypes.INTEGER);//注册总页数
+                     cs.registOutPrameter(6,oracle.jdbc.OracleTypes.CURSOR);//注册返回的结果集
+
+                     //执行
+                     cs.execute();
+                     //得到结果集
+                     ResultSet rs = (ResultSet) cs.getObject(6);
+                     
+                     //取出总记录数
+                      int rowNum = cs.getInt(4);
+                     //返回总页数
+                     int pagecount = cs.getInt(5);
+                     while(rs.next()){
+                         System.out.println(rs.getInt(1) + "--" + rs.getString(2));
+                     }
+                    
+                     //关闭相关资源，此处略写
+                     ---------------------------------------------------------------------

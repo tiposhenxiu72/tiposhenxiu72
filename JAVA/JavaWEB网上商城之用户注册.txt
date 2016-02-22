@@ -1,0 +1,1147 @@
+﻿JavaWEB网上商城之用户注册
+http://blog.csdn.net/u012706811/article/details/50636297
+
+一.注册页面
+
+注册页面写的很简单,一个form+几个text输入框.如下图 
+这里写图片描述 
+代码很简单直接贴了
+
+ <!--提交的时候检查应该是在这里设置-->
+    <form method="post" name="form" action="register.jsp" onsubmit="return checkForm(this);">
+        <!--这里暂时不知道怎么用-->
+        <input type="hidden" name="action" value="register"/>
+        <table >
+            <tr>
+                <td>用户名</td>
+                <td><input type="text" name="username" id="username"></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td><input type="text" name="password" id="password"></td>
+            </tr>
+            <tr>
+                <td>确认密码</td>
+                <td><input type="text" name="password2" id="password2"></td>
+            </tr>
+            <tr>
+                <td>手机</td>
+                <td><input type="text" name="phone" id="phone"></td>
+            </tr>
+            <tr>
+                <td>地址</td>
+                <td><input type="text" name="addr" id="addr" size="50"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input name="regsubmit" value="提 &nbsp; 交" type="submit">
+                    <input value="重 &nbsp; 置" type="reset"></td>
+            </tr>
+        </table>
+    </form>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+二.JS检查设置 
+JS实现检查需要在提交的时候检查,因此需要实现form标签的onsubmit方法,当return checkForm(this)为true的时候才会真正的提交
+
+<form method="post" name="form" action="register.jsp" onsubmit="return checkForm(this);">
+1
+接下来就是JS代码,这里没有实现太复杂的检测,只是举个例子说明会检测即可
+
+<!--这里只是简单检查长度是否为空,复杂的检查暂时不做,接触到框架的时候在做-->
+    <script type="text/javascript" language="JavaScript">
+        <%--这种传参方式要注意,传过来的是form,然后可以直接通过name操作他下面的元素--%>
+        function checkForm(obj){
+            if(obj.username.value=="") {
+                alert("用户名不能为空！");
+                obj.username.focus();//使当前文本框获取焦点
+                return false;  }
+            if(obj.password.value=="") {
+                alert("密码不能为空！");
+                obj.password.focus();
+                return false;  }
+            if(obj.password2.value=="") {
+                alert("确认密码不能为空！");
+                obj.password2.focus();
+                return false;  }
+            if(obj.phone.value=="") {
+                alert("手机不能为空！");
+                obj.phone.focus();
+                return false;  }
+            if(obj.addr.value=="") {
+                alert("地址不能为空！");
+                obj.addr.focus();
+                return false;  }
+            if(obj.password2.value!=obj.password.value){
+                alert("两次密码不一样");
+                obj.password.focus();
+                return false;
+            }
+            return true;
+        }
+    </script>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+三,获取数据,并存入数据库
+
+我们提交到当前页面,所以也在当前页面获取,从上一篇的结构分析来看,我们需要一个User类来承载注册信息.
+
+//User类,来直接存储进入数据库,避免跨模块接触,说清楚点就是避免JSP里面直接操作数据库代码
+package com.classitem;
+
+import com.SQLhelper.SQLHelper;
+
+import java.sql.Time;
+import java.sql.Timestamp;
+
+/**
+ * Created by nl101 on 2016/2/4.
+ */
+public class User {
+    private String id;
+    private String username;
+    private String password;
+    private String phone;
+    private String addr;
+    private Timestamp rdate = null;
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
+
+    public void setRdate(long rdate) {
+        this.rdate = new Timestamp(rdate);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getAddr() {
+        return addr;
+    }
+
+    public Timestamp getRdate() {
+        return rdate;
+    }
+    public void setRdate(Timestamp rdate) {
+        this.rdate = rdate;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+}
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+userUtil类是用来辅助增删改查的
+
+//User辅助增删改查
+package com.util;
+
+import com.SQLhelper.SQLHelper;
+import com.classitem.User;
+import com.sun.xml.internal.bind.v2.model.core.ID;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by nl101 on 2016/2/4.
+ */
+public final class userUtil {
+
+    private userUtil(){
+
+    }
+
+    /**
+     * 往User表中存入数据
+     * @param user 需要存入的用户
+     * @return true成功
+     */
+    public static boolean save(User user){
+        SQLHelper helper = new SQLHelper();
+        String sql = "insert into user values(null,?,?,?,?,?)";
+        String[] params = {user.getUsername(),user.getPassword(),user.getPhone(),user.getAddr()};
+        boolean isSave =  helper.update(sql,params,user.getRdate());
+        helper.close();
+        return isSave;
+    }
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+接下来是JSP代码,这里JSP代码获取参数后应该在服务器端检查参数,因为JS检查如果网页保存下载是可以很简单去掉的,所以服务器检查是一定要进行的,这里因为测试项目所以服务器没写检查 
+检查没问题,且数据库插入成功则跳转到注册成功页面
+
+<!--这里面执行存储数据库并且重定向到注册成功页面-->
+<!--链接样例http://localhost:8888/ship/register.jsp?action=register&username=11&password=22&password2=22&phone=1212&addr=121&regsubmit=%E6%8F%90+%C2%A0+%E4%BA%A4-->
+<%
+    request.setCharacterEncoding("utf-8");//设置编码
+    boolean isSave = false;
+    String action = request.getParameter("action");
+    if (action!=null && action.equals("register")){
+    //取出数据后服务器端一定要进行检查,再次略过
+        User user = new User();
+        user.setUsername(request.getParameter("username"));
+        user.setPassword(request.getParameter("password"));
+        user.setPhone(request.getParameter("phone"));
+        user.setAddr(request.getParameter("addr"));
+        user.setRdate(System.currentTimeMillis());
+        isSave = user.save();//添加用户
+    }
+    if (isSave){
+        //这里应该重定向到新的页面
+        response.sendRedirect("registerok.jsp");
+        isSave = false;
+    }
+%>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+四,注册成功页面
+
+该页面是提醒注册成功,当数据成功插入数据库的时候才会跳转到该页面
+
+response.sendRedirect("registerok.jsp");
+1
+该页面代码利用jquery做了一个倒计时自动跳转,经典代码值得熟记
+
+<div id="wrapper">
+    <a href="index.jsp"><img src="image/registerok.jpg"></a>
+    <div>
+        <h1>恭喜!</h1>
+        <p>恭喜你注册成功。<a style="color:#ff6600;" href="index.jsp">点在这里直达主页！</a></p>
+        <a class="link" href="/" onclick="history.go(-1)"><span id="sec">5</span> 秒后返回首页</a>
+        <br /><br /><br />
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        setTimeout("lazyGo();", 1000);
+    });
+    function lazyGo() {
+        var sec = $("#sec").text();
+        $("#sec").text(--sec);
+        if (sec > 0)
+            setTimeout("lazyGo();", 1000);
+        else
+            window.location.href = "index.jsp";
+    }
+</script>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+这里写图片描述
+
+五.后台用户管理页面
+
+后台页面是直接拷贝的一个管理系统,用admin文件夹存放. 
+首先我们需要取出全部的数据,因此在userUtil类中添加如下方法
+
+
+    /**
+     * 取出全部的用户数据
+     * @return 全部用户集合
+     */
+    public static List<User> getAllUser(){
+        User userTemp = null;
+        List<User> users = new ArrayList<>();
+        SQLHelper helper = new SQLHelper();
+        String sql = "select * from user";
+        ResultSet rs = helper.query(sql);
+        try {
+            while (rs.next()){
+                userTemp = new User();
+                userTemp.setId(rs.getString("id"));
+                userTemp.setUsername(rs.getString("username"));
+                userTemp.setPassword(rs.getString("password"));
+                userTemp.setPhone(rs.getString("phone"));
+                userTemp.setAddr(rs.getString("addr"));
+                userTemp.setRdate(rs.getTimestamp("rdate"));
+                users.add(userTemp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("查找全部用户失败");
+        }finally {
+            try {
+                rs.close();
+                helper.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return users;
+    }
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+接着在userList用户列表显示出来,以表格形式,无非就是把list集合里面的user循环添加到表格中,很简单.这里要添加删除和修改按钮,所以需要定向到userDelete.jsp和userUpadate.jsp页面,定向是可以直接传递参数的,看代码
+
+<%@ page import="java.util.List" %>
+<%@ page import="com.classitem.User" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.util.userUtil" %>
+<%@ page import="java.util.Iterator" %><%--
+  Created by IntelliJ IDEA.
+  User: nl101
+  Date: 2016/2/4
+  Time: 21:54
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--这里查找出全部的用户--%>
+<%
+    List<User> users = userUtil.getAllUser();
+%>
+<html>
+<head>
+    <title>显示全部用户</title>
+    <style>
+        table{
+            width: 100%;
+            text-align: center;
+            box-shadow: #0066CC;
+        }
+        th{
+            padding: 5px;
+            background-color: #aaa;
+        }
+    </style>
+</head>
+<body style="width: 100%">
+<div class="conatiner">
+    <table border="1">
+        <tr>
+            <th width="5%">ID</th>
+            <th width="15%">Username</th>
+            <th width="15">password</th>
+            <th width="10%">phone</th>
+            <th width="*">addr</th>
+            <th width="20%">rdate</th>
+            <th width="5">操作</th>
+        </tr>
+        <%
+            for (Iterator it = users.iterator(); it.hasNext() ; ) {
+                User userTemp = (User) it.next();
+        %>
+        <tr>
+            <td width="10%"><%=userTemp.getId()%></td>
+            <td width="15%"><%=userTemp.getUsername()%></td>
+            <td width="15%"><%=userTemp.getPassword()%></td>
+            <td width="10%"><%=userTemp.getPhone()%></td>
+            <td width="*"><%=userTemp.getAddr()%></td>
+            <td width="20%"><%=userTemp.getRdate()%></td>
+            <%--操作通过链接后面传递参数--%>
+            <td width="5%"><a target="main" href="userDelete.jsp?id=<%=userTemp.getId()%>">删&nbsp;</a><a href="userUpdate.jsp?id=<%=userTemp.getId()%>" target="main">&nbsp;改</a></td>
+        </tr>
+        <%}%>
+    </table>
+</div>
+</body>
+</html>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+六.用户删除页面
+
+删除不多说,这个主要是通过拿到的id删除对应的数据 
+userUtil代码
+
+    /**
+     * 删除一条用户的信息
+     * @param id 要删除用户的id
+     * @return true删除成功
+     */
+    public static boolean deleteUser(String id){
+        String sql = "delete from user where id="+id;
+        SQLHelper helper = new SQLHelper();
+        boolean isDelete = helper.update(sql);
+        helper.close();
+        return isDelete;
+    }
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+JSP代码
+
+<%
+    request.setCharacterEncoding("utf-8");
+    String id = request.getParameter("id");
+    boolean isDelete = false;
+    if (id!=null && !id.equals("")){
+            isDelete = userUtil.deleteUser(id);
+    }
+
+%>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+7.用户更新页面
+
+更新的思路是首先通过传过去的id显示出来信息,然后再把修改后的信息写会去,这里主要记住页面请求的时候经常通过hidden这个来区分是哪个请求.代码中写的有 
+userUtil代码
+
+    /**
+     * 取出指定的用户数据
+     * @return 全部用户集合
+     */
+    public static User getUser(String id){
+        User userTemp = null;
+        SQLHelper helper = new SQLHelper();
+        String sql = "select * from user where id="+id;
+        ResultSet rs = helper.query(sql);
+        try {
+            while (rs.next()){
+                userTemp = new User();
+                userTemp.setId(rs.getString("id"));
+                userTemp.setUsername(rs.getString("username"));
+                userTemp.setPassword(rs.getString("password"));
+                userTemp.setPhone(rs.getString("phone"));
+                userTemp.setAddr(rs.getString("addr"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("查找全部用户失败");
+        }finally {
+            try {
+                rs.close();
+                helper.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return userTemp;
+    }
+
+    /**
+     * 更新指定用户
+     * @param id
+     * @return
+     */
+    public static boolean updateUser(String id,String[] params){
+        String sql = "update user set username=?,password=?,phone=?,addr=? where id="+id;
+        SQLHelper helper = new SQLHelper();
+        boolean isUpdate = helper.update(sql,params,null);
+        helper.close();
+        return isUpdate;
+    }
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+JSP代码
+
+<%
+    request.setCharacterEncoding("utf-8");//设置编码
+//    更新前输出信息
+    String id = request.getParameter("id");
+    User userBegin = userUtil.getUser(id);
+//    修改信息
+    boolean isSave = false;
+    String action = request.getParameter("action");
+    if (action!=null && action.equals("register")){
+        String[] params = {request.getParameter("username"),
+                            request.getParameter("password"),
+                            request.getParameter("phone"),
+                            request.getParameter("addr")};
+        isSave = userUtil.updateUser(id,params);//更新用户
+    }
+    if (isSave){
+        //这里应该重定向到新的页面
+        response.sendRedirect("updateok.jsp");
+        isSave = false;
+    }
+%>
+...........
+<!--提交的时候检查应该是在这里设置-->
+    <form method="get" name="form" action="userUpdate.jsp" onsubmit="return checkForm(this);">
+        <!--这里暂时不知道怎么用-->
+        <input type="hidden" name="action" value="register"/>
+        <!--第二次提交的时候仍然需要id-->
+        <input type="hidden" name="id" value=<%= userBegin.getId()%> >
+        <table >
+            <tr>
+                <td>用户名</td>
+                <td><input type="text" name="username" id="username" value=<%=userBegin.getUsername()%>></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td><input type="text" name="password" id="password" value=<%=userBegin.getPassword()%>></td>
+            </tr>
+            <tr>
+                <td>手机</td>
+                <td><input type="text" name="phone" id="phone" value=<%=userBegin.getPhone()%>></td>
+            </tr>
+            <tr>
+                <td>地址</td>
+                <td><input type="text" name="addr" id="addr" size="50" value=<%=userBegin.getAddr()%>></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input name="regsubmit" value="更 &nbsp; 新" type="submit">
+                    <input value="重 &nbsp; 置" type="reset"></td>
+            </tr>
+        </table>
+    </form>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+8.更新成功页面
+
+这里涉及frames的刷新,一般可以通过reload()来刷新,但是我这不知道怎么回事没效果,所以我就重新指定加载,感觉也挺方便的.
+
+//重新加载代码,其中mian是frame容器
+window.parent.main.document.location.assign("userList.jsp");
+1
+2
+<div id="wrapper">
+    <a href="userList.jsp" target="main"><img src="images/registerok.jpg"></a>
+    <div>
+        <h1>恭喜!</h1>
+        <p>恭喜你注册成功。<a style="color:#ff6600;" href="userList.jsp" target="main">点在这里直达用户列表！</a></p>
+        <a class="link" href="/" onclick="clickThing()"><span id="sec">3</span> 秒后返回用户列表</a>
+        <br /><br /><br />
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        setTimeout("lazyGo();", 1000);
+    });
+    function lazyGo() {
+        var sec = $("#sec").text();
+        $("#sec").text(--sec);
+        if (sec > 0)
+            setTimeout("lazyGo();", 1000);
+        else{
+            //删除后重新加载userlist页面
+            window.parent.main.document.location.assign("userList.jsp");
+        }
+    }
+    function clickThing(){
+        //删除后重新加载userlist页面
+        window.parent.main.document.location.assign("userList.jsp");
+    }
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+9.session检查
+
+后台页面就需要检查是否是管理员登录,不检查的话就是其他人直接输入后台连接就能访问,然后控制. 
+检查用的方法是session,首先建立一个login.jsp用于后台登录 
+可以看到在开头的jsp代码中,我默认了用户名和密码是admin,当然真正的开发要在服务器上来确认的.然后在session中存入了admin=true这样的键值对,这样的话就代表登录成功.
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--这里进行JSP代码检查--%>
+<%
+    request.setCharacterEncoding("utf-8");
+    String action = request.getParameter("action");
+    if (action!=null && action.equals("login")){
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        if (username.equals("admin") && username.equals(password)){
+            session.setAttribute("admin","true");//登陆成功记录下这一状态,其他页面来判断是否是当前状态
+            response.sendRedirect("AdminIndex.jsp");//成功则定向到控制页面
+        }else {
+            //这里这样提醒和我想象中不一样,可能后面有其他方法吧
+            out.println("用户名或者密码错误");
+        }
+    }
+%>
+<html>
+<head>
+    <title>登录页面</title>
+    <style>
+        div{
+            width: 100%;
+        }
+        h1{
+            margin: 10px auto;
+            text-align: center;
+        }
+        table{
+            margin: 20px auto;
+            text-align: right;
+            line-height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>管理员登录</h1>
+        <form name="form" method="post" action="login.jsp" onsubmit="return checkdata(this)">
+            <%--用于判定是哪个页面提交--%>
+            <input type="hidden" name="action" value="login">
+            <table>
+                <tr>
+                    <td>用户名<input type="text" name="username"></td>
+                </tr>
+                <tr>
+                    <td>密码<input type="text" name="password"></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="提 交"><input type="reset" value="重 置"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+<script>
+    function checkdata(obj){
+        if (obj.username.value == ""){
+            alert("用户名不能为空");
+            obj.username.focus();
+            return false;
+        }
+        if (obj.password.value == ""){
+            alert("密码不能为空");
+            obj.username.focus();
+            return false;
+        }
+    }
+</script>
+</body>
+</html>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+接下来就是其他页面的检查,单写一个sessioncheck.jsp文件,当确定session中admin为true的时候,才可以访问当前页面,否则定向到登录页面
+
+<%
+    String isLogin = (String) session.getAttribute("admin");
+    if (isLogin==null || !isLogin.equals("true") ){
+        response.sendRedirect("login.jsp");
+    }
+%>
+1
+2
+3
+4
+5
+6
+那么其他页面就直接引入访问即可
+
+<%--下面这个就是检查session是否为登录状态--%>
+<%@include file="sessionCheck.jsp"%>
+1
+2
+10.目前项目结构
+
+第一次写这种东西,脑子有点凌乱,虽然修改了好几次,但写的还是不太好,后期做完有了整体感悟再修改 

@@ -1,0 +1,273 @@
+﻿JS实现轮播图片广告
+http://blog.csdn.net/u012706811/article/details/50639108
+
+最近github貌似挺卡的
+
+http://nl101531.github.io/
+
+ <div class="out">
+      <ul class="img">
+          <li><img src="img/1.png" alt=""></li>
+          <li><img src="img/2.png" alt=""></li>
+          <li><img src="img/3.png" alt=""></li>
+          <li><img src="img/4.png" alt=""></li>
+          <li><img src="img/5.png" alt=""></li>
+      </ul>
+      <ul class="num">
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+          <li>4</li>
+          <li>5</li>
+      </ul>
+      <input class="left btn" type="button" value="<">
+      <input class="right btn" type="button" value=">">
+  </div>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+2.CSS配置
+
+首先外框div要设置和图片大小一致,并且居中对齐,position设置为相对定位,因为后面的图片什么的都是相对这个大框来绝对定位的
+
+//div外框
+.out{
+    width: 560px;
+    height: 350px;
+    margin: 0 auto;
+    position: relative;
+    border: 2px solid red;
+}
+1
+2
+3
+4
+5
+6
+7
+8
+接着设置图片,五张图片叠加这个通过absolute这个属性来实现,因为上面我们把父级容器设置为relative,所以里面的子元素都是相对父级div来绝对定位的
+
+.img {
+    list-style-type: none;
+}
+.img li{
+    position: absolute;
+    top:0;
+    cursor: pointer;
+}
+1
+2
+3
+4
+5
+6
+7
+8
+接下来的其他元素我会用注释写到代码中
+
+.num{
+    list-style-type: none;
+    /*这个属性会使得text-align失效,所以下面手动写上宽度即可*/
+    position: absolute;
+    width: 100%;
+    bottom:0;
+    text-align: center;
+}
+.num li{
+    width: 20px;
+    height: 20px;
+    /*行高这个属性使得元素垂直居中*/
+    line-height: 20px;
+    text-align: center;
+    /*inline-block使得所有元素按行排列*/
+    display: inline-block;
+    background-color: #4a4a4a;
+    color: #fff;
+    border-radius: 50%;
+    /*鼠标放上去会有小手*/
+    cursor: pointer;
+}
+/*鼠标放到图片上的时候才显示btn*/
+.out:hover .btn{
+    display: block;
+}
+.btn{
+    width: 30px;
+    height: 50px;
+    position: absolute;
+    display: none;
+    /*通过top和margin来定位属性到垂直居中*/
+    top: 50%;
+    margin-top: -30px;
+    border: 0;
+    /*使用rgba可以修改透明度*/
+    background-color: rgba(0,0,0,.5);
+    color: #fff;
+}
+.right{
+    right: 0;
+}
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+效果如下: 
+这里写图片描述
+
+3.jquery控制轮播
+
+实现手动轮播
+
+意思就是鼠标移到下面数字,就显示对应的图片
+
+//手动控制轮播图
+    $(".img li").eq(0).fadeIn(300);//加载页面的时候让第一个图片显示
+    $(".num li").eq(0).addClass("active");//给序号为1的加上红色背景
+    $(".num li").mouseover(function () {
+        //当前的数字显示红色背景,其他的数字都隐藏背景
+        $(this).addClass("active").siblings().removeClass("active");
+        //当前数字对应的图片显示,其他图片都隐藏
+        var index = $(this).index();
+        $(".img li").eq(index).stop().fadeIn(300).siblings().stop().fadeOut(300);
+    })
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+实现自动轮播
+
+   //实现自动轮播
+    var i = 0;//计时器控制数字
+    var t = setInterval(move,1500);
+
+        //该方法显示与序号对应的图片
+        function move() {
+        if (++i ==5){
+            i = 0;
+        }
+            $(".num li").eq(i).addClass("active").siblings().removeClass("active");
+            $(".img li").eq(i).stop().fadeIn(300).siblings().stop().fadeOut(300);
+        }
+    //鼠标移入后停止自动轮播
+    $(".out").hover(function () {
+        clearInterval(t);
+    }, function () {
+        t = setInterval(move,1500);
+    });
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+实现点击轮播
+
+    //按钮移动事件
+    $(".right").click(function () {
+        move();
+    });
+    $(".left").click(function () {
+        i = i-2;
+        move();
+    });
+1
+2
+3
+4
+5
+6
+7
+8
+动态控制li数字显示数量
+
+通过图片数量控制标签数量即可
+
+//手动控制li数量
+    var size = $(".img li").size();
+    for (var k=1;k<=size;k++){
+        $(".num").append("<li>"+k+"</li>");
+    }
+    $(".num li").eq(0).addClass("active");
+1
+2
+3
+4
+5
+6
+效果测试网站
+
+最近github貌似挺卡的
+
+http://nl101531.github.io/
