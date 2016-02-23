@@ -1,0 +1,507 @@
+﻿ CSS+JQ实现炫酷导航栏
+ http://blog.csdn.net/u012706811/article/details/50628385
+ 一步一步的学习,后面再做个综合页面
+
+1.当前页面高亮显示的导航栏
+
+首先是HTML代码,很简单,ul+li实现菜单
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>导航栏一</title>
+</head>
+<body>
+    <header class="header">
+        <div class="nva">
+            <ul class="list">
+                <li><a href="Android.html">Android</a></li>
+                <li><a href="C++.html">C++</a></li>
+                <li><a href="IOS.html">IOS</a></li>
+                <li><a href="Java.html">Java</a></li>
+                <li><a href="Ruby.html">Ruby</a></li>
+            </ul>
+        </div>
+    </header>
+<h1>首页</h1>
+</body>
+</html>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+基本效果: 
+这里写图片描述
+
+接下来设置CSS属性,这里要注意标签a是行级元素,所以需要用display转成块级元素,这个很常用,还有就是line-height的常见用法
+
+*{
+    margin:0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+}
+.nva{
+    width: 100%;
+    height: 40px;
+    margin-top: 70px;
+    background-color: #222;
+}
+.list{
+    width: 80%;
+    height: 40px;
+    margin: 0 auto;
+    list-style-type: none;
+}
+.list li{
+    float: left;
+}
+.list li a{
+    padding: 0 30px;
+    color: #aaa;
+    line-height: 40px;
+    display: block;
+}
+.list li a:hover{
+    background:#333; color:#fff;
+}
+.list li a.on{
+    background:#333; color:#fff;
+}
+h1{
+    margin: 20px auto;
+    text-align: center;
+}
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+实现的效果: 
+这里写图片描述
+
+最后就是JS动态添加定位效果了 
+js里面这样考虑,页面跳转就会有链接,根据链接的后缀来匹配属性,匹配则更改样式即可达到想要的效果 
+需要注意的就是如何获取URL,如何从URL里面查找出href信息
+
+$(function(){
+    //当前链接以/分割后最后一个元素索引
+    var index = window.location.href.split("/").length-1;
+    //最后一个元素前四个字母,防止后面带参数
+    var href = window.location.href.split("/")[index].substr(0,4);
+
+    if(href.length>0){
+        //如果匹配开头成功则更改样式
+        $(".list li a[href^='"+href+"']").addClass("on");
+        //[attribute^=value]：匹配给定的属性是以某些值开始的元素。
+    }else {
+        //默认主页高亮
+        $(".list li a[href^='index']").addClass("on");
+    }
+});
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+效果图 
+这里写图片描述
+
+2.划入自动切换的导航条
+
+在1的基础上,修改一下HTMLa标签内容,然后通过CSS设置动画效果
+
+<ul class="list">
+                <li><a href="index01.html">
+                <b>首页</b>
+                <i>Index</i>
+                </a></li>
+                <li><a href="Android.html">
+                    <b>Android</b>
+                    <i>安卓</i>
+                </a></li>
+                <li><a href="C++.html">
+                    <b>C++</b>
+                    <i>谁加加</i>
+                </a></li>
+                <li><a href="IOS.html">
+                    <b>IOS</b>
+                    <i>苹果</i>
+                </a></li>
+                <li><a href="Java.html">
+                    <b>Java</b>
+                    <i>爪哇</i>
+                </a></li>
+                <li><a href="Ruby.html">
+                    <b>Ruby</b>
+                    <i>如八一</i>
+                </a></li>
+            </ul>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+CSS实现动画效果,首先把b和i标签都设置为块级元素,这样的话就可以垂直分布,再给a设置一个transition,所谓的动画,就是划入后改变把a上移,再给a加个边框好观察,看下图 
+这里写图片描述 
+最后想实现效果,就给包裹菜单的div设置一个溢出隐藏属性即可
+
+*{
+    margin:0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+}
+.nva{
+    width: 100%;
+    height: 40px;
+    margin-top: 70px;
+    background-color: #222;
+                            overflow: hidden;
+}
+.list{
+    width: 80%;
+    height: 40px;
+    margin: 0 auto;
+    list-style-type: none;
+}
+.list li{
+    float: left;
+}
+.list li a{
+    padding: 0 30px;
+    color: #aaa;
+    line-height: 40px;
+    display: block;
+                            transition: 0.3s;
+}
+                            .list b,.list i{
+                                display: block;
+                            }
+.list li a:hover{
+                            margin-top: -40px;
+    background:#333; color:#fff;
+}
+.list li a.on{
+    background:#333; color:#fff;
+}
+h1{
+    margin: 20px auto;
+    text-align: center;
+}
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+这里写图片描述 
+也可以采用JQ来实现,代码如下
+
+$(function () {
+    $(".list a").hover(function () {
+        //stop是当执行其他动画的时候停止当前的
+        $(this).stop().animate({
+            "margin-top": -40
+        }, 300);
+    }, function () {
+        $(this).stop().animate({
+            "margin-top": 0
+        }, 300);
+    });
+});
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+3.弹性子菜单实现
+
+首先子菜单使用div包裹,里面都是a标签,如下
+
+                <li><a href="Android.html">
+                    <b>Android</b>
+                </a>
+                    <div class="down">
+                        <a href="#">子菜单1</a>
+                        <a href="#">子菜单2</a>
+                        <a href="#">子菜单3</a>
+                        <a href="#">子菜单4</a>
+                    </div>
+                </li>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+接下来设置样式,既然是子菜单,就要脱离文档页面,所以使用absolute属性,使用这个属性那么父容器就要是relative
+
+*{
+    margin:0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+}
+.nva{
+    width: 100%;
+    height: 40px;
+    margin-top: 70px;
+    background-color: #222;
+    position: relative;
+}
+.list{
+    width: 80%;
+    height: 40px;
+    margin: 0 auto;
+    list-style-type: none;
+}
+.list li{
+    float: left;
+}
+.list li a{
+    padding: 0 30px;
+    color: #aaa;
+    line-height: 40px;
+    display: block;
+    transition: 0.3s;
+}
+.list b{
+    display: block;
+}
+.list li a:hover{
+    background:#333; color:#fff;
+}
+.list li a.on{
+    background:#333; color:#fff;
+}
+.list .down{
+    position: absolute;
+    top: 40px;
+    background-color: #222;
+    /*display: none;*/
+}
+.list .down a{
+    color: #aaa;
+    padding-left: 30px;
+    display: block;
+}
+h1{
+    margin: 20px auto;
+    text-align: center;
+}
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+如下效果: 
+这里写图片描述 
+接下来使用JQ和easing插件来控制动画 
+find方法一般用来查找操作元素的后代元素的
+
+$(function () {
+    $(".list li").hover(function () {
+        //这里使用了easing插件
+        $(this).find(".down").stop().slideDown({duration:1000,easing:"easeOutBounce"});
+    }, function () {
+        $(this).find(".down").stop().slideUp({duration:1000,easing:"easeOutBounce"});
+    });
+});
+1
+2
+3
+4
+5
+6
+7
+8
+效果,图片录制不太好,实际上都是弹性动画的 
+这里写图片描述
+
+4,综合运用上面知识写的一个测试
+
+,电脑访问哈,手机访问可能会挤的乱七八糟
