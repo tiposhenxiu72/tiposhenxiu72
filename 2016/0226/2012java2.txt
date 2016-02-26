@@ -1,0 +1,32 @@
+﻿用POI的HSSF来控制EXCEL
+http://blog.csdn.net/qin_zhangyongheng/article/details/8033920
+利用poi读写excel和word
+http://blog.csdn.net/liuhe688/article/details/4899825
+
+
+
+VMware中Ubuntu忘记密码的解决办法
+http://blog.csdn.net/li1669852599/article/details/43730527
+
+卡瓦邦噶！
+无法自制的人得不到自由
+http://www.kawabangga.com/
+
+
+[置顶] 教你编写简单的网络爬虫
+http://blog.csdn.net/dreamrealised/article/details/12612349
+http://blog.csdn.net/Queenie4bee/article/details/42493737
+
+
+SQL语句整理
+http://blog.csdn.net/dreamrealised/article/details/9191529
+
+
+ iText操作word文档总结
+ http://blog.csdn.net/dreamrealised/article/details/9186563
+ 
+ 让我们来破坏单例模式
+ http://blog.csdn.net/dreamrealised/article/details/16115605
+ 
+ 
+

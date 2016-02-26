@@ -1,0 +1,396 @@
+Pleiades All in One 4.5.1.v20151002
+
+git clone https://github.com/tiposhenxiu/learngit
+git clone git@github.com/tiposhenxiu/learngit
+git remote add origin https://github.com/tiposhenxiu/learngit
+
+http://blog.csdn.net/surgent777/article/details/49662245
+
+http://www.dizang.org/bk/jt2/069.htm
+
+http://blog.csdn.net/column/details/java.html
+js
+http://blog.csdn.net/u011225629/article/details/47441567
+jquery  api
+http://www.jq22.com/chm/jquery1.8.3.html
+MVC
+http://blog.csdn.net/u011225629/article/details/47121935
+Python 100ó·
+http://blog.csdn.net/u011225629/article/details/50314385
+javabiji
+http://blog.csdn.net/column/details/itmyhome.html
+boke
+http://www.ido321.com/
+http://www.ido321.com/1660.html
+http://www.kawabangga.com/
+fanshe
+http://blog.csdn.net/itmyhome1990/article/details/8946220
+http://blog.csdn.net/u012116457/article/details/45115593
+excel
+http://blog.csdn.net/he90227/article/details/37563497
+http://blog.csdn.net/liuhe688/article/details/4899825
+word
+http://blog.csdn.net/dreamrealised/article/details/9186563
+map
+http://blog.csdn.net/he90227/article/details/37599463
+Bootstrap
+http://blog.csdn.net/li1669852599/article/details/43735683
+VMwareíÜà¿ëïóπUbuntu 
+http://blog.csdn.net/li1669852599/article/details/43730527
+„§?‡¶íé
+http://blog.csdn.net/dreamrealised/article/details/12612349
+SQL?ãÂêÆóù
+http://blog.csdn.net/dreamrealised/article/details/9191529
+http://blog.csdn.net/u011225629/article/details/50492403
+
+html5
+http://blog.csdn.net/u012116457/article/details/24663905
+
+
+suanfa
+http://blog.csdn.net/u012116457/article/details/30042387
+
+
+ba guan zhao jie
+http://www.ctworld.org.tw/turn/blossom/044.htm
+
+http://mergedoc.osdn.jp/index.html#/pleiades_distros4.5.html
+http://ftp.jaist.ac.jp/pub/mergedoc/pleiades/4.5/pleiades-e4.5-java-jre_20151002.zip
+
+
+http://linux-star.jugem.jp/?cid=6
+http://linux-star.jugem.jp/?eid=28
+
+
+http://mooc.guokr.com/post/645581/
+
+https://code.csdn.net/DOC_CSDN/git_lxf/file/%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93.md
+
+
+git
+sudo apt-get install git
+î@â ê•ë¥ëºLinuxî≈ñ{ÅCâ¬à»íºê⁄í ?åπ?à¿ëïÅBêÊò∏GitäØ„§â∫?åπ?ÅCëRç@â?ÅCàÀéü?ì¸ÅF./configÅCmakeÅCsudo make install
+git config --global user.name "Your Name"
+git config --global user.email "email@example.com"
+mkdir learngit
+cd learngit
+git init
+git add readme.txt
+git commit -m "wrote a readme file"
+git status
+git diff readme.txt
+git log
+git reflog
+git reset --hard HEAD^
+git reset --hard 3628168
+cat readme.txt
+git checkout -- readme.txt
+git rm test.txt
+ssh-keygen -t rsa -C "your\_email@example.com"
+git remote add origin git@github.com:tiposhenxiu/learngit.git
+git remote add origin git@github.com:tiposhenxiu/000git.git
+git remote add origin git@github.com:tiposhenxiu/gitskills2.git
+git push -u origin tiposhenxiu/000git/master
+git pull origin git@github.com:tiposhenxiu/000git.git
+git push -u origin master
+git push origin master
+git clone git@github.com:michaelliao/gitskills.git
+cd gitskills
+ls
+git mergetool
+
+git branch dev
+git checkout dev
+git checkout -b dev
+
+git branch
+git checkout master
+git merge dev
+git branch -d dev
+?ä≈ï™éxÅFgit branch
+
+?åöï™éxÅFgit branch name
+
+êÿ?ï™éxÅFgit checkout name
+
+?åö+êÿ?ï™éxÅFgit checkout -b name
+
+çáõÛñ^ï™éxìûìñëOï™éxÅFgit merge name
+
+?èúï™éxÅFgit branch -d name
+
+git log --graph --pretty=oneline --abbrev-commit
+git merge --no-ff -m "merge with no-ff" dev
+
+git stash
+git checkout master
+git checkout -b issue-101
+git add readme.txt
+git commit -m "fix bug 101"
+git checkout master
+git merge --no-ff -m "merged bug fix 101" issue-101
+git branch -d issue-101
+git checkout dev
+git status
+git stash list
+git stash apply stash@{0}
+git stash apply
+git stash drop
+git stash pop
+
+
+git remote
+git remote -v
+git push origin master
+git push origin dev
+
+git clone git@github.com:michaelliao/learngit.git
+git branch
+git checkout -b dev origin/dev
+git commit -m "add /usr/bin/env"
+
+ç›ñ{ínçáõÛÅCâôrôtìÀÅCçƒêÑëó
+git pull
+git branch --set-upstream dev origin/dev
+git pull
+git commit -m "merge & fix hello.py"
+git push origin dev
+
+
+git tag v1.0
+git tag
+git tag v0.9 6224937
+git show v0.9
+git tag -a v0.1 -m "version 0.1 released" 3628164
+git tag -s v0.2 -m "signed version 0.2 released" fec145a
+git tag -d v0.1
+git push origin v1.0
+
+git tag -d v0.9
+git push origin :refs/tags/v0.9
+
+git config --global color.ui true
+git config --global alias.st status
+git config --global alias.co checkout
+git config --global alias.ci commit
+git config --global alias.br branch
+
+git config --global alias.last 'log -1'
+git last
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+git lg
+
+sudo apt-get install git
+sudo adduser git
+sudo git init --bare sample.git
+sudo chown -R git:git sample.git
+git:x:1001:1001:,,,:/home/git:/usr/bin/git-shell
+git clone git@server:/srv/sample.git
+
+
+
+
+https://github.com/daimajia/NumberProgressBar
+
+vim
+http://blog.csdn.net/menxu_work/article/details/11531029
+
+
+777777777777777777777777777
+pwd
+cd..
+cd  c/Users/sraw/learngit/gitskills2
+git add .
+git commit -m "wrote a readme file"
+git push origin master
+git push gitskill master
+git push -u gitskill master
+git push -u origin master
+
+git remote -v
+git remote
+git push 000git master
+
+git remote add 0000git https://github.com/tiposhenxiu/0000git
+git push -u 0000git master
+
+git remote add 000git https://github.com/orgs/sreere/people/tiposhenxiu/000git.git
+
+git remote add 000git https://github.com/sreere/000git
+git push -u 000git master
+
+https://github.com/orgs/sreere/people/tiposhenxiu
+git remote add http_github https://github.com/fusijie/JackyGit.git
+git remote add 000git https://github.com/orgs/sreere/people/tiposhenxiu/000git.git
+git remote add origin https://github.com/orgs/sreere/people/tiposhenxiu/
+git push -u 000git master
+git push -u git_github master 
+git clone git@github.com:fusijie/JackyGit.git
+
+http://blog.csdn.net/mchdba/article/details/12083965
+http://blog.csdn.net/lw_power/article/details/46558845
+
+http://qiita.com/rubytomato@github/items/e4fda26faddbcfd84d16
+
+
+git init 
+git remote add origin ssh://admin@192.168.1.100d:/code/
+git remote rm origin
+git remote add origin
+git add ?A
+git commit ?mÅhxxxÅh
+git push origin master
+git remote show origin
+
+
+git clone git@github.com:fusijie/JackyGit.git
+git clone https://github.com/jekyll/jekyll
+git clone https://github.com/diaspora/diaspora
+git clone https://github.com/plataformatec/devise
+git clone https://github.com/gitlabhq/gitlabhq
+git clone https://github.com/rails/rails
+
+
+
+javaweb
+git clone https://github.com/laiweiwei/eweb4j-framework
+git clone https://github.com/laiweiwei/spiderman
+git clone https://github.com/laiweiwei/eweb4j-solidbase
+git clone https://github.com/laiweiwei/SolidBase
+git clone https://github.com/laiweiwei/solidbase-webapp
+git clone https://github.com/hypercube1024/firefly
+git clone https://github.com/jfinal/jfinal
+git clone https://github.com/spring-projects/greenhouse
+git clone https://github.com/allwefantasy/ServiceFramework
+
+
+git clone https://github.com/webpy/webpy
+git clone https://github.com/laruence/yaf
+git clone https://github.com/PocketMine/PocketMine-MP
+git clone https://github.com/walkor/workerman-todpole
+git clone https://github.com/walkor/Workerman
+git clone https://github.com/hisune/tinymvc
+
+git clone https://github.com/socketio/socket.io
+git clone https://github.com/socketio/socket.io-client
+git clone https://github.com/socketio/engine.io
+
+git clone https://github.com/ipython/ipython
+git clone https://github.com/rg3/youtube-dl
+git clone https://github.com/facebook/hhvm
+git clone https://github.com/kennethreitz/python-guide
+git clone https://github.com/kennethreitz/requests
+git clone https://github.com/django/django
+
+
+git clone 
+
+git clone https://github.com/chenssy89/jutils
+git clone https://github.com/chenssy89/JavaCore
+git clone https://github.com/chenssy89/javaConcurrency
+git clone https://github.com/chenssy89/JDMHA
+git clone 
+git clone https://github.com/git/git-scm.com
+git clone https://github.com/schacon/git-scribe
+git clone https://github.com/schacon/ruby-git
+git clone https://github.com/atom/atom
+
+
+
+git clone https://github.com/nodejs/node
+git clone https://github.com/nodejs/node-v0.x-archive
+git clone https://github.com/MSOpenTech/redis
+git clone https://github.com/libuv/libuv
+
+git clone 
+
+git clone https://github.com/saghul/pythonz
+git clone https://github.com/saghul/pyuv
+git clone https://github.com/saghul/python-fibers
+
+
+git remote
+git remote -v
+origin  git@github.com:tiposhenxiu/learngit.git (fetch)
+origin  git@github.com:tiposhenxiu/learngit.git (push)
+
+origin  https://github.com/gavincook/test.git (fetch)
+origin  https://github.com/gavincook/test.git (push)
+ git remote add myFork https://github.com/AntStudio/test.git
+
+
+http://blog.csdn.net/gavincook/article/details/17429137
+
+git remote add myFork  git@github.com:tiposhenxiu/learngit.git
+git remote add gitskill  git@github.com:tiposhenxiu/learngit.git
+git remote show myFork
+git remote remove remoteName
+git pull
+ git remote
+  git fetch origin master ??? è´ï™éxë„?çXêVìûorigin/masterï™éxè„
+git fetch forkName remoteBranchName:branchName ??? è´ï™éxë„?çXêVìûbranchNameï™éxè„
+
+
+
+git remote add origin git@github.com:looly/hutool.git
+git remote add osc git@git.oschina.net:loolly/hutool.git
+git add .
+git commit -m 'First commit'
+git push origin master
+git push osc master
+
+
+push.sh
+#!/bin/bash
+echo 'Push to origin master'
+git push origin master
+echo 'Push to osc master'
+git push osc master
+
+
+
+$ git clone http[s]://example.com/path/to/repo.git/
+$ git clone ssh://example.com/path/to/repo.git/
+$ git clone git://example.com/path/to/repo.git/
+$ git clone /opt/git/project.git 
+$ git clone file:///opt/git/project.git
+$ git clone ftp[s]://example.com/path/to/repo.git/
+$ git clone rsync://example.com/path/to/repo.git/
+
+
+
+git fetch origin master
+
+
+$git pull 
+
+$ git stash save "updating to head from repo" 
+
+git branch -r
+git fetch origin
+git merge origin/next
+
+
+git pull -p
+
+
+pwd
+cd learngit
+git pull
+git add .
+git commmit -m "panghu"
+git push origin master
+
+git remote
+git remote -v
+git@github.com:tiposhenxiu/learngit.git
+origin  git@github.com:tiposhenxiu/learngit.git 
+git remote add myFork https://github.com/AntStudio/test.git
+git remote show myFork
+git fetchòagit remote update
+
+git remote add origin git@github.com:tiposhenxiu/learngit.git
+
+git clone git@github.com:tiposhenxiu/learngit.git
+
+origin  git@github.com:tiposhenxiu/gitskills2.git 

@@ -1,0 +1,311 @@
+http://wiki.jikexueyuan.com/project/rails-practice/Chapter_1/1.1.html
+http://wiki.jikexueyuan.com/project/rails-practice/
+https://ruby-china.org/wiki/start_leaning_rails
+https://ruby-china.org/topics/1581
+http://www.iteye.com/topic/280891
+
+
+https://ihower.tw/rails4/index.html
+
+
+
+http://rubyinstaller.org/
+
+Windows 系?可以?? rubyinstaller。但是在 windows ?? Rails 程序会遇到?多??，建?大家安装虚?机或者 Linux 双系??行??。
+
+RVM 是 Ruby 管理工具，可以方便的安装、管理、切?多个 Ruby，管理 Gemset。
+安装 RVM 的命令是：
+curl -sSL https://get.rvm.io | bash -s stable
+rvm get stable
+rvm -v
+rvm list known
+rvm install 2.2.0
+rvm list
+rvm use 2.2.0 --default
+ruby -v
+rvm gemset create rails4.2
+rvm use 2.2.0@rails4.2 --default
+gem install rails -v 4.2.0 --no-ri --no-rdoc
+在一些系??境中，?需要先安装 bundler，它的命令是 
+gem install bundler
+
+
+rails new shop
+rails _4.1.5_ new shop
+gem list | grep rails
+Rails 默?使用 sqlite 数据?作???使用
+rails new shop -d mysql|oracle|postgresql|...
+gem 'my_gem', '1.0', :source => 'https://gems.example.com' # 我?可以指定自己的 source 源
+gem 'nokogiri', :git => 'https://github.com/tenderlove/nokogiri.git', :branch => '1.4' # 也可以指定 Github 地址和分支
+gem 'extracted_library', :path => './vendor/extracted_library' # 我?可以从 vendor 文件?中安装一个 Gem。
+# 我?可以??行?境指定一个 group，比如，在 development 和 production ?境中，将不加? rspec ?个 Gem，它只需要在 test ?境下工作。
+group :test do
+  gem 'rspec'
+end
+
+
+rake db:create   # ?建数据?
+rake db:migrate  # 更新数据?，更新的文件来自 db/migrate/
+rake db:seed     # ?行 seed.rb 文件的内容，通常是?建一个默?的数据。
+rake db:drop     # ?除数据?
+
+
+RAILS_ENV=production rake db:migrate
+rake routes
+
+
+% rails g scaffold variants product_id:integer price:decimal{'8,2'} size
+
+我??可以配置 scaffold，?它跳?一些不必要的文件，配置写在 config/application.rb 中：
+
+class Application < Rails::Application
+  ...
+  config.generators do |cfg|
+    cfg.stylesheets     false
+    cfg.javascripts     false
+    cfg.helpers         false
+  end
+
+2.1.4 coffeescript
+
+.coffee 是 js 的??理文件，它是用 coffeescript ?写的。学?它很??，只要看看http://coffeescript.org/ 就可以了，中文在 http://coffee-script.org/。
+
+scss 和 coffeescript 的目?，是?代?更??，易??。??理?可以?????法上的??。
+
+在我?安装完 bootstrap 后，会?出一个 coffee 文件：
+
+jQuery ->
+  $("a[rel~=popover], .has-popover").popover()
+  $("a[rel~=tooltip], .has-tooltip").tooltip()
+
+REST，Representational State Transfer， 更准?地表述??是：具有代表性的状??移。?是一??件架??格。?它是?格，表明它不具??束。?可以破坏它，不按照它的?格去??。但是，REST ?有??的??理念，按照它的??可以在??中?得益?。
+
+Rails 是按照 REST ?格??的，从1.2版本起，Rails 就?始按照 REST 架?管理?源。
+
+如何管理?？Rails 从以下三个方面??源?行定?：
+
+直??短的?源地址：URI，比如：http://example.com/resources/。
+可??的?源：Web 服?接受与返回的互?网媒体?型，比如：JSON，XML ，YAML 等。
+??源的操作：Web 服?在??源上所支持的一系列?求方法（比如：POST，GET，PUT或DELETE）。
+
+<%= form_for @product, remote: true, :html => { :class => 'form-horizontal' } do |f| %>
+
+gem 'haml'
+gem 'html2haml'
+gem "haml-rails"
+rake haml:erb2haml
+gem 'liquid-rails'
+rake db:rollback [1]
+rake db:rollback STEP=3 [2]
+
+
+Product.find_by(name: 'T-Shirt', price: 59.99)
+Product.find_by_name("Hat")
+Product.find_by_name_and_price("Hat", 9.99)
+User.find_by("id = ? OR login = ?", params[:id], params[:id])
+User.find_by("id = :id OR login = :name", id: params[:id], name: params[:id])
+User.find_by("id = :q OR login = :q", q: params[:id])
+Product.where("name like ?", "%a%")
+Product.where(price: 5..6)
+Product.where("color = ? OR price > ?", "red", 9)
+
+
+Product.update(1, name: "T-Shirt", price: 23)
+Product.update([1, 2], [{ name: "Glove", price: 19 }, { name: "Scarf" }])
+Product.update_all(price: 20)
+Product.delete(1)
+Product.delete([2,3,4])
+Post.delete_all("person_id = 5 AND (category = 'Something' OR category = 'Else')")
+Post.delete_all(["person_id = ? AND (category = ? OR category = ?)", 5, 'Something', 'Else'])
+Post.where(person_id: 5).where(category: ['Something', 'Else']).delete_all
+
+Client.find_by_sql("SELECT * FROM clients
+  INNER JOIN orders ON clients.id = orders.client_id
+  ORDER BY clients.created_at desc")
+# =>  [
+  #<Client id: 1, first_name: "Lucas" >,
+  #<Client id: 2, first_name: "Jan" >,
+  # ...
+]
+
+在??属性集合?，pluck 的性能更高。
+Client.where(active: true).pluck(:id)
+ SELECT id FROM clients WHERE active = 1
+ => [1, 2, 3]
+
+Client.distinct.pluck(:role)
+ SELECT DISTINCT role FROM clients
+ => ['admin', 'member', 'guest']
+
+Client.pluck(:id, :name)
+ SELECT clients.id, clients.name FROM clients
+ => [[1, 'David'], [2, 'Jeremy'], [3, 'Jose']]
+
+
+Product.select(:id, :name)
+  Product Load (8.5ms)  SELECT "products"."id", "products"."name" FROM "products"
+ => #<ActiveRecord::Relation [#<Product id: 1, name: "f">]> 
+Product.pluck(:id, :name)
+   (0.3ms)  SELECT "products"."id", "products"."name" FROM "products"
+ => [[1, "f"]] 
+
+Person.ids
+=> SELECT id FROM people
+
+Client.exists?(1)
+Client.exists?(id: [1,2,3])
+Client.exists?(name: ['John', 'Sergei'])
+
+Client.count
+Client.average("orders_count")
+Client.minimum("age")
+Client.maximum("age")
+Client.sum("orders_count")
+
+Rspec ??
+
+默?使用 TestUnit 框架，4.x 之后改? MiniTest 框架。我?可以?看 test_case.rb 文件，看到其中的?化。
+
+除了??个??框架，Rspec 也是?常用到的 Ruby ??框架。
+
+rails generate rspec:install
+
+rspec spec/models/product_spec.rb
+rspec spec/models/product_spec.rb:10
+rspec spec/models/
+
+一?一?系的?定，再一次体?了 Rails 在??中的便捷：
+
+class User < ActiveRecord::Base
+  has_one :address
+end
+
+class Address < ActiveRecord::Base
+  belongs_to :user
+end
+
+class User < ActiveRecord::Base
+  has_many :orders
+end
+
+
+RSpec.describe User, type: :model do
+  it { should have_many(:orders) }
+end
+
+RSpec.describe Order, type: :model do
+  it { should belong_to(:user) }
+end
+
+config.action_controller.perform_caching = true
+
+config.action_controller.page_cache_directory = "#{Rails.root.to_s}/public"
+<% cache do %>
+  分?:
+  <% Catalog.all.each do |catalog| %>
+    <%= link_to catalog.name, catalog %>
+  <% end %>
+<% end %>
+
+<% cache(action: 'new', action_suffix: 'all_products') do %>
+
+或者直接?存一个?例：
+<% cache @product do %>
+
+
+redis-server
+redis-server .conf/redis.conf
+dir ./db/redis/ [1]
+logfile ./log/redis.log [2]
+# requirepass foobar
+gem 'sidekiq'
+gem 'sinatra', :require => nil
+config/sidekiq.yml
+config/application.rb 声明一下：
+config.active_job.queue_adapter = :sidekiq
+config/application.rb
+
+config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**/*.{rb,yml}').to_s]
+config.i18n.default_locale = :"zh-CN"
+
+
+ssh-keygen -t rsa
+useradd deploy
+scp ./ssh/id_rsa.pub deploy@domain:/~/.ssh/authorized_keys
+/etc/ssh/sshd_config：
+
+AuthorizedKeysFile      .ssh/authorized_keys [1]
+PermitEmptyPasswords    no [2]
+PermitRootLogin         no [3]
+PasswordAuthentication  no [4]
+
+ssh -T git@github.com
+ssh -T git@bitbucket.org
+ssh -T git@gitcafe.com
+
+gem 'puma'
+pumactl -F config/puma.rb start/stop/restart
+
+
+mina deploy 即可部署最新的代?
+
+mina puma:start/stop/restart。
+ Crontab
+
+
+http://wiki.jikexueyuan.com/project/rails-practice/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+gem install rails
+rails new blog
+cd blog
+bundle install
+config/database.yml 
+development:
+  adapter: mysql2
+  encoding: utf8
+  database: blog_development
+  pool: 5
+  username: root
+  password:
+  socket: /tmp/mysql.sock
+
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: blog_development
+  pool: 5
+  username: blog
+  password:
+
+
+rake db:create
+
+ rails server
+
+
+
+
+python
+http://blog.csdn.net/shanliangliuxing/article/details/39210035
+
+
+https://ihower.tw/rails4/installation.html
+http://hideto.iteye.com/blog/947253
+?在一直用Sublime，比TextMate更神！
+
+
+
+
