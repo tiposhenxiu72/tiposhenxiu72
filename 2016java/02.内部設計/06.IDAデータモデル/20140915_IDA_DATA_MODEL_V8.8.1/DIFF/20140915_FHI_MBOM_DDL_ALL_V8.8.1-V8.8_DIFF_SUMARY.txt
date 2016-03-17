@@ -1,0 +1,6 @@
+00656  |CREATE TABLE "TB003008" (                         ||00656  |CREATE TABLE "TB003008" (                         
+00659 L|        "APPLIED_MODEL_CODE" CHAR(5) NOT NULL,    ||00659 R|        "APPLIED_MODEL_CODE" CHAR(4) NOT NULL,    
+01669  |CREATE TABLE "TB009004" (                         ||01669  |CREATE TABLE "TB009004" (                         
+01670 L|        "APPLIED_MODEL_CODE" CHAR(5) NOT NULL,    ||01670 R|        "APPLIED_MODEL_CODE" CHAR(4) NOT NULL,    
+01752  |CREATE TABLE "TB009009" (                         ||01752  |CREATE TABLE "TB009009" (                         
+01753 L|        "APPLIED_MODEL_CODE" CHAR(5) NOT NULL,    ||01753 R|        "APPLIED_MODEL_CODE" CHAR(4) NOT NULL,    

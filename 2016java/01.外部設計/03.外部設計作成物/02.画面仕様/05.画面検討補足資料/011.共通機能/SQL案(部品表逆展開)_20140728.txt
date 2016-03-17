@@ -1,0 +1,86 @@
+/* 2-8.部品表正展開(SC011080) */
+/* 指定された部品番号、日付を条件として「直上の親部品構成データ」を取得するSQL */
+SELECT
+		MPRT.FACTORY_PN_STATUS,																				/* 部品ステータス 画面表示のために変換が必要。 コードマスター(CDGRP005) */
+		PRT.DRAWING_CLASS,																					/* F図 */
+		PRT.DRAWING_BLOCK_NO,																				/* ブロックNO */
+		NVL(PRTITEM.ITEM_ID_NO, 'N/A') AS ITEMID, 															/* 品目ID */
+		STRCINFO.PARENT_PARTS_NO,																				/* 組付先部品番号 (旧部品番号を取得するために必要) */
+		MPRT.PARTS_NO,																						/* 部品番号 */
+		MPRT.ENGINEERING_PN_REV_NO,																			/* 変番 */
+		MPRT.FACTORY_PN_REV_NO,																				/* 工場改訂 */
+		PRT.PARTS_NAME,																						/* 部品名称 */
+		DECODE(PRT.DRAWING_CLASS, 'F', MSTRC2.CONSUMPTION_ROUTING, STRCINFO.CONSUMPTION_ROUTING) AS COMRTG,	/* 消費工順 ファイナル部品の場合、ダミー親構成(親部番が'T')の 消費工順を表示。それ以外は 通常の親構成の消費工順を表示。 */
+		MPRT.JOB_SEQ_NO,																					/* 発生工順 */
+		MPRT.SUPPLIER_CODE,																					/* 取引先 */
+		DECODE(PRT.DRAWING_CLASS, 'F', MSTRC2.UNIT_CLASS, STRCINFO.UNIT_CLASS) AS UNITCLS,					/* ユニット区分 ファイナル部品の場合、ダミー親構成(親部番が'T')の ユニット区分を表示。それ以外は 通常の親構成のユニット区分を表示。 */
+		DECODE(PRT.DRAWING_CLASS, 'F', MSTRC2.PROCESSING_CODE, STRCINFO.PROCESSING_CODE) AS PRCSCD,			/* ユニット区分 ファイナル部品の場合、ダミー親構成(親部番が'T')の ユニット区分を表示。それ以外は 通常の親構成のユニット区分を表示。 */
+		MPRT.REPR_OF_MAIN_ECS_NO,																			/* 主設通代表設通番号 */
+		('1:' || STRCINFO.MANAGEMENT_STATUS || ',2:' || STRCINFO.SUPPLY_CODE || ',3:' || STRCINFO.ADOPT_CHECK_CODE ) AS MINFO,	/* (*2) 管理区分,供給コード,採確コード */
+		STRCINFO.REFERENCE,																					/* 参考 */
+		NVL(STRCINFO.QUANTITY, 1) AS QTY,																	/* 員数 */
+		PRTDRWG.DRAWING_NO,																					/* タイトル図番 */
+		PRTDRWG.DRAWING_REV_NO,																				/* 図面改訂 */
+		STRCINFO.ENGINEERING_PS_REV_NO																		/* 技術構成改訂番号 (旧部品番号を取得するために必要) */
+FROM
+		TB004001 MPRT																	/* 工場部品情報 */
+			INNER JOIN TB001003 PRT ON													/* 部品諸元 */
+				PRT.PARTS_NO=MPRT.PARTS_NO AND
+				PRT.PARTS_PROP_REV_NO=MPRT.PARTS_PROP_REV_NO
+			INNER JOIN TB001002 PRTDRWG ON												/* 部品図面 */
+				PRTDRWG.PARTS_NO=MPRT.PARTS_NO AND
+				PRTDRWG.ENGINEERING_PN_REV_NO=MPRT.ENGINEERING_PN_REV_NO
+			LEFT OUTER JOIN 
+					(
+						SELECT
+							MSTRC3.FACTORY_PS_STATUS,
+							MSTRC3.ADOPT_DATE,
+							MSTRC3.ABOLISH_DATE,
+							MSTRC3.PARENT_PARTS_NO,
+							MSTRC3.SUB_PARTS_NO,
+							MSTRC3.CONSUMPTION_ROUTING,
+							MSTRC3.UNIT_CLASS,
+							MSTRC3.PROCESSING_CODE,
+							MSTRC3.MANAGEMENT_STATUS,
+							MSTRC3.SUPPLY_CODE,
+							MSTRC3.ADOPT_CHECK_CODE,
+							STRC.REFERENCE,
+							STRC.QUANTITY,
+							STRC.ENGINEERING_PS_REV_NO
+						FROM
+							TB004002 MSTRC3 																	/* 工場構成情報 */
+								INNER JOIN TB001004 STRC ON														/* 部品構成 */
+									STRC.SUB_PARTS_NO=MSTRC3.SUB_PARTS_NO AND
+									STRC.PARENT_PARTS_NO=MSTRC3.PARENT_PARTS_NO AND
+									STRC.ENGINEERING_PS_REV_NO=MSTRC3.ENGINEERING_PS_REV_NO
+/*									AND STRC.REFERENCE!='R' 												◎参考呼び出し構成展開OFFの場合、この条件を追加 */
+						WHERE
+							MSTRC3.SUB_PARTS_NO=?														/* 画面入力された部品番号を指定 */
+					) STRCINFO ON
+				STRCINFO.SUB_PARTS_NO=MPRT.PARTS_NO AND
+				STRCINFO.FACTORY_PS_STATUS='99' AND																/* 本登録済を指定 コードマスター(CDGRP005) */
+				(STRCINFO.ADOPT_DATE <= TO_DATE(?, 'YYYY/MM/DD') AND STRCINFO.ABOLISH_DATE > TO_DATE(?, 'YYYY/MM/DD'))		/* 画面入力された日付を指定 */				
+			LEFT OUTER JOIN TB006006 PRTITEM ON																	/* 部品品目管理 */
+				PRTITEM.MC_DEV_MODEL_CODE=PRT.DRAWING_SERIES AND												/* 図面シリーズ (MC開発符号) */
+				PRTITEM.PARTS_NO=PRT.PARTS_NO																	/* 部品番号 */
+			LEFT OUTER JOIN TB004002 MSTRC2 ON																	/* 工場構成情報 */
+				MSTRC2.SUB_PARTS_NO=MPRT.PARTS_NO AND
+				MSTRC2.PARENT_PARTS_NO='T' AND																	/* ダミー親部品番号の構成を取得 */
+				MSTRC2.FACTORY_PS_STATUS='99' AND																/* 本登録済みを指定 コードマスター(CDGRP005) */
+				(MSTRC2.ADOPT_DATE <= TO_DATE(?, 'YYYY/MM/DD') AND MSTRC2.ABOLISH_DATE > TO_DATE(?, 'YYYY/MM/DD'))			/* 画面入力された日付を指定 */
+WHERE
+	MPRT.PARTS_NO=? AND																								/* 画面入力された部品番号を指定 */
+	MPRT.FACTORY_PN_STATUS='99' AND																							/* 本登録済を指定 コードマスター(CDGRP005) */
+	(MPRT.ADOPT_DATE <= TO_DATE(?, 'YYYY/MM/DD') AND MPRT.ABOLISH_DATE > TO_DATE(?, 'YYYY/MM/DD'))			/* 画面入力された日付を指定 */
+ORDER BY
+	STRCINFO.PARENT_PARTS_NO
+;
+
+
+
+
+/* F図ブロックNO取得 */
+/* 正展開処理SQLと同じものを使ってください */
+
+/*  旧部品番号取得 */
+/* 正展開処理SQLと同じものを使ってください  */

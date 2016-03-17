@@ -1,0 +1,520 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+
+<!--
+function checkH(obj,rownum,rowname){
+	if(rowname.checked){
+		document.getElementById("rowid1" + rownum).className = "sel";
+		document.getElementById("rowid2" + rownum).className = "sel";
+		checkInput(obj,rownum,1);
+	}else{
+		document.getElementById("rowid1" + rownum).className = "notsel";
+		document.getElementById("rowid2" + rownum).className = "notsel";
+		checkInput(obj,rownum,2);
+	}
+}
+
+function checkInput(obj,rownum,inOut){
+	var falg = true;
+	if(inOut==1){
+		falg = false;
+		document.getElementById("id0"+rownum+"1").bgColor='';
+		document.getElementById("id0"+rownum+"2").bgColor='';
+		document.getElementById("id0"+rownum+"3").bgColor='';
+		document.getElementById("id0"+rownum+"4").bgColor='';
+		document.getElementById("id0"+rownum+"5").bgColor='';
+		document.getElementById("id0"+rownum+"6").bgColor='';
+		document.getElementById("id0"+rownum+"7").bgColor='';
+		document.getElementById("id00"+rownum+"1").bgColor='';
+		document.getElementById("id00"+rownum+"2").bgColor='';
+		document.getElementById("id00"+rownum+"3").bgColor='';
+		document.getElementById("id00"+rownum+"4").bgColor='';
+		document.getElementById("id00"+rownum+"5").bgColor='';
+	}else if(inOut==2){
+		falg = true;
+		if(rownum==11){
+			document.getElementById("id12345").bgColor='#C0C0C0';
+		}else{
+			document.getElementById("id0"+rownum+"1").bgColor='#C0C0C0';
+		}
+		
+		document.getElementById("id0"+rownum+"2").bgColor='#C0C0C0';
+		document.getElementById("id0"+rownum+"3").bgColor='#C0C0C0';
+		document.getElementById("id0"+rownum+"4").bgColor='#C0C0C0';
+		document.getElementById("id0"+rownum+"5").bgColor='#C0C0C0';
+		document.getElementById("id0"+rownum+"6").bgColor='#C0C0C0';
+		document.getElementById("id0"+rownum+"7").bgColor='#C0C0C0';
+		document.getElementById("id00"+rownum+"1").bgColor='#C0C0C0';
+		document.getElementById("id00"+rownum+"2").bgColor='#C0C0C0';
+		document.getElementById("id00"+rownum+"3").bgColor='#C0C0C0';
+		document.getElementById("id00"+rownum+"4").bgColor='#C0C0C0';
+		document.getElementById("id00"+rownum+"5").bgColor='#C0C0C0';
+	}
+	document.getElementById("input12"+rownum+"1").disabled=falg;
+	document.getElementById("input12"+rownum+"2").disabled=falg;
+	document.getElementById("input12"+rownum+"3").disabled=falg;
+	document.getElementById("input12"+rownum+"4").disabled=falg;
+	if(!falg&&(rownum==1||rownum==2||rownum==6||rownum==8||rownum==10||rownum==11)){
+		document.getElementById("id0"+rownum+"11").bgColor='white';
+		document.getElementById("id0"+rownum+"21").bgColor='white';
+	}
+}
+
+function sync_scroll(obj)
+{
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+    var strIdTop = obj.id+"_FIX";
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+    var intScrlTop = obj.scrollTop;
+
+    /*同一IDのオブジェクト取得*/
+    fix=document.getElementById(strIdTop);
+    //スクロール位置の設定
+    fix.scrollTop=intScrlTop;
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+}
+
+function keydown()
+{
+if(event.keyCode >= 112 && event.keyCode <= 123){ 
+	event.keyCode = 0;
+	return false;
+	}
+	}
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+
+-->
+
+</script>
+<script language="javascript">
+<!--
+	//ウインドウサイズの変更
+	function changesize(){
+	window.resizeTo(1280,720);//サイズの指定
+	}
+	window.onload = changesize;//ページの読み込み時に関数を呼び出す
+	window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+//-->
+</script>
+<title>[SC002040]SIA未送付図面検索</title>
+</head>
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td  colspan="2">[SC002040]SIA未送付図面検索</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+<form id="SC002040" name="MainForm">
+<b>
+<p id="p11" >
+SIA未送付図面検索
+</p>
+</b>
+
+
+<p>
+<table width="100%">
+<tr>
+<td width="80%">
+<div style="height:100px;">
+<table width="100%" style="border-style:dashed;border-width:1px; border-color:#000000;height:90px">
+<tr valign="top">
+<td rowspan="4" width="20px" style="height:20px;"><div style="height:0px;">mc開発符号：</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <select name="left_select" style="height:65px;width:100px" multiple>
+		<option value="BF4" selected="selected">BF4</option>
+		<option value="HR3" selected="selected">HR3</option>
+		<option value="FAFB">FAFB</option>
+		<option value="5MT" >5MT</option>
+	</select>
+</td>
+<td width="220px" style="height:20px;">タイトル図面番号：&nbsp;&nbsp;
+<input type="text" id="input12" value="10000XX001" style="width:163px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1"/>&nbsp;(F*)</td>
+<td width="200px" align="center" style="height:20px;"><input type="submit" value="検索" style="width:120pt"/></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="radsel" onclick="" checked/>未送付の改訂のみを表示</td>
+<td align="center"><input type="submit" value="CSVダウンロード" style="width:120pt"/></td>
+</tr>
+<tr>
+<td><input type="checkbox" name="radsel" onclick=""/>過去の未送付（未送付解決済自動判定で解決済）も表示する</td>
+<td>&nbsp;</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+</td>
+</tr>
+</table>
+</p>
+
+<p style="padding-left:160px">
+編集選択：&nbsp;&nbsp;<input type="submit" value="全選択" style="width:6ssss0pt"/>
+		&nbsp;&nbsp;&nbsp;<input type="submit" value="全解除" style="width:60pt"/>
+		&nbsp;&nbsp;&nbsp;日付入力：&nbsp;&nbsp;
+		<select name="a" width="100px">
+			<option value="HR3">技管連絡日</option>
+			<option value="BF4">技管連絡日1</option>
+			<option value="MF1">技管連絡日2</option>
+		</select>
+		&nbsp;&nbsp;&nbsp;<input type="text" id="input12" value="2015/05/15" style="width:80px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1"/>&nbsp;&nbsp;
+		<input type="submit" value="入力" style="width:60pt"/>
+		&nbsp;&nbsp;&nbsp;<input type="submit" value="追加" style="width:60pt"/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="submit" value="確定" style="width:100pt"/>
+</p>
+<p align="right" style="padding-right:170px">
+未送付図面確認日 ：&nbsp;&nbsp;&nbsp;2015/05/15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 未送付図面検索結果（タイトル図面数） ：&nbsp;&nbsp;7
+</p>
+<p>
+<div style="height:203px;text-align:left;">
+<div style="width:1110px;text-align:center;">
+<div style="float:left; width:600px;" >
+<table border="1" cellpadding="0" cellspacing="0" id="head_table1" class="main_table">
+<thead>
+<tr style="background-color:white;font-weight:bold;background:#b0e0e6;" valign="top">
+<th width="89px"  align="left" style="border-bottom: 2px solid #b0e0e6;">タイトル</th>
+<th width="148px"  align="left" style="border-bottom: 2px solid #b0e0e6;">図面名称</th>
+<th width="56px"  align="left" style="border-bottom: 2px solid #b0e0e6;">未送付</th>
+<th width="31px"  align="left" style="border-bottom: 2px solid #b0e0e6;">編集</th>
+<th width="34px"  align="left" style="border-bottom: 2px solid #b0e0e6;">改訂</th>
+<th width="30px"  align="left" style="border-bottom: 2px solid #b0e0e6;">機密</th>
+<th width="44px"  align="left" style="border-bottom: 2px solid #b0e0e6;">ステー</th>
+<th width="80px"  align="left" style="border-bottom: 2px solid #b0e0e6;">製管受領日</th>
+<th width="98px"  align="left" style="border-bottom: 2px solid #b0e0e6;">SIA</th>
+</tr>
+<tr style="background-color:white;font-weight:bold;background:#b0e0e6;" valign="top">
+<th align="left" style="border-bottom: 2px solid #b0e0e6;">図面番号</th>
+<th align="left" style="border-bottom: 2px solid #b0e0e6;">&nbsp;</th>
+<th align="left" style="border-bottom: 2px solid #b0e0e6;">解決済</th>
+<th align="left" style="border-bottom: 2px solid #b0e0e6;">&nbsp;</th>
+<th align="left" style="border-bottom: 2px solid #b0e0e6;">番号</th>
+<th align="left" style="border-bottom: 2px solid #b0e0e6;">区分</th>
+<th align="left" style="border-bottom: 2px solid #b0e0e6;">タス</th>
+<th align="left" style="border-bottom: 2px solid #b0e0e6;">&nbsp;</th>
+<th align="left" style="border-bottom: 2px solid #b0e0e6;">正規送付日</th>
+</tr>
+<tr style="background-color:white;font-weight:bold;background:#b0e0e6;" valign="top">
+<th align="left">&nbsp;</th>
+<th align="left">&nbsp;</th>
+<th align="left">自動判定</th>
+<th align="left">&nbsp;</th>
+<th align="left">&nbsp;</th>
+<th align="left">&nbsp;</th>
+<th align="left">&nbsp;</th>
+<th align="left">&nbsp;</th>
+<th align="left">&nbsp;</th>
+</tr>
+</thead>
+</table>
+</div>
+
+<div style="float:left; width:480px; overflow:hidden; text-align:center; border-style:none;" id="SYNC_HEADER">
+<table border="1" cellpadding="0" cellspacing="0" id="head_table2" width="1040px" class="main_table">
+<thead>
+<tr style="background-color:white;font-weight: bold; background:#b0e0e6;" valign="top">
+<th colspan="2" align="left">技管連絡日</th>
+<th colspan="2" align="left">和文送付日</th>
+<th colspan="3" align="left">図面情報</th>
+<th width="100px" rowspan="3" align="left">代表設通№<br>&nbsp;</th>
+<th width="100px" rowspan="3" align="left">mc開発<br>符号</th>
+</tr>
+<tr style="background-color:white;background:#b0e0e6;" valign="top">
+<th width="120px" style="border-bottom: 2px solid #b0e0e6;" align="left">1回目</th>
+<th width="120px" style="border-bottom: 2px solid #b0e0e6;" align="left">2回目</th>
+<th width="120px" style="border-bottom: 2px solid #b0e0e6;" align="left">1回目</th>
+<th width="120px" style="border-bottom: 2px solid #b0e0e6;" align="left">2回目</th>
+<th width="100px" style="border-bottom: 2px solid #b0e0e6;" align="left">ブロック</th>
+<th width="100px" style="border-bottom: 2px solid #b0e0e6;" align="left">図面シ</th>
+<th width="100px" style="border-bottom: 2px solid #b0e0e6;" align="left">ECSシ</th>
+</tr>
+<tr style="background-color:white;background:#b0e0e6;" valign="top">
+<th width="120px"  align="left">&nbsp;</th>
+<th width="120px"  align="left">&nbsp;</th>
+<th width="120px"  align="left">&nbsp;</th>
+<th width="120px"  align="left">&nbsp;</th>
+<th width="100px"  align="left">&nbsp;</th>
+<th width="100px"  align="left">リーズ</th>
+<th width="100px"  align="left">リーズ</th>
+</tr>
+</thead>
+</table>
+</div>
+</div>
+
+
+<div style="width:1110px; height:180px; text-align:center;">
+<div style="float:left; height:139px; width:600px; overflow:hidden; border-style:none;" id="SYNC_FIX">
+<table border="1" cellpadding="0" cellspacing="0" id="main_table1" class="main_table">
+<tr id="rowid11" align="left">
+<td width="86px" id="id0111">10000XX001</td>
+<td width="149px" id="id0121">XXXX XXXX XXXX XX</td>
+<td width="56px" id="id011">&nbsp;</td>
+<td width="32px" class="colC" id="id012"><input type="checkbox" name="checktail1" OnClick="return checkH(this,1,checktail1);"></td>
+<td width="34px" id="id013">00</td>
+<td width="30px" id="id014">J</td>
+<td width="45px" id="id015"><font color="red">未送付</font></td>
+<td width="77px" id="id016">2015/05/05</td>
+<td width="96px" id="id017">&nbsp;</td>
+</tr>
+<tr id="rowid12" align="left">
+<td rowspan="4" id="id0211">20000XX001</td>
+<td rowspan="4" id="id0221">XXXX XXXX XXXX XX</td>
+<td id="id021">&nbsp;</td>
+<td class="colC"  id="id022"><input type="checkbox" name="checktail2" OnClick="return checkH(this,2,checktail2);"></td>
+<td id="id023">01</td>
+<td id="id024">&nbsp;</td>
+<td id="id025">&nbsp;</td>
+<td id="id026">&nbsp;</td>
+<td id="id027">2012/02/02</td>
+</tr>
+<tr id="rowid13" align="left">
+<td id="id031">解決済</td>
+<td class="colC" id="id032"><input type="checkbox" name="checktail3" OnClick="return checkH(this,3,checktail3);"></td>
+<td id="id033">03</td>
+<td id="id034">&nbsp;</td>
+<td id="id035">&nbsp;</td>
+<td id="id036">&nbsp;</td>
+<td id="id037">2012/02/03</td>
+</tr>
+<tr id="rowid14" align="left">
+<td id="id041">&nbsp;</td>
+<td id="id042" class="colC"><input type="checkbox" name="checktail4" OnClick="return checkH(this,4,checktail4);"></td>
+<td id="id043">04</td>
+<td id="id044">J</td>
+<td id="id045"><font color="red">未送付</font></td>
+<td id="id046">2014/04/03</td>
+<td id="id047">&nbsp;</td>
+</tr>
+<tr id="rowid15" align="left">
+<td id="id051">&nbsp;</td>
+<td class="colC" id="id052"><input type="checkbox" name="checktail5" OnClick="return checkH(this,5,checktail5);"></td>
+<td id="id053">05</td>
+<td id="id054">W</td>
+<td id="id055">送付済</td>
+<td id="id056">2014/05/05</td>
+<td id="id057">2014/05/05</td>
+</tr>
+
+<tr id="rowid16" align="left">
+<td rowspan="2" id="id0611">30000XX001</td>
+<td rowspan="2" id="id0621">XXXX XXXX XXXX XX</td>
+<td id="id061">解決済</td>
+<td class="colC" id="id062"><input type="checkbox" name="checktail6" OnClick="return checkH(this,6,checktail6);"></td>
+<td id="id063">08</td>
+<td id="id064">J</td>
+<td id="id065"><font color="red">未送付</font></td>
+<td id="id066">2015/04/03</td>
+<td id="id067">&nbsp;</td>
+</tr>
+<tr id="rowid17" align="left">
+<td id="id071">&nbsp;</td>
+<td class="colC" id="id072"><input type="checkbox" name="checktail7" OnClick="return checkH(this,7,checktail7);"></td>
+<td id="id073">09</td>
+<td id="id074">W</td>
+<td id="id075"><font color="red">送付済</font></td>
+<td  id="id076">2014/05/05</td>
+<td  id="id077">2014/05/05</td>
+</tr>
+<tr id="rowid18" align="left">
+<td rowspan="2" id="id0811">40000XX001</td>
+<td  rowspan="2" id="id0821">XXXX XXXX XXXX XX</td>
+<td  id="id081">&nbsp;</td>
+<td  class="colC" id="id082"><input type="checkbox" name="checktail8" OnClick="return checkH(this,8,checktail8);"></td>
+<td id="id083">05</td>
+<td  id="id084">J</td>
+<td  id="id085"><font color="red">未送付</font></td>
+<td  id="id086">2015/04/03</td>
+<td id="id087">&nbsp;</td>
+</tr>
+<tr id="rowid19" align="left">
+<td id="id091">&nbsp;</td>
+<td class="colC" id="id092"><input type="checkbox" name="checktail9" OnClick="return checkH(this,9,checktail9);"></td>
+<td id="id093">06</td>
+<td id="id094">J</td>
+<td id="id095"><font color="red">未送付</font></td>
+<td id="id096">2014/05/05</td>
+<td id="id097">&nbsp;</td>
+</tr>
+<tr id="rowid110" align="left">
+<td id="id01011">50000XX001</td>
+<td id="id01021">XXXX XXXX XX</td>
+<td id="id0101">&nbsp;</td>
+<td class="colC" id="id0102"><input type="checkbox" name="checktail10" OnClick="return checkH(this,10,checktail10);"></td>
+<td id="id0103">04</td>
+<td id="id0104">J</td>
+<td id="id0105"><font color="red">未送付</font></td>
+<td id="id0106">2015/05/05</td>
+<td id="id0107">&nbsp;</td>
+</tr>
+<tr id="rowid111" align="left">
+<td id="id01111">50000XX001</td>
+<td id="id01121">XXXX XXXX XX</td>
+<td id="id12345">&nbsp;</td>
+<td class="colC" id="id0112"><input type="checkbox" name="checktail11" OnClick="return checkH(this,11,checktail11);"></td>
+<td id="id0113">04</td>
+<td id="id0114">J</td>
+<td id="id0115"><font color="red">未送付</font></td>
+<td id="id0116">2015/05/05</td>
+<td id="id0117">&nbsp;</td>
+</tr>
+</table>
+</div>
+
+<div style="float:left; width:497px; height:156px; overflow: scroll; text-align:left; border-style:none;" id="SYNC" ONSCROLL="sync_scroll(this);">
+<table border="1" cellpadding="0" cellspacing="0" id="main_table2" width="1040px" class="main_table">
+<tbody>
+<tr id="rowid21" align="left" height="23px">
+<td width="100px"><input type="text" value="" id="input1211" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1"/></td>
+<td width="100px"><input type="text" value="" id="input1212" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td width="100px"><input type="text" value="" id="input1213" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td width="100px"><input type="text" value="" id="input1214" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td width="101px" id="id0011">200A</td>
+<td width="100px" id="id0012">BF4</td>
+<td width="100px" id="id0013">HR3</td>
+<td width="84px" id="id0014">BF4 -X0001</td>
+<td width="85px" id="id0015">BF4,HR3</td>
+</tr>
+<tr id="rowid22"  align="left" height="23px">
+<td><input type="text" value="" id="input1221" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1222" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1223" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1224" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td id="id0021">&nbsp;</td>
+<td id="id0022">&nbsp;</td>
+<td id="id0023">&nbsp;</td>
+<td id="id0024">MF1 -X0001</td>
+<td id="id0025">&nbsp;</td>
+</tr>
+
+<tr id="rowid23"  align="left" height="23px">
+<td><input type="text" value="" id="input1231" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1232" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1233" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td width="102px"><input type="text" value="" id="input1234" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td id="id0031">&nbsp;</td>
+<td id="id0032">&nbsp;</td>
+<td id="id0033">&nbsp;</td>
+<td id="id0034">MF1 -X0002</td>
+<td id="id0035">&nbsp;</td>
+</tr>
+<tr id="rowid24"  align="left" height="23px">
+<td><input type="text" value="2014/04/04" id="input1241" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1242" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="2014/04/04" id="input1243" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="2014/04/04" id="input1244" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td id="id0041">200A</td>
+<td id="id0042">BF4</td>
+<td id="id0043">HR3</td>
+<td id="id0044">MF1 -X0003</td>
+<td id="id0045">HR3</td>
+</tr>
+<tr id="rowid25"  align="left" height="23px">
+<td><input type="text" value="" id="input1251" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1252" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1253" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1254" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td id="id0051">200A</td>
+<td id="id0052">BF4</td>
+<td id="id0053">HR3</td>
+<td id="id0054">HR3 -X0001</td>
+<td id="id0055">HR3</td>
+</tr>
+<tr id="rowid26"  align="left" height="23px">
+<td><input type="text" value="2014/04/04" id="input1261" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1262" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="2014/04/04" id="input1263" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1264" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td id="id0061">200A</td>
+<td id="id0062">BF4</td>
+<td id="id0063">HR3</td>
+<td id="id0064">MF1 -X0003</td>
+<td id="id0065">HR3</td>
+</tr>
+<tr id="rowid27"  align="left" height="23px">
+<td><input type="text" value="" id="input1271" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1272" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1273" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1274" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td id="id0071">200A</td>
+<td id="id0072">BF4</td>
+<td id="id0073">HR3</td>
+<td id="id0074">HR3 -X0001</td>
+<td id="id0075">HR3</td>
+</tr>
+<tr id="rowid28"  align="left" height="23px">
+<td><input type="text" value="2014/04/04" id="input1281" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1282" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="2014/04/04" id="input1283" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input1284" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td id="id0081">200A</td>
+<td id="id0082">BF4</td>
+<td id="id0083">HR3</td>
+<td id="id0084">MF1 -X0003</td>
+<td id="id0085">HR3</td>
+</tr>
+<tr id="rowid29"  align="left" height="23px">
+<td width="103px"><input type="text" value="" id="input1291" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td width="103px"><input type="text" value="" id="input1292" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td width="103px"><input type="text" value="" id="input1293" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td width="102px"><input type="text" value="" id="input1294" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td id="id0091">200B</td>
+<td id="id0092">BF4</td>
+<td id="id0093">HR3</td>
+<td id="id0094">MF1 -X0004</td>
+<td id="id0095">HR3</td>
+</tr>
+<tr id="rowid210"  align="left" height="23px">
+<td><input type="text" value="2015/05/05" id="input12101" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input12102" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="2015/05/05" id="input12103" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input12104" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td id="id00101">200B</td>
+<td id="id00102">BF4</td>
+<td id="id00103">HR3</td>
+<td id="id00104">MF1 -X0003</td>
+<td id="id00105">HR3</td>
+</tr>
+<tr id="rowid211"  align="left" height="23px">
+<td><input type="text" value="" id="input12111" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input12112" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input12113" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td><input type="text" value="" id="input12114" style="width:116px;height:18px;text-align:left;border: 1px solid #7f9db9;" id="S1" /></td>
+<td id="id00111">200B</td>
+<td id="id00112">BF4</td>
+<td id="id00113">HR3</td>
+<td id="id00114">MF1 -X0003</td>
+<td id="id00115">HR3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+</p>
+</form>
+</body>
+</html>

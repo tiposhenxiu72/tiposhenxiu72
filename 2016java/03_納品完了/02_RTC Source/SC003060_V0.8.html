@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+
+<!--
+function sync_scroll(obj)
+{
+    /*ID取得*/
+	var strIdLeft = obj.id+"_HEADER";
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+}
+
+function keydown()
+{
+if(event.keyCode >= 112 && event.keyCode <= 123){ 
+	event.keyCode = 0;
+	return false;
+	}
+	}
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+-->
+
+</script>
+<script language="javascript">
+<!--
+	//ウインドウサイズの変更
+	function changesize(){
+	window.resizeTo(1280,720);//サイズの指定
+	}
+	window.onload = changesize;//ページの読み込み時に関数を呼び出す
+	window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+//-->
+</script>
+
+
+<title>[SC003060]設通発行日登録</title>
+</head>
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td height="20" colspan="2">[SC003060]設通発行日登録</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td ALIGN="RIGHT"><INPUT TYPE="submit" VALUE="メニューへ" STYLE="WIDTH:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td ALIGN="RIGHT"><input TYPE="submit" VALUE="メニューへ" STYLE="WIDTH:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+
+<form id="SC003060" name="MainForm">
+<p>
+<b>設通発行日登録</b>
+</p>
+<p>
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+	<tr>
+	<td width="30%">
+		<table width="100%"  style="border-width:1px; border-color:#000000;">
+			<tr >
+			<td align="left">
+			Needsfile発行：
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="file" name="file" id="filePath" size="40" style="display:none;"/><input name="path" STYLE="WIDTH:150pt" readonly><input type="button" value="参照" onclick='return document.getElementById("filePath").click();' STYLE="WIDTH:60pt">
+			</td>
+			</tr>
+			<tr>
+			<td>&nbsp;
+			</td>
+			</tr>
+		</table>
+	</td>
+	<td align="left" width="48%">
+		<table width="100%"  style="border-width:1px; border-color:#000000;">
+			<tr >
+			<td  align="left">
+			<input TYPE="button" VALUE="ファイル読込" STYLE="WIDTH:100pt"/>
+			</td>
+			<tr >
+			<td  align="left">
+			<input TYPE="button" VALUE="登録" STYLE="WIDTH:100pt"/>
+			</td>
+		</table>
+	</td>
+	</tr>
+</table>
+</p>
+
+<p>
+<table width="540px">
+	<tr>
+		<td width="500px"></td><td width="40px">9 rec</td>
+	</tr>
+</table>
+<div style="width:1250px; float:left; overflow:hidden;  border-style:none;" ID="SYNC_HEADER">
+<table border="1" width="530px" height="46px" cellpadding="0" cellspacing="0" class="main_table" align="left" id="main_table">
+<thead>
+<tr>
+<th width="30px" rowspan="2">No</th>
+<th width="200px" rowspan="2">設通番号</th>
+<th width="50px">改訂<br>番号</th>
+<th width="100px" rowspan="2">設通発行日</th>
+<th width="150px" rowspan="2">区分</th>
+</tr>
+</tr>
+</thead>
+</table>
+</div>
+<div style="height:150px; width:535px; overflow: scroll; overflow-x:hidden;  border-style:none;" ID="SYNC" ONSCROLL="sync_scroll(this);">
+<table border="1" cellpadding="0" cellspacing="0" id="head_table" width="530px" class="main_table">
+<tr id="rowid1" >
+<td width="30px" style="text-align: right">1</td>
+<td width="200px" >HR3 －L0001</td>
+<td width="50px" ></td>
+<td width="100px">2015/01/27</td>
+<td width="150px">新規</td>
+</tr>
+
+<tr id="rowid1" >
+<td width="30px" style="text-align: right">2</td>
+<td width="200px" >HR3 －V0004</td>
+<td width="50px" ></td>
+<td width="100px">2015/01/27</td>
+<td width="150px">新規</td>
+</tr>
+
+<tr id="rowid1" >
+<td width="30px" style="text-align: right">3</td>
+<td width="200px" >HR3 －V0004</td>
+<td width="50px" ></td>
+<td width="100px">2015/01/27</td>
+<td width="150px">新規</td>
+</tr>
+
+<tr id="rowid1" >
+<td width="30px" style="text-align: right">4</td>
+<td width="200px" >HR3 －L0001</td>
+<td width="50px" ></td>
+<td width="100px">2015/01/27</td>
+<td width="150px">追加</td>
+</tr>
+
+<tr id="rowid1" >
+<td width="30px" style="text-align: right">5</td>
+<td width="200px" >HR3 －L0001</td>
+<td width="50px" ></td>
+<td width="100px">2015/01/27</td>
+<td width="150px">新規</td>
+</tr>
+
+<tr id="rowid1" style="background-color: #FF79BC;">
+<td width="30px" style="text-align: right">6</td>
+<td width="200px" >HR3 －V0004</td>
+<td width="50px" ></td>
+<td width="100px">2015/01/27</td>
+<td width="150px">エラー（本登録未完）</td>
+</tr>
+
+<tr id="rowid1" >
+<td width="30px" style="text-align: right">7</td>
+<td width="200px" >HR3 －L0001</td>
+<td width="50px" ></td>
+<td width="100px">2015/01/27</td>
+<td width="150px">新規</td>
+</tr>
+
+<tr id="rowid1" >
+<td width="30px" style="text-align: right">8</td>
+<td width="200px" >HR3 －V0004</td>
+<td width="50px" ></td>
+<td width="100px">2015/01/27</td>
+<td width="150px">登録済</td>
+</tr>
+
+<tr id="rowid1" >
+<td width="30px" style="text-align: right">9</td>
+<td width="200px" >HR3 －V0004</td>
+<td width="50px" ></td>
+<td width="100px">2015/01/27</td>
+<td width="150px">新規</td>
+</tr>
+
+</table>
+</div>
+</p>
+</form>
+</body>
+</html>

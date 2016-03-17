@@ -1,0 +1,864 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" />
+  <script type="text/javascript" charset="utf-8">
+
+<!--
+  function checkH(obj,rownum){
+    var selNo;
+    var radObj = document.getElementsByName("radSel");
+    for(i = 0; i < radObj.length; i++) {
+      if(radObj[i].checked) {
+        selNo = i + 1;
+      }  
+    }
+
+    document.getElementById("rowid" + selNo + rownum).className = "sel";
+    document.getElementById("rowid" + selNo + rownum + "b").className = "sel";
+    var tableList=document.getElementById("main_table" + selNo);
+    var rowsCount=tableList.rows.length; 
+
+    for (var i=1; i<=rowsCount; i=i+1){
+      if(i != rownum){
+        document.getElementById("rowid" + selNo + i).className = "notsel";
+        document.getElementById("rowid" + selNo + i + "b").className = "notsel";
+      }
+    }
+  }
+
+  function checkEdit(obj, rownum){
+    var selNo;
+    var radObj = document.getElementsByName("radSel");
+    for(i = 0; i < radObj.length; i++) {
+      if(radObj[i].checked) {
+        selNo = i + 1;
+      }  
+    }
+
+    var falg = (obj.checked)?false:true;
+    if (falg) {
+      document.getElementById("rowid" + selNo + rownum).className = "notsel";
+      document.getElementById("rowid" + selNo + rownum + "b").className = "notsel";
+    } else {
+      document.getElementById("rowid" + selNo + rownum).className = "sel";
+      document.getElementById("rowid" + selNo + rownum + "b").className = "sel";
+    }
+
+    var tableList=document.getElementById("main_table" + selNo);
+    var rowsCount=tableList.rows.length; 
+
+
+    if (selNo == 2) {
+      document.getElementById("input2"+rownum+"0").readOnly = falg;
+      document.getElementById("input2"+rownum+"0").disabled = falg;
+      document.getElementById("input2"+rownum+"1").readOnly = falg;
+      document.getElementById("input2"+rownum+"1").disabled = falg;
+      document.getElementById("input2"+rownum+"2").readOnly = falg;
+      document.getElementById("input2"+rownum+"2").disabled = falg;
+      document.getElementById("input2"+rownum+"3").readOnly = falg;
+      document.getElementById("input2"+rownum+"3").disabled = falg;
+      document.getElementById("input2"+rownum+"4").readOnly = falg;
+      document.getElementById("input2"+rownum+"4").disabled = falg;
+    } else {
+      document.getElementById("input1"+rownum+"0").readOnly=falg;
+      document.getElementById("input1"+rownum+"0").disabled = falg;
+      document.getElementById("input1"+rownum+"1").readOnly=falg;
+      document.getElementById("input1"+rownum+"1").disabled = falg;
+      document.getElementById("input1"+rownum+"2").readOnly=falg;
+      document.getElementById("input1"+rownum+"2").disabled = falg;
+      document.getElementById("input1"+rownum+"3").readOnly = falg;
+      document.getElementById("input1"+rownum+"3").disabled = falg;
+    }
+
+  }
+
+  function selectH(selnum){
+    if (selnum == 2) {
+      document.getElementById("foot1").style.display = "none";
+      document.getElementById("info1").style.display = "none";
+      document.getElementById("info1_TOP").style.display = "none";
+      document.getElementById("info1_HEADER").style.display = "none";
+      document.getElementById("info1_FIX").style.display = "none";
+      document.getElementById("info2").style.display = "block";
+      document.getElementById("info2_TOP").style.display = "block";
+      document.getElementById("info2_HEADER").style.display = "block";
+      document.getElementById("info2_FIX").style.display = "block";
+      document.getElementById("title1").style.display = "none";
+      document.getElementById("title2").style.display = "block";
+      document.getElementById("link1").style.display = "none";
+      document.getElementById("link2").style.display = "block";
+      document.getElementById("chk1").style.display = "none";
+      document.getElementById("chk2").style.display = "block";
+    } else {
+      document.getElementById("foot1").style.display = "block";
+      document.getElementById("info1").style.display = "block";
+      document.getElementById("info1_TOP").style.display = "block";
+      document.getElementById("info1_HEADER").style.display = "block";
+      document.getElementById("info1_FIX").style.display = "block";
+      document.getElementById("info2").style.display = "none";
+      document.getElementById("info2_TOP").style.display = "none";
+      document.getElementById("info2_HEADER").style.display = "none";
+      document.getElementById("info2_FIX").style.display = "none";
+      document.getElementById("title1").style.display = "block";
+      document.getElementById("title2").style.display = "none";
+      document.getElementById("link1").style.display = "block";
+      document.getElementById("link2").style.display = "none";
+      document.getElementById("chk1").style.display = "block";
+      document.getElementById("chk2").style.display = "none";
+    }
+  }
+
+
+  function keydown(){
+    if(event.keyCode >= 112 && event.keyCode <= 123){ 
+      event.keyCode = 0;
+      return false;
+    }
+  }
+
+  function sync_scroll(obj) {
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+    var strIdTop = obj.id+"_FIX";
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+    var intScrlTop = obj.scrollTop;
+
+    /*同一IDのオブジェクト取得*/
+    fix=document.getElementById(strIdTop);
+    //スクロール位置の設定
+    fix.scrollTop=intScrlTop;
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+  }
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+  //ウインドウサイズの変更
+  function changesize(){
+    window.resizeTo(1280,720);//サイズの指定
+  }
+  window.onload = changesize;//ページの読み込み時に関数を呼び出す
+  window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+-->
+
+  </script>
+  <title>[SC003030]設変内容確認</title>
+</head>
+
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+  <table border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tr style="background-color: blue;color: white; font-size: 12pt">
+      <td height="20" colspan="2">[SC003030]設変内容確認</td>
+    </tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="right"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+    <tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt">
+      <td height="20">システムメッセージを表示します。</td>
+      <td align="right">
+        <input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" />
+      </td>
+    </tr>
+</table>
+
+<form id="SC003030" name="MainForm">
+<p>
+<b>設変内容確認</b>
+</p>
+
+<p>
+  <table border="0" style="width: 1220px;">
+    <tr>
+      <td width="555px">
+        <table width="555px" style="border-style:dashed; border-width:1px; border-color:#000000;">
+          <tr><td colspan="9"></td></tr>
+          <tr>
+            <td width="15px"><br/></td>
+            <td>設通番号：</td>
+            <td><input type="text" value="HR3 -L0001" class="text80L"/></td>
+            <td align="right">改訂番号：</td>
+            <td align="left"><input type="text" value="" style="width:20px;"/></td>
+            <td nowrap><input type="checkbox"/></td>
+            <td><div style="border-style:none;" id="chk1">旧部品行も表示</div><div style="border-style:none; display:none; " id="chk2">旧部品行も表示</div></td>
+            <td align="right"><input type="submit" value="検索" style="width:80pt"/></td>
+            <td width="15px"><br/></td>
+          </tr>
+          <tr>
+            <td><br/></td>
+            <td colspan="2"><input type="radio" name="radSel" OnClick="return selectH(1);" checked>部品構成の設変情報</td>
+            <td colspan="2"><input type="radio" name="radSel" OnClick="return selectH(2);">単品図の設変情報</td>
+            <td colspan="3" align="right"><input type="submit" value="CSVダウンロード" style="width:120pt"/></td>
+            <td><br/></td>
+          </tr>
+          <tr><td colspan="9"></td></tr>
+        </table>
+      </td>
+      <td width="450px" rowspan="2" valign="top">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td colspan="2">
+              <table width="410px" border="0" cellpadding="5" cellspacing="0">
+                <tr>
+                  <td width="120px"><input type="submit" value="登録" style="width:80pt"/></td>
+                  <td colspan="2"></td>
+                </tr>
+                <tr>
+                  <td><input type="submit" value="設通表紙情報" style="width:100pt"/></td>
+                  <td width="120px" align="right"><input type="submit" value="実施時期" style="width:100pt"/></td>
+                  <td width="160px"><input type="submit" value="工場諸元検索・登録(設変部品)" style="width:150pt;"/></td>
+                </tr>
+                <tr>
+                  <td><input type="submit" value="部品表正展開" style="width:100pt"/></td>
+                  <td align="right"><input type="submit" value="部品表逆展開" style="width:100pt"/></td>
+                  <td><input type="submit" value="類似部品検索" style="width:100pt"/></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr><td><br/></td></tr>
+        </table>
+      </td>
+      <td><br/></td>
+    </tr>
+    <tr>
+      <td>
+        <table width="555px" border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="100px">添付ファイル：</td>
+            <td width="150px"><a href="####">XXXXXX.zip</a></td>
+            <td colspan="2" width="215px"><input type="file" name="file" id="filePath" size="40" style="display:none;"/><input name="path" style="width:120pt" readonly><input type="button" value="参照" onclick='return document.getElementById("filePath").click();' style="width:60pt"></td>
+          </tr>
+        </table>
+      </td>
+      <td align="right" width="120px"></td>
+    </tr>
+    <tr id="title1">
+      <td colspan="2">部品構成の設変情報を表示中</td>
+      <td align="left">8 rec</td>
+    </tr>
+    <tr id="title2" style="display:none;">
+      <td colspan="2">単品図の設変情報を表示中</td>
+      <td align="left">3 rec</td>
+    </tr>
+    <tr>
+      <td colspan="3" style="border-collapse: collapse;">
+        <div style="float: left; border-style: none;" id="info1_TOP">
+          <table border="1" cellpadding="0" cellspacing="0" class="main_table2">
+            <thead>
+              <tr style="background-color:white;">
+                <th width="20px" rowspan="2" align="left">No<br/><br/></th>
+                <th width="20px" rowspan="2" align="left">編<br/>集</th>
+                <th width="20px" rowspan="2" align="left">選<br/>択</th>
+                <th width="50px" rowspan="2" align="left">変更<br/>区分</th>
+                <th width="85px" rowspan="2" align="left">設通番号<br/><br/></th>
+                <th width="35px" rowspan="2" align="left">改訂<br/>番号</th>
+                <th width="70px" rowspan="2" align="left">図面<br/>シリーズ</th>
+                <th width="80px" rowspan="2" align="left">図面<br/>ブロックNo</th>
+                <th width="70px" colspan="2" align="left">品目</th>
+                <th width="20px" rowspan="2" align="left">Lv<br/><br/></th>
+              </tr>
+              <tr align="left">
+                <th width="50px" align="left">ID</th>
+                <th width="20px" align="left">注</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div style="float: left; overflow: hidden; border-style:none; width: 725px;" id="info1_HEADER">
+          <table width="1569px" border="1" cellpadding="0" cellspacing="0" class="main_table2">
+            <thead>
+              <tr align="left">
+                <th width="100px" rowspan="2" align="left">部品番号<br/><br/></th>
+                <th width="35px" rowspan="2" align="left">図面<br/>改訂</th>
+                <th width="160px" rowspan="2" align="left">部品名称<br/><br/></th>
+                <th width="120px" rowspan="2" align="left">旧部品番号<br/><br/></th>
+                <th width="52px" rowspan="2" align="left">旧図面<br/>改訂</th>
+                <th width="88px" rowspan="2" align="left">旧部品名称<br/><br/></th>
+                <th width="35px" rowspan="2" align="left">員数<br/><br/></th>
+                <th width="35px" rowspan="2" align="left">消費<br/>工順</th>
+                <th width="35px" rowspan="2" align="left">発生<br/>工順</th>
+                <th width="52px" rowspan="2" align="left">取引先<br/><br/></th>
+                <th width="60px" rowspan="2" align="left">ユニット<br/>区分</th>
+                <th width="35px" rowspan="2" align="left">加工<br/>区分</th>
+                <th width="52px" rowspan="2" align="left">採用日<br/><br/></th>
+                <th width="52px" rowspan="2" align="left">廃止日<br/><br/></th>
+                <th width="20px" rowspan="2" align="left">未<br/>決</th>
+                <th width="88px" rowspan="2" align="left">親部品番号<br/><br/></th>
+                <th width="25px" rowspan="2" align="left">ｵｰ<br/>ﾊﾞｰ</th>
+                <th width="25px" rowspan="2" align="left">ｶﾗﾑ<br/><br/></th>
+                <th width="290px" colspan="5" align="left">タイトル図</th>
+                <th width="150px" rowspan="2" align="left">変化点備考<br/><br/></th>
+                <th width="30px" rowspan="2" align="left" title="(*2) 1:管理区分&#10;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2:供給コード&#10;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3:採確コード">(*2)<br/><br/></th>
+              </tr>
+              <tr>
+                <th width="30px" align="left" title="(*) F:Final図番">(*)</th>
+                <th width="90px" align="left">図面番号</th>
+                <th width="90px" align="left">図面改訂</th>
+                <th width="40px" align="left">IDX</th>
+                <th width="40px" align="left">KIND</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div style="overflow: hidden; float: left; border-style:none;" ID="info1_FIX">
+          <table border="1" cellpadding="0" cellspacing="0" class="main_table">
+            <tr id="rowid11" height="25px">
+              <td width="20px" align="right">1</td>
+              <td width="20px"><input type="checkbox" OnClick="return checkEdit(this,1);"></td>
+              <td width="20px"><input type="radio" id="input110" name="raddetail" disabled></td>
+              <td width="50px">A</td>
+              <td width="85px">HR3 -L0001</td>
+              <td width="35px"><br/></td>
+              <td width="70px">HR3</td>
+              <td width="80px">200A</td>
+              <td width="50px">20000</td>
+              <td width="20px">*</td>
+              <td width="20px">0</td>
+            </tr>
+            <tr id="rowid12" height="25px">
+              <td align="right">2</td>
+              <td><input type="checkbox" OnClick="return checkEdit(this,2);"></td>
+              <td><input type="radio" id="input120" name="raddetail" disabled></td>
+              <td>D</td>
+              <td>HR3 -L0001</td>
+              <td><br/></td>
+              <td>HR3</td>
+              <td>200A</td>
+              <td>20001</td>
+              <td>*</td>
+              <td>1</td>
+            </tr>
+            <tr id="rowid13" height="25px">
+              <td align="right">3</td>
+              <td><input type="checkbox" OnClick="return checkEdit(this,3);"></td>
+              <td><input type="radio" id="input130" name="raddetail" disabled></td>
+              <td>A</td>
+              <td>HR3 -L0001</td>
+              <td><br/></td>
+              <td>HR3</td>
+              <td>200A</td>
+              <td>20001</td>
+              <td>*</td>
+              <td>1</td>
+            </tr>
+            <tr id="rowid14" height="25px">
+              <td align="right">4</td>
+              <td><input type="checkbox" OnClick="return checkEdit(this,4);"></td>
+              <td><input type="radio" id="input140" name="raddetail" disabled></td>
+              <td>C*</td>
+              <td>HR3 -L0001</td>
+              <td><br/></td>
+              <td>HR3</td>
+              <td>200A</td>
+              <td><u>N/A</u></td>
+              <td><br/></td>
+              <td>1</td>
+            </tr>
+            <tr id="rowid15" height="25px">
+              <td align="right">5</td>
+              <td><input type="checkbox" OnClick="return checkEdit(this,5);"></td>
+              <td><input type="radio" id="input150" name="raddetail" disabled></td>
+              <td>A</td>
+              <td>HR3 -L0001</td>
+              <td><br/></td>
+              <td>HR3</td>
+              <td>200A</td>
+              <td>20001</td>
+              <td><br/></td>
+              <td>1</td>
+            </tr>
+            <tr id="rowid16" height="25px">
+              <td align="right">6</td>
+              <td><input type="checkbox" OnClick="return checkEdit(this,6);"></td>
+              <td><input type="radio" id="input160" name="raddetail" disabled></td>
+              <td>C</td>
+              <td>HR3 -L0001</td>
+              <td><br/></td>
+              <td>HR3</td>
+              <td>200A</td>
+              <td>20021</td>
+              <td>*</td>
+              <td>1</td>
+            </tr>
+            <tr id="rowid17" height="25px">
+              <td align="right">7</td>
+              <td><input type="checkbox" OnClick="return checkEdit(this,7);"></td>
+              <td><input type="radio" id="input170" name="raddetail" disabled></td>
+              <td>A</td>
+              <td>HR3 -L0001</td>
+              <td><br/></td>
+              <td>HR3</td>
+              <td>200A</td>
+              <td>？</td>
+              <td><br/></td>
+              <td>1</td>
+            </tr>
+            <tr id="rowid18" height="25px">
+              <td align="right">8</td>
+              <td><input type="checkbox" OnClick="return checkEdit(this,8);"></td>
+              <td><input type="radio" id="input180" name="raddetail" disabled></td>
+              <td>A</td>
+              <td>HR3 -L0001</td>
+              <td><br/></td>
+              <td>HR3</td>
+              <td>200A</td>
+              <td>30000</td>
+              <td><br/></td>
+              <td>1</td>
+            </tr>
+          </table>
+        </div>
+        <div style="float: left; overflow-x: scroll; overflow-y: hidden; width: 725px; border-style:none;" ID="info1" ONSCROLL="sync_scroll(this);">
+          <table  width="1569px" border="1" cellpadding="0" cellspacing="0" class="main_table" id="main_table1">
+            <tr id="rowid11b">
+              <td width="100px">20000SG000</td>
+              <td width="35px">00</td>
+              <td width="160px">BOTL ASSY</td>
+              <td width="120px"><input type="text" value="" id="input111" style="width:88px;border-width:0px; border-color:#000000;" readonly disabled/><input type="button" value="..." style="width:30px;" id="input113" disabled/></td>
+              <td width="52px"><br/></td>
+              <td width="88px"><br/></td>
+              <td width="35px"><br/></td>
+              <td width="35px"><br/></td>
+              <td width="35px">T1</td>
+              <td width="52px">9999</td>
+              <td width="60px">T</td>
+              <td width="35px">9</td>
+              <td width="52px"><br/></td>
+              <td width="52px"><br/></td>
+              <td width="20px"><br/></td>
+              <td width="88px"></td>
+              <td width="25px">0</td>
+              <td width="25px">A</td>
+              <td width="30px">F</td>
+              <td width="90px">20000SG000</td>
+              <td width="90px">00</td>
+              <td width="40px">-</td>
+              <td width="40px">-</td>
+              <td width="150px"><input type="text" value="" id="input112" style="width:148px;border-width:0px; border-color:#000000;" readonly disabled/></td>
+              <td width="30px"><br/></td>
+            </tr>
+            <tr id="rowid12b">
+              <td>20001SG005</td>
+              <td>00</td>
+              <td>SCREW BOLT A</td>
+              <td><input type="text" value="" id="input121" style="width:88px;border-width:0px; border-color:#000000;" readonly disabled/><input type="button" value="..." style="width:30px;" id="input123" disabled/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>01</td>
+              <td>T1</td>
+              <td>91</td>
+              <td>2570</td>
+              <td>T</td>
+              <td>9</td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>20000SG000</td>
+              <td>0</td>
+              <td>A</td>
+              <td>F</td>
+              <td>20001SG005</td>
+              <td>00</td>
+              <td>01</td>
+              <td></td>
+              <td><input type="text" value="" id="input122" style="width:148px;border-width:0px; border-color:#000000;" readonly disabled/></td>
+              <td><br/></td>
+            </tr>
+            <tr id="rowid13b">
+              <td>20001SG000</td>
+              <td>00</td>
+              <td>SCREW BOLT A</td>
+              <td><input type="text" value="20001SG005" id="input131" style="width:88px;border-width:0px; border-color:#000000;" readonly disabled/><input type="button" value="..." style="width:30px;" id="input133" disabled/></td>
+              <td>00</td>
+              <td><br/></td>
+              <td>01</td>
+              <td>T1</td>
+              <td>91</td>
+              <td>3628</td>
+              <td>T</td>
+              <td>9</td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>20000SG000</td>
+              <td>0</td>
+              <td>A</td>
+              <td>F</td>
+              <td>20001SG000</td>
+              <td>00</td>
+              <td>01</td>
+              <td></td>
+              <td><input type="text" value="" id="input132" style="width:148px;border-width:0px; border-color:#000000;" readonly disabled/></td>
+              <td><br/></td>
+            </tr>
+            <tr id="rowid14b">
+              <td>20011SG010</td>
+              <td>00</td>
+              <td>BOLT XXXX</td>
+              <td><input type="text" value="" id="input141" style="width:88px;border-width:0px; border-color:#000000;" readonly disabled/><input type="button" value="..." style="width:30px;" id="input143" disabled/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>01</td>
+              <td>T1</td>
+              <td>T2</td>
+              <td>4120</td>
+              <td>T</td>
+              <td>9</td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>20000SG000</td>
+              <td>0</td>
+              <td>A</td>
+              <td>F</td>
+              <td>20011SG010</td>
+              <td>00</td>
+              <td>05</td>
+              <td>A</td>
+              <td><input type="text" value="" id="input142" style="width:148px;border-width:0px; border-color:#000000;" readonly disabled/></td>
+              <td><br/></td>
+            </tr>
+            <tr id="rowid15b">
+              <td>20011SG011</td>
+              <td>00</td>
+              <td>BOLT XXXX</td>
+              <td><input type="text" value="20011SG010" id="input151" style="width:88px;border-width:0px; border-color:#000000;" readonly disabled/><input type="button" value="..." style="width:30px;" id="input153" disabled/></td>
+              <td>00</td>
+              <td><br/></td>
+              <td>01</td>
+              <td>T1</td>
+              <td>T2</td>
+              <td>4120</td>
+              <td>T</td>
+              <td>9</td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>20000SG000</td>
+              <td>0</td>
+              <td>A</td>
+              <td>F</td>
+              <td>20011SG011</td>
+              <td>00</td>
+              <td>06</td>
+              <td>A</td>
+              <td><input type="text" value="20011SG010の旧交" id="input152" style="width:148px;border-width:0px; border-color:#000000;" readonly disabled/></td>
+              <td><br/></td>
+            </tr>
+            <tr id="rowid16b">
+              <td>20001SG020</td>
+              <td>00</td>
+              <td>SCREW BOLT B</td>
+              <td><input type="text" value="" id="input161" style="width:88px;border-width:0px; border-color:#000000;" readonly disabled/><input type="button" value="..." style="width:30px;" id="input163" disabled/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>01</td>
+              <td>T2</td>
+              <td>T3</td>
+              <td>2570</td>
+              <td>T</td>
+              <td>9</td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>20000SG000</td>
+              <td>0</td>
+              <td>A</td>
+              <td>F</td>
+              <td>20001SG020</td>
+              <td>00</td>
+              <td>02</td>
+              <td></td>
+              <td><input type="text" value="" id="input162" style="width:148px;border-width:0px; border-color:#000000;" readonly disabled/></td>
+              <td><br/></td>
+            </tr>
+            <tr id="rowid17b">
+              <td>20021SG010</td>
+              <td>01</td>
+              <td>BOLT XXXX</td>
+              <td><input type="text" value="20021SG010" id="input171" style="width:88px;border-width:0px; border-color:#000000;" readonly disabled/><input type="button" value="..." style="width:30px;" id="input173" disabled/></td>
+              <td>00</td>
+              <td>BOLT XXXX</td>
+              <td>01</td>
+              <td>T1</td>
+              <td>T4</td>
+              <td>2570</td>
+              <td>T</td>
+              <td>9</td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>20000SG010</td>
+              <td>0</td>
+              <td>A</td>
+              <td><br/></td>
+              <td>20021SG010</td>
+              <td>03</td>
+              <td>-</td>
+              <td>-</td>
+              <td><input type="text" value="" id="input172" style="width:148px;border-width:0px; border-color:#000000;" readonly disabled/></td>
+              <td><br/></td>
+            </tr>
+            <tr id="rowid18b">
+              <td>30000AK000</td>
+              <td>00</td>
+              <td>OTHER BLOCK FINAL</td>
+              <td><input type="text" value="" id="input181" style="width:88px;border-width:0px; border-color:#000000;" readonly disabled/><input type="button" value="..." style="width:30px;" id="input183" disabled/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>01</td>
+              <td>T1</td>
+              <td><br/></td>
+              <td>2570</td>
+              <td>T</td>
+              <td>9</td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>20000SG000</td>
+              <td>0</td>
+              <td>A</td>
+              <td><br/></td>
+              <td>30000AK000</td>
+              <td>00</td>
+              <td>-</td>
+              <td>-</td>
+              <td><input type="text" value="" id="input182" style="width:148px;border-width:0px; border-color:#000000;" readonly disabled/></td>
+              <td><br/></td>
+            </tr>
+          </table>
+        </div>
+        <div style="float: left; border-style: none; display:none;" id="info2_TOP">
+          <table border="1" cellpadding="0" cellspacing="0" class="main_table">
+            <thead>
+              <tr style="background-color:white;">
+                <th width="20px" rowspan="2" align="left">編<br/>集</th>
+                <th width="20px" rowspan="2" align="left">選<br/>択</th>
+                <th width="20px" rowspan="2" align="left">No<br/><br/></th>
+                <th width="50px" rowspan="2" align="left">変更<br/>区分</th>
+                <th width="85px" rowspan="2" align="left">設通番号<br/><br/></th>
+                <th width="35px" rowspan="2" align="left">改訂<br/>番号</th>
+                <th width="70px" rowspan="2" align="left">図面<br/>シリーズ</th>
+                <th width="80px" rowspan="2" align="left">ブロックNo<br/><br/></th>
+                <th width="70px" colspan="2" align="left">品目</th>
+                <th width="20px" rowspan="2" align="left">Lv<br/><br/></th>
+                <th width="100px" rowspan="2" align="left">部品番号<br/><br/></th>
+              </tr>
+              <tr>
+                <th width="50px" align="left">ID</th>
+                <th width="20px" align="left">注</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div style="float: left; overflow: hidden; border-style:none; width: 622px; display:none;" id="info2_HEADER">
+          <table  width="1464px" border="1" cellpadding="0" cellspacing="0" class="main_table2">
+            <thead>
+              <tr style="background-color:white;">
+                <th width="35px" rowspan="2" align="left">図面<br/>改訂</th>
+                <th width="160px" rowspan="2" align="left">部品名称<br/><br/></th>
+                <th width="120px" rowspan="2" align="left">旧部品番号<br/><br/></th>
+                <th width="52px" rowspan="2" align="left">旧図面<br/>改訂</th>
+                <th width="88px" rowspan="2" align="left">旧部品名称<br/><br/></th>
+                <th width="35px" rowspan="2" align="left">員数<br/><br/></th>
+                <th width="35px" rowspan="2" align="left">消費<br/>工順</th>
+                <th width="35px" rowspan="2" align="left">発生<br/>工順</th>
+                <th width="52px" rowspan="2" align="left">取引先<br/><br/></th>
+                <th width="60px" rowspan="2" align="left">ユニット<br/>区分</th>
+                <th width="35px" rowspan="2" align="left">加工<br/>区分</th>
+                <th width="52px" rowspan="2" align="left">採用日<br/><br/></th>
+                <th width="52px" rowspan="2" align="left">廃止日<br/><br/></th>
+                <th width="20px" rowspan="2" align="left">未<br/>決</th>
+                <th width="88px" rowspan="2" align="left">親部品番号<br/><br/></th>
+                <th width="25px" rowspan="2" align="left">ｵｰ<br/>ﾊﾞｰ</th>
+                <th width="25px" rowspan="2" align="left">ｶﾗﾑ<br/><br/></th>
+                <th width="290px" colspan="5" align="left">タイトル図番</th>
+                <th width="150px" rowspan="2" align="left">変化点備考<br/><br/></th>
+                <th width="30px" rowspan="2" align="left" title="(*2) 1:管理区分&#10;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2:供給コード&#10;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3:採確コード">(*2)<br/><br/></th>
+              </tr>
+              <tr>
+                <th width="30px" align="left" title="(*) F:Final図番">(*)</th>
+                <th width="90px" align="left">図面番号</th>
+                <th width="90px" align="left">図面改訂</th>
+                <th width="40px" align="left">IDX</th>
+                <th width="40px" align="left">KIND</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div style="overflow: hidden; float: left; border-style:none; display:none;" ID="info2_FIX">
+          <table border="1" cellpadding="0" cellspacing="0" class="main_table2">
+            <tr id="rowid21" height="25px">
+              <td width="20px"><input type="checkbox" OnClick="return checkEdit(this,1);"></td>
+              <td width="20px"><input type="radio" id="input210" name="raddetail" disabled></td>
+              <td width="20px" align="right">1</td>
+              <td width="50px">A</td>
+              <td width="85px">HR3 -L0001</td>
+              <td width="35px"><br/></td>
+              <td width="70px">HR3</td>
+              <td width="80px">200A</td>
+              <td width="50px">20000</td>
+              <td width="20px">*</td>
+              <td width="20px">&nbsp;</td>
+              <td width="100px">20000SG000</td>
+            </tr>
+            <tr id="rowid22" height="25px">
+              <td><input type="checkbox" OnClick="return checkEdit(this,2);"></td>
+              <td><input type="radio" id="input220" name="raddetail" disabled></td>
+			  <td align="right">2</td>
+              <td>A</td>
+              <td>HR3 -L0001</td>
+              <td><br/></td>
+              <td>HR3</td>
+              <td>200A</td>
+              <td>20001</td>
+              <td>*</td>
+              <td>&nbsp;</td>
+              <td>20001SG005</td>
+            </tr>
+            <tr id="rowid23" height="25px">
+              <td><input type="checkbox" OnClick="return checkEdit(this,3);"></td>
+              <td><input type="radio" id="input230" name="raddetail" disabled></td>
+			  <td align="right">3</td>
+              <td>A</td>
+              <td>HR3 -L0001</td>
+              <td><br/></td>
+              <td>HR3</td>
+              <td>200A</td>
+              <td>20011</td>
+              <td>*</td>
+              <td>&nbsp;</td>
+              <td>20001SG000</td>
+            </tr>
+          </table>
+        </div>
+        <div style="float: left; overflow-x: scroll; overflow-y: hidden; width: 622px; border-style:none; display:none;" ID="info2" ONSCROLL="sync_scroll(this);">
+          <table  width="1464px" border="1" cellpadding="0" cellspacing="0" class="main_table" id="main_table2">
+            <tr id="rowid21b">
+              <td width="35px">00</td>
+              <td width="160px">BOTL ASSY</td>
+              <td width="120px"><input type="text" value="" id="input211" style="width:88px;border-width:0px; border-color:#000000;" readonly disabled/><input type="button" value="..." style="width:30px;" id="input214" disabled/></td>
+              <td width="52px"><input type="text" value="" id="input212" style="width:50px;border-width:0px; border-color:#000000;" readonly disabled/></td>
+              <td width="88px"><br/></td>
+              <td width="35px"><br/></td>
+              <td width="35px"><br/></td>
+              <td width="35px">T1</td>
+              <td width="52px">9999</td>
+              <td width="60px">&nbsp;</td>
+              <td width="35px">&nbsp;</td>
+              <td width="52px"><br/></td>
+              <td width="52px"><br/></td>
+              <td width="20px"><br/></td>
+              <td width="88px"><br/></td>
+              <td width="25px">0</td>
+              <td width="25px">A</td>
+              <td width="30px">F</td>
+              <td width="90px">20000SG000</td>
+              <td width="90px">00</td>
+              <td width="40px">-</td>
+              <td width="40px">-</td>
+              <td width="150px"><input type="text" value="" id="input213" style="width:148px;border-width:0px; border-color:#000000;" readonly disabled/></td>
+              <td width="30px"><br/></td>
+            </tr>
+            <tr id="rowid22b">
+              <td>00</td>
+              <td>SCREW BOLT A</td>
+              <td><input type="text" value="" id="input221" style="width:88px;border-width:0px; border-color:#000000;" readonly disabled/><input type="button" value="..." style="width:30px;" id="input224" disabled/></td>
+              <td><input type="text" value="" id="input222" style="width:50px;border-width:0px; border-color:#000000;" readonly disabled/></td>
+              <td><br/></td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>91</td>
+              <td>2570</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>0</td>
+              <td>A</td>
+              <td>F</td>
+              <td>20001SG005</td>
+              <td>00</td>
+              <td>-</td>
+              <td>-</td>
+              <td><input type="text" value="" id="input223" style="width:148px;border-width:0px; border-color:#000000;" readonly disabled/></td>
+              <td><br/></td>
+            </tr>
+            <tr id="rowid23b">
+              <td>00</td>
+              <td>SCREW BOLT A</td>
+              <td><input type="text" value="" id="input231" style="width:88px;border-width:0px; border-color:#000000;" readonly disabled/><input type="button" value="..." style="width:30px;" id="input234" disabled/></td>
+              <td><input type="text" value="" id="input232" style="width:50px;border-width:0px; border-color:#000000;" readonly disabled/></td>
+              <td><br/></td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>91</td>
+              <td>3628</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>0</td>
+              <td>A</td>
+              <td><br/></td>
+              <td>20001SG000</td>
+              <td>00</td>
+              <td>-</td>
+              <td>-</td>
+              <td><input type="text" value="" id="input233" style="width:148px;border-width:0px; border-color:#000000;" readonly disabled/></td>
+              <td><br/></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3"><br/></td>
+    </tr>
+    <tr id="link1">
+      <td colspan="3"><a href="#">単品図の設変情報へ</a></td>
+    </tr>
+    <tr id="link2" style="display: none;">
+      <td colspan="3"><a href="#">部品構成の設変情報へ</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><br/></td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        <table align="left" width="847px" border="1" cellpadding="0" cellspacing="0" class="main_table">
+          <thead>
+            <tr style="background-color:white;">
+              <th align="left" width="847px" rowspan="2">手配記入欄：<br/><br/></th>
+            </tr>
+          </thead>
+          <tr>
+            <td>
+              <textarea rows="3" cols="103"></textarea>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3"><br/></td>
+    </tr>
+    <tr id="foot1">
+      <td colspan="3"><input type="checkbox" OnClick="">添付ファイル削除</td>
+    </tr>
+  </table>
+</p>
+</form>
+
+</body>
+</html>

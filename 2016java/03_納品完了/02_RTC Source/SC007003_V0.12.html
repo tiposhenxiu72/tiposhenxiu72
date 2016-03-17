@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" />
+  <script type="text/javascript" charset="utf-8">
+
+<!--
+  function checkh(obj,rownum){
+    var selno;
+    selno = 1;
+
+
+    document.getElementById("rowid" + selno + rownum).className = "sel";
+    document.getElementById("rowid" + selno + rownum + "b").className = "sel";
+    var tablelist=document.getElementById("main_table");
+    var rowscount=tablelist.rows.length; 
+
+    for (var i=1; i<=rowscount; i=i+1){
+      if(i != rownum){
+        document.getElementById("rowid" + selno + i).className = "notsel";
+        document.getElementById("rowid" + selno + i + "b").className = "notsel";
+      }
+    }
+  }
+
+  function checkedit(obj, rownum){
+    var selno;
+    selno = 1;
+
+    var falg = (obj.checked)?false:true;
+    if (falg) {
+      document.getElementById("rowid" + selno + rownum).className = "notsel";
+      document.getElementById("rowid" + selno + rownum + "b").className = "notsel";
+    } else {
+      document.getElementById("rowid" + selno + rownum).className = "sel";
+      document.getElementById("rowid" + selno + rownum + "b").className = "sel";
+    }
+
+    for (var i = 0; i <= 31; i = i+1){
+      if (i != 16) {
+        if (i < 10) {
+          if (i == 0 || i == 1) {
+            document.getElementById("input"+rownum+"0"+i).disabled = falg;
+          } else {
+            document.getElementById("input"+rownum+"0"+i).readOnly = falg;
+          }
+        } else {
+          if (i == 21 || i == 23) {
+            document.getElementById("input"+rownum+i).disabled = falg;
+          } else {
+            document.getElementById("input"+rownum+i).readOnly = falg;
+          }
+        }
+      }
+    }
+  }
+
+  function keydown(){
+    if(event.keycode >= 112 && event.keycode <= 123){ 
+      event.keycode = 0;
+      return false;
+    }
+  }
+
+  function sync_scroll(obj) {
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+    var strIdTop = obj.id+"_FIX";
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+    var intScrlTop = obj.scrollTop;
+
+    /*同一IDのオブジェクト取得*/
+    fix=document.getElementById(strIdTop);
+    //スクロール位置の設定
+    fix.scrollTop=intScrlTop;
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+  }
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+  //ウインドウサイズの変更
+  function changesize(){
+    window.resizeTo(1280,720);//サイズの指定
+  }
+  window.onload = changesize;//ページの読み込み時に関数を呼び出す
+  window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+-->
+
+  </script>
+  <title>[SC007003]イベント部品リスト編集</title>
+</head>
+
+<!--bodyのオプションにoncontextmenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+  <table border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tr style="background-color: blue;color: white; font-size: 12pt">
+      <td height="20" colspan="2">[SC007003]イベント部品リスト編集</td>
+    </tr>
+<!--  <tr style="background-color: #cfcfcf;color: #0000ff; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="right"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009c;color: #fede20" /></td></tr>-->
+    <tr style="background-color: #ffffff;color: #ff0000; font-size: 13.5pt">
+      <td height="20">システムメッセージを表示します。</td>
+      <td align="right">
+        <input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009c;color: #fede20" />
+      </td>
+    </tr>
+</table>
+
+<form id="SC007003" name="MainForm">
+<p>
+<b>イベント部品リスト編集</b>
+</p>
+
+<p>
+  <table border="0" style="width: 2040px;">
+    <tr>
+      <td width="500px">
+        <table width="500px" style="border-style:dashed; border-width:1px; border-color:#000000;" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td colspan="7"><br/></td>
+          </tr>
+          <tr>
+            <td width="15px"><br/></td>
+            <td>開発符号 <font color="red">*</font>：</td>
+            <td>
+              <select style="width:120px;">
+                <option value="HR3">HR3</option>
+                <option value="BF4">BF4</option>
+              </select>
+            </td>
+            <td width="15px"><br/></td>
+            <td width="100px">ﾌﾞﾛｯｸ担当者：</td>
+            <td><input type="text" style="width: 120px;"/></td>
+            <td width="15px"><br/></td>
+          </tr>
+          <tr>
+            <td><br/></td>
+            <td>イベント <font color="red">*</font>：</td>
+            <td>
+              <select style="width:120px;">
+                <option value="国内K3検討">国内K3検討</option>
+                <option value="SIAK3検討">SIAK3検討</option>
+                <option value="国内工試">国内工試</option>
+                <option value="北米工試">北米工試</option>
+              </select>
+            </td>
+            <td><br/></td>
+            <td nowrap>ブロックNo：</td>
+            <td><input type="text" style="width: 120px;"/></td>
+            <td><br/></td>
+          </tr>
+          <tr>
+            <td><br/></td>
+            <td>設通No：</td>
+            <td><input type="text" style="width: 115px;"/></td>
+            <td colspan="4"><br/></td>
+          </tr>
+          <tr>
+            <td colspan="4"><br/></td>
+            <td colspan="3"><input type="checkbox">試作変化行のみ</input></td>
+          </tr>
+          <tr>
+            <td colspan="4"><br/></td>
+            <td colspan="3"><input type="checkbox">製管変化行のみ</input></td>
+          </tr>
+          <tr>
+            <td colspan="4"><br/></td>
+            <td><input type="checkbox">出図有りのみ</input></td>
+            <td align="right"><input type="submit" value="一覧表示" style="width:80pt"/></td>
+            <td><br/></td>
+          </tr>
+          <tr>
+            <td colspan="4"><br/></td>
+            <td><input type="checkbox">出図無しのみ</input></td>
+            <td align="right"><input type="submit" value="CSVﾀﾞｳﾝﾛｰﾄﾞ" style="width:80pt"/></td>
+            <td><br/></td>
+          </tr>
+          <tr>
+            <td colspan="7"><br/></td>
+          </tr>
+        </table>
+      </td>
+      <td width="20px"><br/></td>
+      <td width="250px" valign="top" align="left">
+        <table width="250px" style="border-style:dashed; border-width:1px; border-color:#000000;" cellpadding="0" cellspacing="0">
+          <tr>
+            <td colspan="4"><br/></td>
+          </tr>
+          <tr>
+            <td width="15px"><br/></td>
+            <td>ブロックNo <font color="red">*</font>：</td>
+            <td><input type="text" style="width:115px;"/></td>
+            <td width="15px"><br/></td>
+          </tr>
+          <tr>
+            <td><br/></td>
+            <td>前Final品番 <font color="red">*</font>：</td>
+            <td><input type="text" style="width:115px;"/></td>
+            <td><br/></td>
+          </tr>
+          <tr>
+            <td><br/></td>
+            <td colspan="2" align="right"><input type="submit" value="並び替え" style="width:80pt"/></td>
+            <td><br/></td>
+          </tr>
+          <tr>
+            <td colspan="4"><br/></td>
+          </tr>
+        </table>
+      </td>
+      <td width="20px"><br/></td>
+      <td width="330px" valign="top">
+        <table width="330px" style="border-style:dashed; border-width:1px; border-color:#000000;" cellpadding="0" cellspacing="0">
+          <tr>
+            <td colspan="6"><br/></td>
+          </tr>
+          <tr>
+            <td width="15px"><br/></td>
+            <td>行操作</td>
+            <td colspan="4"><br/></td>
+          </tr>
+          <tr>
+            <td width="15px"><br/></td>
+            <td width="50px" nowrap>行移動：</td>
+            <td width="26px"><input type="submit" value="↑" style="width:25pt"/></td>
+            <td width="15px"><br/></td>
+            <td width="30px"><input type="submit" value="↓" style="width:25pt"/></td>
+            <td width="80px"><input type="submit" value="行追加" style="width:80pt"/></td>
+          </tr>
+          <tr>
+            <td><br/></td>
+            <td><input type="text" style="width:40px;"/></td>
+            <td width="80px" colspan="3"><input type="submit" value="指定行移動" style="width:80pt"/></td>
+            <td><input type="submit" value="行コピー" style="width:80pt"/></td>
+          </tr>
+          <tr>
+            <td colspan="6"><br/></td>
+          </tr>
+        </table>
+      </td>
+      <td width="20px"><br/></td>
+      <td width="80px" valign="top">
+        <table width="80px" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td><input type="submit" value="保存" style="width:80pt"/></td>
+          </tr>
+          <tr>
+            <td><input type="submit" value="リスト確定" style="width:80pt"/></td>
+          </tr>
+          <tr>
+            <td><input type="submit" value="リスト出力" style="width:80pt"/></td>
+          </tr>
+          <tr>
+            <td><br/></td>
+          </tr>
+          <tr>
+            <td><input type="submit" value="確定前情報削除" style="width:80pt"/></td>
+          </tr>
+          <tr>
+            <td><br/></td>
+          </tr>
+          <tr>
+            <td><input type="submit" value="確定履歴表示" style="width:80pt"/></td>
+          </tr>
+        </table>
+      </td>
+      <td width="3000px"><br/></td>
+    </tr>
+    <tr>
+      <td colspan="8" align="right"><div style="float: left; overflow: hidden; width: 1995px; border-style:none;">9 rec</div></td>
+    </tr>
+    <tr>
+      <td colspan="8">
+        <div style="float: left; border-style: none;" id="table1_top">
+          <table border="0" cellpadding="0" cellspacing="0" class="main_table">
+            <thead>
+              <tr>
+                <th width="30px" style="background-color: white; border-style: none;"><br></th>
+                <th width="35px" style="background-color: white; border-style: none;"><br></th>
+                <th width="35px" style="background-color: white; border-style: none;"><br></th>
+                <th width="52px" style="background-color: white; border-style: none;"><br></th>
+                <th width="70px" style="background-color: white; border-style: none;"><br></th>
+                <th width="60px" style="background-color: white; border-style: none;"><br></th>
+                <th width="80px" style="background-color: white; border-style: none;"><br></th>
+                <th width="65px" style="background-color: white; border-style: none;"><br></th>
+                <th width="68px" style="background-color: white; border-style: none;"><br></th>
+                <th width="35px" style="background-color: white; border-style: none;"><br></th>
+                <th width="52px" style="background-color: white; border-style: none;"><br></th>
+                <th width="110px" style="background-color: white; border-style: none;"><br></th>
+                <th width="70px" style="background-color: white; border-style: none;"><br></th>
+                <th width="40px" style="background-color: white; border-style: none;"><br></th>
+                <th width="84px" style="background-color: white; border-style: none;"><br></th>
+                <th width="90px" style="background-color: white; border-style: none;"><br></th>
+                <th width="70px" style="background-color: white; border-style: none;"><br></th>
+                <th width="55px" style="background-color: white; border-style: none;"><br></th>
+                <th width="35px" style="background-color: white; border-style: none;"><br></th>
+                <th width="70px" style="background-color: white; border-style: none;"><br></th>
+                <th width="90px" style="background-color: white; border-style: none;"><br></th>
+                <th width="52px" style="background-color: white; border-style: none;"><br></th>
+                <th width="200px" colspan="4" align="left">員数</th>
+                <th width="52px" style="background-color: white; border-style: none;"><br></th>
+              </tr>
+              <tr>
+                <th style="border-right: 1px solid white;" align="left">No</th>
+                <th style="border-right: 1px solid white;" align="left">編集</th>
+                <th style="border-right: 1px solid white;" align="left">削除</th>
+                <th style="border-right: 1px solid white;" align="left">行選択</th>
+                <th style="border-right: 1px solid white;" align="left">試作ｼﾝﾎﾞﾙ</th>
+                <th style="border-right: 1px solid white;" align="left">製管変更</th>
+                <th style="border-right: 1px solid white;" align="left">訂正通知No</th>
+                <th style="border-right: 1px solid white;" align="left">ﾌﾞﾛｯｸNo</th>
+                <th style="border-right: 1px solid white;" align="left">専用ﾏｰｸ</th>
+                <th style="border-right: 1px solid white;" align="left">購担</th>
+                <th style="border-right: 1px solid white;" align="left">取引先</th>
+                <th style="border-right: 1px solid white;" align="left">部品番号</th>
+                <th style="border-right: 1px solid white;" align="left">部品名称</th>
+                <th style="border-right: 1px solid white;" align="left">ﾚﾍﾞﾙ</th>
+                <th style="border-right: 1px solid white;" align="left">供給ｾｸｼｮﾝ</th>
+                <th style="border-right: 1px solid white; background-color: #00BFFF;" align="left">製管供給ｾｸｼｮﾝ</th>
+                <th style="border-right: 1px solid white;" align="left">部品改訂</th>
+                <th style="border-right: 1px solid white;" align="left">設通No</th>
+                <th style="border-right: 1px solid white;" align="left">納期</th>
+                <th style="border-right: 1px solid white;" align="left">納入場所</th>
+                <th style="border-right: 1px solid white; background-color: #00BFFF;" align="left">製管納入場所</th>
+                <th style="border-right: 1px solid white;" align="left">納入数</th>
+                <th style="border-right: 1px solid white;" width="50px" align="left">型式１</th>
+                <th style="border-right: 1px solid white;" width="50px" align="left">型式２</th>
+                <th style="border-right: 1px solid white;" width="50px" align="left">型式３</th>
+                <th style="border-right: 1px solid white;" width="50px" align="left">型式４</th>
+                <th style="border-right: 1px solid white;" align="left">品目ID</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div style="float: left; overflow: hidden; border-style:none; width: 400px;" id="table1_HEADER">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0" class="main_table">
+            <thead>
+              <tr>
+                <th width="20px" style="background-color: white; border-style: none;"><br></th>
+                <th width="160px" style="border-right: 1px solid white;" colspan="2" align="left">品目取引先</th>
+                <th width="550px" style="border-right: 1px solid white;" colspan="5" align="left">出図情報</th>
+                <th width="130px" style="border-right: 1px solid white;" rowspan="2" valign="top" align="left">生技・品技コメント</th>
+                <th width="70px" style="background-color: white; border-style: none;"><br></th>
+                <th width="75px" style="background-color: white; border-style: none;"><br></th>
+                <th width="70px" style="background-color: white; border-style: none;"><br></th>
+                <th width="70px" style="background-color: white; border-style: none;"><br></th>
+                <th width="52px" style="background-color: white; border-style: none;"><br></th>
+                <th width="90px" style="background-color: white; border-style: none;"><br></th>
+                <th width="70px" style="background-color: white; border-style: none;"><br></th>
+                <th width="90px" style="background-color: white; border-style: none;"><br></th>
+              </tr>
+              <tr>
+                <th style="border-right: 1px solid white;" align="left">注</th>
+                <th style="border-right: 1px solid white;" width="80px" align="left">発注先選定</th>
+                <th style="border-right: 1px solid white;" width="80px" align="left">配布実績</th>
+                <th style="border-right: 1px solid white;" width="110px" align="left">部品番号</th>
+                <th style="border-right: 1px solid white;" width="110px" align="left">改訂</th>
+                <th style="border-right: 1px solid white;" width="110px" align="left">設通No</th>
+                <th style="border-right: 1px solid white;" width="110px" align="left">取引先</th>
+                <th style="border-right: 1px solid white;" width="110px" align="left">消費工順</th>
+                <th style="border-right: 1px solid white;" align="left">集計ｺｰﾄﾞ</th>
+                <th style="border-right: 1px solid white;" align="left">ﾕﾆｯﾄ区分</th>
+                <th style="border-right: 1px solid white;" align="left">CKD区分</th>
+                <th style="border-right: 1px solid white;" align="left">手配記号</th>
+                <th style="border-right: 1px solid white;" align="left">備考欄</th>
+                <th style="border-right: 1px solid white;" align="left">訂正備考欄</th>
+                <th style="border-right: 1px solid white;" align="left">変更理由</th>
+                <th align="left">出図予定日</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div style="overflow: hidden; float: left; border-style:none; height: 151px;" border="1" id="table1_FIX">
+          <table width="100%" cellpadding="0" cellspacing="0" border="1" class="main_table">
+            <tr height="25px" id="rowid11">
+              <td width="28" align="right">1</td>
+              <td width="34px"><input type="checkbox" onclick="return checkedit(this,1);"/></td>
+              <td width="34px"><input type="checkbox" id="input100" disabled/></td>
+              <td width="51px"><input type="radio" name="radsel" id="input101" disabled/></td>
+              <td width="69px"><br/></td>
+              <td width="59px"><br/></td>
+              <td width="79px"><br/></td>
+              <td width="64px"><input type="text" style="width:58px;" id="input102" value="200A" readOnly/></td>
+              <td width="67px"><input type="text" style="width:61px;" id="input103" readOnly/></td>
+              <td width="34px"><input type="text" style="width:28px;" id="input104" readOnly/></td>
+              <td width="51px"><input type="text" style="width:45px;" id="input105" readOnly/></td>
+              <td width="109px"><input type="text" style="width:103px;" id="input106" value="20000AL00AK3B" readOnly/></td>
+              <td width="69px"><input type="text" style="width:63px;" id="input107" readOnly/></td>
+              <td width="39px"><input type="text" style="width:33px;" id="input108" value="0" readOnly/></td>
+              <td width="83px"><input type="text" style="width:77px;" id="input109" readOnly/></td>
+              <td width="89px"><input type="text" style="width:83px;" id="input110" readOnly/></td>
+              <td width="69px"><input type="text" style="width:63px;" id="input111" readOnly/></td>
+              <td width="54px"><input type="text" style="width:48px;" id="input112" readOnly/></td>
+              <td width="34px"><input type="text" style="width:28px;" id="input113" readOnly/></td>
+              <td width="69px"><input type="text" style="width:63px;" id="input114" readOnly/></td>
+              <td width="89px"><input type="text" style="width:83px;" id="input115" readOnly/></td>
+              <td width="51px"><br/></td>
+              <td width="50px"><input type="text" style="width:43px;" id="input117" value="1" readOnly/></td>
+              <td width="50px"><input type="text" style="width:43px;" id="input118" readOnly/></td>
+              <td width="50px"><input type="text" style="width:44px;" id="input119" readOnly/></td>
+              <td width="50px"><input type="text" style="width:43px;" id="input120" readOnly/></td>
+              <td width="51px">20000</td>
+            </tr>
+            <tr height="25px" id="rowid12">
+              <td align="right">2</td>
+              <td><input type="checkbox" onclick="return checkedit(this,2);"/></td>
+              <td><input type="checkbox" id="input200" disabled/></td>
+              <td><input type="radio" name="radsel" id="input201" disabled/></td>
+              <td><br/></td>
+              <td style="background-color: #00BFFF;">変更</td>
+              <td><br/></td>
+              <td><input type="text" style="width:58px;" id="input202" value="200A" readOnly/></td>
+              <td><input type="text" style="width:61px;" id="input203" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input204" readOnly/></td>
+              <td><input type="text" style="width:45px;" id="input205" readOnly/></td>
+              <td><input type="text" style="width:103px;" id="input206" value="20000AL00AK3A" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input207" readOnly/></td>
+              <td><input type="text" style="width:33px;" id="input208" value="0" readOnly/></td>
+              <td><input type="text" style="width:77px;" id="input209" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input210" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input211" readOnly/></td>
+              <td><input type="text" style="width:48px;" id="input212" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input213" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input214" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input215" readOnly/></td>
+              <td><br/></td>
+              <td><input type="text" style="width:43px;" id="input217" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input218" value="1" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input219" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input220" readOnly/></td>
+              <td>20000</td>
+            </tr>
+            <tr height="25px" id="rowid13">
+              <td align="right">3</td>
+              <td><input type="checkbox" onclick="return checkedit(this,3);"/></td>
+              <td><input type="checkbox" id="input300" disabled/></td>
+              <td><input type="radio" name="radsel" id="input301" disabled/></td>
+              <td style="background-color: yellow;"><font color="red">変更</font></td>
+              <td><br/></td>
+              <td>01</td>
+              <td><input type="text" style="width:58px;" id="input302" value="200A" readOnly/></td>
+              <td><input type="text" style="width:61px;" id="input303" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input304" readOnly/></td>
+              <td><input type="text" style="width:45px;" id="input305" value="0804" readOnly/></td>
+              <td><input type="text" style="width:103px;" id="input306" value="20202AL00ATUS" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input307" readOnly/></td>
+              <td><input type="text" style="width:33px;" id="input308" value="1" readOnly/></td>
+              <td><input type="text" style="width:77px;" id="input309" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input310" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input311" readOnly/></td>
+              <td><input type="text" style="width:48px;" id="input312" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input313" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input314" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input315" readOnly/></td>
+              <td><br/></td>
+              <td><input type="text" style="width:43px;" id="input317" value="2" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input318" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input319" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input320" readOnly/></td>
+              <td>20002</td>
+            </tr>
+            <tr height="25px" id="rowid14">
+              <td align="right">4</td>
+              <td><input type="checkbox" onclick="return checkedit(this,4);"/></td>
+              <td><input type="checkbox" id="input400" disabled/></td>
+              <td><input type="radio" name="radsel" id="input401" disabled/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><input type="text" style="width:58px;" id="input402" value="200A" readOnly/></td>
+              <td><input type="text" style="width:61px;" id="input403" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input404" readOnly/></td>
+              <td><input type="text" style="width:45px;" id="input405" value="0804" readOnly/></td>
+              <td><input type="text" style="width:103px;" id="input406" value="20203AL01ATUS" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input407" readOnly/></td>
+              <td><input type="text" style="width:33px;" id="input408" value="1" readOnly/></td>
+              <td><input type="text" style="width:77px;" id="input409" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input410" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input411" readOnly/></td>
+              <td><input type="text" style="width:48px;" id="input412" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input413" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input414" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input415" readOnly/></td>
+              <td><br/></td>
+              <td><input type="text" style="width:43px;" id="input417" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input418" value="2" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input419" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input420" readOnly/></td>
+              <td>20003</td>
+            </tr>
+            <tr height="25px" id="rowid15">
+              <td align="right">5</td>
+              <td><input type="checkbox" onclick="return checkedit(this,5);"/></td>
+              <td><input type="checkbox" id="input500" checked disabled/></td>
+              <td><input type="radio" name="radsel" id="input501" disabled/></td>
+              <td><br/></td>
+              <td style="background-color: #00BFFF;">削除</td>
+              <td><br/></td>
+              <td><input type="text" style="width:58px;" id="input502" value="200B" readOnly/></td>
+              <td><input type="text" style="width:61px;" id="input503" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input504" readOnly/></td>
+              <td><input type="text" style="width:45px;" id="input505" readOnly/></td>
+              <td><input type="text" style="width:103px;" id="input506" value="20000AL00AK3B" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input507" readOnly/></td>
+              <td><input type="text" style="width:33px;" id="input508" value="0" readOnly/></td>
+              <td><input type="text" style="width:77px;" id="input509" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input510" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input511" readOnly/></td>
+              <td><input type="text" style="width:48px;" id="input512" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input513" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input514" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input515" readOnly/></td>
+              <td><br/></td>
+              <td><input type="text" style="width:43px;" id="input517" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input518" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input519" value="1" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input520" readOnly/></td>
+              <td>20000</td>
+            </tr>
+            <tr height="25px" id="rowid16">
+              <td align="right">6</td>
+              <td><input type="checkbox" onclick="return checkedit(this,6);"/></td>
+              <td><input type="checkbox" id="input600" disabled/></td>
+              <td><input type="radio" name="radsel" id="input601" disabled/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><input type="text" style="width:58px;" id="input602" value="200B" readOnly/></td>
+              <td><input type="text" style="width:61px;" id="input603" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input604" readOnly/></td>
+              <td><input type="text" style="width:45px;" id="input605" readOnly/></td>
+              <td><input type="text" style="width:103px;" id="input606" value="20000AL00AK3A" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input607" readOnly/></td>
+              <td><input type="text" style="width:33px;" id="input608" value="0" readOnly/></td>
+              <td><input type="text" style="width:77px;" id="input609" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input610" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input611" readOnly/></td>
+              <td><input type="text" style="width:48px;" id="input612" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input613" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input614" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input615" readOnly/></td>
+              <td><br/></td>
+              <td><input type="text" style="width:43px;" id="input617" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input618" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input619" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input620" value="1" readOnly/></td>
+              <td>20000</td>
+            </tr>
+            <tr height="25px" id="rowid17">
+              <td align="right">7</td>
+              <td><input type="checkbox" onclick="return checkedit(this,7);"/></td>
+              <td><input type="checkbox" id="input700" checked disabled/></td>
+              <td><input type="radio" name="radsel" id="input701" disabled/></td>
+              <td style="background-color: yellow;"><font color="red">削除</font></td>
+              <td><br/></td>
+              <td>01</td>
+              <td><input type="text" style="width:58px;" id="input702" value="200B" readOnly/></td>
+              <td><input type="text" style="width:61px;" id="input703" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input704" readOnly/></td>
+              <td><input type="text" style="width:45px;" id="input705" value="0804" readOnly/></td>
+              <td><input type="text" style="width:103px;" id="input706" value="20202AL00ATUS" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input707" readOnly/></td>
+              <td><input type="text" style="width:33px;" id="input708" value="1" readOnly/></td>
+              <td><input type="text" style="width:77px;" id="input709" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input710" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input711" readOnly/></td>
+              <td><input type="text" style="width:48px;" id="input712" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input713" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input714" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input715" readOnly/></td>
+              <td><br/></td>
+              <td><input type="text" style="width:43px;" id="input717" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input718" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input719" value="2" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input720" readOnly/></td>
+              <td>20002</td>
+            </tr>
+            <tr height="25px" id="rowid18">
+              <td align="right">8</td>
+              <td><input type="checkbox" onclick="return checkedit(this,8);"/></td>
+              <td><input type="checkbox" id="input800" disabled/></td>
+              <td><input type="radio" name="radsel" id="input801" disabled/></td>
+              <td style="background-color: yellow;"><font color="red">追加</font></td>
+              <td><br/></td>
+              <td>01</td>
+              <td><input type="text" style="width:58px;" id="input802" value="200B" readOnly/></td>
+              <td><input type="text" style="width:61px;" id="input803" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input804" readOnly/></td>
+              <td><input type="text" style="width:45px;" id="input805" value="0804" readOnly/></td>
+              <td><input type="text" style="width:103px;" id="input806" value="20212AL00ATUS" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input807" readOnly/></td>
+              <td><input type="text" style="width:33px;" id="input808" value="1" readOnly/></td>
+              <td><input type="text" style="width:77px;" id="input809" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input810" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input811" readOnly/></td>
+              <td><input type="text" style="width:48px;" id="input812" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input813" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input814" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input815" readOnly/></td>
+              <td><br/></td>
+              <td><input type="text" style="width:43px;" id="input817" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input818" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input819" value="2" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input820" readOnly/></td>
+              <td>？</td>
+            </tr>
+            <tr height="25px" id="rowid19">
+              <td align="right">9</td>
+              <td><input type="checkbox" onclick="return checkedit(this,9);"/></td>
+              <td><input type="checkbox" id="input900" disabled/></td>
+              <td><input type="radio" name="radsel" id="input901" disabled/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><input type="text" style="width:58px;" id="input902" value="200B" readOnly/></td>
+              <td><input type="text" style="width:61px;" id="input903" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input904" readOnly/></td>
+              <td><input type="text" style="width:45px;" id="input905" value="0804" readOnly/></td>
+              <td><input type="text" style="width:103px;" id="input906" value="20203AL01ATUS" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input907" readOnly/></td>
+              <td><input type="text" style="width:33px;" id="input908" value="1" readOnly/></td>
+              <td><input type="text" style="width:77px;" id="input909" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input910" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input911" readOnly/></td>
+              <td><input type="text" style="width:48px;" id="input912" readOnly/></td>
+              <td><input type="text" style="width:28px;" id="input913" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input914" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input915" readOnly/></td>
+              <td><br/></td>
+              <td><input type="text" style="width:43px;" id="input917" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input918" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input919" readOnly/></td>
+              <td><input type="text" style="width:43px;" id="input920" value="2" readOnly/></td>
+              <td>20003</td>
+            </tr>
+          </table>
+        </div>
+        <div style="float: left; overflow-x: scroll; overflow-y: scroll; width: 417px; height: 168px; border-style:none;" id="table1" onScroll="sync_scroll(this);">
+          <table  width="100%" border="1" cellpadding="0" cellspacing="0" class="main_table" id="main_table">
+            <tr id="rowid11b">
+              <td width="19px"><br/></td>
+              <td width="79px"><br/></td>
+              <td width="79px"><br/></td>
+              <td width="109px"><br/></td>
+              <td width="109px"><br/></td>
+              <td width="109px"><br/></td>
+              <td width="109px"><br/></td>
+              <td width="109px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="..." style="width:30px;" id="input121" disabled/></td>
+              <td width="130px"><input type="text" style="width:54px;" id="input122" readOnly/><input type="button" value="類似部品" style="width:70px;" id="input123" disabled/></td>
+              <td width="69px"><input type="text" style="width:62px;" id="input124" readOnly/></td>
+              <td width="74px"><input type="text" style="width:68px;" id="input125" readOnly/></td>
+              <td width="70px"><input type="text" style="width:63px;" id="input126" readOnly/></td>
+              <td width="69px"><input type="text" style="width:63px;" id="input127" readOnly/></td>
+              <td width="51px"><input type="text" style="width:44px;" id="input128" readOnly/></td>
+              <td width="89px"><input type="text" style="width:83px;" id="input129" readOnly/></td>
+              <td width="70px"><input type="text" style="width:63px;" id="input130" readOnly/></td>
+              <td width="88px"><input type="text" style="width:81px;" id="input131" readOnly/></td>
+            </tr>
+            <tr id="rowid12b">
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="..." style="width:30px;" id="input221" disabled/></td>
+              <td><input type="text" style="width:54px;" id="input222" readOnly/><input type="button" value="類似部品" style="width:70px;" id="input223" disabled/></td>
+              <td><input type="text" style="width:62px;" id="input224" readOnly/></td>
+              <td><input type="text" style="width:68px;" id="input225" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input226" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input227" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input228" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input229" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input230" readOnly/></td>
+              <td><input type="text" style="width:81px;" id="input231" readOnly/></td>
+            </tr>
+            <tr id="rowid13b">
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>20202AL00ATUS</td>
+              <td>02</td>
+              <td>FM5  S0188</td>
+              <td>9801</td>
+              <td>T1,T2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="..." style="width:30px;" id="input321" disabled/></td>
+              <td><input type="text" style="width:54px;" id="input322" readOnly/><input type="button" value="類似部品" style="width:70px;" id="input323" disabled/></td>
+              <td><input type="text" style="width:62px;" id="input324" readOnly/></td>
+              <td><input type="text" style="width:68px;" id="input325" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input326" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input327" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input328" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input329" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input330" readOnly/></td>
+              <td><input type="text" style="width:81px;" id="input331" readOnly/></td>
+            </tr>
+            <tr id="rowid14b">
+              <td>*</td>
+              <td><br/></td>
+              <td><br/></td>
+              <td style="background-color: yellow;">20203ALXXX</td>
+              <td style="background-color: yellow;">01</td>
+              <td style="background-color: yellow;">FM5  S0188</td>
+              <td style="background-color: yellow;">9801</td>
+              <td style="background-color: yellow;">T3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="..." style="width:30px;" id="input421" disabled/></td>
+              <td><input type="text" style="width:54px;" id="input422" readOnly/><input type="button" value="類似部品" style="width:70px;" id="input423" disabled/></td>
+              <td><input type="text" style="width:62px;" id="input424" readOnly/></td>
+              <td><input type="text" style="width:68px;" id="input425" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input426" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input427" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input428" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input429" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input430" readOnly/></td>
+              <td><input type="text" style="width:81px;" id="input431" readOnly/></td>
+            </tr>
+            <tr id="rowid15b">
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="..." style="width:30px;" id="input521" disabled/></td>
+              <td><input type="text" style="width:54px;" id="input522" readOnly/><input type="button" value="類似部品" style="width:70px;" id="input523" disabled/></td>
+              <td><input type="text" style="width:62px;" id="input524" readOnly/></td>
+              <td><input type="text" style="width:68px;" id="input525" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input526" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input527" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input528" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input529" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input530" readOnly/></td>
+              <td><input type="text" style="width:81px;" id="input531" readOnly/></td>
+            </tr>
+            <tr id="rowid16b">
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="..." style="width:30px;" id="input621" disabled/></td>
+              <td><input type="text" style="width:54px;" id="input622" readOnly/><input type="button" value="類似部品" style="width:70px;" id="input623" disabled/></td>
+              <td><input type="text" style="width:62px;" id="input624" readOnly/></td>
+              <td><input type="text" style="width:68px;" id="input625" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input626" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input627" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input628" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input629" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input630" readOnly/></td>
+              <td><input type="text" style="width:81px;" id="input631" readOnly/></td>
+            </tr>
+            <tr id="rowid17b">
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>20202AL00ATUS</td>
+              <td>02</td>
+              <td>FM5  S0188</td>
+              <td>9801</td>
+              <td>T1,T2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="..." style="width:30px;" id="input721" disabled/></td>
+              <td><input type="text" style="width:54px;" id="input722" readOnly/><input type="button" value="類似部品" style="width:70px;" id="input723" disabled/></td>
+              <td><input type="text" style="width:62px;" id="input724" readOnly/></td>
+              <td><input type="text" style="width:68px;" id="input725" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input726" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input727" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input728" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input729" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input730" readOnly/></td>
+              <td><input type="text" style="width:81px;" id="input731" readOnly/></td>
+            </tr>
+            <tr id="rowid18b">
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="..." style="width:30px;" id="input821" disabled/></td>
+              <td><input type="text" style="width:54px;" id="input822" readOnly/><input type="button" value="類似部品" style="width:70px;" id="input823" disabled/></td>
+              <td><input type="text" style="width:62px;" id="input824" readOnly/></td>
+              <td><input type="text" style="width:68px;" id="input825" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input826" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input827" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input828" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input829" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input830" readOnly/></td>
+              <td><input type="text" style="width:81px;" id="input831" readOnly/></td>
+            </tr>
+            <tr id="rowid19b">
+              <td>*</td>
+              <td><br/></td>
+              <td><br/></td>
+              <td style="background-color: yellow;">20203ALXXX</td>
+              <td style="background-color: yellow;">01</td>
+              <td style="background-color: yellow;">FM5  S0188</td>
+              <td style="background-color: yellow;">9801</td>
+              <td style="background-color: yellow;">T3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="..." style="width:30px;" id="input921" disabled/></td>
+              <td><input type="text" style="width:54px;" id="input922" readOnly/><input type="button" value="類似部品" style="width:70px;" id="input923" disabled/></td>
+              <td><input type="text" style="width:62px;" id="input924" readOnly/></td>
+              <td><input type="text" style="width:68px;" id="input925" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input926" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input927" readOnly/></td>
+              <td><input type="text" style="width:44px;" id="input928" readOnly/></td>
+              <td><input type="text" style="width:83px;" id="input929" readOnly/></td>
+              <td><input type="text" style="width:63px;" id="input930" readOnly/></td>
+              <td><input type="text" style="width:81px;" id="input931" readOnly/></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+</p>
+
+</form>
+</body>
+</html>

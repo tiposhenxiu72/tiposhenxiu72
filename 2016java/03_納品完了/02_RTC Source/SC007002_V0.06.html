@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" />
+  <script type="text/javascript" charset="utf-8">
+
+<!--
+  function checkh(obj,rownum){
+    document.getElementById("rowid" + rownum).className = "sel";
+    var tablelist=document.getElementById("main_table");
+    var rowscount=tablelist.rows.length;
+
+    var falg = (obj.checked)?false:true;
+    if (falg) {
+      document.getElementById("rowid" + rownum).className = "notsel";
+    } else {
+      document.getElementById("rowid" + rownum).className = "sel";
+    }
+  }
+
+  function keydown(){
+    if(event.keycode >= 112 && event.keycode <= 123){ 
+      event.keycode = 0;
+      return false;
+    }
+  }
+
+  function sync_scroll(obj) {
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+  }
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+  //ウインドウサイズの変更
+  function changesize(){
+    window.resizeTo(1280,720);//サイズの指定
+  }
+  window.onload = changesize;//ページの読み込み時に関数を呼び出す
+  window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+-->
+
+  </script>
+  <title>[SC007002]イベント部品リスト展開対象車両選択</title>
+</head>
+
+<!--bodyのオプションにoncontextmenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+  <table border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tr style="background-color: blue;color: white; font-size: 12pt">
+      <td height="20" colspan="2">[SC007002]イベント部品リスト展開対象車両選択</td>
+    </tr>
+<!--  <tr style="background-color: #cfcfcf;color: #0000ff; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="right"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009c;color: #fede20" /></td></tr>-->
+    <tr style="background-color: #ffffff;color: #ff0000; font-size: 13.5pt">
+      <td height="20">システムメッセージを表示します。</td>
+      <td align="right">
+        <input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009c;color: #fede20" />
+      </td>
+    </tr>
+</table>
+
+<form id="SC007002" name="MainForm">
+<p>
+<b>イベント部品リスト展開対象車両選択</b>
+</p>
+
+<p>
+  <table border="0" style="width: 500px;">
+    <tr>
+      <td width="500px">
+        <table width="500px" style="border-style:none;" border="0">
+          <tr>
+            <td width="80px">開発符号 <font color="red">*</font>：</td>
+            <td width="110px" align="right">
+              <select style="width:100px;">
+                <option value="HR3">HR3</option>
+                <option value="BF4">BF4</option>
+              </select>
+            </td>
+            <td width="20px"><br/></td>
+            <td><br/></td>
+          </tr>
+          <tr>
+            <td>イベント <font color="red">*</font>：</td>
+            <td align="right">
+              <select style="width:100px;">
+                <option value="K3">K3</option>
+              </select>
+            </td>
+            <td colspan="2"><br/></td>
+          </tr>
+          <tr>
+            <td colspan="2" align="right"><input type="submit" value="表示" style="width:60pt;"/></td>
+            <td><br/></td>
+            <td><input type="submit" value="部品リスト展開" style="width:100pt;"/></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td align="right"><div style="float: left; overflow: hidden; width: 450px; border-style:none;">13 rec</div></td>
+    </tr>
+    <tr>
+      <td>
+        <div style="float: left; overflow: hidden; width: 455px; border-style:none;" id="table_HEADER">
+          <table border="1" width="450px" cellpadding="0" cellspacing="0" class="main_table" align="left" id="main_table">
+            <thead>
+              <tr>
+                <th width="20px" align="left">No</th>
+                <th width="50px" align="left">選択 <font color="red">*</font></th>
+                <th width="130px" align="left">シートコード</th>
+                <th width="250px" align="left">型式</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div style=" overflow-x: hidden; overflow-y: scroll; width: 472px; height: 254px; border-style: none;">
+          <table border="1" width="450px" cellpadding="0" cellspacing="0" class="main_table" id="main_table">
+            <tr id="rowid1">
+              <td width="20px">1</td>
+              <td width="50px"><input type="checkbox" name="radsel" onclick="return checkh(this,1);"/></td>
+              <td width="130px">TBF16</td>
+              <td width="250px">BF4#501</td>
+            </tr>
+            <tr id="rowid2">
+              <td>2</td>
+              <td><input type="checkbox" name="radsel" onclick="return checkh(this,2);"/></td>
+              <td>TBF16</td>
+              <td>BF4#502</td>
+            </tr>
+            <tr id="rowid3">
+              <td>3</td>
+              <td><input type="checkbox" name="radsel" onclick="return checkh(this,3);"/></td>
+              <td>TBF16</td>
+              <td>BF4#503</td>
+            </tr>
+            <tr id="rowid4">
+              <td>4</td>
+              <td><input type="checkbox" name="radsel" onclick="return checkh(this,4);"/></td>
+              <td>TBF16</td>
+              <td>BF4#504</td>
+            </tr>
+            <tr id="rowid5">
+              <td>5</td>
+              <td><input type="checkbox" name="radsel" onclick="return checkh(this,5);"/></td>
+              <td>TBF16</td>
+              <td>BF4#505</td>
+            </tr>
+            <tr id="rowid6">
+              <td>6</td>
+              <td><input type="checkbox" name="radsel" onclick="return checkh(this,6);"/></td>
+              <td>TBF16</td>
+              <td>BF4#506</td>
+            </tr>
+            <tr id="rowid7">
+              <td>7</td>
+              <td><input type="checkbox" name="radsel" onclick="return checkh(this,7);"/></td>
+              <td>TBF16</td>
+              <td>BF4#507</td>
+            </tr>
+            <tr id="rowid8">
+              <td>8</td>
+              <td><input type="checkbox" name="radsel" onclick="return checkh(this,8);"/></td>
+              <td>TBF16</td>
+              <td>BF4#508</td>
+            </tr>
+            <tr id="rowid9">
+              <td>9</td>
+              <td><input type="checkbox" name="radsel" onclick="return checkh(this,9);"/></td>
+              <td>TBF17</td>
+              <td>BF4#509</td>
+            </tr>
+            <tr id="rowid10">
+              <td>10</td>
+              <td><input type="checkbox" name="radsel" onclick="return checkh(this,10);"/></td>
+              <td>TBF17</td>
+              <td>BF4#510</td>
+            </tr>
+            <tr id="rowid11">
+              <td>11</td>
+              <td><input type="checkbox" name="radsel" onclick="return checkh(this,11);"/></td>
+              <td>TBF17</td>
+              <td>BF4#511</td>
+            </tr>
+            <tr id="rowid12">
+              <td>12</td>
+              <td><input type="checkbox" name="radsel" onclick="return checkh(this,12);"/></td>
+              <td>TBF17</td>
+              <td>BF4#512</td>
+            </tr>
+            <tr id="rowid13">
+              <td>13</td>
+              <td><input type="checkbox" name="radsel" onclick="return checkh(this,13);"/></td>
+              <td>TBF17</td>
+              <td>BF4#512</td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+</p>
+
+</form>
+</body>
+</html>

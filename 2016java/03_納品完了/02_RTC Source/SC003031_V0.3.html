@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" />
+  <script type="text/javascript" charset="utf-8">
+
+<!--
+  function checkH(obj,rownum,rowname){
+	if(rowname.checked){
+		document.getElementById("rowid" + rownum).className = "sel";
+	}else{
+		document.getElementById("rowid" + rownum).className = "notsel";
+	}
+}
+
+  function keydown(){
+    if(event.keycode >= 112 && event.keycode <= 123){ 
+      event.keycode = 0;
+      return false;
+    }
+  }
+
+  function sync_scroll(obj) {
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+  }
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+  //ウインドウサイズの変更
+  function changesize(){
+    window.resizeTo(1280,720);//サイズの指定
+  }
+  window.onload = changesize;//ページの読み込み時に関数を呼び出す
+  window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+-->
+
+  </script>
+  <title>[SC003031]旧部品番号指定</title>
+</head>
+
+<!--bodyのオプションにoncontextmenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+  <table border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tr style="background-color: blue;color: white; font-size: 12pt">
+      <td height="20" colspan="2">[SC003031]旧部品番号指定</td>
+    </tr>
+<!--  <tr style="background-color: #cfcfcf;color: #0000ff; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="right"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009c;color: #fede20" /></td></tr>-->
+    <tr style="background-color: #ffffff;color: #ff0000; font-size: 13.5pt">
+      <td height="20">システムメッセージを表示します。</td>
+      <td align="right">
+        <input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009c;color: #fede20" />
+      </td>
+    </tr>
+</table>
+
+<form id="SC003031" name="MainForm">
+<p>
+<b>旧部品番号指定</b>
+</p>
+
+<p>
+  <table border="0" style="width: 600px;">
+    <tr>
+      <td width="480px">
+        <table width="480px"  style="border-style:dashed; border-width:1px; border-color:#000000;" cellpadding="0" cellspacing="10">
+          <tr>
+            <td width="90px">設通番号：</td>
+            <td width="100px">HR3 -L0001</td>
+            <td width="20px"><br/></td>
+            <td width="120px">改訂番号：</td>
+            <td width="100px"><br/></td>
+            <td width="5px"><br/></td>
+          </tr>
+          <tr>
+            <td>新部品番号：</td>
+            <td>20001SG000</td>
+            <td><br/></td>
+            <td>新親部品番号：</td>
+            <td>20001SG003</td>
+            <td><br/></td>
+          </tr>
+        </table>
+      </td>
+      <td width="800px"><br/></td>
+    </tr>
+    <tr>
+      <td align="right"><div style="float: left; overflow: hidden; width: 730px; border-style:none;">3 rec</div></td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <div style="float: left; overflow: hidden; width: 730px; border-style:none;" id="table_HEADER">
+          <table border="1" width="730px" cellpadding="0" cellspacing="0" class="main_table2" align="left">
+            <thead>
+              <tr>
+                <th width="30px" align="left" rowspan="2">No<br/><br/></th>
+                <th width="30px" align="left" rowspan="2">選<br/>択</th>
+                <th width="30px" align="left" rowspan="2">変更<br/>区分</th>
+                <th width="100px" align="left" rowspan="2">部品番号<br/><br/></th>
+                <th width="30px" align="left" rowspan="2">図面<br/>改訂</th>
+                <th width="150px" align="left" rowspan="2">部品名称<br/><br/></th>
+                <th width="120px" align="left" rowspan="2">親部品番号<br/><br/></th>
+                <th width="220px" align="left" colspan="4">タイトル図</th>
+              </tr>
+              <tr>
+                <th width="100px" align="left">図面番号</th>
+                <th width="60px" align="left">図面改訂</th>
+                <th width="40px" align="left">IDX</th>
+                <th width="40px" align="left">KIND</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div style="float: left; overflow-x: hidden; overflow-y: scroll; width: 747px; height: 70px; border-style: none;">
+          <table border="1" width="730px" cellpadding="0" cellspacing="0" class="main_table2" id="main_table">
+            <tr id="rowid1">
+              <td width="30px" align="right">1</td>
+              <td width="30px"><input type="checkbox" id="checktail1" OnClick="return checkH(this,1,checktail1);"></td>
+              <td width="30px">D</td>
+              <td width="100px">20001SG005</td>
+              <td width="30px">00</td>
+              <td width="150px">SCREW BOLT A</td>
+              <td width="120px">20001SG003</td>
+              <td width="100px">20000SG000</td>
+              <td width="60px">00</td>
+              <td width="40px">01</td>
+              <td width="40px"><br/></td>
+            </tr>
+            <tr id="rowid2">
+              <td align="right">2</td>
+              <td><input type="checkbox" id="checktail2" OnClick="return checkH(this,2,checktail2);"></td>
+              <td>D</td>
+              <td>20011SG010</td>
+              <td>00</td>
+              <td>BOLT XXXX</td>
+              <td>20001SG003</td>
+              <td>20000SG000</td>
+              <td>00</td>
+              <td>02</td>
+              <td>A</td>
+            </tr>
+            <tr id="rowid3">
+              <td align="right">3</td>
+              <td><input type="checkbox" id="checktail3" OnClick="return checkH(this,3,checktail3);"></td>
+              <td>C</td>
+              <td>20021SG010</td>
+              <td>01</td>
+              <td>BOLT XXXX</td>
+              <td>20001SG003</td>
+              <td>20000SG010</td>
+              <td>03</td>
+              <td>02</td>
+              <td><br/></td>
+            </tr>
+			<tr id="rowid3">
+              <td>&nbsp;</td>
+			  <td>&nbsp;</td>
+			  <td>&nbsp;</td>
+			  <td>&nbsp;</td>
+			  <td>&nbsp;</td>
+			  <td>&nbsp;</td>
+			  <td>&nbsp;</td>
+			  <td>&nbsp;</td>
+			  <td>&nbsp;</td>
+			  <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+    <tr><td colspan="2"><br/></td></tr>
+    <tr>
+      <td>
+        <table width="600px" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td width="30px"><br/></td>
+            <td><input type="button" value="選択" style="width: 80px;"/></td>
+            <td><input type="button" value="キャンセル" style="width: 80px;"/></td>
+          </tr>
+        </table>
+      </td>
+      <td><br/></td>
+    </tr>
+  </table>
+</p>
+</form>
+</body>
+</html>

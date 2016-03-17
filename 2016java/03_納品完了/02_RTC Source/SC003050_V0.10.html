@@ -1,0 +1,585 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+
+<!--
+function checkH(obj,rownum,rowname){
+	if(rowname.checked){
+		document.getElementById("rowid1" + rownum).className = "sel";
+		document.getElementById("rowid2" + rownum).className = "sel";
+		checkInput(obj,rownum,1);
+	}else{
+		document.getElementById("rowid1" + rownum).className = "notsel";
+        document.getElementById("rowid2" + rownum).className = "notsel";
+		checkInput(obj,rownum,2);
+	}
+}
+
+function checkInput(obj,rownum,inOut){
+	var falg = true;
+	if(inOut==1){
+		falg = false;
+	}else if(inOut==2){
+		falg = true;
+	}
+	document.getElementById("input"+rownum+"1").readOnly=falg;
+	document.getElementById("input"+rownum+"2").disabled=falg;
+	document.getElementById("input"+rownum+"3").disabled=falg;
+	document.getElementById("input"+rownum+"4").disabled=falg;
+	document.getElementById("input"+rownum+"5").disabled=falg;
+	document.getElementById("input"+rownum+"6").readOnly=falg;
+	document.getElementById("input"+rownum+"7").disabled=falg;
+	document.getElementById("input"+rownum+"8").disabled=falg;
+	document.getElementById("input"+rownum+"9").disabled=falg;
+	document.getElementById("input"+rownum+"10").disabled=falg;
+	document.getElementById("input"+rownum+"11").readOnly=falg;
+	document.getElementById("input"+rownum+"12").disabled=falg;
+	document.getElementById("input"+rownum+"13").disabled=falg;
+	document.getElementById("input"+rownum+"14").disabled=falg;
+	document.getElementById("input"+rownum+"15").disabled=falg;
+	document.getElementById("input"+rownum+"16").readOnly=falg;
+}
+
+function sync_scroll(obj)
+{
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+    var strIdTop = obj.id+"_FIX";
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+    var intScrlTop = obj.scrollTop;
+
+    /*同一IDのオブジェクト取得*/
+    fix=document.getElementById(strIdTop);
+    //スクロール位置の設定
+    fix.scrollTop=intScrlTop;
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+}
+
+function keydown()
+{
+if(event.keyCode >= 112 && event.keyCode <= 123){ 
+	event.keyCode = 0;
+	return false;
+	}
+	}
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+  //ウインドウサイズの変更
+  function changesize(){
+    window.resizeTo(1280,720);//サイズの指定
+  }
+  window.onload = changesize;//ページの読み込み時に関数を呼び出す
+  window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+-->
+
+</script>
+<title>[SC003050]実施時期参照・登録</title>
+</head>
+<!--<script type="text/javascript" src="./TableScrollSync.js"></script>-->
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td height="20" colspan="2">[SC003050]実施時期参照・登録</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="right"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td align="right"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+
+<form id="SC003050" name="MainForm">
+<p>
+<b>実施時期参照・登録</b>
+</p>
+<p>
+<table width="100%" >
+<tr>
+<td width="60%">
+<table width="100%" style="border-style:dashed; border-width:1px; border-color:#000000;">
+<tr >
+<td  height="40" align="left">
+設通番号：&nbsp;&nbsp;&nbsp;
+<input type="text" value="HR3 －L0012" class="text80L" id="S1"/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+改訂番号：&nbsp;&nbsp;&nbsp;<input type="text" value="" class="text40L" id="S1"/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;</td>
+<td align="left"><input type="button" value="検索" style="width:100pt"/>
+  <input type="button" value="履歴表示" style="width:100pt"/></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><input type="button" value="CSVダウンロード" style="width:100pt"/></td>
+</tr>
+</table>
+</td>
+<td align="left" width="48%">
+<table border="0" cellpadding="0" cellspacing="0">
+<tr >
+<td height="40" align="left">
+<input type="button" value="登録" style="width:80pt"/>
+&nbsp;&nbsp; </td>
+<tr >
+<td height="40" align="left">
+<input type="button" value="設変内容確認" style="width:80pt"/>
+<input type="button" value="設通表紙情報" style="width:80pt"/></td>
+</tr>
+</table>
+</td>
+
+</tr>
+</table>
+</p>
+
+<table width="50%" style=" border-width:1px; border-color:#000000;">
+  <tr>
+    <td>設通件名：</td>
+    <td>０３Ｕ　ＲスタビＶＡ出図</td>
+  </tr>
+  <tr>
+    <td>代表設通番号：</td>
+    <td>HR3 -L0012</td>
+  </tr>
+  <tr>
+    <td>同指示設通番号：</td>
+    <td>MF1 -R0013,BF4 -L0404</td>
+  </tr>
+  <tr>
+    <td>関連設通番号：</td>
+    <td>HR3 -L0004,HR3 -L0909</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td rowspan="2">先行発行：&nbsp;&nbsp;&nbsp;&nbsp;
+			<select name="PUBLISH">
+			    <option value="1">1</option>
+			    <option value="2">2</option>
+			</select>
+	</td>
+  </tr>
+</table>
+<p>
+<table width="1150px">
+	<tr>
+		<td width="1110px"></td><td width="40px">7 rec</td>
+	</tr>
+</table>
+
+<div style="text-align:left; border-collapse: collapse;">
+
+        <div style="float:left; width:375px;" >
+        <table border="1" cellpadding="0" cellspacing="0" id="head_table" width="375px" >
+        <tr style="background-color:white; font-weight: bold; background:#b0e0e6; border-bottom: 1px solid #b0e0e6;">
+        <th width="25px" align="left">No</th>
+        <th width="25px" align="left">編</th>
+        <th width="25px" align="left">未</th>
+        <th width="100px" align="left">対象年改</th>
+        <th width="100px" align="left">仕向地</th>
+        <th width="100px" align="left">適用車種</th>
+        </tr>
+        <tr style="background-color:white; font-weight: bold; background:#b0e0e6; border-top: 1px solid #b0e0e6;">
+        <th><BR/></th>
+        <th width="25px" align="left">集</th>
+        <th><BR/></th>
+        <th width="100px" align="left">符号</th>
+        <th><BR/></th>
+        <th><BR/></th>
+        </tr>
+        </table>
+        </div>
+        <div style="float:left; width:771px; overflow:hidden; text-align:center; border-style:none;" id="SYNC_HEADER">
+        <table border="1" cellpadding="0" cellspacing="0" id="head_table2" width="2190px">
+        <tr style="background-color:white; font-weight: bold; background:#b0e0e6;" >
+        <th width="120px" rowspan="2" align="left" valign="top">設計希望時期</th>
+        <th width="120px" rowspan="2" align="left" valign="top">手配希望時期</th>
+        <th width="620px" colspan="5" align="left">国内生産分</th>
+        <th width="620px" colspan="5" align="left">海外生産（国内決定）</th>
+        <th width="620px" colspan="5" align="left">海外生産（海外状況）</th>
+        </tr>
+        <tr style="background-color:white; font-weight: bold; background:#b0e0e6;" >
+          <th width="250px" align="left">決定実施時期</th>
+          <th width="120px" align="left">実施時期詳細</th>
+          <th width="80px" align="left">部分未決</th>
+          <th width="80px" align="left">改訂番号</th>
+          <th width="120px" align="left">実施時期備考</th>
+          <th width="250px" align="left">決定実施時期</th>
+          <th width="120px" align="left">実施時期詳細</th>
+          <th width="80px" align="left">部分未決</th>
+          <th width="80px" align="left">改訂番号</th>
+          <th width="120px" align="left">実施時期備考</th>
+          <th width="250px" align="left">実施時期</th>
+          <th width="120px" align="left">実施時期詳細</th>
+          <th width="80px" align="left">部分未決</th>
+          <th width="80px" align="left">改訂番号</th>
+          <th width="120px" align="left">実施時期備考</th>
+        </tr>
+        </table>
+        </div>
+
+        <div style="float:left; height:151px; width:375px; overflow:hidden; border-style:none;" id="SYNC_FIX">
+        <table border="1" cellpadding="0" cellspacing="0" id="main_table1">
+        <tr id="rowid11" style="height:30px">
+        <td width="25px">1</td>
+        <td width="25px" ><input type="checkbox" name="checktail1" OnClick="return checkH(this,1,checktail1);"></td>
+        <td width="25px" >*</td>
+        <td width="100px" >HR3</td>
+        <td width="100px" >G:国内</td>
+        <td width="100px" >ALL</td>
+        </tr>
+        
+        <tr id="rowid12" style="height:30px">
+        <td width="25px">2</td>
+        <td width="25px" ><input type="checkbox" name="checktail2" OnClick="return checkH(this,2,checktail2);"></td>
+        <td width="25px" ></td>
+        <td width="100px" >HR3</td>
+        <td width="100px" >G:国内</td>
+        <td width="100px" >ALL</td>
+        </tr>
+        
+        <tr id="rowid13" style="height:30px">
+        <td width="25px">3</td>
+        <td width="25px" ><input type="checkbox" name="checktail3" OnClick="return checkH(this,3,checktail3);"></td>
+        <td width="25px" ></td>
+        <td width="100px" >HR3</td>
+        <td width="100px" >G:国内</td>
+        <td width="100px" >ALL</td>
+        </tr>
+        
+        <tr id="rowid14" style="height:30px">
+        <td width="25px">4</td>
+        <td width="25px" ><input type="checkbox" name="checktail4" OnClick="return checkH(this,4,checktail4);"></td>
+        <td width="25px" ></td>
+        <td width="100px" >HR3</td>
+        <td width="100px" >G:国内</td>
+        <td width="100px" >ALL</td>
+        </tr>
+        
+        <tr id="rowid15" style="height:30px">
+        <td width="25px">5</td>
+        <td width="25px" ><input type="checkbox" name="checktail5" OnClick="return checkH(this,5,checktail5);"></td>
+        <td width="25px" ></td>
+        <td width="100px" >HR3</td>
+        <td width="100px" >G:国内</td>
+        <td width="100px" >ALL</td>
+        </tr>
+        
+        <tr id="rowid16" style="height:30px">
+        <td width="25px">6</td>
+        <td width="25px" ><input type="checkbox" name="checktail6" OnClick="return checkH(this,6,checktail6);"></td>
+        <td width="25px" ></td>
+        <td width="100px" >HR3</td>
+        <td width="100px" >G:国内</td>
+        <td width="100px" >ALL</td>
+        </tr>
+        
+        <tr id="rowid17" style="height:30px">
+        <td width="25px">7</td>
+        <td width="25px" ><input type="checkbox" name="checktail7" OnClick="return checkH(this,7,checktail7);"></td>
+        <td width="25px" ></td>
+        <td width="100px" >HR3</td>
+        <td width="100px" >G:国内</td>
+        <td width="100px" >ALL</td>
+        </tr>
+        </table>
+        </div>
+    
+        <div style="float:left; width:788px; height:168px; overflow: scroll; text-align:left; border-style:none;" id="SYNC" onScroll="sync_scroll(this);">
+        <table border="1" cellpadding="0" cellspacing="0" id="main_table2" width="2190px" >
+        <TBODY>
+        <tr id="rowid21" style="height:30px">
+        <td width="121px" >可能号車</td>
+        <td width="120px" ><input type="text" value="" class="text80L" id="input11"/></td>
+        <td width="100px">
+        	<select id="input12">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input13">日付<input type="radio" name="raddetail11" OnClick="" id="input14"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input15"></td>
+        <td width="81px">01</td>
+        <td width="118px"><input type="text" value="" class="text80L" id="input16"/></td>
+        
+        <td width="100px">
+        	<select id="input17">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input18">日付<input type="radio" name="raddetail11" OnClick="" id="input19"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input110"></td>
+        <td width="81px">01</td>
+        <td width="118px"><input type="text" value="" class="text80L" id="input111"/></td>
+       
+        <td width="100px">
+        	<select id="input112">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input113">日付<input type="radio" name="raddetail11" OnClick="" id="input114"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input115"></td>
+        <td width="81px">01</td>
+        <td width="118px"><input type="text" value="" class="text80L" id="input116"/></td>
+        </tr>
+        
+        
+        <tr id="rowid22" style="height:30px">
+        <td width="120px" >可能号車</td>
+        <td width="120px" ><input type="text" value="" class="text80L" id="input21"/></td>
+        <td width="100px">
+        	<select id="input22">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input23">日付<input type="radio" name="raddetail11" OnClick="" id="input24"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input25"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input26"/></td>
+        
+        <td width="100px">
+        	<select id="input27">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input28">日付<input type="radio" name="raddetail11" OnClick="" id="input29"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input210"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input211"/></td>
+       
+        <td width="100px">
+        	<select id="input212">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input213">日付<input type="radio" name="raddetail11" OnClick="" id="input214"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input215"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input216"/></td>
+        </tr>
+        
+        
+        <tr id="rowid23" style="height:30px">
+        <td width="120px" >可能号車</td>
+        <td width="120px" ><input type="text" value="" class="text80L" id="input31"/></td>
+        <td width="100px">
+        	<select id="input32">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input33">日付<input type="radio" name="raddetail11" OnClick="" id="input34"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input35"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input36"/></td>
+        
+        <td width="100px">
+        	<select id="input37">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input38">日付<input type="radio" name="raddetail11" OnClick="" id="input39"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input310"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input311"/></td>
+       
+        <td width="100px">
+        	<select id="input312">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input313">日付<input type="radio" name="raddetail11" OnClick="" id="input314"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input315"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input316"/></td>
+        </tr>
+        
+        
+        <tr id="rowid24" style="height:30px">
+        <td width="120px" >可能号車</td>
+        <td width="120px" ><input type="text" value="" class="text80L" id="input41"/></td>
+        <td width="100px">
+        	<select id="input42">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input43">日付<input type="radio" name="raddetail11" OnClick="" id="input44"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input45"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input46"/></td>
+        
+        <td width="100px">
+        	<select id="input47">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input48">日付<input type="radio" name="raddetail11" OnClick="" id="input49"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input410"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input411"/></td>
+       
+        <td width="100px">
+        	<select id="input412">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input413">日付<input type="radio" name="raddetail11" OnClick="" id="input414"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input415"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input416"/></td>
+        </tr>
+        
+        
+        <tr id="rowid25" style="height:30px">
+        <td width="120px" >可能号車</td>
+        <td width="120px" ><input type="text" value="" class="text80L" id="input51"/></td>
+        <td width="100px">
+        	<select id="input52">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input53">日付<input type="radio" name="raddetail11" OnClick="" id="input54"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input55"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input56"/></td>
+        
+        <td width="100px">
+        	<select id="input57">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input58">日付<input type="radio" name="raddetail11" OnClick="" id="input59"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input510"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input511"/></td>
+       
+        <td width="100px">
+        	<select id="input512">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input513">日付<input type="radio" name="raddetail11" OnClick="" id="input514"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input515"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input516"/></td>
+        </tr>
+        
+        
+        
+        <tr id="rowid26" style="height:30px">
+        <td width="120px" >可能号車</td>
+        <td width="120px" ><input type="text" value="" class="text80L" id="input61"/></td>
+        <td width="100px">
+        	<select id="input62">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input63">日付<input type="radio" name="raddetail11" OnClick="" id="input64"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input65"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input66"/></td>
+        
+        <td width="100px">
+        	<select id="input67">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input68">日付<input type="radio" name="raddetail11" OnClick="" id="input69"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input610"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input611"/></td>
+       
+        <td width="100px">
+        	<select id="input612">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input613">日付<input type="radio" name="raddetail11" OnClick="" id="input614"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input615"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input616"/></td>
+        </tr>
+        
+        
+        <tr id="rowid27" style="height:30px">
+        <td width="120px" >可能号車</td>
+        <td width="120px" ><input type="text" value="" class="text80L" id="input71"/></td>
+        <td width="100px">
+        	<select id="input72">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input73">日付<input type="radio" name="raddetail11" OnClick="" id="input74"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input75"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input76"/></td>
+        
+        <td width="100px">
+        	<select id="input77">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input78">日付<input type="radio" name="raddetail11" OnClick="" id="input79"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input710"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input711"/></td>
+       
+        <td width="100px">
+        	<select id="input712">
+			    <option value="0">生試</option>
+			</select>
+		</td>
+        <td width="150px">イベント<input type="radio" name="raddetail11" OnClick="" id="input713">日付<input type="radio" name="raddetail11" OnClick="" id="input714"></td>
+        <td width="120px">2015/03/10</td>
+        <td width="80px"><input type="checkbox" name="" OnClick="" id="input715"></td>
+        <td width="80px">01</td>
+        <td width="120px"><input type="text" value="" class="text80L" id="input716"/></td>
+        </tr>
+        </TBODY>
+        </table>
+        </div>
+
+</div>
+</p>
+
+<p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></p>
+
+<table border="1" cellpadding="0" cellspacing="0" id="head_table1" width="800px">
+<tr style="background-color:white; font-weight: bold; background:#b0e0e6; text-align: left;">
+<th align="left">手配記入欄：</th>
+</tr>
+<tr >
+<th><label for="textarea"></label>
+  <textarea name="textarea" id="textarea" cols="45" rows="5" style="width:800px"></textarea></th>
+</tr>
+</table>
+</form>
+</body>
+</html>

@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+<!--
+function sync_scroll(obj)
+{
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+    var strIdTop = obj.id+"_FIX";
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+    var intScrlTop = obj.scrollTop;
+
+    /*同一IDのオブジェクト取得*/
+    fix=document.getElementById(strIdTop);
+    //スクロール位置の設定
+    fix.scrollTop=intScrlTop;
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+}
+
+function keydown()
+{
+if(event.keyCode >= 112 && event.keyCode <= 123){ 
+	event.keyCode = 0;
+	return false;
+	}
+	}
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+
+-->
+
+</script>
+<script language="javascript">
+<!--
+	//ウインドウサイズの変更
+	function changesize(){
+	window.resizeTo(1280,720);//サイズの指定
+	}
+	window.onload = changesize;//ページの読み込み時に関数を呼び出す
+	window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+//-->
+</script>
+<script language="javascript">
+function disLabel(name){
+	if(name=='label01'){
+		document.all.child1.style.display=(document.all.child1.style.display =='none')?'':'none';
+	}else if(name=='label02'){
+		document.all.child2.style.display=(document.all.child2.style.display =='none')?'':'none';
+	}else if(name=='label03'){
+		document.all.child3.style.display=(document.all.child3.style.display =='none')?'':'none';
+	}else if(name=='label04'){
+		document.all.child4.style.display=(document.all.child4.style.display =='none')?'':'none';
+	}else if(name=='label05'){
+		document.all.child5.style.display=(document.all.child5.style.display =='none')?'':'none';
+	}else if(name=='label06'){
+		document.all.child6.style.display=(document.all.child6.style.display =='none')?'':'none';
+	}else if(name=='label07'){
+		document.all.child7.style.display=(document.all.child7.style.display =='none')?'':'none';
+	}else if(name=='label08'){
+		document.all.child8.style.display=(document.all.child8.style.display =='none')?'':'none';
+	}else if(name=='label09'){
+		document.all.child9.style.display=(document.all.child9.style.display =='none')?'':'none';
+	}
+	
+	commonLabel(name);
+}
+
+function commonLabel(name){
+	if(document.getElementById(name).innerText == '+'){
+		document.getElementById(name).innerHTML = '-&nbsp;';
+	}else{
+		document.getElementById(name).innerHTML = '+';
+	}
+}
+</script>
+<style>
+ul { padding:0; margin:0;}
+div.main { width:800px; height:28px; line-height:28px; padding-left:5px;cursor:pointer; border-bottom:1px solid #fff;font-family:Meiryo;font-size: 10pt;}
+div.child { width:805px;font-family:Meiryo;font-size: 10pt;}
+</style>
+<title>[SC011270]ポータルメニュー</title>
+</head>
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td  colspan="2">[SC011270]ポータルメニュー</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+<form id="SC011270" name="MainForm">
+<p id="p11" OnClick="">
+<pre><b>ポータルメニュー</b>                                                                                                             言語選択  <select name="b" style="width: 80px;" >
+		<option value="japanese">日本語</option>
+		<option value="chinese">中国語</option>
+		<option value="english">英語</option>
+	</select>  <INPUT TYPE="submit" VALUE="切替" STYLE="WIDTH:40pt"/>
+</pre>
+</p>
+
+<p style="padding-left:60px">領域一覧<p>
+<p>
+<div id="main1" class="main" style="padding-left:60px">[<label id="label01" onClick="disLabel('label01');" style='text-decoration:underline;width:50pt'>+</label>]&nbsp;&nbsp;&nbsp;1.&nbsp;技術情報受領</div>
+<div id="child1" style="display:none" class="child">
+<ul>
+<li style="padding-left:110px"><a href="SC001010.html">1.1.オーバーフロー設通の関連付け登録</a></li>
+<li style="padding-left:110px"><a href="SC001020.html">1.2.型式・拠点の関連付け登録</a></li>
+<li style="padding-left:110px"><a href="SC001030.html">1.3.開発符号・型式のアップロード</a></li>
+</ul>
+</div>
+
+<div id="main2" class="main" style="padding-left:60px">[<label id="label02" onClick="disLabel('label02');" style='text-decoration:underline;width:50pt'>+</label>]&nbsp;&nbsp;&nbsp;2.&nbsp;共通機能</div>
+<div id="child2" style="display:none" class="child">
+<ul>
+<li style="padding-left:110px"><a href="SC011010.html">2.1.図面番号からの設通番号検索・出力</a></li>
+<li style="padding-left:110px"><a href="SC011020.html">2.2.部品番号からの設通番号検索・出力</a></li>
+<li style="padding-left:110px"><a href="SC011030.html">2.3.設通番号からの図面番号検索・出力</a></li>
+<li style="padding-left:110px"><a href="SC011040.html">2.4.設通番号からのタイトル品番＆集合品番＆構成品番検索・出力</a></li>
+<li style="padding-left:110px"><a href="SC011050.html">2.5.集合品番からの図面番号検索</a></li>
+<li style="padding-left:110px"><a href="SC011060.html">2.6.図面番号からの集合品番＆構成品番検索</a></li>
+<li style="padding-left:110px"><a href="SC011070.html">2.7.部品表正展開</a></li>
+<li style="padding-left:110px"><a href="SC011080.html">2.8.部品表逆展開</a></li>
+<li style="padding-left:110px"><a href="SC011100.html">2.9.部品表差分確認</a></li>
+<li style="padding-left:110px"><a href="SC011280.html">2.10.類似部品検索兼品目ID紐付き部品一覧</a></li>
+<li style="padding-left:110px"><a href="SC009010.html">2.11.ブロック検索・登録</a></li>
+<li style="padding-left:110px"><a href="SC009020.html">2.12.車種ブロック検索・登録</a></li>
+<li style="padding-left:110px"><a href="SC009030.html">2.13.開発符号検索・登録</a></li>
+<li style="padding-left:110px"><a href="SC009040.html">2.14.親イベント検索・登録　</a></li>
+<li style="padding-left:110px"><a href="SC009060.html">2.15.設審場所検索・登録</a></li>
+<li style="padding-left:110px"><a href="SC009070.html">2.16.ユーザー検索・登録</a></li>
+<li style="padding-left:110px"><a href="SC009080.html">2.17.生産拠点検索・登録</a></li>
+<li style="padding-left:110px"><a href="SC009090.html">2.18.仕向地検索・登録</a></li>
+<li style="padding-left:110px"><a href="SC009100.html">2.19.工順マスター検索・登録</a></li>
+<li style="padding-left:110px"><a href="SC009110.html">2.20.工順新旧対応検索・登録</a></li>
+</ul>
+</div>
+
+<div id="main3" class="main" style="padding-left:60px">[<label id="label03" onClick="disLabel('label03');" style='text-decoration:underline;width:50pt'>+</label>]&nbsp;&nbsp;&nbsp;3.&nbsp;図面管理</div>
+<div id="child3" style="display:none" class="child">
+<ul>
+<li style="padding-left:110px"><a href="SC002010.html">3.1.図面配布・受領実績</a></li>
+<li style="padding-left:110px"><a href="SC002020.html">3.2.マレーシア配布実績入力</a></li>
+<li style="padding-left:110px"><a href="SC002030.html">3.3.未出図・SIA未送付確認対象指定</a></li>
+<li style="padding-left:110px"><a href="SC002040.html">3.4.SIA未送付図面検索</a></li>
+<li style="padding-left:110px"><a href="SC002050.html">3.5.未出図検索</a></li>
+<li style="padding-left:110px"><a href="SC002060.html">3.6.品目ID・図面状況検索</a></li>
+</ul>
+</div>
+
+<div id="main4" class="main" style="padding-left:60px">[<label id="label04" onClick="disLabel('label04');" style='text-decoration:underline;width:50pt'>+</label>]&nbsp;&nbsp;&nbsp;4.&nbsp;設変管理</div>
+<div id="child4" style="display:none" class="child">
+<ul>
+<li style="padding-left:110px"><a href="SC003010.html">4.1.設通検索一覧</a></li>
+<li style="padding-left:110px"><a href="SC003040.html">4.2.設審対象設通一覧</a></li>
+<li style="padding-left:110px"><a href="SC003060.html">4.3.設通発行日登録</a></li>
+<li style="padding-left:110px"><a href="SC003070.html">4.4.担当作業進捗</a></li>
+</ul>
+</div>
+
+<div id="main5" class="main" style="padding-left:60px">[<label id="label05" onClick="disLabel('label05');" style='text-decoration:underline;width:50pt'>+</label>]&nbsp;&nbsp;&nbsp;5.&nbsp;工場部品表作成</div>
+<div id="child5" style="display:none" class="child">
+<ul>
+<li style="padding-left:110px"><a href="SC004100.html">5.1.工場諸元検索（部品番号）</a></li>
+<li style="padding-left:110px"><a href="SC004090.html">5.2.工場諸元検索（開発符号・ブロック）</a></li>
+</ul>
+</div>
+
+<div id="main6" class="main" style="padding-left:60px">[<label id="label06" onClick="disLabel('label06');" style='text-decoration:underline;width:50pt'>+</label>]&nbsp;&nbsp;&nbsp;6.&nbsp;設通進捗</div>
+<div id="child6" style="display:none" class="child">
+<ul>
+<li style="padding-left:110px"><a href="SC005001.html">6.1.設通ステータス別件数表示</a></li>
+<li style="padding-left:110px"><a href="SC005002.html">6.2.設通実施時期検索</a></li>
+</ul>
+</div>
+
+<div id="main7" class="main" style="padding-left:60px">[<label id="label07" onClick="disLabel('label07');" style='text-decoration:underline;width:50pt'>+</label>]&nbsp;&nbsp;&nbsp;7.&nbsp;品目ID</div>
+<div id="child7" style="display:none" class="child">
+<ul>
+<li style="padding-left:110px"><a href="SC006001.html">7.1.新シリーズ用品目ID初期設定</a></li>
+<li style="padding-left:110px"><a href="SC006002.html">7.2.発注先選定情報取込み</a></li>
+<li style="padding-left:110px"><a href="SC006003.html">7.3.発注先選定情報取込み結果確認</a></li>
+<li style="padding-left:110px"><a href="SC006004.html">7.4.車種－品目ID関連付け編集</a></li>
+<li style="padding-left:110px"><a href="SC006007.html">7.5.品目ID辞書管理</a></li>
+</ul>
+</div>
+
+<div id="main8" class="main" style="padding-left:60px">[<label id="label08" onClick="disLabel('label08');" style='text-decoration:underline;width:50pt'>+</label>]&nbsp;&nbsp;&nbsp;8.&nbsp;イベント手配</div>
+<div id="child8" style="display:none" class="child">
+<ul>
+<li style="padding-left:110px"><a href="SC007001.html">8.1.イベント部品リスト取込</a></li>
+<li style="padding-left:110px"><a href="SC007002.html">8.2.イベント部品リスト展開対象車両選択</a></li>
+<li style="padding-left:110px"><a href="SC007003.html">8.3.イベント部品リスト編集</a></li>
+</ul>
+</div>
+
+<div id="main9" class="main" style="padding-left:60px">[<label id="label09" onClick="disLabel('label09');" style='text-decoration:underline;width:50pt'>+</label>]&nbsp;&nbsp;&nbsp;9.&nbsp;マスター管理</div>
+<div id="child9" style="display:none" class="child">
+&nbsp;
+</div>
+</p>
+
+</form>
+</body>

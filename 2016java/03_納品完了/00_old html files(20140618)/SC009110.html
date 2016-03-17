@@ -1,0 +1,560 @@
+﻿<!DOCtype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+
+<!--
+function checkH(obj,rownum,rowname){
+	if(rowname.checked){
+		document.getElementById("rowid1" + rownum).className = "sel";
+		document.getElementById("rowid2" + rownum).className = "sel";
+		checkInput(rownum,0);
+	}else{
+		document.getElementById("rowid1" + rownum).className = "notsel";
+        document.getElementById("rowid2" + rownum).className = "notsel";
+        checkInput(rownum,1);
+	}
+}
+
+function checkInput(rownum,enableFlg){
+	if(enableFlg == 0){
+		document.getElementById("S" + rownum + "01").disabled = false;
+		document.getElementById("S" + rownum + "02").disabled = false;
+		document.getElementById("S" + rownum + "03").disabled = false;
+		document.getElementById("S" + rownum + "04").disabled = false;
+		document.getElementById("S" + rownum + "05").disabled = false;
+		document.getElementById("S" + rownum + "06").disabled = false;
+		document.getElementById("S" + rownum + "07").disabled = false;
+		document.getElementById("S" + rownum + "08").disabled = false;
+		document.getElementById("S" + rownum + "09").disabled = false;
+		document.getElementById("S" + rownum + "10").disabled = false;
+		document.getElementById("S" + rownum + "11").disabled = false;
+		document.getElementById("S" + rownum + "12").disabled = false;
+		document.getElementById("S" + rownum + "13").disabled = false;
+		document.getElementById("S" + rownum + "14").disabled = false;
+		document.getElementById("S" + rownum + "15").disabled = false;
+	}else if(enableFlg == 1){
+		document.getElementById("S" + rownum + "01").disabled = true;
+		document.getElementById("S" + rownum + "02").disabled = true;
+		document.getElementById("S" + rownum + "03").disabled = true;
+		document.getElementById("S" + rownum + "04").disabled = true;
+		document.getElementById("S" + rownum + "05").disabled = true;
+		document.getElementById("S" + rownum + "06").disabled = true;
+		document.getElementById("S" + rownum + "07").disabled = true;
+		document.getElementById("S" + rownum + "08").disabled = true;
+		document.getElementById("S" + rownum + "09").disabled = true;
+		document.getElementById("S" + rownum + "10").disabled = true;
+		document.getElementById("S" + rownum + "11").disabled = true;
+		document.getElementById("S" + rownum + "12").disabled = true;
+		document.getElementById("S" + rownum + "13").disabled = true;
+		document.getElementById("S" + rownum + "14").disabled = true;
+		document.getElementById("S" + rownum + "15").disabled = true;
+	}
+}
+
+
+
+function sync_scroll(obj)
+{
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+    var strIdTop = obj.id+"_FIX";
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+    var intScrlTop = obj.scrollTop;
+
+    /*同一IDのオブジェクト取得*/
+    fix=document.getElementById(strIdTop);
+    //スクロール位置の設定
+    fix.scrollTop=intScrlTop;
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+}
+
+function keydown()
+{
+if(event.keyCode >= 112 && event.keyCode <= 123){
+	event.keyCode = 0;
+	return false;
+	}
+	}
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+-->
+</script>
+<script language="javascript">
+<!--
+	//ウインドウサイズの変更
+	function changesize(){
+	window.resizeTo(1280,720);//サイズの指定
+	}
+	window.onload = changesize;//ページの読み込み時に関数を呼び出す
+	window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+//-->
+</script>
+<title>[SC009110]工順新旧対応検索・登録</title>
+</head>
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td height="20" colspan="2">[SC009110]工順新旧対応検索・登録</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td ALIGN="RIGHT"><input type="submit" value="メニューへ" STYLE="WIDth:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td ALIGN="RIGHT"><input type="submit" value="メニューへ" STYLE="WIDth:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+
+<form id="SC009110" name="MainForm">
+<p>
+<b>工順新旧対応検索・登録</b>
+</p>
+<table width="370px" >
+	<tr>
+		<td width="290px">
+			<table width="380px" >
+				<tr>
+					<td width="370px">
+						<table width="360px" style="border-style:dashed; border-width:1px; border-color:#000000;">
+							<tr >
+								<td  height="40" width="130px" align="left">
+									&nbsp;&nbsp;&nbsp;&nbsp;FMC開発符号：
+								</td>
+								<td  height="40" width="130px" align="left">
+									<input type="text" value="xx" style="width:100px;"/>
+								</td>
+								<td align="left" width="60px">
+									<input type="button" value="検索" style="Width:40pt"/>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td align="left" width="60px">
+			<input type="button" value="確定" style="Width:40pt"/>
+		</td>
+	</tr>
+</table>
+<p>
+
+	<table width="1190px">
+		<tr>
+			<td width="1150px"></td><td width="40px">5 rec</td>
+		</tr>
+	</table>
+<div style="float:left; width:290px;" >
+  <table border="1" cellpadding="0" cellspacing="0" class="main_table" id="head_table" width="290px">
+    <thead>
+	  <tr style="background-color:white; font-weight: bold; background:#b0e0e6; text-align: left;" valign="top">
+		<th width="30px" align="left">No</th>
+		<th width="30px" align="left">編集</th>
+		<th width="30px" align="left">削除</th>
+		<th width="100px" align="left">FMC開発符号</th>
+		<th width="80px" align="left">対応連番</th>
+	  </tr>
+	</thead>
+  </table>
+</div>
+<div style="width:903px; float:left; overflow:hidden; text-align:center; border-style:none;" ID="SYNC_HEADER">
+  <table border="1" cellpadding="0" cellspacing="0" class="main_table" id="main_table" width="1700px">
+    <thead>
+	  <tr style="background-color:white; font-weight: bold; background:#b0e0e6; text-align: left;" valign="top">
+		<th width="120px" align="left">新消費工順</th>
+		<th width="100px" align="left">新発生工順</th>
+		<th width="120px" align="left">新ユニット区分</th>
+		<th width="100px" align="left">新供給コード</th>
+		<th width="100px" align="left">新加工区分</th>
+		<th width="140px" align="left">SEPICS消費工順</th>
+		<th width="160px" align="left">SEPICS受入支給工順</th>
+		<th width="140px" align="left">SEPICS発生工順</th>
+		<th width="160px" align="left" >SEPICSユニット区分</th>
+		<th width="140px" align="left">SEPICS供給コード</th>
+		<th width="140px" align="left" >SEPICS加工区分</th>
+		<th width="160px" align="left">備考コメント</th>
+	</tr>
+	</thead>
+  </table>
+</div>
+
+<div style="float:left; height:160px; width:290; overflow:hidden; border-style:none;" ID="SYNC_FIX">
+<table border="1" cellpadding="0" cellspacing="0" class="main_table" id="main_table" width="290px">
+	<tr id="rowid11">
+	  <td width="30px" >1</td>
+	  <td width="30px" ><input type="checkbox" id="checktail1" OnClick="return checkH(this,1,checktail1);"></td>
+	  <td width="30px" ><input type="checkbox" OnClick="" id="S101"></td>
+	  <td width="100px"><input type="text" value="XXXX" style="width:97px;" id="S102"/></td>
+	  <td width="80px"><input type="text" value="" style="width:78px;" id="S103"/></td>
+	</tr>
+	<tr id="rowid12">
+	  <td width="30px" >2</td>
+	  <td width="30px" ><input type="checkbox" id="checktail2" OnClick="return checkH(this,2,checktail2);"></td>
+	  <td width="30px" ><input type="checkbox" OnClick="" id="S201"></td>
+	  <td width="100px"><input type="text" value="XXXX" style="width:97px;" id="S202"/></td>
+	  <td width="80px"><input type="text" value="" style="width:78px;" id="S203"/></td>
+	</tr>
+	<tr id="rowid13">
+	  <td width="30px" >3</td>
+	  <td width="30px" ><input type="checkbox" id="checktail3" OnClick="return checkH(this,3,checktail3);"></td>
+	  <td width="30px" ><input type="checkbox" OnClick="" id="S301"></td>
+	  <td width="100px"><input type="text" value="XXXX" style="width:97px;" id="S302"/></td>
+	  <td width="80px"><input type="text" value="" style="width:78px;" id="S303"/></td>
+	</tr>
+	<tr id="rowid14">
+	  <td width="30px" >4</td>
+	  <td width="30px" ><input type="checkbox" id="checktail4" OnClick="return checkH(this,4,checktail4);"></td>
+	  <td width="30px" ><input type="checkbox" OnClick="" id="S401"></td>
+	  <td width="100px"><input type="text" value="XXXX" style="width:97px;" id="S402"/></td>
+	  <td width="80px"><input type="text" value="" style="width:78px;" id="S403"/></td>
+	</tr>
+	<tr id="rowid15">
+	  <td width="30px" >5</td>
+	  <td width="30px" ><input type="checkbox" id="checktail5" OnClick="return checkH(this,5,checktail5);"></td>
+	  <td width="30px" ><input type="checkbox" OnClick="" id="S501"></td>
+	  <td width="100px"><input type="text" value="XXXX" style="width:97px;" id="S502"/></td>
+	  <td width="80px"><input type="text" value="" style="width:78px;" id="S503"/></td>
+	</tr>
+	<tr id="rowid16">
+	  <td width="30px" >6</td>
+	  <td width="30px" ><input type="checkbox" id="checktail6" OnClick="return checkH(this,6,checktail6);"></td>
+	  <td width="30px" ><input type="checkbox" OnClick="" id="S601"></td>
+	  <td width="100px"><input type="text" value="XXXX" style="width:97px;" id="S602"/></td>
+	  <td width="80px"><input type="text" value="" style="width:78px;" id="S603"/></td>
+	</tr>
+	<tr id="rowid17">
+	  <td width="30px" >7</td>
+	  <td width="30px" ><input type="checkbox" id="checktail7" OnClick="return checkH(this,7,checktail7);"></td>
+	  <td width="30px" ><input type="checkbox" OnClick="" id="S701"></td>
+	  <td width="100px"><input type="text" value="XXXX" style="width:97px;" id="S702"/></td>
+	  <td width="80px"><input type="text" value="" style="width:78px;" id="S703"/></td>
+	</tr>
+	<tr id="rowid18">
+	  <td width="30px" >8</td>
+	  <td width="30px" ><input type="checkbox" id="checktail8" OnClick="return checkH(this,8,checktail8);"></td>
+	  <td width="30px" ><input type="checkbox" OnClick="" id="S801"></td>
+	  <td width="100px"><input type="text" value="XXXX" style="width:97px;" id="S802"/></td>
+	  <td width="80px"><input type="text" value="" style="width:78px;" id="S803"/></td>
+	</tr>
+
+	
+</table>	
+</div>
+<div style="width:920px; float:left; height:177px; overflow: scroll; text-align:left; border-style:none;" ID="SYNC" ONSCROLL="sync_scroll(this);">
+  <table border="1" cellpadding="0" cellspacing="0" class="main_table" id="main_table" width="1700px">
+	<tr id="rowid21">
+		<td width="120px" align="left"><input type="text" value="" style="width:122px;" id="S104"/></td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S105"/></td>
+		<td width="120px" align="left">
+			<select id="S106" style="width:127px;">
+			    <option value="1">新ユニット区分1</option>
+			    <option value="2">新ユニット区分2</option>
+			    <option value="3">新ユニット区分3</option>
+			</select>
+		</td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S107"/></td>
+		<td width="100px" align="left">
+			<select id="S108" style="width:107px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S109"/></td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S110"/></td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S111"/></td>
+		<td width="160px" align="left" >
+			<select id="S112" style="width:170px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S113"/></td>
+		<td width="140px" align="left" >
+			<select id="S114" id="S114" style="width:147px;">
+			    <option value="1">加工区分1</option>
+			    <option value="2">加工区分2</option>
+			    <option value="3">加工区分3</option>
+			</select>
+		</td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S115"/></td>
+	</tr>
+	<tr id="rowid22">
+		<td width="120px" align="left"><input type="text" value="" style="width:122px;" id="S204"/></td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S205"/></td>
+		<td width="120px" align="left">
+			<select id="S206" style="width:127px;">
+			    <option value="1">新ユニット区分1</option>
+			    <option value="2">新ユニット区分2</option>
+			    <option value="3">新ユニット区分3</option>
+			</select>
+		</td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S207"/></td>
+		<td width="100px" align="left">
+			<select id="S208" style="width:107px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S209"/></td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S210"/></td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S211"/></td>
+		<td width="160px" align="left" >
+			<select id="S212" style="width:170px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S213"/></td>
+		<td width="140px" align="left" >
+			<select id="S214"style="width:147px;">
+			    <option value="1">加工区分1</option>
+			    <option value="2">加工区分2</option>
+			    <option value="3">加工区分3</option>
+			</select>
+		</td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S215"/></td>
+	</tr>
+	<tr id="rowid23">
+		<td width="120px" align="left"><input type="text" value="" style="width:122px;" id="S304"/></td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S305"/></td>
+		<td width="120px" align="left">
+			<select id="S306" style="width:127px;">
+			    <option value="1">新ユニット区分1</option>
+			    <option value="2">新ユニット区分2</option>
+			    <option value="3">新ユニット区分3</option>
+			</select>
+		</td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S307"/></td>
+		<td width="100px" align="left">
+			<select id="S308" style="width:107px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S309"/></td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S310"/></td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S311"/></td>
+		<td width="160px" align="left" >
+			<select id="S312" style="width:170px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S313"/></td>
+		<td width="140px" align="left" >
+			<select id="S314" style="width:147px;">
+			    <option value="1">加工区分1</option>
+			    <option value="2">加工区分2</option>
+			    <option value="3">加工区分3</option>
+			</select>
+		</td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S315"/></td>
+	</tr>
+	<tr id="rowid24">
+		<td width="120px" align="left"><input type="text" value="" style="width:122px;" id="S404"/></td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S405"/></td>
+		<td width="120px" align="left">
+			<select id="S406" style="width:127px;">
+			    <option value="1">新ユニット区分1</option>
+			    <option value="2">新ユニット区分2</option>
+			    <option value="3">新ユニット区分3</option>
+			</select>
+		</td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S407"/></td>
+		<td width="100px" align="left">
+			<select id="S408" style="width:107px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S409"/></td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S410"/></td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S411"/></td>
+		<td width="160px" align="left" >
+			<select id="S412" style="width:170px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S413"/></td>
+		<td width="140px" align="left" >
+			<select id="S414" style="width:147px;">
+			    <option value="1">加工区分1</option>
+			    <option value="2">加工区分2</option>
+			    <option value="3">加工区分3</option>
+			</select>
+		</td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S415"/></td>
+	</tr>
+	<tr id="rowid25">
+		<td width="120px" align="left"><input type="text" value="" style="width:122px;" id="S504"/></td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S505"/></td>
+		<td width="120px" align="left">
+			<select id="S506" style="width:127px;">
+			    <option value="1">新ユニット区分1</option>
+			    <option value="2">新ユニット区分2</option>
+			    <option value="3">新ユニット区分3</option>
+			</select>
+		</td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S507"/></td>
+		<td width="100px" align="left">
+			<select id="S508" style="width:107px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S509"/></td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S510"/></td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S511"/></td>
+		<td width="160px" align="left" >
+			<select id="S512" style="width:170px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S513"/></td>
+		<td width="140px" align="left" >
+			<select id="S514" style="width:147px;">
+			    <option value="1">加工区分1</option>
+			    <option value="2">加工区分2</option>
+			    <option value="3">加工区分3</option>
+			</select>
+		</td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S515"/></td>
+	</tr>
+	<tr id="rowid26">
+		<td width="120px" align="left"><input type="text" value="" style="width:122px;" id="S604"/></td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S605"/></td>
+		<td width="120px" align="left">
+			<select id="S606" style="width:127px;">
+			    <option value="1">新ユニット区分1</option>
+			    <option value="2">新ユニット区分2</option>
+			    <option value="3">新ユニット区分3</option>
+			</select>
+		</td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S607"/></td>
+		<td width="100px" align="left">
+			<select id="S608" style="width:107px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S609"/></td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S610"/></td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S611"/></td>
+		<td width="160px" align="left" >
+			<select id="S612" style="width:170px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S613"/></td>
+		<td width="140px" align="left" >
+			<select id="S614" style="width:147px;">
+			    <option value="1">加工区分1</option>
+			    <option value="2">加工区分2</option>
+			    <option value="3">加工区分3</option>
+			</select>
+		</td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S615"/></td>
+	</tr>
+	<tr id="rowid27">
+		<td width="120px" align="left"><input type="text" value="" style="width:122px;" id="S704"/></td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S705"/></td>
+		<td width="120px" align="left">
+			<select id="S706" style="width:127px;">
+			    <option value="1">新ユニット区分1</option>
+			    <option value="2">新ユニット区分2</option>
+			    <option value="3">新ユニット区分3</option>
+			</select>
+		</td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S707"/></td>
+		<td width="100px" align="left">
+			<select id="S708" style="width:107px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S709"/></td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S710"/></td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S711"/></td>
+		<td width="160px" align="left" >
+			<select id="S712" style="width:170px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S713"/></td>
+		<td width="140px" align="left" >
+			<select id="S714" style="width:147px;">
+			    <option value="1">加工区分1</option>
+			    <option value="2">加工区分2</option>
+			    <option value="3">加工区分3</option>
+			</select>
+		</td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S715"/></td>
+	</tr>
+	<tr id="rowid28">
+		<td width="120px" align="left"><input type="text" value="" style="width:122px;" id="S804"/></td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S805"/></td>
+		<td width="120px" align="left">
+			<select id="S806" style="width:127px;">
+			    <option value="1">新ユニット区分1</option>
+			    <option value="2">新ユニット区分2</option>
+			    <option value="3">新ユニット区分3</option>
+			</select>
+		</td>
+		<td width="100px" align="left"><input type="text" value="" style="width:102px;" id="S807"/></td>
+		<td width="100px" align="left">
+			<select id="S808" style="width:107px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S809"/></td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S810"/></td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S811"/></td>
+		<td width="160px" align="left" >
+			<select id="S812" style="width:170px;">
+			    <option value="1">新加工区分1</option>
+			    <option value="2">新加工区分2</option>
+			    <option value="3">新加工区分3</option>
+			</select>
+		</td>
+		<td width="140px" align="left"><input type="text" value="" style="width:142px;" id="S813"/></td>
+		<td width="140px" align="left" >
+			<select id="S814" style="width:147px;">
+			    <option value="1">加工区分1</option>
+			    <option value="2">加工区分2</option>
+			    <option value="3">加工区分3</option>
+			</select>
+		</td>
+		<td width="160px" align="left"><input type="text" value="" style="width:162px;" id="S815"/></td>
+	</tr>
+	
+  </table>
+</div>
+
+</p>
+</form>
+</body>
+</html>

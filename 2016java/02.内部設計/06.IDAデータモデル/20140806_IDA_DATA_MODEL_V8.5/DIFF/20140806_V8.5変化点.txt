@@ -1,0 +1,27 @@
+
+Å°TB007002
+01001 L|        "REV_NOTIFY_NO" CHAR(3) NOT NULL,         ||01001 R|        "REV_NOTIFY_NO" CHAR(2) NOT NULL,         
+01002 L|        "COL_NO" INTEGER NOT NULL,                ||01002 R|        "COL_NO" SMALLINT NOT NULL,               
+
+Å°TB007005
+01083 L|        "SHEET_CODE" CHAR(4) NOT NULL,            ||01083 R|        "SHEET_CODE" CHAR(5) NOT NULL,            
+01087 L|        "REV_NOTIFY_NO" CHAR(3) NOT NULL,         ||01087 R|        "REV_NOTIFY_NO" CHAR(2) NOT NULL,         
+01095 L|        "REV_NO" CHAR(3) NOT NULL,                ||01095 R|        "REV_NO" CHAR(2) NOT NULL,                
+01103 L|        "CAL_CODE" CHAR(2) NOT NULL,              ||01103 R|        "CAL_CODE" CHAR(1) NOT NULL,              
+01104 L|        "SIA_CAL_CODE" CHAR(2) NOT NULL,          ||01104 R|        "SIA_CAL_CODE" CHAR(1) NOT NULL,          
+01105 L|        "CKD_CLASS" CHAR(2) NOT NULL,             ||01105 R|        "CKD_CLASS" CHAR(1) NOT NULL,             
+01109 L|        "REMARKS" VARCHAR(1000) NOT NULL,         ||01109 R|        "REMARKS" VARCHAR(200) NOT NULL,          
+01110 L|        "REV_REMARKS" VARCHAR(1000) NOT NULL,     ||01110 R|        "REV_REMARKS" VARCHAR(200) NOT NULL,      
+
+Å°TB007006
+01130 L|        "SHEET_CODE" CHAR(4) NOT NULL,            ||01130 R|        "SHEET_CODE" CHAR(5) NOT NULL,            
+01134 L|        "REV_NOTIFY_NO" CHAR(3) NOT NULL,         ||01134 R|        "REV_NOTIFY_NO" CHAR(2) NOT NULL,         
+01136 L|        "QUANTITY" INTEGER NOT NULL,              ||01136 R|        "QUANTITY" SMALLINT NOT NULL,             
+
+Å°TB007008
+01175 L|        "REV_NOTIFY_NO" CHAR(3) NOT NULL,         ||01175 R|        "REV_NOTIFY_NO" CHAR(2) NOT NULL,         
+01192 L|        "CKD_CLASS" CHAR(2) NOT NULL,             ||01192 R|        "CKD_CLASS" CHAR(1) NOT NULL,             
+
+Å°TB007011
+01257 L|        "UPDATED_TIMESTAMP" TIMESTAMP NOT NULL    ||01257 R|        "UPDATED_TIMESTAMP" TIMESTAMP NOT NULL,   
+

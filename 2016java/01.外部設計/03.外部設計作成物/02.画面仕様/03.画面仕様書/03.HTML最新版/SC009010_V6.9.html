@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" />
+  <script type="text/javascript" charset="utf-8">
+
+<!--
+  function checkH(obj,rownum){
+    document.getElementById("rowid" + rownum).className = "sel";
+
+    var falg = (obj.checked)?false:true;
+    if (falg) {
+      document.getElementById("rowid" + rownum).className = "notsel";
+    } else {
+      document.getElementById("rowid" + rownum).className = "sel";
+    }
+
+    for(i = 1; i <= 8; i++) {
+      document.getElementById("input"+rownum+i).disabled = falg;
+    }
+  }
+
+  function keydown(){
+    if(event.keycode >= 112 && event.keycode <= 123){ 
+      event.keycode = 0;
+      return false;
+    }
+  }
+
+  function sync_scroll(obj) {
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+  }
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+  //ウインドウサイズの変更
+  function changesize(){
+    window.resizeTo(1280,720);//サイズの指定
+  }
+  window.onload = changesize;//ページの読み込み時に関数を呼び出す
+  window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+-->
+
+  </script>
+  <title>[SC009010]ブロック検索・登録</title>
+</head>
+
+<!--bodyのオプションにoncontextmenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+  <table border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tr style="background-color: blue;color: white; font-size: 12pt">
+      <td height="20" colspan="2">[SC009010]ブロック検索・登録</td>
+    </tr>
+<!--  <tr style="background-color: #cfcfcf;color: #0000ff; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="right"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009c;color: #fede20" /></td></tr>-->
+    <tr style="background-color: #ffffff;color: #ff0000; font-size: 13.5pt">
+      <td height="20">システムメッセージを表示します。</td>
+      <td align="right">
+        <input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009c;color: #fede20" />
+      </td>
+    </tr>
+</table>
+
+<form id="SC009010" name="MainForm">
+<p>
+<b>ブロック検索・登録</b>
+</p>
+
+<p>
+  <table border="0" style="width: 1220px;">
+    <tr>
+      <td width="450px">
+        <table width="450px" style="border-style:dashed; border-width:1px; border-color:#000000;" cellpadding="0" cellspacing="10" align="left">
+          <tr>
+            <td width="90px">ブロック№：</td>
+            <td colspan="2" width="120px" align="center"><input type="text" value="xxxx" style="width: 100px;"/>(F*)</td>
+            <td width="150px"><input type="button" value="検索" style="width:60pt;"/></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="typeSel" checked/>BODY</td>
+            <td width="90px"><input type="radio" name="typeSel"/>UNIT</td>
+            <td width="90px"><input type="radio" name="typeSel"/>全て</td>
+            <td><input type="submit" value="CSVダウンロード" style="width:100pt;"/></td>
+          </tr>
+        </table>
+      </td>
+      <td valign="top" width="90px">
+        <table width="90px" border="0" cellpadding="0" cellspacing="10" align="left">
+          <tr><td><input type="submit" value="確定" style="width:80pt;"/></td></tr>
+        </table>
+      </td>
+      <td width="2000px"><br/></td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        <table border="0" width="1200px" cellpadding="0" cellspacing="0" class="main_table" align="left">
+          <tr>
+            <td align="right">5 rec</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        <table border="1" width="1200px" cellpadding="0" cellspacing="0" class="main_table" align="left">
+          <thead>
+            <tr>
+              <th width="20px" align="left">No</th>
+              <th width="30px" align="left">編集</th>
+              <th width="30px" align="left">削除</th>
+              <th width="100px" align="left">ブロック№</th>
+              <th width="200px" align="left">ブロック名称</th>
+              <th width="80px" align="left">機能</th>
+              <th width="110px" align="left">BODY/UNIT区分</th>
+              <th width="120px" align="left">ユーザーID</th>
+              <th width="120px" align="left">前任ユーザーID</th>
+              <th width="150px" align="left">担当切り替わり年月日</th>
+              <th width="180px" align="left">備考コメント</th>
+              <th width="50px" align="left">廃止</th>
+            </tr>
+          </thead>
+        </table>
+        <div style=" overflow-x: hidden; overflow-y: scroll; width: 1220px; height: 252px; border-style: none;">
+          <table border="1" width="450px" cellpadding="0" cellspacing="0" class="main_table">
+            <tr id="rowid1" class="sel">
+              <td width="20px">1</td>
+              <td width="30px"><input type="checkbox" onClick="return checkH(this, 1);" checked/></td>
+              <td width="30px"><input type="checkbox" id="input11" checked/></td>
+              <td width="100px"><input type="text" id="input12" style="width:94px;" value="MA1"/></td>
+              <td width="200px"><input type="text" id="input13" style="width:194px;" value="開発車名称１"/></td>
+              <td width="80px"><input type="text" id="input14" style="width:74px;" value=""/></td>
+              <td width="110px">
+                <select style="width:108px;" id="input15">
+                  <option value=""></option>
+                  <option value="BODY" selected>BODY</option>
+                  <option value="UNIT">UNIT</option>
+                </select>
+              </td>
+              <td width="120px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="選択" style="width:46px;" disabled/></td>
+              <td width="120px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="選択" style="width:46px;" disabled/></td>
+              <td width="150px"><input type="text" id="input16" style="width:144px;" value="5/5/2014"/></td>
+              <td width="180px"><input type="text" id="input17" style="width:174px;" value=""/></td>
+              <td width="50px"><input type="text" id="input18" style="width:44px;" value=""/></td>
+            </tr>
+            <tr id="rowid2" class="sel">
+              <td>2</td>
+              <td><input type="checkbox" onClick="return checkH(this, 2);" checked/></td>
+              <td><input type="checkbox" id="input21"/></td>
+              <td><input type="text" id="input22" style="width:94px;" value="MB2"/></td>
+              <td><input type="text" id="input23" style="width:194px;" value="開発車名称２"/></td>
+              <td><input type="text" id="input24" style="width:74px;" value=""/></td>
+              <td>
+                <select style="width:108px;" id="input25">
+                  <option value=""></option>
+                  <option value="BODY">BODY</option>
+                  <option value="UNIT" selected>UNIT</option>
+                </select>
+              </td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="選択" style="width:46px;" disabled/></td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="選択" style="width:46px;" disabled/></td>
+              <td><input type="text" id="input26" style="width:144px;" value=""/></td>
+              <td><input type="text" id="input27" style="width:174px;" value=""/></td>
+              <td><input type="text" id="input28" style="width:44px;" value=""/></td>
+            </tr>
+            <tr id="rowid3">
+              <td>3</td>
+              <td><input type="checkbox" onClick="return checkH(this, 3);"/></td>
+              <td><input type="checkbox" id="input31" disabled/></td>
+              <td><input type="text" id="input32" style="width:94px;" value="MC3" disabled/></td>
+              <td><input type="text" id="input33" style="width:194px;" value="開発車名称３" disabled/></td>
+              <td><input type="text" id="input34" style="width:74px;" value="" disabled/></td>
+              <td>
+                <select style="width:108px;" id="input35" disabled>
+                  <option value=""></option>
+                  <option value="BODY" selected>BODY</option>
+                  <option value="UNIT">UNIT</option>
+                </select>
+              </td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="選択" style="width:46px;" disabled/></td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="選択" style="width:46px;" disabled/></td>
+              <td><input type="text" id="input36" style="width:144px;" value="" disabled/></td>
+              <td><input type="text" id="input37" style="width:174px;" value="" disabled/></td>
+              <td><input type="text" id="input38" style="width:44px;" value="" disabled/></td>
+            </tr>
+            <tr id="rowid4">
+              <td>4</td>
+              <td style="background-color: #999999;"><input type="checkbox" disabled/></td>
+              <td style="background-color: #999999;"><input type="checkbox" disabled/></td>
+              <td style="background-color: #999999;"><input type="text" style="width:94px; background-color: #999999;" value="MD4" disabled/></td>
+              <td style="background-color: #999999;"><input type="text" style="width:194px; background-color: #999999;" value="開発車名称４" disabled/></td>
+              <td style="background-color: #999999;"><input type="text" style="width:74px; background-color: #999999;" value="" disabled/></td>
+              <td style="background-color: #999999;">
+                <select style="width:108px; background-color: #999999;" disabled>
+                  <option value=""></option>
+                  <option value="BODY" selected>BODY</option>
+                  <option value="UNIT">UNIT</option>
+                </select>
+              </td>
+              <td style="background-color: #999999;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="選択" style="width:46px;" disabled/></td>
+              <td style="background-color: #999999;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="選択" style="width:46px;" disabled/></td>
+              <td style="background-color: #999999;"><input type="text" style="width:144px; background-color: #999999;" value="" disabled/></td>
+              <td style="background-color: #999999;"><input type="text" style="width:174px; background-color: #999999;" value="" disabled/></td>
+              <td style="background-color: #999999;"><input type="text" style="width:44px; background-color: #999999;" value="廃止" disabled/></td>
+            </tr>
+            <tr id="rowid5" class="sel">
+              <td>5</td>
+              <td><input type="checkbox" onClick="return checkH(this, 5);" checked/></td>
+              <td><input type="checkbox" id="input51"/></td>
+              <td><input type="text" id="input52" style="width:94px;" value=""/></td>
+              <td><input type="text" id="input53" style="width:194px;" value=""/></td>
+              <td><input type="text" id="input54" style="width:74px;" value=""/></td>
+              <td>
+                <select style="width:108px;" id="input55">
+                  <option value="" selected></option>
+                  <option value="BODY">BODY</option>
+                  <option value="UNIT">UNIT</option>
+                </select>
+              </td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="選択" style="width:46px;" disabled/></td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="選択" style="width:46px;" disabled/></td>
+              <td><input type="text" id="input56" style="width:144px;" value=""/></td>
+              <td><input type="text" id="input57" style="width:174px;" value=""/></td>
+              <td><input type="text" id="input58" style="width:44px;" value=""/></td>
+            </tr>
+            <tr>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+</p>
+
+</form>
+</body>
+</html>

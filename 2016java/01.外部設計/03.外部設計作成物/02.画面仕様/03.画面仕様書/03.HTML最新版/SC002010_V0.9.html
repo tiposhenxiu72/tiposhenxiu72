@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" />
+  <script type="text/javascript" charset="utf-8">
+
+<!--
+  function keydown(){
+    if(event.keycode >= 112 && event.keycode <= 123){ 
+      event.keycode = 0;
+      return false;
+    }
+  }
+
+  function sync_scroll(obj) {
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+    var strIdTop = obj.id+"_FIX";
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+    var intScrlTop = obj.scrollTop;
+
+    /*同一IDのオブジェクト取得*/
+    fix=document.getElementById(strIdTop);
+    //スクロール位置の設定
+    fix.scrollTop=intScrlTop;
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+  }
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+  //ウインドウサイズの変更
+  function changesize(){
+    window.resizeTo(1280,720);//サイズの指定
+  }
+  window.onload = changesize;//ページの読み込み時に関数を呼び出す
+  window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+-->
+
+  </script>
+  <title>[SC002010]図面配布・受領実績</title>
+</head>
+
+<!--bodyのオプションにoncontextmenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+  <table border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tr style="background-color: blue;color: white; font-size: 12pt">
+      <td height="20" colspan="2">[SC002010]図面配布・受領実績</td>
+    </tr>
+<!--  <tr style="background-color: #cfcfcf;color: #0000ff; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="right"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009c;color: #fede20" /></td></tr>-->
+    <tr style="background-color: #ffffff;color: #ff0000; font-size: 13.5pt">
+      <td height="20">システムメッセージを表示します。</td>
+      <td align="right">
+        <input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009c;color: #fede20" />
+      </td>
+    </tr>
+</table>
+
+<form id="SC002010" name="MainForm">
+<p>
+<b>図面配布・受領実績</b>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;※FHI社内への配布・受領実績はNeedsfileを参照してください
+</p>
+
+<p>
+  <table border="0" style="width: 1220px;">
+    <tr>
+      <td width="1220px">
+        <table width="100%" style="border-style:dashed; border-width:1px; border-color:#000000;">
+          <tr><td colspan="10"><br/></td></tr>
+          <tr>
+            <td width="15px"><br/></td>
+            <td width="95px">図面シリーズ：</td>
+            <td width="100px">
+              <select style="width:65px;">
+                <option value="HR3"selected>HR3</option>
+                <option value="BF4">BF4</option>
+              </select>
+            </td>
+            <td width="100px">図面番号：</td>
+            <td width="180px"><input type="text" style="width:120px" value="12345AA12345##"/>(F*)</td>
+            <td width="120px">製管受領日：</td>
+            <td width="100px"></td>
+            <td width="250px"><input type="text" style="width:75px" value="yyyy/mm/dd"/>～<input type="text" style="width:75px" value="yyyy/mm/dd"/></td>
+            <td width="120px"><input type="submit" value="検索" style="width:90pt;"/></td>
+            <td width="15px"><br/></td>
+          </tr>
+          <tr>
+            <td><br/></td>
+            <td>設通シリーズ：</td>
+            <td>
+              <select style="width:65px;">
+                <option value="HR3">HR3</option>
+                <option value="BF4"selected>BF4</option>
+              </select>
+            </td>
+            <td>設通一連№：</td>
+            <td><input type="text" style="width:120px" value="A1234"/>(F*)</td>
+            <td>取引先配布承認日：</td>
+            <td></td>
+            <td><input type="text" style="width:75px" value="yyyy/mm/dd"/>～<input type="text" style="width:75px" value="yyyy/mm/dd"/></td>
+            <td><input type="submit"  value="CSVダウンロード" style="width:90pt;"/></td>
+            <td><br/></td>
+          </tr>
+          <tr>
+            <td><br/></td>
+            <td>機密区分：</td>
+            <td>
+              <select style="width:65px;">
+                <option value="J">J</option>
+                <option value="W" selected>W</option>
+                <option value="X">X</option>
+              </select>
+            </td>
+            <td></td>
+            <td></td>
+            <td>SIA配布：</td>
+            <td>
+              <select style="width:90px;">
+                <option value="正規配布日" selected>正規配布日</option>
+                <option value="技管連絡日">技管連絡日</option>
+                <option value="和文送付日">和文送付日</option>
+              </select>
+            </td>
+            <td><input type="text" style="width:75px" value="yyyy/mm/dd"/>～<input type="text" style="width:75px" value="yyyy/mm/dd"/></td>
+            <td></td>
+            <td><br/></td>
+          </tr>
+          <tr>
+            <td><br/></td>
+            <td colspan="4">
+              <input type="checkbox"/>最新図面改訂のみ
+            </td>
+            <td>マレーシア配布：</td>
+            <td>
+              <select style="width:90px;">
+                <option value="配布日" selected>配布日</option>
+                <option value="受領日">受領日</option>
+              </select>
+            </td>
+            <td><input type="text" style="width:75px" value="yyyy/mm/dd"/>～<input type="text" style="width:75px" value="yyyy/mm/dd"/></td>
+            <td><input type="submit" value="検索条件クリア" style="width:90pt;"/></td>
+            <td><br/></td>
+          </tr>
+          <tr><td colspan="10"><br/></td></tr>
+        </table>
+      </td>
+    </tr>
+    <tr><td align="right"><div style="float: left; overflow: hidden; width: 1180px; border-style:none;">検索結果件数 ： 4</div></td></tr>
+    <tr>
+      <td>
+        <div style="float: left; border-style: none;" id="table_top">
+          <table border="1" cellpadding="0" cellspacing="0" class="main_table">
+            <thead>
+              <tr>
+                <th align="center" width="120px" style="border-bottom: 2px solid #b0e0e6;">タイトル</th>
+                <th align="center" width="40px" style="border-bottom: 2px solid #b0e0e6;">図面</th>
+              </tr>
+              <tr>
+                <th align="center">図面番号</th>
+                <th align="center">改訂</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div style="float: left; overflow: hidden; border-style:none; width: 1030px;" id="table_HEADER">
+          <table width="100%" cellpadding="0" cellspacing="0" border="1" class="main_table">
+            <thead>
+              <tr>
+                <th width="90px" rowspan="2">図面<br/>シリーズ</th>
+                <th width="40px" rowspan="2">機密<br/>区分</th>
+                <th width="100px" rowspan="2">図面名称<br/><br/></th>
+                <th width="100px" rowspan="2">ブロッ<br/>クNo</th>
+                <th width="100px" rowspan="2">設通№<br/><br/></th>
+                <th width="100px" rowspan="2">代表設通№<br/><br/></th>
+                <th width="100px" rowspan="2">製管受領日<br/><br/></th>
+                <th width="240px" colspan="3">取引先配布</th>
+                <th width="320px" colspan="4">SIA配布</th>
+                <th width="160px" colspan="2">マレーシア配布</th>
+              </tr>
+              <tr>
+                <th width="80px">配布承認日</th>
+                <th width="80px">取引先</th>
+                <th width="80px">分類</th>
+                <th width="80px">配布要否</th>
+                <th width="80px">正規配布日</th>
+                <th width="80px">技管連絡日</th>
+                <th width="80px">和文送付日</th>
+                <th width="80px">配布日</th>
+                <th width="80px">受領日</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div style="overflow: hidden; float: left; border-style:none; height: 148px;" border="1" id="table_FIX">
+          <table width="100%" cellpadding="0" cellspacing="0" border="1" class="main_table">
+            <tr valign="top" height="84">
+              <td width="120px">10000XX001##</td>
+              <td width="40px">00</td>
+            </tr>
+            <tr valign="top" height="42">
+              <td>10000XX001##</td>
+              <td>01</td>
+            </tr>
+            <tr valign="top" height="21">
+              <td>10000XX001##</td>
+              <td>01</td>
+            </tr>
+            <tr valign="top" height="41">
+              <td>10000XX001##</td>
+              <td>03</td>
+            </tr>
+          </table>
+        </div>
+        <div style="float: left; overflow-x: scroll; overflow-y: scroll; width: 1047px; height: 165px; border-style:none;" id="table" onScroll="sync_scroll(this);">
+          <table  width="100%" border="1" cellpadding="0" cellspacing="0" class="main_table">
+            <tr valign="top">
+              <td width="90px" rowspan="4">HR3</td>
+              <td width="40px" rowspan="4">J</td>
+              <td width="100px" rowspan="4">xxxxxxxxxxxx</td>
+              <td width="100px" rowspan="4">200A</td>
+              <td width="100px" rowspan="4">HR3  -A0001</td>
+              <td width="100px" rowspan="4">BF4  -A0001</td>
+              <td width="100px" rowspan="4">2015/05/10</td>
+              <td width="80px">2015/05/10</td>
+              <td width="80px">0010</td>
+              <td width="79px">発注</td>
+              <td width="79px" rowspan="4">不要</td>
+              <td width="79px" rowspan="4"><br/></td>
+              <td width="79px" rowspan="4"><br/></td>
+              <td width="79px" rowspan="4"><br/></td>
+              <td width="79px" rowspan="4"><br/></td>
+              <td width="79px" rowspan="4"><br/></td>
+            </tr>
+            <tr>
+              <td>2015/05/10</td>
+              <td>0011</td>
+              <td>支給</td>
+            </tr>
+            <tr>
+              <td>2015/05/10</td>
+              <td>0012</td>
+              <td>参考</td>
+            </tr>
+            <tr>
+              <td>2015/05/10</td>
+              <td>0013</td>
+              <td>参考</td>
+            </tr>
+            <tr valign="top">
+              <td rowspan="2">HR3</td>
+              <td rowspan="2">X</td>
+              <td rowspan="2">xxxxxxx</td>
+              <td rowspan="2">200A</td>
+              <td rowspan="2">HR3  -A0002</td>
+              <td rowspan="2">BF4  -A0002</td>
+              <td rowspan="2">2015/05/20</td>
+              <td >2015/05/20</td>
+              <td >0020</td>
+              <td >発注</td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2">2015/05/28</td>
+              <td rowspan="2">2015/05/30</td>
+            </tr>
+            <tr>
+              <td>2015/05/20</td>
+              <td>0021</td>
+              <td>支給</td>
+            </tr>
+            <tr valign="top">
+              <td>BF4</td>
+              <td>J</td>
+              <td>xxxxxxxxxxxxxx</td>
+              <td>200A</td>
+              <td>BF4  -A0002</td>
+              <td>BF4  -A0002</td>
+              <td>2013/03/01</td>
+              <td >2013/03/02</td>
+              <td >0020</td>
+              <td >発注</td>
+              <td>要</td>
+              <td><br/></td>
+              <td>2015/04/15</td>
+              <td>2015/04/15</td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr valign="top">
+              <td>BF4</td>
+              <td>W</td>
+              <td>xxxxxxxxxxxxxx</td>
+              <td>200A</td>
+              <td>HR3  -A0005</td>
+              <td>HR3  -A0005<br/>BF4  -A0006</td>
+              <td>2015/04/21</td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td>要</td>
+              <td>2015/04/21</td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+</p>
+
+</form>
+</body>
+</html>

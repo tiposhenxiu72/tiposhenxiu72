@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+
+<!--
+function checkH(obj,rownum){
+    
+    document.getElementById("rowid" + rownum).className = "sel";
+    var tableList=document.getElementById("main_table1");
+    var rowsCount=tableList.rows.length; 
+    
+    for (var i=1; i<=rowsCount; i=i+1){
+        
+	if(i != rownum){
+	        document.getElementById("rowid" + i).className = "notsel";
+	}
+    }
+	
+}
+function keydown()
+{
+if(event.keyCode >= 112 && event.keyCode <= 123){ 
+	event.keyCode = 0;
+	return false;
+	}
+	}
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+
+
+
+-->
+
+</script>
+<script language="javascript">
+<!--
+	//ウインドウサイズの変更
+	function changesize(){
+	window.resizeTo(1280,720);//サイズの指定
+	}
+	window.onload = changesize;//ページの読み込み時に関数を呼び出す
+	window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+//-->
+</script>
+<title>[SC002060]品目ID・図面状況検索</title>
+</head>
+
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td  colspan="2">[SC002060]品目ID・図面状況検索</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+
+<form id="SC002060" name="MainForm">
+<p>
+<b>品目ID・図面状況検索</b>
+</p>
+
+<p>
+<table width="555px" style="border-style:dashed;border-width:1px; border-color:#000000;">
+<tr align="left">
+<td width="160px"> 確認対象（mc開発符号）</td>
+<td width="240px">
+<select name="ECS_SERIES" width="100px">
+	<option value="HR3">HR3</option>
+	<option value="BF4">BF4</option>
+	<option value="MF1">MF1</option>
+</select>&nbsp;&nbsp;&nbsp;
+</td>
+<td><input type="button" value="検索" onclick='' style="width:90px"></td>
+</tr>
+</table>
+</p>
+<p>
+<table width="100%" style="border-width:1px; border-color:#000000;">
+<tr align="left">
+<td width="30px">確認日</td>
+<td width="200px">2015/05/15 時点</td>
+</tr>
+<tr align="left">
+<td>出図進捗（目安）</td>
+<td>35%</td>
+</tr>
+</table>
+</p>
+<p>
+
+<div style="float:left; width:555px; overflow:hidden; text-align:left; border-style:none;">
+<table border="1" cellpadding="0" cellspacing="0" id="head_table2" width="555px" style="text-align:left;" class="main_table">
+<thead>
+<tr style="background-color:white;font-weight: bold; background:#b0e0e6;">
+<th width="40px" align="left">&nbsp;</th>
+<th width="80px" align="left">mc開発符号</th>
+<th width="80px" align="left">品目ID紐付図面数</th>
+</tr>
+</thead>
+</table>
+<div>
+</div>
+<div style="float:left; width:555px; height:116px; overflow-x:hidden;overflow-y:hidden; text-align:left; border-style:none;">
+<table border="1" cellpadding="0" cellspacing="0" id="main_table" width="555px" style="text-align:left;" class="main_table">
+<tr id="rowid11" >
+<td width="40px">確認対象</t	d>
+<td width="80px">HR3</td>
+<td width="80px">70</td>
+</tr>
+<tr id="rowid12" >
+<td>比較先</td>
+<td>BF4</td>
+<td>200</td>
+</tr>
+
+</table>
+</div>
+
+</p>
+</form>
+</body>
+</html>

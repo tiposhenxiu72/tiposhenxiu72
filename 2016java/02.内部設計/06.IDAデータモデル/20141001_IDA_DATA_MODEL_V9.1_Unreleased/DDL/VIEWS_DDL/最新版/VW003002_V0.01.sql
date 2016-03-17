@@ -1,0 +1,49 @@
+CREATE VIEW VW003002 (
+	REPR_ECS_NO,		-- 代表設計通知書番号
+	REPR_ECS_REV_NO,        -- 代表設通改訂番号
+	RELATED_ECS_NO,         -- 関連設計通知書番号
+	RELATED_ECS_ORDER,      -- 関連設通並び順
+	RANK                    -- 1:関連設通、2:オーバーフロー設通の関連設通
+)
+AS  (
+	SELECT 
+		REPR_ECS_NO,
+		REPR_ECS_REV_NO,
+		RELATED_ECS_NO,
+		-- 代表設通番号、代表設通改訂番号ごとにオーバーフロー代表設通（昇順）、ランク、関連設通番号で順番付け（関連設通並び順の生成）
+		ROW_NUMBER() OVER(PARTITION BY REPR_ECS_NO,REPR_ECS_REV_NO ORDER BY OVER_FLOW_REPR_ECS_NO,RANK,RELATED_ECS_ORDER) AS RELATED_ECS_ORDER,
+		RANK
+	 FROM (
+		-- 指定した代表設通からの関連設通
+		SELECT 
+			A.REPR_ECS_NO AS REPR_ECS_NO,
+			A.REPR_ECS_REV_NO AS REPR_ECS_REV_NO,
+			A.RELATED_ECS_NO AS RELATED_ECS_NO,
+			' ' AS OVER_FLOW_REPR_ECS_NO,
+			A.RELATED_ECS_ORDER AS RELATED_ECS_ORDER,
+			1 AS RANK
+		FROM TB003003 A
+		-- 指定した設通がオーバーフローになっている設通の関連設通
+		-- (オーバーフロー設通の関連設通)
+		UNION ALL
+		SELECT
+			D.ECS_NO AS REPR_ECS_NO,
+			D.ECS_REV_NO AS REPR_ECS_REV_NO,
+			B.RELATED_ECS_NO AS RELATED_ECS_NO,
+			C.ECS_NO AS OVER_FLOW_REPR_ECS_NO,
+			B.RELATED_ECS_ORDER AS RELATED_ECS_ORDER,
+			2 AS RANK
+		FROM TB003003 B
+		-- オーバーフロー設通の代表
+		INNER JOIN TB003001 C	ON 
+			B.REPR_ECS_NO = C.ECS_NO AND
+			B.REPR_ECS_REV_NO = C.ECS_REV_NO 
+		-- 指定した代表設通は（オーバーフロー設通の代表の代表設通）項目に改訂が存在しないので改訂分増幅させる
+		INNER JOIN TB003001 D	ON 
+			D.ECS_NO = C.OVERFLOW_REPR_ECS_NO
+		WHERE 
+			C.OVERFLOW_REPR_ECS_NO <> ''
+			-- オーバーフローの代表設通は最大改訂で取得する
+			AND C.ECS_REV_NO = ( SELECT MAX(E.ECS_REV_NO) FROM TB003001 E WHERE C.ECS_NO = E.ECS_NO GROUP BY E.ECS_NO)
+	) X 
+);

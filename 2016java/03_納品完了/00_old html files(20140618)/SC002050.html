@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+function checkH(obj,rownum,rowname){
+    if(rowname.checked){
+		document.getElementById("rowid1" + rownum).className = "sel";
+		if(rownum==2||rownum==4){
+			rownum = rownum+1;
+			document.getElementById("rowid1" + rownum).className = "sel";
+		}
+	}else{
+		document.getElementById("rowid1" + rownum).className = "notsel";
+		if(rownum==2||rownum==4){
+			rownum = rownum+1;
+			document.getElementById("rowid1" + rownum).className = "notsel";
+		}
+	}
+}
+function keydown()
+{
+if(event.keyCode >= 112 && event.keyCode <= 123){ 
+	event.keyCode = 0;
+	return false;
+	}
+	}
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+function checkH1(){
+	document.getElementById("rowid12").className = "sel";
+	document.getElementById("rowid13").className = "sel";
+	document.getElementById("rowid14").className = "sel";
+	document.getElementById("rowid15").className = "sel";
+}
+
+
+-->
+
+</script>
+<script language="javascript">
+<!--
+	//ウインドウサイズの変更
+	function changesize(){
+	window.resizeTo(1280,720);//サイズの指定
+	}
+	window.onload = changesize;//ページの読み込み時に関数を呼び出す
+	window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+//-->
+</script>
+<title>[SC002050]未出図検索</title>
+</head>
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body onLoad="checkH1();">
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td  colspan="2">[SC002050]未出図検索</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+<form id="SC002050" name="MainForm">
+<b>
+<p id="p11" >
+未出図検索
+</p>
+</b>
+
+
+<p>
+<table width="100%">
+<tr>
+<td width="80%">
+<div style="height:100px;">
+<table width="100%" style="border-style:dashed;border-width:1px; border-color:#000000;height:90px">
+<tr valign="top">
+<td rowspan="4" width="20px" style="height:20px;"><div style="height:0px;">mc開発符号 <font color="red">*</font>：</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <select name="left_select" style="height:65px;width:100px" multiple>
+		<option value="BF4" selected="selected">BF4</option>
+		<option value="HR3" selected="selected">HR3</option>
+		<option value="FAFB">FAFB</option>
+		<option value="5MT" >5MT</option>
+		<option value="VL9">VL9</option>
+	</select>
+</td>
+<td width="220px" align="center"><input type="checkbox" name="radsel" onclick="" checked/>設計連絡済み&nbsp;&nbsp;</td>
+<td width="200px" align="center" style="height:20px;"><input type="submit" value="絞り込み" style="width:120pt"/></td>
+</tr>
+<tr>
+<td width="220px" align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="radsel" onclick="" checked/>設計連絡済み以外</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td align="center"><input type="submit" value="CSVダウンロード" style="width:120pt"/></td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+</td>
+</tr>
+</table>
+</p>
+
+<p>
+<table width="100%" style="border-style:none;border-width:1px; border-color:#000000;height:1px">
+<tr>
+<td align="left" width="700px">
+<input type="submit" value="設計連絡済みの登録" style="width:120pt"/>
+</td>
+<td width="700px" align="center">
+未出図確認日 ：&nbsp;&nbsp;2015/05/15&nbsp;&nbsp;&nbsp;&nbsp;未出図検索結果(部品番号数)：&nbsp;7
+</td>
+
+</tr>
+</table>
+</p>
+
+<p align="left">
+
+<div style="float:left; width:1200px; overflow:hidden; text-align:left; border-style:none;">
+<table border="1" cellpadding="0" cellspacing="0" id="head_table2" width="1200px" style="text-align:left;" class="main_table">
+<thead>
+<tr style="background-color:white;font-weight: bold; background:#b0e0e6;" valign="top">
+<th width="30px" align="left" style="border-bottom: 2px solid #b0e0e6;">設計</th>
+<th width="85px" align="left" style="border-bottom: 2px solid #b0e0e6;">未出図疑い・</th>
+<th width="170px" align="left" colspan="2">出図済み図面</th>
+<th align="left" colspan="5">親図面</th>
+<th width="210px"  align="left" colspan="2">ファイナル図面（代表）</th>
+<th width="70px" align="left" style="border-bottom: 2px solid #b0e0e6;">mc</th>
+<th align="left" colspan="2">未出図ステータス</td>
+</tr>
+<tr style="background-color:white;font-weight: bold; background:#b0e0e6;" valign="top">
+<th align="left" style="border-bottom: 2px solid #b0e0e6;">連絡</th>
+<th align="left" style="border-bottom: 2px solid #b0e0e6;">&nbsp;図判不整合</th>
+<th align="left" style="border-bottom: 2px solid #b0e0e6;">タイトル図面</th>
+<th align="left" style="border-bottom: 2px solid #b0e0e6;">改訂</th>
+<th width="60px" align="left" style="border-bottom: 2px solid #b0e0e6;">図判</th>
+<th width="120px" align="left" style="border-bottom: 2px solid #b0e0e6;">集合部品</th>
+<th width="120px" align="left" style="border-bottom: 2px solid #b0e0e6;">タイトル</td>
+<th width="60px" align="left" style="border-bottom: 2px solid #b0e0e6;">改訂</td>
+<th width="80px" align="left" style="border-bottom: 2px solid #b0e0e6;">ブロ</td>
+<th width="80px" align="left" style="border-bottom: 2px solid #b0e0e6;">ファイナル</td>
+<th width="80px" align="left" style="border-bottom: 2px solid #b0e0e6;">ブロ</td>
+<th width="80px" align="left" style="border-bottom: 2px solid #b0e0e6;">開発</td>
+<th width="80px" align="left" style="border-bottom: 2px solid #b0e0e6;">親図面番号</td>
+<th width="80px" align="left" style="border-bottom: 2px solid #b0e0e6;">部品番号</td>
+</tr>
+<tr style="background-color:white;font-weight: bold; background:#b0e0e6;" valign="top">
+<th align="left">済み</th>
+<th align="left">構成部品番号</th>
+<th width="120px" align="left">番号</th>
+<th width="50px" align="left">&nbsp;</th>
+<th width="60px" align="left">&nbsp;</th>
+<th width="120px" align="left">番号</th>
+<th width="120px" align="left">図面番号</td>
+<th width="60px" align="left">&nbsp;</th>
+<th width="80px" align="left">ック</th>
+<th width="80px" align="left">図面番号</td>
+<th width="80px" align="left">ック</th>
+<th width="80px" align="left">符号</th>
+<th width="80px" align="left">単位</td>
+<th width="80px" align="left">単位</td>
+</tr>
+</thead>
+</table>
+</div>
+
+<div style="float:left; width:1217px; height:108px; overflow-x:hidden; overflow-y:scroll; text-align:left; border-style:none;">
+<table border="1" cellpadding="0" cellspacing="0" id="main_table" width="1200px" style="text-align:left;" class="main_table">
+<tr id="rowid11" >
+<td width="26px"><input type="checkbox" id="checktail1" OnClick="return checkH(this,1,checktail1);"></td>
+<td width="75px">21000XX001</td>
+<td width="75px">&nbsp;</td>
+<td width="74px">&nbsp;</td>
+<td width="78px">1</td>
+<td width="79px">11000XX001</td>
+<td width="78px">10000XX001</td>
+<td width="77px">00</td>
+<td width="79px">200A</td>
+<td width="92px">F1000XX001##</td>
+<td width="92px">200A</td>
+<td width="61px">HR3,BF4</td>
+<td width="79px"><font color="red">未出図</font></td>
+<td width="78px">未出図疑い</td>
+</tr>
+
+<tr id="rowid12" >
+<td rowspan="2"><input type="checkbox" id="checktai21" OnClick="return checkH(this,2,checktai21);" checked></td>
+<td rowspan="2">51000XX001</td>
+<td rowspan="2">&nbsp;</td>
+<td rowspan="2">&nbsp;</td>
+<td>N</td>
+<td>40000XX001</td>
+<td>40000XX001</td>
+<td>00</td>
+<td>200A</td>
+<td>F1000XX001##</td>
+<td>200A</td>
+<td>BF4</td>
+<td>N図</td>
+<td rowspan="2">図判不整合</td>
+</tr>
+
+<tr id="rowid13" >
+<td>0</td>
+<td>60000XX001</td>
+<td>60000XX001</td>
+<td>00</td>
+<td>200B</td>
+<td>F2000XX001</td>
+<td>200B</td>
+<td>HR3</td>
+<td><font color="red">未出図</font></td>
+</tr>
+
+<tr id="rowid14" >
+<td rowspan="2"><input type="checkbox" id="checktai41" OnClick="return checkH(this,4,checktai41);" checked></td>
+<td rowspan="2">52000XX001</td>
+<td rowspan="2">52000XX001</td>
+<td rowspan="2">00</td>
+<td>N</td>
+<td>41000XX001</td>
+<td>40000XX001</td>
+<td>00</td>
+<td>200A</td>
+<td>F1000XX001##</td>
+<td>200A</td>
+<td>HR3</td>
+<td>N図</td>
+<td rowspan="2">図判不整合</td>
+</tr>
+
+<tr id="rowid15" >
+<td>0</td>
+<td>61000XX001</td>
+<td>60000XX001</td>
+<td>00</td>
+<td>200B</td>
+<td>F2000XX001</td>
+<td>200B</td>
+<td>BF4</td>
+<td>出図済み</td>
+</tr>
+
+<tr id="rowid16" >
+<td><input type="checkbox" id="checktai61" OnClick="return checkH(this,6,checktai61);"></td>
+<td>81000XX001</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1</td>
+<td>70000XX001</td>
+<td>70000XX001</td>
+<td>00</td>
+<td>200C</td>
+<td>F3000XX001</td>
+<td>200C</td>
+<td>BF4</td>
+<td><font color="red">未出図</font></td>
+<td>未出図疑い</td>
+</tr>
+</table>
+</div>
+
+</p>
+</form>
+</body>
+</html>

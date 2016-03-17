@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" />
+  <script type="text/javascript" charset="utf-8">
+
+<!--
+  function checkedit(obj, rownum){
+    var falg = (obj.checked)?false:true;
+    if (falg) {
+      document.getElementById("rowid" + rownum).className = "notsel";
+      if (rownum == 7) {
+        document.getElementById("rowid" + (rownum+1)).className = "notsel";
+      }
+    } else {
+      document.getElementById("rowid" + rownum).className = "sel";
+      if (rownum == 7) {
+        document.getElementById("rowid" + (rownum+1)).className = "sel";
+      }
+    }
+
+    for (var i = 1; i <= 3; i = i+1){
+      document.getElementById("input"+rownum+i).readOnly = falg;
+    }
+    if (rownum == 4 || rownum == 7) {
+      for (var i = 1; i <= 2; i = i+1){
+        document.getElementById("input"+(rownum+1)+i).readOnly = falg;
+      }
+    }
+  }
+
+  function keydown(){
+    if(event.keycode >= 112 && event.keycode <= 123){ 
+      event.keycode = 0;
+      return false;
+    }
+  }
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+  //ウインドウサイズの変更
+  function changesize(){
+    window.resizeTo(1280,720);//サイズの指定
+  }
+  window.onload = changesize;//ページの読み込み時に関数を呼び出す
+  window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+-->
+
+  </script>
+  <title>[SC002020]マレーシア配布実績入力</title>
+</head>
+
+<!--bodyのオプションにoncontextmenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+  <table border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tr style="background-color: blue;color: white; font-size: 12pt">
+      <td height="20" colspan="2">[SC002020]マレーシア配布実績入力</td>
+    </tr>
+<!--  <tr style="background-color: #cfcfcf;color: #0000ff; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="right"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009c;color: #fede20" /></td></tr>-->
+    <tr style="background-color: #ffffff;color: #ff0000; font-size: 13.5pt">
+      <td height="20">システムメッセージを表示します。</td>
+      <td align="right">
+        <input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009c;color: #fede20" />
+      </td>
+    </tr>
+</table>
+
+<form id="SC002020" name="MainForm">
+<p>
+<b>マレーシア配布実績入力</b>
+</p>
+
+<p>
+  <table border="0" style="width: 1220px;">
+    <tr>
+      <td width="1220px">
+        <table width="100%" style="border-style:dashed; border-width:1px; border-color:#000000;" border="0">
+          <tr><td colspan="15"><br/></td></tr>
+          <tr>
+            <td width="15px"><br/></td>
+            <td width="130px">配布受領日 <font color="red">*1</font>：</td>
+            <td><br/></td>
+            <td width="150px" colspan="2">
+              <select style="width:120px;">
+                <option value="製管受領日">製管受領日</option>
+                <option value="送付日">送付日</option>
+                <option value="受領日">受領日</option>
+              </select>
+            </td>
+            <td colspan="3"><input type="text" style="width:75px" value="yyyy/mm/dd"/>～<input type="text" style="width:75px" value="yyyy/mm/dd"/></td>
+            <td colspan="5"><br/></td>
+            <td width="90px"><input type="submit" value="検索" style="width:120px;"/></td>
+            <td width="15px"><br/></td>
+          </tr>
+          <tr>
+            <td><br/></td>
+            <td>図面番号 <font color="red">*1</font>：</td>
+            <td><br/></td>
+            <td colspan="10"><input type="text" style="width:100px"/>(F*)</td>
+            <td><input type="submit"  value="CSVダウンロード" style="width:120px;"/></td>
+            <td><br/></td>
+          </tr>
+          <tr valign="top">
+            <td><br/></td>
+            <td rowspan="2">代表設通NO <font color="red">*1</font>：</td>
+            <td width="10px" align="right">1</td>
+            <td><input type="text" style="width: 40px;" value="HR3"/>－<input type="text" style="width: 40px;" value="A0001"/></td>
+            <td align="right">2</td>
+            <td width="150px"><input type="text" style="width: 40px;" value="HR3"/>－<input type="text" style="width: 40px;" value="A0002"/></td>
+            <td width="10px" align="right">3</td>
+            <td width="150px"><input type="text" style="width: 40px;" value="BF4"/>－<input type="text" style="width: 40px;" value="A0001"/></td>
+            <td align="right">4</td>
+            <td width="150px"><input type="text" style="width: 40px;" value="BF4"/>－<input type="text" style="width: 40px;" value="A0005"/></td>
+            <td width="10px" align="right">5</td>
+            <td width="150px"><input type="text" style="width: 40px;"/>－<input type="text" style="width: 40px;"/></td>
+            <td width="50px"><br/></td>
+            <td colspan="2"><br/></td>
+          </tr>
+          <tr>
+            <td><br/></td>
+            <td align="right">6</td>
+            <td><input type="text" style="width: 40px;"/>－<input type="text" style="width: 40px;"/></td>
+            <td align="right">7</td>
+            <td><input type="text" style="width: 40px;"/>－<input type="text" style="width: 40px;"/></td>
+            <td width="10px" align="right">8</td>
+            <td><input type="text" style="width: 40px;"/>－<input type="text" style="width: 40px;"/></td>
+            <td align="right">9</td>
+            <td><input type="text" style="width: 40px;"/>－<input type="text" style="width: 40px;"/></td>
+            <td align="right">10</td>
+            <td><input type="text" style="width: 40px;"/>－<input type="text" style="width: 40px;"/></td>
+            <td colspan="3"><br/></td>
+          </tr>
+          <tr>
+            <td><br/></td>
+            <td>機密区分 ：</td>
+            <td><br/></td>
+            <td width="130px">
+              <select style="width:70px;">
+                <option value="J">J</option>
+                <option value="W">W</option>
+                <option value="X" selected>X</option>
+              </select>
+            </td>
+            <td width="20px" align="right"><input type="checkbox"/></td>
+            <td colspan="3">マレーシア送付実績が無いもののみ</td>
+            <td width="20px" align="right"><input type="checkbox"/></td>
+            <td colspan="3">日付が複数ある場合は最新のみ</td>
+            <td><br/></td>
+            <td><input type="submit"  value="検索条件クリア" style="width:120px;"/></td>
+            <td><br/></td>
+          </tr>
+          <tr><td colspan="15"><br/></td></tr>
+        </table>
+      </td>
+    </tr>
+    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="red">*1</font>：配布受領日、図面番号、主設通番号のどれか一つは必須入力項目</td></tr>
+    <tr>
+      <td>
+        <table width="100%" cellpadding="5" cellspacing="5" border="0">
+          <tr>
+            <td width="80px">編集選択：</td>
+            <td width="90px"><input type="submit" value="全選択" style="width: 80px;"/></td>
+            <td width="90px"><input type="submit" value="全解除" style="width: 80px;"/></td>
+            <td width="60px"><br/></td>
+            <td width="80px" align="right">日付入力：</td>
+            <td width="120px">
+              <select style="width:100px;">
+                <option value="送付日" selected>送付日</option>
+                <option value="受領日">受領日</option>
+              </select>
+            </td>
+            <td width="90px"><input type="text" value="2015/05/21" style="width: 80px;"/></td>
+            <td width="90px"><input type="submit" value="入力" style="width: 80px;"/></td>
+            <td width="90px"><input type="submit" value="追加" style="width: 80px;"/></td>
+            <td width="80px"><br/></td>
+            <td width="130px"><input type="submit" value="確定" style="width: 120px;"/></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div style="float: left; overflow: hidden; border-style:none;">
+          <table cellpadding="0" cellspacing="0" border="1" class="main_table" align="left" width="1200px">
+            <thead>
+              <tr valign="top">
+                <th align="left" width="30px">編集</th>
+                <th align="left" width="90px">設通 NO</th>
+                <th align="left" width="30px">設通<br/>改訂</th>
+                <th align="left" width="200px">同指示設通 NO<br/><br/></th>
+                <th align="left" width="100px">タイトル図番</th>
+                <th align="left" width="150px">図面名称</th>
+                <th align="left" width="70px">ブロ<br/>ック</th>
+                <th align="left" width="30px">図面<br/>改訂</th>
+                <th align="left" width="70px">図面<br/>シリーズ</th>
+                <th align="left" width="30px">機密<br/>区分</th>
+                <th align="left" width="30px">図面<br/>枚数</th>
+                <th align="left" width="90px">製管受領日</th>
+                <th align="left" width="90px">送付日</th>
+                <th align="left" width="90px">受領日</th>
+                <th align="left" width="100px">備考</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div style="float: left; overflow: hidden; overflow-y: scroll; height: 116px; border-style:none;">
+          <table border="1" cellpadding="0" cellspacing="0" class="main_table" align="left" width="1200px">
+            <tr id="rowid1">
+              <td width="30px"><input type="checkbox" onClick="return checkedit(this,1);"/></td>
+              <td width="90px">HR3  -A0001</td>
+              <td width="30px">1</td>
+              <td width="200px">FM4  -A0001,MF1  -A0001</td>
+              <td width="100px">10000XX001</td>
+              <td width="150px">xxxxxxxxxxxx</td>
+              <td width="70px">200A</td>
+              <td width="30px">00</td>
+              <td width="70px">HR3</td>
+              <td width="30px">X</td>
+              <td width="30px">1</td>
+              <td width="90px">2015/05/10</td>
+              <td width="90px"><input type="text" style="width: 84px;" id="input11" readOnly/></td>
+              <td width="90px"><input type="text" style="width: 84px;" id="input12" readOnly/></td>
+              <td width="100px"><input type="text" style="width: 94px;" id="input13" value="AAA" readOnly/></td>
+            </tr>
+            <tr id="rowid2">
+              <td><input type="checkbox" onClick="return checkedit(this,2);"/></td>
+              <td>HR3  -A0001</td>
+              <td>1</td>
+              <td>FM4  -A0002</td>
+              <td>20000XX001</td>
+              <td>xxxxxxxxxxxxxx</td>
+              <td>200A</td>
+              <td>01</td>
+              <td>HR3</td>
+              <td>X</td>
+              <td>1</td>
+              <td>2015/05/10</td>
+              <td><input type="text" style="width: 84px;" id="input21" readOnly/></td>
+              <td><input type="text" style="width: 84px;" id="input22" readOnly/></td>
+              <td><input type="text" style="width: 94px;" id="input23" readOnly/></td>
+            </tr>
+            <tr id="rowid3">
+              <td><input type="checkbox" onClick="return checkedit(this,3);"/></td>
+              <td>HR3  -A0001</td>
+              <td>1</td>
+              <td><br/></td>
+              <td>30000XX001</td>
+              <td>xxxxxxxxxx</td>
+              <td>200A</td>
+              <td>00</td>
+              <td>BF4</td>
+              <td>X</td>
+              <td>2</td>
+              <td>2015/05/10</td>
+              <td><input type="text" style="width: 84px;" id="input31" readOnly/></td>
+              <td><input type="text" style="width: 84px;" id="input32" readOnly/></td>
+              <td><input type="text" style="width: 94px;" id="input33" readOnly/></td>
+            </tr>
+            <tr id="rowid4" valign="top">
+              <td rowspan="2"><input type="checkbox" onClick="return checkedit(this,4);"/></td>
+              <td rowspan="2">HR3  -A0002</td>
+              <td rowspan="2"></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2">40000XX001</td>
+              <td rowspan="2">xxxxxxx</td>
+              <td rowspan="2">200A</td>
+              <td rowspan="2">01</td>
+              <td rowspan="2">HR3</td>
+              <td rowspan="2">X</td>
+              <td rowspan="2">1</td>
+              <td rowspan="2">2015/05/20</td>
+              <td><input type="text" style="width: 84px;" id="input41" readOnly/></td>
+              <td><input type="text" style="width: 84px;" id="input42" readOnly/></td>
+              <td rowspan="2"><input type="text" style="width: 94px; height: 39px;" id="input43" value="" readOnly/></td>
+            </tr>
+            <tr id="rowid5">
+              <td><input type="text" style="width: 84px;" id="input51" value="2015/05/10" readOnly/></td>
+              <td><input type="text" style="width: 84px;" id="input52" readOnly/></td>
+            </tr>
+            <tr id="rowid6">
+              <td><input type="checkbox" onClick="return checkedit(this,6);"/></td>
+              <td>BF4  -A0001</td>
+              <td></td>
+              <td><br/></td>
+              <td>50000XX001</td>
+              <td>xxxxxxxxxx</td>
+              <td>200A</td>
+              <td>00</td>
+              <td>HR3</td>
+              <td>X</td>
+              <td>1</td>
+              <td>2015/05/20</td>
+              <td><input type="text" style="width: 84px;" id="input61" readOnly/></td>
+              <td><input type="text" style="width: 84px;" id="input62" readOnly/></td>
+              <td><input type="text" style="width: 94px;" id="input63" readOnly/></td>
+            </tr>
+            <tr id="rowid7" valign="top">
+              <td rowspan="2"><input type="checkbox" onClick="return checkedit(this,7);"/></td>
+              <td>HR3  -A0005</td>
+              <td>2</td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2">60000XX001</td>
+              <td rowspan="2">xxxxxxxxxxxxxxxxx</td>
+              <td rowspan="2">200B</td>
+              <td rowspan="2">04</td>
+              <td rowspan="2">BF4</td>
+              <td rowspan="2">X</td>
+              <td rowspan="2">4</td>
+              <td rowspan="2">2012/11/30</td>
+              <td><input type="text" style="width: 84px;" id="input71" readOnly/></td>
+              <td><input type="text" style="width: 84px;" id="input72" readOnly/></td>
+              <td rowspan="2"><input type="text" style="width: 94px; height: 39px;" id="input73" value="" readOnly/></td>
+            </tr>
+            <tr id="rowid8">
+              <td>BF4  -A0006</td>
+              <td>1</td>
+              <td><input type="text" style="width: 84px;" id="input81" readOnly/></td>
+              <td><input type="text" style="width: 84px;" id="input82" readOnly/></td>
+            </tr>
+            <tr id="rowid9">
+              <td><input type="checkbox" onClick="return checkedit(this,9);"/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><input type="text" style="width: 84px;" id="input91" readOnly/></td>
+              <td><input type="text" style="width: 84px;" id="input92" readOnly/></td>
+              <td><input type="text" style="width: 94px;" id="input93" readOnly/></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+</p>
+
+</form>
+</body>
+</html>

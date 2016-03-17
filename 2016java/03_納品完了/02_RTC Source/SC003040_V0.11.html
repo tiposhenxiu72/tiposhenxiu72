@@ -1,0 +1,745 @@
+﻿<!DOCtype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+
+<!--
+function checkH(obj,rownum,rowname){
+	if(rowname.checked){
+		document.getElementById("rowid1" + rownum).className = "sel";
+		document.getElementById("rowid2" + rownum).className = "sel";
+		document.getElementById("rowid3" + rownum).className = "sel";
+	}else{
+		document.getElementById("rowid1" + rownum).className = "notsel";
+        document.getElementById("rowid2" + rownum).className = "notsel";
+        document.getElementById("rowid3" + rownum).className = "notsel";
+	}
+}
+
+
+
+function sync_scroll(obj)
+{
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+    var strIdTop = obj.id+"_FIX";
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+    var intScrlTop = obj.scrollTop;
+
+    /*同一IDのオブジェクト取得*/
+    fix=document.getElementById(strIdTop);
+    //スクロール位置の設定
+    fix.scrollTop=intScrlTop;
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+}
+
+function keydown()
+{
+if(event.keyCode >= 112 && event.keyCode <= 123){
+	event.keyCode = 0;
+	return false;
+	}
+	}
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+-->
+</script>
+<script language="javascript">
+<!--
+	//ウインドウサイズの変更
+	function changesize(){
+	window.resizeTo(1280,720);//サイズの指定
+	}
+	window.onload = changesize;//ページの読み込み時に関数を呼び出す
+	window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+//-->
+</script>
+<title>[SC003040]設審対象設通一覧</title>
+</head>
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td height="20" colspan="2">[SC003040]設審対象設通一覧</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td ALIGN="RIGHT"><input type="submit" value="メニューへ" STYLE="WIDth:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td ALIGN="RIGHT"><input type="submit" value="メニューへ" STYLE="WIDth:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+
+<form id="SC003040" name="MainForm">
+<p>
+<B>設審対象設通一覧</B>
+</p>
+<p>
+
+<table width="1900px" >
+	<tr>
+	<td width="1250px">
+<table width="1250px" >
+	<tr>
+	<td width="1000px">
+		<table width="1000px" style="border-style:dashed; border-width:1px; border-color:#000000;">
+			<tr >
+			<td  height="40" align="left">
+			設通シリーズ<font color=red>*</font>：
+			<select name="ECS_SERIES">
+			    <option value="HR3">HR3</option>
+			    <option value="BF4">BF4</option>
+			    <option value="MF1">MF1</option>
+			</select>&nbsp;&nbsp;&nbsp;
+
+			課コード：&nbsp;<input type="text" value="L,J,M,V" style="width:60px;" id="S1"/>
+			&nbsp;&nbsp;&nbsp;
+			一連No：<input type="text" value="" style="width:60px;" id="S2"/>&nbsp;(F*)
+			</td>
+			<td  height="40" align="left">
+			仕向地<font color=red>*</font>：&nbsp;&nbsp;&nbsp;&nbsp;
+			<select name="ECS_MEETING_LOCATION">
+			    <option value="1">国内</option>
+			    <option value="2">海外</option>
+			</select>
+
+			</td>
+			</tr>
+			<tr>
+			<td>
+			設審日：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="" style="width:80px;" id="S3"/>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="checkbox" name="checktail01" OnClick="">未設定のみ表示
+			</td>
+			<td  height="40" align="left">
+			設審場所<font color=red>*</font>：&nbsp;
+			<select name="ECS_MEETING_LOCATION">
+			    <option value="1">国内</option>
+			    <option value="2">海外</option>
+			</select>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="button" value="検索" style="Width:90pt"/>
+			</td>
+			</tr>
+			<tr>
+			<td>
+				設通受領日：&nbsp;
+				<input type="text" value="" style="Width:80px;" id="S4"/>～
+				<input type="text" value="2015/03/05" style="Width:80px;" id="S5"/>
+				<input type="checkbox" name="checktail02" checked="true" OnClick="">期間に関係なく未決・回答待ちは表示
+			</td>
+			<td  height="40" align="left">
+				設審名称：&nbsp;<input type="text" value="" style="Width:60pt" id="S6"/>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="CSVダウンロード" style="Width:90pt"/>
+			</td>
+			</tr>
+		</table>
+	</td>
+	<td align="left" width="250px">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr >
+			<td height="40" align="left">
+			<input type="button" value="設審日確認・登録" style="Width:100pt"/>
+			</td>
+			</tr>
+			<tr >
+			<td height="40" align="left">
+			<input type="button" value="設変内容確認" style="Width:80pt"/>
+			&nbsp;&nbsp;<input type="button" value="設通表紙情報" style="Width:80pt"/>
+			</td>
+			</tr>
+			<tr >
+			<td height="40" align="left">
+			<input type="button" value="実施時期" style="Width:80pt"/>
+			</td>
+			</tr>
+		</table>
+	</td>
+	</tr>
+	<tr>
+	<td>
+	<br>
+	<input type="button" value="全選択" style="Width:90pt"/>&nbsp;&nbsp;&nbsp;<input type="button" value="全選択解除" style="Width:90pt"/>
+	</td>
+	<td></td>
+	</tr>
+</table>
+</td>
+<td width="650px">
+	<table width="650px" style="border-style:dashed; border-width:1px; border-color:#000000;">
+	<tr>
+		<td width="200px">
+		(*)理由
+		</td>
+		<td width="450px">
+		</td>
+	</tr>
+	<tr>
+		<td width="200px">
+		&nbsp;&nbsp;&nbsp;&nbsp;0:新車種
+		</td>
+		<td width="450px">
+		イ二シャル出図・車種追加
+		</td>
+	</tr>
+	<tr>
+		<td width="200px">
+		&nbsp;&nbsp;&nbsp;&nbsp;1:仕様変更
+		</td>
+		<td width="450px">
+		商品仕様変更による処置
+		</td>
+	</tr>
+	<tr>
+		<td width="200px">
+		&nbsp;&nbsp;&nbsp;&nbsp;2:機能上
+		</td>
+		<td width="450px">
+		機能向上・仕様変更・その他設計要件全般による処置
+		</td>
+	</tr>
+	<tr>
+		<td width="200px">
+		&nbsp;&nbsp;&nbsp;&nbsp;3:ＶＡ・ＶＥ
+		</td>
+		<td width="450px">
+		ＶＡ・ＶＥに関する処置（設計要因）
+		</td>
+	</tr>
+	<tr>
+		<td width="200px">
+		&nbsp;&nbsp;&nbsp;&nbsp;4:軽量化
+		</td>
+		<td width="450px">
+		質量軽減に関する処置（設計要因）
+		</td>
+	</tr>
+	<tr>
+		<td width="200px">
+		&nbsp;&nbsp;&nbsp;&nbsp;5:製作上（設計）
+		</td>
+		<td width="450px">
+		物作りに対する設計要因の訂正
+		</td>
+	</tr>
+	<tr>
+		<td width="200px">
+		&nbsp;&nbsp;&nbsp;&nbsp;6:製作上（所、メーカ）
+		</td>
+		<td width="450px">
+		製作部署からの変更要件
+		</td>
+	</tr>
+	<tr>
+		<td width="200px">
+		&nbsp;&nbsp;&nbsp;&nbsp;7:外観上
+		</td>
+		<td width="450px">
+		設計的要因の変更。商品経過（デザイン）上からの変更は"2"
+		</td>
+	</tr>
+	<tr>
+		<td width="200px">
+		&nbsp;&nbsp;&nbsp;&nbsp;8:仕様図処理
+		</td>
+		<td width="450px">
+		仕様図のＦＨＩ図化
+		</td>
+	</tr>
+	<tr>
+		<td width="200px">
+		&nbsp;&nbsp;&nbsp;&nbsp;9:図面処置
+		</td>
+		<td width="450px">
+		物作り関連しない図面上の処置（誤記訂正等）
+		</td>
+	</tr>
+	
+	</table>
+</td>
+</tr>
+</table>
+</p>
+
+<p>
+
+	<table width="1210px">
+	<tr>
+		<td width="1170px"></td><td width="40px">7 rec</td>
+	</tr>
+	</table>
+<div style="float:left; width:305px;" >
+  <table border="1" cellpadding="1" cellspacing="1" class="main_table" id="head_table" width="300px">
+    <thead>
+	  <tr style="background-color:white; font-weight: bold; background:#b0e0e6; text-align: left;" valign="top">
+		<th width="30px" rowspan="2" align="left">No</th>
+		<th width="30px" rowspan="2" align="left">選<br/>択</th>
+		<th width="30px" rowspan="2" align="left">同<br/>指</th>
+		<th width="100px" rowspan="2" align="left">設通<br/>受領日</th>
+		<th width="100px" rowspan="2" align="left">設通番号</th>
+	  </tr>
+	</thead>
+  </table>
+</div>
+<div style="width:903px; float:left; overflow:hidden; text-align:center; border-style:none;" ID="SYNC_HEADER">
+  <table border="1" cellpadding="0" cellspacing="0" class="main_table" id="main_table" width="3700px">
+    <thead>
+	  <tr style="background-color:white; font-weight: bold; background:#b0e0e6; text-align: left;" valign="top">
+		<th width="60px" rowspan="2" align="left">改訂<br/>番号</th>
+		<th width="300px" rowspan="2" align="left">設通件名</th>
+		<th width="60px" rowspan="2" align="left">読解き</th>
+		<th width="360px" colspan="4" align="left">設審情報</th>
+		<th width="120px" rowspan="2" align="left">設計担当課</th>
+		<th width="100px" rowspan="2" align="left">設計担当者</th>
+		<th width="100px" rowspan="2" align="left">電話番号</th>
+		<th width="100px" rowspan="2" align="left">ブロックNo</th>
+		<th width="60px" rowspan="2" align="left" >先行<br/>発行</th>
+		<th width="60px" rowspan="2"  align="left">要注意</th>
+		<th width="120px" rowspan="2" align="left" >(*)理由</th>
+		<th width="140px" colspan="2"  align="left">代表設通</th>
+		<th width="150px" rowspan="2" align="left">同指示<br/>設通番号</th>
+		<th width="60px" rowspan="2" align="left">経過<br/>日数</th>
+		<th width="100px" rowspan="2"  align="left">初回<br/>設審日</th>
+		<th width="150px" rowspan="2"  align="left">対象<br/>年改符号</th>
+		<th width="150px" rowspan="2" align="left">仕向地</th>
+		<th width="150px" rowspan="2" align="left">適用車種</th>
+		<th width="150px" rowspan="2"  align="left">設計<br/>希望時期</th>
+		<th width="370px" colspan="3" align="left">国内生産</th>
+		<th width="370px" colspan="3" align="left">海外生産(国内決定)</th>
+		<th width="370px" colspan="3" align="left">海外生産(海外決定)</th>
+	</tr>
+	<tr style="background-color:white; font-weight: bold; background:#b0e0e6;" valign="top">
+		<th width="100px" align="left">設審日付</th>
+  		<th width="50px" align="left">場所</th>
+  		<th width="50px" align="left">仕向地</th>
+  		<th width="140px" align="left">設審名称</th>
+  		<th width="70px" align="left">設通番号</th>
+  		<th width="70px" align="left">設審日</th>
+  		<th width="120px" align="left">決定実施時期</th>
+  		<th width="100px" align="left">部分未決</th>
+  		<th width="150px" align="left">実施時期備考</th>
+  		<th width="120px" align="left">決定実施時期</th>
+  		<th width="100px" align="left">部分未決</th>
+  		<th width="150px" align="left">実施時期備考</th>
+  		<th width="120px" align="left">実施時期</th>
+  		<th width="100px" align="left">部分未決</th>
+  		<th width="150px" align="left">実施時期備考</th>
+	  </tr>
+	</thead>
+  </table>
+</div>
+<div style="float:left; height:265px; width:295; overflow:hidden; border-style:none;" ID="SYNC_FIX">
+<table border="1" cellpadding="1" cellspacing="1" class="main_table" id="main_table" width="290px">
+	<tr id="rowid11" height="42px">
+	  <td width="30px" >1</td>
+	  <td width="30px" >&nbsp;<input type="checkbox" name="checktail1" OnClick="return checkH(this,1,checktail1);"></td>
+	  <td width="30px" >&nbsp;</td>
+	  <td width="100px">2015/01/27</td>
+	  <td width="100px">HR3 －L0001</td>
+	</tr>
+	<tr id="rowid12" height="42px">
+	  <td width="30px" >2</td>
+	  <td width="30px" >&nbsp;<input type="checkbox" name="checktail2" OnClick="return checkH(this,2,checktail2);"></td>
+	  <td width="30px" >&nbsp;</td>
+	  <td width="100px">2015/01/27</td>
+	  <td width="100px">HR3 －L0001</td>
+	</tr>
+	<tr id="rowid13" height="42px">
+	  <td width="30px" >3</td>
+	  <td width="30px" >&nbsp;<input type="checkbox" name="checktail3" OnClick="return checkH(this,3,checktail3);"></td>
+	  <td width="30px" >&nbsp;</td>
+	  <td width="100px">2015/01/27</td>
+	  <td width="100px">HR3 －L0001</td>
+	</tr>
+	<tr id="rowid14" height="42px">
+	  <td width="30px" >4</td>
+	  <td width="30px" >&nbsp;<input type="checkbox" name="checktail4" OnClick="return checkH(this,4,checktail4);"></td>
+	  <td width="30px" >&nbsp;</td>
+	  <td width="100px">2015/01/27</td>
+	  <td width="100px">HR3 －L0001</td>
+	</tr>
+	<tr id="rowid15" height="42px">
+	  <td width="30px" >5</td>
+	  <td width="30px" >&nbsp;<input type="checkbox" name="checktail5" OnClick="return checkH(this,5,checktail5);"></td>
+	  <td width="30px" >&nbsp;</td>
+	  <td width="100px">2015/01/27</td>
+	  <td width="100px">HR3 －L0001</td>
+	</tr>
+	<tr id="rowid16" height="42px">
+	  <td width="30px" >6</td>
+	  <td width="30px" >&nbsp;<input type="checkbox" name="checktail6" OnClick="return checkH(this,6,checktail6);"></td>
+	  <td width="30px" >&nbsp;</td>
+	  <td width="100px">2015/01/27</td>
+	  <td width="100px">HR3 －L0001</td>
+	</tr>
+	<tr id="rowid17" height="42px">
+	  <td width="30px" >7</td>
+	  <td width="30px" >&nbsp;<input type="checkbox" name="checktail7" OnClick="return checkH(this,7,checktail7);"></td>
+	  <td width="30px" >&nbsp;</td>
+	  <td width="100px">2015/01/27</td>
+	  <td width="100px">HR3 －L0001</td>
+	</tr>
+</table>	
+</div>
+<div style="width:920px; float:left; height:282px; overflow: scroll; text-align:left; border-style:none;" ID="SYNC" ONSCROLL="sync_scroll(this);">
+  <table border="1" cellpadding="0" cellspacing="0" class="main_table" id="main_table" width="3700px">
+	<tr id="rowid21" >
+		<td width="60px" rowspan="2" >&nbsp;</td>
+		<td width="300px" rowspan="2">３ｒｄ　ＯＷＣ外径保持器熱処理廃止（ＶＡ）</td>
+		<td width="60px" rowspan="2" >済み</td>
+		<td width="90px" rowspan="2">2015/03/05</td>
+		<td width="90px" rowspan="2">国内</td>
+		<td width="90px" rowspan="2">国内</td>
+		<td width="90px" rowspan="2">HR3第N回設審</td>
+		<td width="120px" rowspan="2" >エンジン設計2課</td>
+		<td width="100px" rowspan="2" >○○　○○</td>
+		<td width="100px" rowspan="2" >7754</td>
+		<td width="100px">200A</td>
+		<td width="60px" rowspan="2"></td>
+		<td width="60px" rowspan="2">有り</td>
+		<td width="120px" rowspan="2">新車種</td>
+		<td width="70px" rowspan="2">&nbsp;</td>
+		<td width="70px" rowspan="2">&nbsp;</td>
+		<td width="150px" rowspan="2">&nbsp;</td>
+		<td width="60px" rowspan="2" >25</td>
+		<td width="100px" rowspan="2">2015/02/05</td>
+		<td width="150px">HR3</td>
+		<td width="150px">NA</td>
+		<td width="150px">ALL</td>
+		<td width="150px">可能号車</td>
+		<td width="123px">未決</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">準工時期備考</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+	</tr>
+	<tr id="rowid31">
+  		<td>200B</td>
+ 		<td width="150px">BF4</td>
+		<td width="150px">NA</td>
+		<td width="150px">ALL</td>
+		<td width="150px">可能号車</td>
+		<td width="123px">未決</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+	</tr>
+	<tr id="rowid22" >
+		<td width="60px" rowspan="2" >&nbsp;</td>
+		<td width="300px" rowspan="2">３ｒｄ　ＯＷＣ外径保持器熱処理廃止（ＶＡ）</td>
+		<td width="60px" rowspan="2" >済み</td>
+		<td width="100px" rowspan="2">2015/03/05</td>
+		<td width="50px" rowspan="2">国内</td>
+		<td width="50px" rowspan="2">国内</td>
+		<td width="140px" rowspan="2">HR3第N回設審</td>
+		<td width="120px" rowspan="2" >エンジン設計2課</td>
+		<td width="100px" rowspan="2" >○○　○○</td>
+		<td width="100px" rowspan="2" >7754</td>
+		<td width="100px">200A</td>
+		<td width="60px" rowspan="2"></td>
+		<td width="60px" rowspan="2">有り</td>
+		<td width="120px" rowspan="2">新車種</td>
+		<td width="70px" rowspan="2">&nbsp;</td>
+		<td width="70px" rowspan="2">&nbsp;</td>
+		<td width="150px" rowspan="2">&nbsp;</td>
+		<td width="60px" rowspan="2" >25</td>
+		<td width="100px" rowspan="2">2015/02/05</td>
+		<td width="150px">HR3</td>
+		<td width="150px">NA</td>
+		<td width="150px">ALL</td>
+		<td width="150px">可能号車</td>
+		<td width="123px">未決</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">準工時期備考</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+	</tr>
+	<tr id="rowid32">
+  		<td>200B</td>
+ 		<td width="150px">BF4</td>
+		<td width="150px">NA</td>
+		<td width="150px">ALL</td>
+		<td width="150px">可能号車</td>
+		<td width="123px">未決</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+	</tr>
+	<tr id="rowid23" >
+		<td width="60px" rowspan="2" >&nbsp;</td>
+		<td width="300px" rowspan="2">３ｒｄ　ＯＷＣ外径保持器熱処理廃止（ＶＡ）</td>
+		<td width="60px" rowspan="2" >済み</td>
+		<td width="100px" rowspan="2">2015/03/05</td>
+		<td width="50px" rowspan="2">国内</td>
+		<td width="50px" rowspan="2">国内</td>
+		<td width="140px" rowspan="2">HR3第N回設審</td>
+		<td width="120px" rowspan="2" >エンジン設計2課</td>
+		<td width="100px" rowspan="2" >○○　○○</td>
+		<td width="100px" rowspan="2" >7754</td>
+		<td width="100px">200A</td>
+		<td width="60px" rowspan="2"></td>
+		<td width="60px" rowspan="2">有り</td>
+		<td width="120px" rowspan="2">新車種</td>
+		<td width="70px" rowspan="2">&nbsp;</td>
+		<td width="70px" rowspan="2">&nbsp;</td>
+		<td width="150px" rowspan="2">&nbsp;</td>
+		<td width="60px" rowspan="2" >25</td>
+		<td width="100px" rowspan="2">2015/02/05</td>
+		<td width="150px">HR3</td>
+		<td width="150px">NA</td>
+		<td width="150px">ALL</td>
+		<td width="150px">可能号車</td>
+		<td width="123px">未決</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">準工時期備考</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+	</tr>
+	<tr id="rowid33">
+  		<td>200B</td>
+ 		<td width="150px">BF4</td>
+		<td width="150px">NA</td>
+		<td width="150px">ALL</td>
+		<td width="150px">可能号車</td>
+		<td width="123px">未決</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+	</tr>
+	<tr id="rowid24" >
+		<td width="60px" rowspan="2" >&nbsp;</td>
+		<td width="300px" rowspan="2">３ｒｄ　ＯＷＣ外径保持器熱処理廃止（ＶＡ）</td>
+		<td width="60px" rowspan="2" >済み</td>
+		<td width="100px" rowspan="2">2015/03/05</td>
+		<td width="50px" rowspan="2">国内</td>
+		<td width="50px" rowspan="2">国内</td>
+		<td width="140px" rowspan="2">HR3第N回設審</td>
+		<td width="120px" rowspan="2" >エンジン設計2課</td>
+		<td width="100px" rowspan="2" >○○　○○</td>
+		<td width="100px" rowspan="2" >7754</td>
+		<td width="100px">200A</td>
+		<td width="60px" rowspan="2"></td>
+		<td width="60px" rowspan="2">有り</td>
+		<td width="120px" rowspan="2">新車種</td>
+		<td width="70px" rowspan="2">&nbsp;</td>
+		<td width="70px" rowspan="2">&nbsp;</td>
+		<td width="150px" rowspan="2">&nbsp;</td>
+		<td width="60px" rowspan="2" >25</td>
+		<td width="100px" rowspan="2">2015/02/05</td>
+		<td width="150px">HR3</td>
+		<td width="150px">NA</td>
+		<td width="150px">ALL</td>
+		<td width="150px">可能号車</td>
+		<td width="123px">未決</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">準工時期備考</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+	</tr>
+	<tr id="rowid34">
+  		<td>200B</td>
+ 		<td width="150px">BF4</td>
+		<td width="150px">NA</td>
+		<td width="150px">ALL</td>
+		<td width="150px">可能号車</td>
+		<td width="123px">未決</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+	</tr>
+	<tr id="rowid25" >
+		<td width="60px" rowspan="2" >&nbsp;</td>
+		<td width="300px" rowspan="2">３ｒｄ　ＯＷＣ外径保持器熱処理廃止（ＶＡ）</td>
+		<td width="60px" rowspan="2" >済み</td>
+		<td width="100px" rowspan="2">2015/03/05</td>
+		<td width="50px" rowspan="2">国内</td>
+		<td width="50px" rowspan="2">国内</td>
+		<td width="140px" rowspan="2">HR3第N回設審</td>
+		<td width="120px" rowspan="2" >エンジン設計2課</td>
+		<td width="100px" rowspan="2" >○○　○○</td>
+		<td width="100px" rowspan="2" >7754</td>
+		<td width="100px">200A</td>
+		<td width="60px" rowspan="2"></td>
+		<td width="60px" rowspan="2">有り</td>
+		<td width="120px" rowspan="2">新車種</td>
+		<td width="70px" rowspan="2">&nbsp;</td>
+		<td width="70px" rowspan="2">&nbsp;</td>
+		<td width="150px" rowspan="2">&nbsp;</td>
+		<td width="60px" rowspan="2" >25</td>
+		<td width="100px" rowspan="2">2015/02/05</td>
+		<td width="150px">HR3</td>
+		<td width="150px">NA</td>
+		<td width="150px">ALL</td>
+		<td width="150px">可能号車</td>
+		<td width="123px">未決</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">準工時期備考</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+	</tr>
+	<tr id="rowid35">
+  		<td>200B</td>
+ 		<td width="150px">BF4</td>
+		<td width="150px">NA</td>
+		<td width="150px">ALL</td>
+		<td width="150px">可能号車</td>
+		<td width="123px">未決</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+	</tr>
+	<tr id="rowid26" >
+		<td width="60px" rowspan="2" >&nbsp;</td>
+		<td width="300px" rowspan="2">３ｒｄ　ＯＷＣ外径保持器熱処理廃止（ＶＡ）</td>
+		<td width="60px" rowspan="2" >済み</td>
+		<td width="100px" rowspan="2">2015/03/05</td>
+		<td width="50px" rowspan="2">国内</td>
+		<td width="50px" rowspan="2">国内</td>
+		<td width="140px" rowspan="2">HR3第N回設審</td>
+		<td width="120px" rowspan="2" >エンジン設計2課</td>
+		<td width="100px" rowspan="2" >○○　○○</td>
+		<td width="100px" rowspan="2" >7754</td>
+		<td width="100px">200A</td>
+		<td width="60px" rowspan="2"></td>
+		<td width="60px" rowspan="2">有り</td>
+		<td width="120px" rowspan="2">新車種</td>
+		<td width="70px" rowspan="2">&nbsp;</td>
+		<td width="70px" rowspan="2">&nbsp;</td>
+		<td width="150px" rowspan="2">&nbsp;</td>
+		<td width="60px" rowspan="2" >25</td>
+		<td width="100px" rowspan="2">2015/02/05</td>
+		<td width="150px">HR3</td>
+		<td width="150px">NA</td>
+		<td width="150px">ALL</td>
+		<td width="150px">可能号車</td>
+		<td width="123px">未決</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">準工時期備考</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+	</tr>
+	<tr id="rowid36">
+  		<td>200B</td>
+ 		<td width="150px">BF4</td>
+		<td width="150px">NA</td>
+		<td width="150px">ALL</td>
+		<td width="150px">可能号車</td>
+		<td width="123px">未決</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+	</tr>
+	<tr id="rowid27" >
+		<td width="60px" rowspan="2" >&nbsp;</td>
+		<td width="300px" rowspan="2">３ｒｄ　ＯＷＣ外径保持器熱処理廃止（ＶＡ）</td>
+		<td width="60px" rowspan="2" >済み</td>
+		<td width="100px" rowspan="2">2015/03/05</td>
+		<td width="50px" rowspan="2">国内</td>
+		<td width="50px" rowspan="2">国内</td>
+		<td width="140px" rowspan="2">HR3第N回設審</td>
+		<td width="120px" rowspan="2" >エンジン設計2課</td>
+		<td width="100px" rowspan="2" >○○　○○</td>
+		<td width="100px" rowspan="2" >7754</td>
+		<td width="100px">200A</td>
+		<td width="60px" rowspan="2"></td>
+		<td width="60px" rowspan="2">有り</td>
+		<td width="120px" rowspan="2">新車種</td>
+		<td width="70px" rowspan="2">&nbsp;</td>
+		<td width="70px" rowspan="2">&nbsp;</td>
+		<td width="150px" rowspan="2">&nbsp;</td>
+		<td width="60px" rowspan="2" >25</td>
+		<td width="100px" rowspan="2">2015/02/05</td>
+		<td width="150px">HR3</td>
+		<td width="150px">NA</td>
+		<td width="150px">ALL</td>
+		<td width="150px">可能号車</td>
+		<td width="123px">未決</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">準工時期備考</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+	</tr>
+	<tr id="rowid37">
+  		<td>200B</td>
+ 		<td width="150px">BF4</td>
+		<td width="150px">NA</td>
+		<td width="150px">ALL</td>
+		<td width="150px">可能号車</td>
+		<td width="123px">未決</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="123px">&nbsp;</td>
+		<td width="124px">&nbsp;</td>
+	</tr>
+
+</table>
+</div>
+</p>
+</form>
+</body>
+</html>

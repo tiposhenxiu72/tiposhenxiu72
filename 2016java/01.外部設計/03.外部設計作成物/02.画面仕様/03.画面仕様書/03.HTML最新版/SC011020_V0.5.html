@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+<!--
+-->
+
+</script>
+<script language="javascript">
+<!--
+	//ウインドウサイズの変更
+	function changesize(){
+	window.resizeTo(1280,720);//サイズの指定
+	}
+	window.onload = changesize;//ページの読み込み時に関数を呼び出す
+	window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+//-->
+</script>
+
+
+<title>[SC011020]部品番号からの設通番号検索・出力</title>
+</head>
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td height="20" colspan="2">[SC011020]部品番号からの設通番号検索・出力
+</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="RIGHT"><INPUT type="submit" value="メニューへ" style="WIDTH:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="WIDTH:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+
+<form id="SC011020" name="MainForm">
+<p>
+<b>部品番号からの設通番号検索・出力</b>
+</p>
+<p>
+<table border="0" width="940px" cellpadding="0" cellspacing="0">
+	<tr>
+	<td>
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+		<tr>
+			<td width="90px" >部品番号&nbsp;<font color="red">*</font>：</td>
+			<td width="150px"><input type="text" value="61011FJ410" style="width:100px;text-align:left;border: 1px solid #7f9db9;" id="S001"/>(F*)</td>
+			<td align="right"><input type="button" value="検索" style="width:84pt"/></td>
+		</tr>
+		</table>
+	</td>
+	</tr>
+</table>
+</p>
+
+<p>
+<div style="width:1200px; float:left; overflow:hidden;  border-style:none;" id="SYNC_HEADER">
+<table border="0" width="900px" cellpadding="0" cellspacing="0" >
+<tr>
+	<td align="right">3 rec
+	</td>
+<tr/>
+</table>
+<table border="1" width="960px" cellpadding="0" cellspacing="0" class="main_table" align="left" id="main_table">
+<thead>
+<tr>
+<th width="30px" align="left">No</th>
+<th width="85px" align="left">設通番号</th>
+<th width="60px" align="left">改訂番号</th>
+<th width="100px" align="left">件名</th>
+<th width="80px" align="left">関連設通番号</th>
+<th width="120px" align="left">同指示設通番号</th>
+<th width="100px" align="left">初回設審日</th>
+<th width="90px" align="left">タイトル図番</th>
+<th width="90px" align="left">図面改訂番号</th>
+<th width="100px" align="left">設計者</th>
+<th width="105px" align="left">受領日</th>
+</tr>
+</thead>
+</table>
+</div>
+
+
+<div style="height:164px; width:989px; overflow: scroll; overflow-x:hidden;  border-style:none;" id="SYNC" >
+<table border="1" cellpadding="0" cellspacing="0" class="main_table" width="100%" >
+
+<tr>
+	<td width="30px" align="right">1</td>
+	<td width="85px" align="left"><a href="">HR3&nbsp;&nbsp;-L0001</a></td>
+	<td width="60px" align="left">1</td>
+	<td width="100px" align="left">XXXXXX</td>
+	<td width="80px" align="left">HR3&nbsp;&nbsp;-L0002</td>
+	<td width="120px" align="left">BF4&nbsp;&nbsp;-L0300,EZ</td>
+	<td width="100px" align="left">2010/10/15</td>
+	<td width="90px" align="left"><a href="">61011FJ410</a></td>
+	<td width="90px" align="left">02</td>
+	<td width="100px" align="left">T.TANAKA</td>
+	<td align="left">2010/10/10</td>
+</tr>
+<tr>
+	<td width="30px" align="right">2</td>
+	<td width="85px" align="left"><a href="">HR3&nbsp;&nbsp;-M0134</a></td>
+	<td width="60px" align="left"></td>
+	<td width="100px" align="left">YYYYYY</td>
+	<td width="80px" align="left"></td>
+	<td width="120px" align="left">BF4&nbsp;&nbsp;-L0100,EZ</td>
+	<td width="100px" align="left">2010/09/10</td>
+	<td width="90px" align="left"><a href="">61011FJ410</a></td>
+	<td width="90px" align="left">01</td>
+	<td width="100px" align="left">S.SATO</td>
+	<td align="left">2010/09/01</td>
+</tr>
+<tr>
+	<td width="30px" align="right">3</td>
+	<td width="85px" align="left"><a href="">HR3&nbsp;&nbsp;-M0133</a></td>
+	<td width="60px" align="left"></td>
+	<td width="100px" align="left">ZZZZZZ</td>
+	<td width="80px" align="left"></td>
+	<td width="120px" align="left">BF4&nbsp;&nbsp;-L0100,EZ</td>
+	<td width="100px" align="left">2010/07/20</td>
+	<td width="90px" align="left"><a href="">61011FJ410</a></td>
+	<td width="90px" align="left">00</td>
+	<td width="100px" align="left">H.HANAK</td>
+	<td align="left">2010/07/13</td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</table>
+
+</div>
+</p>
+</form>
+</body>
+</html>

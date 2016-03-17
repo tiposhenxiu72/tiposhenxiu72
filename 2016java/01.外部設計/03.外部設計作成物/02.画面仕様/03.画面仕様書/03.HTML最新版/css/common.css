@@ -1,0 +1,124 @@
+/*
+ * 標準フォント
+ *
+ */
+BODY
+{
+	font-family: "Meiryo";
+	font-size: 10pt;
+} 
+
+input { font-size: 10pt }
+
+/*
+ ****************
+ * 標準テーブル *
+ ****************
+ */
+#container {
+	height: 100%;
+	width: 700px;
+	margin: 0px;
+	padding: 0;
+}
+
+/*
+ * 標準テーブル
+ */
+table.main_table {
+	margin: 0 auto;
+	clear: both;
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+/*
+ * 標準テーブル2
+ */
+table.main_table2 {
+	margin: 0 auto;
+	clear: both;
+	border-collapse: collapse;
+}
+/*
+ * ヘッダのスタイル
+ */
+table.main_table thead th {
+	border-bottom: 2px solid black;
+	font-weight: bold;
+	background-color:#b0e0e6;
+}
+/*
+ * ヘッダのスタイル
+ */
+table.main_table2 thead th {
+	border-bottom: 2px solid black;
+	font-weight: bold;
+	background-color:#b0e0e6;
+}
+
+input.text40L {
+  width:40px;
+  text-align:left;
+  border: 1px solid #7f9db9;
+}
+input.text40R {
+  width:40px;
+  text-align:right;
+  border: 1px solid #7f9db9;
+}
+input.text60L {
+  width:60px;
+  text-align:left;
+  border: 1px solid #7f9db9;
+}
+input.text80L {
+  width:80px;
+  text-align:left;
+  border: 1px solid #7f9db9;
+}
+
+td.colR {
+  text-align:right;
+  padding-right:5px;
+}
+td.colL {
+  text-align:left;
+  padding-left:5px;
+}
+td.colC {
+  text-align:center;
+}
+
+tr.sel {
+  background-color:#98FB98;
+}
+
+tr.notsel {
+  background-color:#ffffff;
+}
+
+tr.comp {
+  background-color:#AFEEEE;
+}
+
+tr.comp2 {
+  background-color:#E0FFFF;
+}
+
+tr.deleted {
+  background-color:#F0F0F0;
+}
+
+input.err {
+  background-color:#ff0000;
+  width:60px;
+  text-align:left;
+  border: 1px solid #7f9db9;
+}
+
+input.noerr {
+  background-color:#ffffff;
+  width:60px;
+  text-align:left;
+  border: 1px solid #7f9db9;
+}

@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+
+<!--
+function checkH(obj,rownum){
+    
+    document.getElementById("rowid1" + rownum).className = "sel";
+   
+    var tableList1=document.getElementById("main_table");
+    
+    var rowsCount=tableList1.rows.length; 
+    
+    for (var i=1; i<=rowsCount; i=i+1){
+		if(i != rownum){
+				document.getElementById("rowid1" + i).className = "notsel";            
+			}
+    }
+	if(rownum==2){
+		document.getElementById("rowid13").className = "sel";
+	}else{
+		document.getElementById("rowid13").className = "notsel";
+	}
+	
+	if(rownum==4){
+		document.getElementById("rowid15").className = "sel";
+	}else{
+		document.getElementById("rowid15").className = "notsel";
+	}
+}
+
+
+function sync_scroll(obj)
+{
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+    var strIdTop = obj.id+"_FIX";
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+    var intScrlTop = obj.scrollTop;
+
+    /*同一IDのオブジェクト取得*/
+    fix=document.getElementById(strIdTop);
+    //スクロール位置の設定
+    fix.scrollTop=intScrlTop;
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+}
+
+function keydown()
+{
+if(event.keyCode >= 112 && event.keyCode <= 123){ 
+	event.keyCode = 0;
+	return false;
+	}
+	}
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+
+-->
+
+</script>
+<script language="javascript">
+<!--
+	//ウインドウサイズの変更
+	function changesize(){
+	window.resizeTo(1280,720);//サイズの指定
+	}
+	window.onload = changesize;//ページの読み込み時に関数を呼び出す
+	window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+//-->
+</script>
+<title>[SC006008]品目ID選択</title>
+</head>
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td  colspan="2">[SC006008]品目ID選択</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+<form id="SC006005" name="MainForm">
+<b>
+<p id="p11" >
+品目ID選択
+</p>
+</b>
+
+<table border="0" cellpadding="0" cellspacing="0" >
+<tr>
+<td width="15px">&nbsp;</td>
+<td width="80px">開発符号：</td>
+<td width="400px">&nbsp;HR3</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>部品番号：</td>
+<td>&nbsp;26400AJ060</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>部品名称：</td>
+<td>&nbsp;MA CYL&BSTR ASSY</td>
+</tr>
+<tr>
+<td colspan="3">&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td colspan="2"><input type="button" value="品目ID決定" onclick='' style="width:120px"></td>
+</tr>
+</table>
+
+</p>
+<p>
+	<table>
+		<tr>
+			<td width="900px"></td><td width="45px">3 rec</td>
+		</tr>
+	</table>
+<div style="float:left; width:955px; overflow:hidden; text-align:left; border-style:none;">
+<table border="1" cellpadding="0" cellspacing="0" id="head_table2" width="955px" style="text-align:left;" class="main_table">
+<thead>
+<tr style="background-color:white;font-weight: bold; background:#b0e0e6;">
+<th width="20px" align="left">No</th>
+<th width="20px" align="left">選</th>
+<th width="79px" align="left">品目ID</th>
+<th width="20px" align="left">注</th>
+<th width="80px" align="left">ﾌｧﾝｸｼｮﾝ</th>
+<th width="199px" align="left">品目名称（品目辞書）</th>
+<th width="80px" align="left">取引先</th>
+<th width="200px" align="left">備考</th>
+</tr>
+</thead>
+</table>
+</div>
+
+<div style="float:left; width:971px; height:129px; overflow-x:hidden; overflow-y:scroll; text-align:left; border-style:none;">
+<table border="1" cellpadding="0" cellspacing="0" id="main_table" width="954px" style="text-align:left;" class="main_table">
+<tr id="rowid11" valign="top">
+<td width="20px" align="right">1</td>
+<td width="20px"><input type="radio" name="radioChk" OnClick="return checkH(this,1);"></td>
+<td width="80px" >26400</td>
+<td width="20px">*</td>
+<td width="80px">26400</td>
+<td width="200px">MA CYL&BSTR ASSY</td>
+<td width="80px">A255</td>
+<td width="200px">&nbsp;</td>
+</tr>
+
+<tr id="rowid12" valign="top">
+<td rowspan="2" align="right">2</td>
+<td rowspan="2"><input type="radio" name="radioChk" OnClick="return checkH(this,2);"></td>
+<td rowspan="2">26400L</td>
+<td rowspan="2">&nbsp;</td>
+<td rowspan="2">26400</td>
+<td>MA CYL&BSTR ASSY LH </td>
+<td rowspan="2">A101</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr id="rowid13" valign="top">
+<td>MA CYL&BSTR ASSY</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr id="rowid14" valign="top">
+<td rowspan="2" align="right">3</td>
+<td rowspan="2"><input type="radio" name="radioChk" OnClick="return checkH(this,4);"></td>
+<td rowspan="2">26400R</td>
+<td rowspan="2">&nbsp;</td>
+<td rowspan="2">26400</td>
+<td>MA CYL&BSTR ASSY RH </td>
+<td rowspan="2">A101</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr id="rowid15" valign="top">
+<td>MA CYL&BSTR ASSY</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr id="rowid16" >
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr id="rowid17" >
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr id="rowid18" >
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+</table>
+
+</div>
+</p>
+</form>
+</body>
+</html>

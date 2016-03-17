@@ -1,0 +1,235 @@
+/* 2-7.部品表正展開(SC011070) */
+WITH TEMP
+(
+	SORTKEY,		/* ソートキー 「見出し番号 + 見出し番号種類」のPATH */
+	INDENT_SPACE, 	/* 部品名称に使う インデント空白 */
+	ROOTPRTNO,		/* 基点部品番号 */
+	ROOTDRWG_CLS,	/* 基点部品番号の図面区分 */
+	PRTSTATUS,		/* 部品ステータス */
+	STRCLV,			/* 展開レベル */
+	STRCLV2,		/* 非移動単位(加工区分=Z)を除いた展開レベル */
+	DRWG_CLS,		/* 図面区分 */
+	SERIES,			/* 図面シリーズ */
+	BCLKNO,			/* ブロックNO */
+	PARPRNTO,		/* 組付先部品番号 */
+	PRTNO,			/* 部品番号 */
+	PN_REV,			/* 変番 */
+	PN_MREV,		/* 工場改訂 */
+	PRTNM,			/* 部品名称 */
+	QTYPARCAR,		/* 必要数 */
+	COMRTG,			/* 消費工順 */
+	JOBSEQ,			/* 発生工順 */
+	SPLRCD,			/* 取引先 */
+	UNITCLS,		/* ユニット区分 */
+	PRCSCD,			/* 加工区分 */
+	DNNO,			/* 設通NO */
+	MINFO,			/* (*2) 管理区分,供給コード,採確コード */
+	REF,			/* 参考 */
+	QTY,			/* 員数 */
+	DRWGNO,			/* タイトル図番 */
+	DRWGREV,		/* 図面改訂番号 */
+	PS_REV			/* 技術構成改訂番号 */
+) AS
+(
+	SELECT
+		'' AS SORTKEY,
+		' ' AS INDENT_SPACE,
+		MPRT.PARTS_NO AS ROOTPRTNO,
+		PRT.DRAWING_CLASS AS ROOTDRWG_CLS,
+		MPRT.FACTORY_PN_STATUS AS PRTSTATUS,							/* 画面表示のために変換が必要 コードマスター(CDGRP005) */
+		1 AS STRCLV,				/* 展開レベル */
+		1 AS STRCLV2,				/* 非移動単位(加工区分=Z)を除いた展開レベル */
+		PRT.DRAWING_CLASS AS DRWG_CLS,
+		PRT.DRAWING_SERIES AS SERIES,
+		PRT.DRAWING_BLOCK_NO AS BLCKNO,
+		'' AS PARPRTNO,
+		MPRT.PARTS_NO AS PRTNO,
+		MPRT.ENGINEERING_PN_REV_NO AS PN_REV,
+		MPRT.FACTORY_PN_REV_NO AS PN_MREV,
+		PRT.PARTS_NAME AS PRTNM,
+		1 AS QTYPARCAR,
+		'  ' AS COMRTG,											/* 消費工順 */
+		MPRT.JOB_SEQ_NO AS JOBSEQ,
+		MPRT.SUPPLIER_CODE AS SPLRCD,
+		' ' AS UNITCLS,											/* ユニット区分 */
+		' ' AS PRCSCD,											/* 加工区分 */
+		MPRT.REPR_OF_MAIN_ECS_NO AS DNNO,						/* 主設通代表設通番号 */
+		' ' AS MINFO,											/* (*2) 管理区分,供給コード,採確コード */
+		' ' AS REF,												/* 参考 */
+		1 AS QTY,
+		DRWGPRT.DRAWING_NO AS DRWGNO,
+		DRWGPRT.DRAWING_REV_NO AS DRWGREV,
+		'' AS PS_REV
+	FROM
+		TB004001 MPRT,				/* 工場部品情報 */
+		TB001003 PRT,				/* 部品諸元 */
+		TB001002 DRWGPRT			/* 部品図面 */
+	WHERE	
+		MPRT.PARTS_NO=? AND																									/* 画面入力された部品番号を指定 */
+		MPRT.FACTORY_PN_STATUS='50' AND																								/* 本登録済を指定 コードマスター(CDGRP005) */
+		(MPRT.ADOPT_DATE <= TO_DATE(?, 'YYYY/MM/DD') AND MPRT.ABOLISH_DATE > TO_DATE(?, 'YYYY/MM/DD')) AND			/* 画面入力された日付を指定 */
+		PRT.PARTS_NO=MPRT.PARTS_NO AND
+		PRT.PARTS_PROP_REV_NO=MPRT.PARTS_PROP_REV_NO AND
+		DRWGPRT.PARTS_NO=MPRT.PARTS_NO AND
+		DRWGPRT.ENGINEERING_PN_REV_NO=MPRT.ENGINEERING_PN_REV_NO
+	UNION ALL
+	SELECT
+		(TEMP.SORTKEY || '/' || STRC.INDEX || STRC.KIND) AS SORTKEY,
+		DECODE(DECODE(PRT.DRAWING_CLASS, 'F', 
+				(
+					SELECT DISTINCT
+						MSTRC2.PROCESSING_CODE
+					FROM
+						TB004002 MSTRC2			/* 工場構成情報 */
+					WHERE
+						MSTRC2.SUB_PARTS_NO=PRT.PARTS_NO AND
+						MSTRC2.PARENT_PARTS_NO='T' AND						/* ダミー親部品番号の構成を取得 */
+						MSTRC2.FACTORY_PS_STATUS='50' AND				/* 本登録済みを指定 コードマスター(CDGRP005) */
+						(MSTRC2.ADOPT_DATE <= TO_DATE(?, 'YYYY/MM/DD') AND MSTRC2.ABOLISH_DATE > TO_DATE(?, 'YYYY/MM/DD'))			/* 画面入力された日付を指定 */
+				), 
+					MSTRC.PROCESSING_CODE), 'Z', '', ' ') AS INDENT_SPACE,																			/* 非移動単位(加工区分=Z)を除いた部品名称インデント用スペース 20110728_sakurai */
+		TEMP.ROOTPRTNO AS ROOTPRTNO,
+		TEMP.ROOTDRWG_CLS AS ROOTDRWG_CLS,
+		MPRT.FACTORY_PN_STATUS AS PRTSTATUS,														/* 画面表示のために変換が必要 コードマスター(CDGRP005) */
+		(TEMP.STRCLV + 1) AS STRCLV,																/* 展開レベル */
+		DECODE(DECODE(PRT.DRAWING_CLASS, 'F', 
+				(
+					SELECT DISTINCT
+						MSTRC2.PROCESSING_CODE
+					FROM
+						TB004002 MSTRC2			/* 工場構成情報 */
+					WHERE
+						MSTRC2.SUB_PARTS_NO=PRT.PARTS_NO AND
+						MSTRC2.PARENT_PARTS_NO='T' AND						/* ダミー親部品番号の構成を取得 */
+						MSTRC2.FACTORY_PS_STATUS='50' AND				/* 本登録済みを指定 コードマスター(CDGRP005) */
+						(MSTRC2.ADOPT_DATE <= TO_DATE(?, 'YYYY/MM/DD') AND MSTRC2.ABOLISH_DATE > TO_DATE(?, 'YYYY/MM/DD'))			/* 画面入力された日付を指定 */
+				), 
+					MSTRC.PROCESSING_CODE), 'Z', TEMP.STRCLV, TEMP.STRCLV + 1) AS STRCLV2,															/* 非移動単位(加工区分=Z)を除いた展開レベル */
+		PRT.DRAWING_CLASS AS DRWG_CLS,
+		PRT.DRAWING_SERIES AS SERIES,
+		PRT.DRAWING_BLOCK_NO AS BLCKNO,
+		MSTRC.PARENT_PARTS_NO AS PARPRTNO,
+		MSTRC.SUB_PARTS_NO AS PRTNO,
+		MPRT.ENGINEERING_PN_REV_NO AS PN_REV,
+		MPRT.FACTORY_PN_REV_NO AS PN_MREV,
+		(TEMP.INDENT_SPACE || PRT.PARTS_NAME) AS PRTNM,
+		DECODE(TEMP.QTYPARCAR, '**', '**', DECODE(STRC.QUANTITY, -1, '**', TEMP.QTYPARCAR * STRC.QUANTITY)) AS QTYPARCAR,
+		MSTRC.CONSUMPTION_ROUTING AS COMRTG,											/* 消費工順 */
+		MPRT.JOB_SEQ_NO AS JOBSEQ,
+		MPRT.SUPPLIER_CODE AS SPLRCD,
+		MSTRC.UNIT_CLASS AS UNITCLS,										/* ユニット区分 */
+		MSTRC.PROCESSING_CODE AS PRCSCD,									/* 加工区分 */
+		MPRT.REPR_OF_MAIN_ECS_NO AS DNNO,									/* 主設通代表設通番号 */
+		('1:' || MSTRC.MANAGEMENT_STATUS || ',2:' || MSTRC.SUPPLY_CODE || ',3:' || MSTRC.ADOPT_CHECK_CODE ) AS MINFO,	/* (*2) 管理区分,供給コード,採確コード */
+		STRC.REFERENCE AS REF,												/* 参考 */
+		STRC.QUANTITY AS QTY,												/* 員数 */
+		DRWGPRT.DRAWING_NO AS DRWGNO,
+		DRWGPRT.DRAWING_REV_NO AS DRWGREV,
+		MSTRC.ENGINEERING_PS_REV_NO AS PS_REV
+	FROM
+		TEMP,
+		TB004002 MSTRC,				/* 工場構成情報 */
+		TB001004 STRC,				/* 部品構成 */
+		TB004001 MPRT,				/* 工場部品情報 */
+		TB001003 PRT,				/* 部品諸元 */
+		TB001002 DRWGPRT			/* 部品図面 */
+	WHERE
+		TEMP.STRCLV < ? AND																									/* ◎ 展開レベルを指定 「非移動単位も表示」ONの場合はこちらの条件を使う */
+/* 		TEMP.STRCLV2 < ? AND																								◎ 展開レベルを指定 「非移動単位も表示」OFFの場合はこちらの条件を使う */
+		MSTRC.PARENT_PARTS_NO=TEMP.PRTNO AND																						/* 前レコードの部品番号を、親部品番号としたレコードを取得 (再帰)  */ 
+		MSTRC.FACTORY_PS_STATUS='50' AND																							/* 本登録済を指定 コードマスター(CDGRP005) */
+		(MSTRC.ADOPT_DATE <= TO_DATE(?, 'YYYY/MM/DD') AND MSTRC.ABOLISH_DATE > TO_DATE(?, 'YYYY/MM/DD')) AND		/* 画面入力された日付を指定 */
+		STRC.SUB_PARTS_NO=MSTRC.SUB_PARTS_NO AND
+		STRC.PARENT_PARTS_NO=MSTRC.PARENT_PARTS_NO AND
+		STRC.ENGINEERING_PS_REV_NO=MSTRC.ENGINEERING_PS_REV_NO AND
+		TEMP.REF!='R' AND																					/* ◎ 参考呼び出し構成を展開しないための条件。参考呼び出し展開チェックがONの場合は、この条件を削除する */
+		MPRT.PARTS_NO=MSTRC.SUB_PARTS_NO AND
+		MPRT.FACTORY_PN_STATUS='50' AND																		/* 本登録済を指定 コードマスター(CDGRP005) */
+		(MPRT.ADOPT_DATE <= TO_DATE(?, 'YYYY/MM/DD') AND MPRT.ABOLISH_DATE > TO_DATE(?, 'YYYY/MM/DD')) AND			/* 画面入力された日付を指定 */
+		PRT.PARTS_NO=MPRT.PARTS_NO AND
+		PRT.PARTS_PROP_REV_NO=MPRT.PARTS_PROP_REV_NO AND
+		DRWGPRT.PARTS_NO=MPRT.PARTS_NO AND
+		DRWGPRT.ENGINEERING_PN_REV_NO=MPRT.ENGINEERING_PN_REV_NO
+)
+SELECT
+		TEMP.PRTSTATUS,																	/* 部品ステータス 画面表示のために変換が必要。 コードマスター(CDGRP005) */
+		DECODE(TEMP.ROOTDRWG_CLS, 'F', TEMP.STRCLV -1, TEMP.STRCLV) AS STRCLV,			/* 展開レベル (基点部品がファイナル部品だった場合、Lv0からカウント) */
+		DECODE(TEMP.ROOTDRWG_CLS, 'F', TEMP.STRCLV2 -1, TEMP.STRCLV2) AS STRCLV2,		/* ◎ 非移動単位(加工区分=Z)を除いた展開レベル。 非移動単位(加工区分=Z)を除くオプションが指定された場合はこちらの展開レベルを使う (基点部品がファイナル部品だった場合、Lv0からカウント) */
+		TEMP.DRWG_CLS,																	/* F図 */
+		TEMP.BCLKNO,																	/* ブロックNO */
+		NVL(PRTITEM.ITEM_ID_NO, 'N/A') AS ITEMID, 										/* 品目ID */
+		TEMP.PARPRNTO,																	/* 組付先部品番号 (旧部品番号を取得するために必要) */
+		TEMP.PRTNO,																		/* 部品番号 */
+		TEMP.PN_REV,																	/* 変番 */
+		TEMP.PN_MREV,																	/* 工場改訂 */
+		TEMP.PRTNM,																		/* 部品名称 */
+		TEMP.QTYPARCAR,																	/* 必要数 */
+		DECODE(TEMP.DRWG_CLS, 'F', MSTRC.CONSUMPTION_ROUTING, TEMP.COMRTG) AS COMRTG,	/* 消費工順 */
+		TEMP.JOBSEQ,																	/* 発生工順 */
+		TEMP.SPLRCD,																	/* 取引先 */
+		DECODE(TEMP.DRWG_CLS, 'F', MSTRC.UNIT_CLASS, TEMP.UNITCLS) AS UNITCLS,			/* ユニット区分 */
+		DECODE(TEMP.DRWG_CLS, 'F', MSTRC.PROCESSING_CODE, TEMP.PRCSCD) AS PRCSCD,		/* 加工区分 */
+		TEMP.DNNO,																		/* 設通NO */
+		TEMP.MINFO,																		/* (*2) 管理区分,供給コード,採確コード */
+		TEMP.REF,																		/* 参考 */
+		TEMP.QTY,																		/* 員数 */
+		TEMP.DRWGNO,																	/* タイトル図番 */
+		TEMP.DRWGREV,																	/* 図面改訂 */
+		TEMP.PS_REV																		/* 技術構成改訂番号 (旧部品番号を取得するために必要) */
+FROM
+	TEMP
+		LEFT OUTER JOIN TB006006 PRTITEM ON						/* 部品品目管理 */
+			PRTITEM.MC_DEV_MODEL_CODE=TEMP.SERIES AND			/* 図面シリーズ (MC開発符号) */
+			PRTITEM.PARTS_NO=TEMP.PRTNO							/* 部品番号 */
+		LEFT OUTER JOIN TB004002 MSTRC ON		/* 工場構成情報 */
+			MSTRC.SUB_PARTS_NO=TEMP.PRTNO AND
+			MSTRC.PARENT_PARTS_NO='T' AND						/* ダミー親部品番号の構成を取得 */
+			MSTRC.FACTORY_PS_STATUS='50' AND					/* 本登録済みを指定 コードマスター(CDGRP005) */
+			(MSTRC.ADOPT_DATE <= TO_DATE(?, 'YYYY/MM/DD') AND MSTRC.ABOLISH_DATE > TO_DATE(?, 'YYYY/MM/DD'))			/* 画面入力された日付を指定 */
+WHERE
+	(STRCLV=1 OR DECODE(TEMP.DRWG_CLS, 'F', MSTRC.PROCESSING_CODE, TEMP.PRCSCD)!='Z')				/* ◎ 非移動単位(加工区分=Z)も表示チェックがONの場合、この条件を削除 */
+ORDER BY
+	SORTKEY
+;
+	
+
+/* F図ブロックNO取得 */
+SELECT distinct
+	PRT.DRAWING_BLOCK_NO AS FBLOCK															/* ファイナル部品のブロックNO これをカンマ区切りで画面に出力 */
+FROM
+	TB001005 RELPRT						/* 関連部品 */
+		INNER JOIN 	TB001003 PRT ON		/* 部品諸元 */
+			PRT.PARTS_NO=RELPRT.RELATED_PARTS_NO AND
+			EXISTS
+				(
+					SELECT
+							MAX(PRT2.PARTS_PROP_REV_NO)
+					FROM
+						TB001003 PRT2
+					WHERE
+							PRT2.PARTS_NO=PRT.PARTS_NO
+					GROUP BY
+						PRT2.PARTS_NO
+					HAVING
+						PRT.PARTS_PROP_REV_NO=MAX(PRT2.PARTS_PROP_REV_NO)		/* 最新改訂を取得 */
+				)
+WHERE
+	RELPRT.PARTS_NO=? AND					/* 部品番号指定 */
+	RELPRT.RELATION_TYPE='F'				/* 関連タイプ='F' (ファイナル) */
+ORDER BY
+	PRT.DRAWING_BLOCK_NO
+;
+
+
+/* 旧部品番号取得 */
+SELECT
+	OLDSTRC.PREV_SUB_PARTS_NO				/* 旧部品番号 これをカンマ区切りで画面に出力 */
+FROM
+	TB001007 OLDSTRC	/* 旧部品構成 */
+WHERE
+	OLDSTRC.PARENT_PARTS_NO=? AND		/* 組付先部品番号 */
+	OLDSTRC.SUB_PARTS_NO=? AND			/* 部品番号 */
+	OLDSTRC.ENGINEERING_PS_REV_NO=?		/* 技術構成改訂番号 */
+ORDER BY
+	PREV_SUB_PARTS_NO
+;

@@ -1,0 +1,5 @@
+--<ScriptOptions statementTerminator=";"/>
+
+CREATE VIEW "VW005001" AS
+--ï ìYVW005001.sqléQè∆ÅB;
+

@@ -1,0 +1,98 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="/WEB-INF/lib/fcom.tld" prefix="fcom" %>
+<fcom:pageCache/>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<title><fcom:properties key="SC007004Form.title"/></title>
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" src="js/common.js" charset="UTF-8"></script>
+<script type="text/javascript" charset="utf-8">
+<!-- 
+<fcom:WACSJavaScripts />
+//-->
+</script>
+</head>
+<body>
+<!-- ヘッダー領域  -->
+<div class="comHeader">
+<div class="comTitle"><fcom:properties key="SC007004Form.title"/></div>
+<jsp:include page="../common/fcomHeader.jsp" flush="true"/>
+</div>
+<fcom:form name="SC007004" method="post">
+<div class="comMain">
+<!--コンテナ左領域-->
+<div class="comMainLeft">
+		<fcom:properties key="SC007004Form.vo_headVO_mcDevModelCode" />
+		<fcom:text property="vo_headVO_mcDevModelCode" />
+		<fcom:properties key="SC007004Form.vo_headVO_eventName" />
+		<fcom:text property="vo_headVO_eventName" />
+		<fcom:properties key="SC007004Form.vo_headVO_partsNo" />
+		<fcom:text property="vo_headVO_partsNo" />
+		<fcom:properties key="SC007004Form.vo_headVO_itemId" />
+		<fcom:text property="vo_headVO_itemId" />
+		<fcom:properties key="SC007004Form.vo_headVO_function" />
+		<fcom:text property="vo_headVO_function" />
+		<fcom:properties key="SC007004Form.vo_headVO_itemName" />
+		<fcom:text property="vo_headVO_itemName" />
+		<fcom:properties key="SC007004Form.vo_headVO_record" />
+		<fcom:text property="vo_headVO_record" />
+</div>
+<!--コンテナ右領域-->
+<div class="comMainRight">
+<fcom:submit type="button" eventId="EV00700402"><fcom:properties key="SC007004Form.EV00700402" /></fcom:submit>
+</div>
+<!--メインテーブル領域-->
+<div class="comMainTable">
+<%-- sc007004Tbl01VOList --%>
+<div class="comRecordNumber">
+<label>7</label>
+<label>rec</label>
+</div>
+<!--テーブルヘッダー部-->
+<div class="comTableHeader1" id="tbl01_0">
+<table id="head_table1">
+  <tr>
+		<th><fcom:properties key="SC007004Form.vo_tbl01_no" /></th>
+		<th><fcom:properties key="SC007004Form.vo_tbl01_selectFlag" /></th>
+		<th><fcom:properties key="SC007004Form.vo_tbl01_partsNo" /></th>
+		<th><fcom:properties key="SC007004Form.vo_tbl01_engineeringReyNo" /></th>
+		<th><fcom:properties key="SC007004Form.vo_tbl01_supplierCode" /></th>
+		<th><fcom:properties key="SC007004Form.vo_tbl01_ecsNo" /></th>
+		<th><fcom:properties key="SC007004Form.vo_tbl01_appliedModelCode" /></th>
+		<th><fcom:properties key="SC007004Form.vo_tbl01_destination" /></th>
+		<th><fcom:properties key="SC007004Form.vo_tbl01_appliedModel" /></th>
+		<th><fcom:properties key="SC007004Form.vo_tbl01_eventName" /></th>
+  </tr>
+</table>
+<!--テーブルボディ部-->
+<div style="width:1240px; height:140px; text-align:center;">
+<div style="float:left; height:139px; width:390px; overflow: scroll; overflow-x: hidden; border-style:none;" id="SYNC_FIX" ONSCROLL="sync_scroll2(this);">
+<table border="1" cellpadding="0" cellspacing="0" id="main_tbl01" class="main_table">
+	<fcom:repeat id="tbl01" property="vo_tbl01_no" >
+	<tr>
+		<td><fcom:text property="vo_tbl01_no" /></td>
+		<td>
+			<fcom:index value="0"><fcom:radio property="vo_tbl01_selectFlag" />XXX</fcom:index>
+			<fcom:index value="1"><fcom:radio property="vo_tbl01_selectFlag" />YYY</fcom:index>
+		</td>
+		<td><fcom:text property="vo_tbl01_partsNo" /></td>
+		<td><fcom:text property="vo_tbl01_engineeringReyNo" /></td>
+		<td><fcom:text property="vo_tbl01_supplierCode" /></td>
+		<td><fcom:text property="vo_tbl01_ecsNo" /></td>
+		<td><fcom:text property="vo_tbl01_appliedModelCode" /></td>
+		<td><fcom:text property="vo_tbl01_destination" /></td>
+		<td><fcom:text property="vo_tbl01_appliedModel" /></td>
+		<td><fcom:text property="vo_tbl01_eventName" /></td>
+	</tr>
+	</fcom:repeat>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</fcom:form>
+</body>
+</html>

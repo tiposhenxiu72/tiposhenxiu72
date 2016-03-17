@@ -1,0 +1,119 @@
+00075  |CREATE TABLE "TB001004" (                         ||00075  |CREATE TABLE "TB001004" (                         
+00094 L|        "MATERIAL" VARCHAR(48) NOT NULL,          ||00094 R|        "MATERIAL" CHAR(48) NOT NULL,             
+00095 L|        "AUTOMATIC_SYMBOL" CHAR(1) NOT NULL,      ||00095 R|        "AUTOMATIC_SYMBOL" VARCHAR(1) NOT NULL,   
+00501  |CREATE TABLE "TB003001" (                         ||00501  |CREATE TABLE "TB003001" (                         
+00518 L|        "DISTRIBUTE_CLASS" CHAR(30) NOT NULL,     ||00518 R|        "DISTRIBUTE_CLASS" CHAR(2) NOT NULL,      
+00519 L|        "APPLIED_MODEL" CHAR(30) NOT NULL,        ||00519 R|        "APPLIED_MODEL" CHAR(2) NOT NULL,         
+00531 L|        "REGULATION" CHAR(7) NOT NULL,            ||00531 R|        "REGULATION" CHAR(5) NOT NULL,            
+       |                                                  ||00691 R|CREATE TABLE "TB003010" (                         
+       |                                                  ||00692 R|        "PARENT_EVENT_ID" CHAR(10) NOT NULL,      
+       |                                                  ||00693 R|        "EVENT_NAME" VARCHAR(100) NOT NULL,       
+       |                                                  ||00694 R|        "REMARKS" VARCHAR(600) NOT NULL,          
+01327 M|        "CREATED_USER_ID" CHAR(10) NOT NULL,      ||00695 R|        "CREATED_USER_ID" CHAR(10) NOT NULL,      
+01328 M|        "CREATED_APP_EVENT_ID" CHAR(10) NOT NULL, ||00696 R|        "CREATED_APP_EVENT_ID" CHAR(10) NOT NULL, 
+01329 M|        "CREATED_TIMESTAMP" TIMESTAMP NOT NULL,   ||00697 R|        "CREATED_TIMESTAMP" TIMESTAMP NOT NULL,   
+01330 M|        "UPDATED_USER_ID" CHAR(10) NOT NULL,      ||00698 R|        "UPDATED_USER_ID" CHAR(10) NOT NULL,      
+01331 M|        "UPDATED_APP_EVENT_ID" CHAR(10) NOT NULL, ||00699 R|        "UPDATED_APP_EVENT_ID" CHAR(10) NOT NULL, 
+01332 M|        "UPDATED_TIMESTAMP" TIMESTAMP NOT NULL    ||00700 R|        "UPDATED_TIMESTAMP" TIMESTAMP NOT NULL    
+01333 M|    )                                             ||00701 R|    )                                             
+01334 M|    DATA CAPTURE NONE                             ||00702 R|    DATA CAPTURE NONE                             
+01335 M|    COMPRESS NO;                                  ||00703 R|    COMPRESS NO;                                  
+01336 M|                                                  ||00704 R|                                                  
+00865 L|CREATE TABLE "TB004006" (                         ||       |                                                  
+00866 L|        "BATCH_UNIQUE_KEY" VARCHAR(40) NOT NULL,  ||       |                                                  
+00867 L|        "PARTS_NO" CHAR(15) NOT NULL,             ||       |                                                  
+00868 L|        "ENGINEERING_PN_REV_NO" CHAR(3) NOT NULL, ||       |                                                  
+00869 L|        "FACTORY_PN_REV_NO" CHAR(3) NOT NULL,     ||       |                                                  
+00870 L|        "ERROR_GROUP_NO" SMALLINT NOT NULL,       ||       |                                                  
+00871 L|        "CREATED_USER_ID" CHAR(10) NOT NULL,      ||       |                                                  
+00872 L|        "CREATED_APP_EVENT_ID" CHAR(10) NOT NULL, ||       |                                                  
+00873 L|        "CREATED_TIMESTAMP" TIMESTAMP NOT NULL,   ||       |                                                  
+00874 L|        "UPDATED_USER_ID" CHAR(10) NOT NULL,      ||       |                                                  
+00875 L|        "UPDATED_APP_EVENT_ID" CHAR(10) NOT NULL, ||       |                                                  
+00876 L|        "UPDATED_TIMESTAMP" TIMESTAMP NOT NULL    ||       |                                                  
+00877 L|    )                                             ||       |                                                  
+00878 L|    DATA CAPTURE NONE                             ||       |                                                  
+00879 L|    COMPRESS NO;                                  ||       |                                                  
+00880 L|                                                  ||       |                                                  
+00881 L|CREATE TABLE "TB004007" (                         ||       |                                                  
+00882 L|        "BATCH_UNIQUE_KEY" VARCHAR(40) NOT NULL,  ||       |                                                  
+00883 L|        "SEAQUENCE" SMALLINT NOT NULL,            ||       |                                                  
+00884 L|        "PARTS_NO" CHAR(15) NOT NULL,             ||       |                                                  
+00885 L|        "ENGINEERING_PN_REV_NO" CHAR(3) NOT NULL, ||       |                                                  
+00886 L|        "FACTORY_PN_REV_NO" CHAR(3) NOT NULL,     ||       |                                                  
+00887 L|        "SUB_PARTS_NO" CHAR(15) NOT NULL,         ||       |                                                  
+00888 L|        "PARENT_PARTS_NO" CHAR(15) NOT NULL,      ||       |                                                  
+00889 L|        "PS_REV_NO" CHAR(3) NOT NULL,             ||       |                                                  
+00890 L|        "FACTORY_PS_REV_NO" CHAR(3) NOT NULL,     ||       |                                                  
+00891 L|        "REPR_OF_MAIN_ECS_NO" CHAR(11) NOT NULL,  ||       |                                                  
+00892 L|        "ERROR_MESSAGE" VARCHAR(1000) NOT NULL,   ||       |                                                  
+00893 L|        "CREATED_USER_ID" CHAR(10) NOT NULL,      ||       |                                                  
+00894 L|        "CREATED_APP_EVENT_ID" CHAR(10) NOT NULL, ||       |                                                  
+00895 L|        "CREATED_TIMESTAMP" TIMESTAMP NOT NULL,   ||       |                                                  
+00896 L|        "UPDATED_USER_ID" CHAR(10) NOT NULL,      ||       |                                                  
+00897 L|        "UPDATED_APP_EVENT_ID" CHAR(10) NOT NULL, ||       |                                                  
+00898 L|        "UPDATED_TIMESTAMP" TIMESTAMP NOT NULL    ||       |                                                  
+00899 L|    )                                             ||       |                                                  
+00900 L|    DATA CAPTURE NONE                             ||       |                                                  
+00901 L|    COMPRESS NO;                                  ||       |                                                  
+00902 L|                                                  ||       |                                                  
+01012  |CREATE TABLE "TB006008" (                         ||00988  |CREATE TABLE "TB006008" (                         
+01016 L|        "BLOCK_NO" CHAR(4) NOT NULL,              ||00992 R|        "BLOCK_NO" DATE NOT NULL,                 
+01056  |CREATE TABLE "TB007002" (                         ||01032  |CREATE TABLE "TB007002" (                         
+01059 L|        "SHEET_CODE" CHAR(5) NOT NULL,            ||01035 R|        "SHEET_CODE" CHAR(4) NOT NULL,            
+01075  |CREATE TABLE "TB007003" (                         ||01051  |CREATE TABLE "TB007003" (                         
+01103 L|        "MASS" VARCHAR(6) NOT NULL,               ||01079 R|        "MASS" CHAR(6) NOT NULL,                  
+01110 L|        "MATERIAL_DESCRIPTION" VARCHAR(48) NOT NUL||01086 R|        "MATERIAL_DESCRIPTION" CHAR(40) NOT NULL, 
+01124  |CREATE TABLE "TB007004" (                         ||01100  |CREATE TABLE "TB007004" (                         
+01127 L|        "SHEET_CODE" CHAR(5) NOT NULL,            ||01103 R|        "SHEET_CODE" CHAR(4) NOT NULL,            
+01139  |CREATE TABLE "TB007005" (                         ||01115  |CREATE TABLE "TB007005" (                         
+01155 L|        "PARTS_NAME" CHAR(20) NOT NULL,           ||01131 R|        "PARTS_NAME" VARCHAR(20) NOT NULL,        
+01170 L|        "MATERIAL_DESCRIPTION" VARCHAR(48) NOT NUL||01146 R|        "MATERIAL_DESCRIPTION" CHAR(40) NOT NULL, 
+01221  |CREATE TABLE "TB007008" (                         ||01197  |CREATE TABLE "TB007008" (                         
+01247 L|        "DWG_CONS_ROUT" VARCHAR(100) NOT NULL,    ||01223 R|        "DWG_CONS_ROUT" CHAR(4) NOT NULL,         
+01253 L|        "CHANGE_REASON" VARCHAR(600) NOT NULL,    ||01229 R|        "CHANGE_REASON" CHAR(100) NOT NULL,       
+01321 L|CREATE TABLE "TB007012" (                         ||       |                                                  
+01322 L|        "MC_DEV_MODEL_CODE" CHAR(4) NOT NULL,     ||       |                                                  
+01323 L|        "EVENT_ID" CHAR(6) NOT NULL,              ||       |                                                  
+01324 L|        "REV_NOTIFY_NO" CHAR(2) NOT NULL,         ||       |                                                  
+01325 L|        "SHEET_CODE" CHAR(5) NOT NULL,            ||       |                                                  
+01326 L|        "CHANGE_REV_NO" CHAR(3) NOT NULL,         ||       |                                                  
+01327 L|        "CREATED_USER_ID" CHAR(10) NOT NULL,      ||00695 M|        "CREATED_USER_ID" CHAR(10) NOT NULL,      
+01328 L|        "CREATED_APP_EVENT_ID" CHAR(10) NOT NULL, ||00696 M|        "CREATED_APP_EVENT_ID" CHAR(10) NOT NULL, 
+01329 L|        "CREATED_TIMESTAMP" TIMESTAMP NOT NULL,   ||00697 M|        "CREATED_TIMESTAMP" TIMESTAMP NOT NULL,   
+01330 L|        "UPDATED_USER_ID" CHAR(10) NOT NULL,      ||00698 M|        "UPDATED_USER_ID" CHAR(10) NOT NULL,      
+01331 L|        "UPDATED_APP_EVENT_ID" CHAR(10) NOT NULL, ||00699 M|        "UPDATED_APP_EVENT_ID" CHAR(10) NOT NULL, 
+01332 L|        "UPDATED_TIMESTAMP" TIMESTAMP NOT NULL    ||00700 M|        "UPDATED_TIMESTAMP" TIMESTAMP NOT NULL    
+01333 L|    )                                             ||00701 M|    )                                             
+01334 L|    DATA CAPTURE NONE                             ||00702 M|    DATA CAPTURE NONE                             
+01335 L|    COMPRESS NO;                                  ||00703 M|    COMPRESS NO;                                  
+01336 L|                                                  ||00704 M|                                                  
+01737  |CREATE TABLE "TB009009" (                         ||01697  |CREATE TABLE "TB009009" (                         
+       |                                                  ||01698 R|        "MC_DEV_MODEL_CODE" CHAR(4) NOT NULL,     
+01784  |CREATE TABLE "TB011002" (                         ||01745  |CREATE TABLE "TB011002" (                         
+01789 L|        "KANA_NAME" VARCHAR(60) NOT NULL,         ||01750 R|        "KANA_NAME" CHAR(60) NOT NULL,            
+01799 L|        "AUTOMATIC_SYMBOL" CHAR(1) NOT NULL,      ||01760 R|        "AUTOMATIC_SYMBOL" CHAR(5) NOT NULL,      
+       |                                                  ||02158 R|ALTER TABLE "TB003010" ADD CONSTRAINT "TB003010_PK
+       |                                                  ||02159 R|    ("PARENT_EVENT_ID");                          
+       |                                                  ||02160 R|                                                  
+02229 L|ALTER TABLE "TB004006" ADD CONSTRAINT "TB004006_PK||       |                                                  
+02230 L|    ("BATCH_UNIQUE_KEY",                          ||       |                                                  
+02231 L|     "PARTS_NO",                                  ||       |                                                  
+02232 L|     "ENGINEERING_PN_REV_NO",                     ||       |                                                  
+02233 L|     "FACTORY_PN_REV_NO");                        ||       |                                                  
+02234 L|                                                  ||       |                                                  
+02235 L|ALTER TABLE "TB004007" ADD CONSTRAINT "TB004007_PK||       |                                                  
+02236 L|    ("BATCH_UNIQUE_KEY",                          ||       |                                                  
+02237 L|     "SEAQUENCE");                                ||       |                                                  
+02238 L|                                                  ||       |                                                  
+02361 L|ALTER TABLE "TB007012" ADD CONSTRAINT "TB007012_PK||       |                                                  
+02362 L|    ("MC_DEV_MODEL_CODE",                         ||       |                                                  
+02363 L|     "EVENT_ID",                                  ||       |                                                  
+02364 L|     "REV_NOTIFY_NO",                             ||       |                                                  
+02365 L|     "SHEET_CODE");                               ||       |                                                  
+02366 L|                                                  ||       |                                                  
+02448 L|    ("APPLIED_MODEL_CODE",                        ||02396 R|    ("MC_DEV_MODEL_CODE",                         
+       |                                                  ||02397 R|     "APPLIED_MODEL_CODE",                        
+02513 L|                                                  ||       |                                                  
+02514 L|CREATE VIEW "VW005001" AS                         ||       |                                                  
+02515 L|--ï ìYVW005001.sqléQè∆ÅB;                         ||       |                                                  

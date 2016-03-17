@@ -1,0 +1,473 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+
+<!--
+function checkH(obj,rownum,rowname){
+	if(rowname.checked){
+		document.getElementById("rowid1" + rownum).className = "sel";
+		checkInput(obj,rownum,1);
+	}else{
+		document.getElementById("rowid1" + rownum).className = "notsel";
+		checkInput(obj,rownum,2);
+	}
+}
+
+function checkInput(obj,rownum,inOut){
+	var falg = true;
+	if(inOut==1){
+		falg = false;
+	}else if(inOut==2){
+		falg = true;
+	}
+	document.getElementById("checktai"+rownum+"2").disabled=falg;
+	document.getElementById("checktai"+rownum+"2").readOnly=falg;
+	document.getElementById("checktai"+rownum+"3").disabled=falg;
+	document.getElementById("checktai"+rownum+"3").readOnly=falg;
+	document.getElementById("checktai"+rownum+"4").disabled=falg;
+	document.getElementById("checktai"+rownum+"4").readOnly=falg;
+	document.getElementById("checktai"+rownum+"5").disabled=falg;
+	document.getElementById("checktai"+rownum+"5").readOnly=falg;
+	document.getElementById("checktai"+rownum+"6").disabled=falg;
+	document.getElementById("checktai"+rownum+"6").readOnly=falg;
+	document.getElementById("checktai"+rownum+"7").disabled=falg;
+	document.getElementById("checktai"+rownum+"7").readOnly=falg;
+}
+
+function sync_scroll(obj)
+{
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+    var strIdTop = obj.id+"_FIX";
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+    var intScrlTop = obj.scrollTop;
+
+    /*同一IDのオブジェクト取得*/
+    fix=document.getElementById(strIdTop);
+    //スクロール位置の設定
+    fix.scrollTop=intScrlTop;
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+}
+
+function keydown()
+{
+if(event.keyCode >= 112 && event.keyCode <= 123){ 
+	event.keyCode = 0;
+	return false;
+	}
+	}
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+
+-->
+
+</script>
+<script language="javascript">
+<!--
+	//ウインドウサイズの変更
+	function changesize(){
+	window.resizeTo(1280,720);//サイズの指定
+	}
+	window.onload = changesize;//ページの読み込み時に関数を呼び出す
+	window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+//-->
+</script>
+<title>[SC006004]車種－品目ID関連付け編集</title>
+</head>
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td  colspan="2">[SC006004]車種－品目ID関連付け編集</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+<form id="SC006004" name="MainForm">
+<b>
+<p id="p11" >
+車種－品目ID関連付け編集
+</p>
+</b>
+<p>
+<table width="100%" >
+<tr>
+<td width="42%">
+<div style="height:40px;">
+<table width="100%" style="border-width:1px; border-color:#000000;height:40px">
+<tr style="align:center">
+<td  height="15px" align="left">開発符号：
+<select name="ECS_SERIES" style="width:60px">
+	<option value="HR3">HR3</option>
+	<option value="BF4">BF4</option>
+	<option value="MF1">MF1</option>
+</select>
+</td>
+<td><input type="button" value="最新表示" onclick="" style="width:100px"></td>
+<td><input type="button" value="CSVﾀﾞｳﾝﾛｰﾄﾞ" onclick="" style="width:100px"></td>
+</tr>
+
+</table>
+</div>
+</td>
+<td align="left" width="48%">
+<div style="height:100px;">
+<table border="0" cellpadding="0" cellspacing="0" style="height:75px">
+<tr>
+<td width="150px"><input type="button" value="品目ID紐付け追加" onclick='' style="width:130px"></td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td><input type="button" value="品目ID辞書管理" onclick='' style="width:130px"></td>
+<td><input type="button" value="確定" onclick='' style="width:100px"></td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+</td>
+</tr>
+</table>
+</p>
+<p>
+<table>
+	<tr>
+		<td width="1060px"></td><td width="45px">13 rec</td>
+	</tr>
+</table>
+<div style="float:left; width:1110px; overflow:hidden; text-align:left; border-style:none;">
+<table border="1" cellpadding="0" cellspacing="0" style="text-align:left;" align="left" class="main_table" width="1110px">
+<thead>
+<tr style="background-color:white;font-weight: bold; background:#b0e0e6;">
+<th width="20px" align="left">No</th>
+<th width="20px" align="left">編</th>
+<th width="20px" align="left">削</th>
+<th width="50px" align="left">品目ID</th>
+<th width="19px" align="left">注</th>
+<th width="40px" align="left">ﾌｧﾝｸｼｮﾝ</th>
+<th width="111px" align="left">品目名称</th>
+<th width="120px" colspan="2" align="left">部品番号</th>
+<th width="80px" align="left">ブロックNo</th>
+<th width="120px" colspan="2" align="left">ｲﾍﾞﾝﾄ部品</th>
+<th width="50px" align="left">取引先</th>
+<th width="80px" align="left">参照</th>
+<th width="100px" align="left">備考</th>
+</tr>
+</thead>
+</table>
+</div>
+
+<div style="float:left; width:1126px; height:127px; overflow-x:hidden; overflow-y:scroll; text-align:left; border-style:none;">
+<table border="1" cellpadding="0" cellspacing="0" style="text-align:left;" align="left" class="main_table" width="1110px">
+<tr id="rowid11" >
+<td width="20px" align="right">1</td>
+<td width="20px"><input type="checkbox" id="checktail1" OnClick="return checkH(this,1,checktail1);"></td>
+<td width="20px"><input type="checkbox" id="checktai12" OnClick="" disabled></td>
+<td width="50px">10071</td>
+<td width="20px">&nbsp;</td>
+<td width="40px">10071</td>
+<td width="110px">PLATE-THEFT PRV</td>
+<td width="97px">10071AA000</td>
+<td width="23px"><input type="button" value=".." id="checktai16" disabled/></td>
+<td width="80px">100L,101L</td>
+<td width="97px">&nbsp;</td>
+<td width="23px"><input type="button" value=".." id="checktai17" disabled/></td>
+<td width="50px"><input type="text" value="A101,9501" style="width:62px;height:19px;text-align:left;border: 1px solid #7f9db9;align:center;" id="checktai13" disabled readonly/></td>
+<td width="80px"><select name="ECS_SERIES" style="width:80px;height:23px;" id="checktai14" disabled>
+	<option value="HR3">BF4</option>
+	<option value="HR3">BF3</option>
+</select></td>
+<td width="100px"><input type="text" value="備考メッセージ" style="width:128px;height:19px;text-align:left;border: 1px solid #7f9db9;" id="checktai15" disabled readonly/></td>
+</tr>
+
+<tr id="rowid12" >
+<td align="right">2</td>
+<td><input type="checkbox" id="checktai21" OnClick="return checkH(this,2,checktai21);"></td>
+<td><input type="checkbox" id="checktai22" OnClick="" disabled></td>
+<td>10100</td>
+<td>*</td>
+<td>10100</td>
+<td>ENG & CLUTCH ASSY</td>
+<td>10100CA690</td>
+<td><input type="button" value=".." id="checktai26" disabled/></td>
+<td>101C</td>
+<td>&nbsp;</td>
+<td><input type="button" value=".." id="checktai27" disabled/></td>
+<td><input type="text" value="" style="width:62px;height:19px;text-align:left;border: 1px solid #7f9db9;align:center;" id="checktai23" disabled readonly/></td>
+<td>
+<select name="ECS_SERIES" style="width:80px;height:23px;" id="checktai24" disabled>
+	<option value="HR3">BF4</option>
+	<option value="HR3">BF3</option>
+</select>
+</td>
+<td><input type="text" value="" style="width:128px;height:19px;text-align:left;border: 1px solid #7f9db9;" id="checktai25" disabled readonly/></td>
+</tr>
+
+<tr id="rowid13" >
+<td align="right">3</td>
+<td><input type="checkbox" id="checktai31" OnClick="return checkH(this,3,checktai31);"></td>
+<td><input type="checkbox" id="checktai32" OnClick="" disabled></td>
+<td>14808</td>
+<td>&nbsp;</td>
+<td>14808</td>
+<td>LABEL-EMIS CONT</td>
+<td>14808AG430</td>
+<td><input type="button" value=".." id="checktai36" disabled/></td>
+<td>101L</td>
+<td>&nbsp;</td>
+<td><input type="button" value=".." id="checktai37" disabled/></td>
+<td><input type="text" value="" style="width:62px;height:19px;text-align:left;border: 1px solid #7f9db9;align:center;" id="checktai33" disabled readonly/></td>
+<td>
+<select name="ECS_SERIES" style="width:80px;height:23px;" id="checktai34" disabled>
+	<option value="HR3">BF4</option>
+	<option value="HR3">BF3</option>
+</select>
+</td>
+<td><input type="text" value="ｴﾐｯｼｮﾝ ﾗﾍﾞﾙ" style="width:128px;height:19px;text-align:left;border: 1px solid #7f9db9;" id="checktai35" disabled readonly/></td>
+</tr>
+
+<tr id="rowid14" >
+<td align="right">4</td>
+<td><input type="checkbox" id="checktai41" OnClick="return checkH(this,4,checktai41);"></td>
+<td><input type="checkbox" id="checktai42" OnClick="" disabled></td>
+<td>01040</td>
+<td>*</td>
+<td>01040</td>
+<td>FLANGE BOLT M6X12</td>
+<td>010406120</td>
+<td><input type="button" value=".." id="checktai46" disabled/></td>
+<td>101M</td>
+<td>&nbsp;</td>
+<td><input type="button" value=".." id="checktai47" disabled/></td>
+<td><input type="text" value="" style="width:62px;height:19px;text-align:left;border: 1px solid #7f9db9;align:center;" id="checktai43" disabled readonly/></td>
+<td>
+<select name="ECS_SERIES" style="width:80px;height:23px;" id="checktai44" disabled>
+	<option value="HR3">BF4</option>
+	<option value="HR3">BF3</option>
+</select>
+</td>
+<td><input type="text" value="標準部品" style="width:128px;height:19px;text-align:left;border: 1px solid #7f9db9;" id="checktai45" disabled readonly/></td>
+</tr>
+
+<tr id="rowid15" >
+<td align="right">5</td>
+<td><input type="checkbox" id="checktai51" OnClick="return checkH(this,5,checktai51);"></td>
+<td><input type="checkbox" id="checktai52" OnClick="" disabled></td>
+<td>14032</td>
+<td>&nbsp;</td>
+<td>14032</td>
+<td>BRKT AY-COLL CVR</td>
+<td>14032AA120</td>
+<td><input type="button" value=".." id="checktai56" disabled/></td>
+<td>101M</td>
+<td>&nbsp;</td>
+<td><input type="button" value=".." id="checktai57" disabled/></td>
+<td><input type="text" value="" style="width:62px;height:20px;text-align:left;border: 1px solid #7f9db9;align:center;" id="checktai53" disabled readonly/></td>
+<td>
+<select name="ECS_SERIES" style="width:80px;height:24px;" id="checktai54" disabled>
+	<option value="HR3">BF4</option>
+	<option value="HR3">BF3</option>
+</select>
+</td>
+<td><input type="text" value="ｺﾚｸﾀｶﾊﾞｰ　ﾌﾞﾗｹｯﾄ" style="width:128px;height:20px;text-align:left;border: 1px solid #7f9db9;" id="checktai55" disabled readonly/></td>
+</tr>
+
+<tr id="rowid16" >
+<td align="right">6</td>
+<td><input type="checkbox" id="checktai61" OnClick="return checkH(this,6,checktai61);"></td>
+<td><input type="checkbox" id="checktai62" OnClick="" disabled></td>
+<td>22442</td>
+<td>&nbsp;</td>
+<td>22442</td>
+<td>STAY-BAT CABLE</td>
+<td>22442AA021</td>
+<td><input type="button" value=".." id="checktai66" disabled/></td>
+<td>101M</td>
+<td>&nbsp;</td>
+<td><input type="button" value=".." id="checktai67" disabled/></td>
+<td><input type="text" value="" style="width:62px;height:20px;text-align:left;border: 1px solid #7f9db9;align:center;" id="checktai63" disabled readonly/></td>
+<td>
+<select name="ECS_SERIES" style="width:80px;height:24px;" id="checktai64" disabled>
+	<option value="HR3">MF1</option>
+	<option value="HR3">BF3</option>
+</select>
+</td>
+<td><input type="text" value="" style="width:128px;height:20px;text-align:left;border: 1px solid #7f9db9;" id="checktai65" disabled readonly/></td>
+</tr>
+
+<tr id="rowid17" >
+<td align="right">7</td>
+<td><input type="checkbox" id="checktai71" OnClick="return checkH(this,7,checktai71);"></td>
+<td><input type="checkbox" id="checktai72" OnClick="" disabled></td>
+<td>10026</td>
+<td>&nbsp;</td>
+<td>10026</td>
+<td>LABEL-FUEL CNSPTN</td>
+<td>10026AB220</td>
+<td><input type="button" value=".." id="checktai76" disabled/></td>
+<td>101W</td>
+<td>&nbsp;</td>
+<td><input type="button" value=".." id="checktai77" disabled/></td>
+<td><input type="text" value="" style="width:62px;height:20px;text-align:left;border: 1px solid #7f9db9;align:center;" id="checktai73" disabled readonly/></td>
+<td>
+<select name="ECS_SERIES" style="width:80px;height:24px;" id="checktai74" disabled>
+	<option value="HR3">BF4</option>
+	<option value="HR3">BF3</option>
+</select>
+</td>
+<td><input type="text" value="ﾌﾛﾝﾄｶﾞﾗｽ取り付け。" style="width:128px;height:20px;text-align:left;border: 1px solid #7f9db9;" id="checktai75" disabled readonly/></td>
+</tr>
+
+<tr id="rowid18" >
+<td align="right">8</td>
+<td><input type="checkbox" id="checktai81" OnClick="return checkH(this,8,checktai81);"></td>
+<td><input type="checkbox" id="checktai82" OnClick="" disabled></td>
+<td>14025</td>
+<td>&nbsp;</td>
+<td>14025</td>
+<td>COVER-COLLECTOR</td>
+<td>14025AA333</td>
+<td><input type="button" value=".." id="checktai86" disabled/></td>
+<td>140P</td>
+<td>&nbsp;</td>
+<td><input type="button" value=".." id="checktai87" disabled/></td>
+<td><input type="text" value="" style="width:62px;height:20px;text-align:left;border: 1px solid #7f9db9;align:center;" id="checktai83" disabled readonly/></td>
+<td>
+<select name="ECS_SERIES" style="width:80px;height:24px;" id="checktai84" disabled>
+	<option value="HR3">BF4</option>
+	<option value="HR3">BF3</option>
+</select>
+</td>
+<td><input type="text" value="ﾗｲﾝ取り付け用。" style="width:128px;height:20px;text-align:left;border: 1px solid #7f9db9;" id="checktai85" disabled readonly/></td>
+</tr>
+
+<tr id="rowid19" >
+<td align="right">9</td>
+<td><input type="checkbox" id="checktai91" OnClick="return checkH(this,9,checktai91);"></td>
+<td><input type="checkbox" id="checktai92" OnClick="" disabled></td>
+<td>14323</td>
+<td>&nbsp;</td>
+<td>14323</td>
+<td>BOOT ASSY-AIR INT</td>
+<td>14323AA001</td>
+<td><input type="button" value=".." id="checktai96" disabled/></td>
+<td>144M</td>
+<td>&nbsp;</td>
+<td><input type="button" value=".." id="checktai97" disabled/></td>
+<td><input type="text" value="" style="width:62px;height:20px;text-align:left;border: 1px solid #7f9db9;align:center;" id="checktai93" disabled readonly/></td>
+<td>
+<select name="ECS_SERIES" style="width:80px;height:24px;" id="checktai94" disabled>
+	<option value="HR3">BF4</option>
+	<option value="HR3">BF3</option>
+</select>
+</td>
+<td><input type="text" value="" style="width:128px;height:20px;text-align:left;border: 1px solid #7f9db9;" id="checktai95" disabled readonly/></td>
+</tr>
+
+<tr id="rowid110" >
+<td align="right">10</td>
+<td><input type="checkbox" id="checktai101" OnClick="return checkH(this,10,checktai101);"></td>
+<td><input type="checkbox" id="checktai102" OnClick="" disabled></td>
+<td>14456</td>
+<td>*</td>
+<td>14456</td>
+<td>BOOT CP-AIR INT</td>
+<td>14456AA410</td>
+<td><input type="button" value=".." id="checktai106" disabled/></td>
+<td>144M</td>
+<td>&nbsp;</td>
+<td><input type="button" value=".." id="checktai107" disabled/></td>
+<td><input type="text" value="" style="width:62px;height:20px;text-align:left;border: 1px solid #7f9db9;align:center;" id="checktai103" disabled readonly/></td>
+<td>
+<select name="ECS_SERIES" style="width:80px;height:24px;" id="checktai104" disabled>
+	<option value="HR3">BF4</option>
+	<option value="HR3">BF3</option>
+</select>
+</td>
+<td><input type="text" value="" style="width:128px;height:20px;text-align:left;border: 1px solid #7f9db9;" id="checktai105" disabled readonly/></td>
+</tr>
+
+<tr id="rowid111" >
+<td align="right">11</td>
+<td><input type="checkbox" id="checktai111" OnClick="return checkH(this,11,checktai111);"></td>
+<td><input type="checkbox" id="checktai112" OnClick="" disabled></td>
+<td>14459</td>
+<td>*</td>
+<td>14459</td>
+<td>DUCT ASSY-AIR INT</td>
+<td>14459AA580</td>
+<td><input type="button" value=".." id="checktai116" disabled/></td>
+<td>144M</td>
+<td>&nbsp;</td>
+<td><input type="button" value=".." id="checktai117" disabled/></td>
+<td><input type="text" value="" style="width:62px;height:20px;text-align:left;border: 1px solid #7f9db9;align:center;" id="checktai113" disabled readonly/></td>
+<td>
+<select name="ECS_SERIES" style="width:80px;height:24px;" id="checktai114" disabled>
+	<option value="HR3">BF4</option>
+	<option value="HR3">BF3</option>
+</select>
+</td>
+<td><input type="text" value="" style="width:128px;height:20px;text-align:left;border: 1px solid #7f9db9;" id="checktai115" disabled readonly/></td>
+</tr>
+
+<tr id="rowid112" >
+<td align="right">12</td>
+<td><input type="checkbox" id="checktai121" OnClick="return checkH(this,12,checktai121);"></td>
+<td><input type="checkbox" id="checktai122" OnClick="" disabled></td>
+<td>20202R</td>
+<td>&nbsp;</td>
+<td>20202R</td>
+<td>ARM ASSY F       RH</td>
+<td>20202AJ04A</td>
+<td><input type="button" value=".." id="checktai126" disabled/></td>
+<td>200A</td>
+<td>&nbsp;</td>
+<td><input type="button" value=".." id="checktai127" disabled/></td>
+<td><input type="text" value="" style="width:62px;height:20px;text-align:left;border: 1px solid #7f9db9;align:center;" id="checktai123" disabled readonly/></td>
+<td>
+<select name="ECS_SERIES" style="width:80px;height:24px;" id="checktai124" disabled>
+	<option value="HR3">BF4</option>
+	<option value="HR3">BF3</option>
+</select>
+</td>
+<td><input type="text" value="" style="width:128px;height:20px;text-align:left;border: 1px solid #7f9db9;" id="checktai125" disabled readonly/></td>
+</tr>
+
+<tr id="rowid113" >
+<td align="right">13</td>
+<td><input type="checkbox" id="checktai131" OnClick="return checkH(this,13,checktai131);"></td>
+<td><input type="checkbox" id="checktai132" OnClick="" disabled></td>
+<td>20202L</td>
+<td>&nbsp;</td>
+<td>20202L</td>
+<td>ARM ASSY F       LH</td>
+<td>20202AJ05A</td>
+<td><input type="button" value=".." id="checktai136" disabled/></td>
+<td>200A</td>
+<td>&nbsp;</td>
+<td><input type="button" value=".." id="checktai137" disabled/></td>
+<td><input type="text" value="" style="width:62px;height:20px;text-align:left;border: 1px solid #7f9db9;align:center;" id="checktai133" disabled readonly/></td>
+<td>
+<select name="ECS_SERIES" style="width:80px;height:24px;" id="checktai134" disabled>
+	<option value="HR3">BF4</option>
+	<option value="HR3">BF3</option>
+</select>
+</td>
+<td><input type="text" value="" style="width:128px;height:20px;text-align:left;border: 1px solid #7f9db9;" id="checktai135" disabled readonly/></td>
+</tr>
+</table>
+
+</div>
+</p>
+</form>
+</body>
+</html>

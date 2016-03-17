@@ -1,0 +1,167 @@
+00003 L|CREATE GLOBAL TEMPORARY TABLE "GT003001" (        ||00003 R|CREATE SCHEMA "Schema";                           
+00004 L|        "ECS_NO" CHAR(11) NOT NULL,               ||00004 R|                                                  
+00005 L|        "ECS_REV_NO" CHAR(1) NOT NULL,            ||00005 R|CREATE GLOBAL TEMPORARY TABLE "GT003001" (        
+00006 L|        "REPR_SIMUL_CLASS" CHAR(1) NOT NULL       ||00006 R|        "ECS_NO" CHAR(11) NOT NULL                
+00011  |CREATE TABLE "TB001001" (                         ||00011  |CREATE TABLE "TB001001" (                         
+00025  |CREATE TABLE "TB001002" (                         ||00025  |CREATE TABLE "TB001002" (                         
+00033 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||       |                                                  
+00044  |CREATE TABLE "TB001003" (                         ||00043  |CREATE TABLE "TB001003" (                         
+00075  |CREATE TABLE "TB001004" (                         ||00074  |CREATE TABLE "TB001004" (                         
+00097 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||       |                                                  
+00108  |CREATE TABLE "TB001005" (                         ||00106  |CREATE TABLE "TB001005" (                         
+00126  |CREATE TABLE "TB001006" (                         ||00124  |CREATE TABLE "TB001006" (                         
+00141  |CREATE TABLE "TB001007" (                         ||00139  |CREATE TABLE "TB001007" (                         
+00158  |CREATE TABLE "TB002001" (                         ||00156  |CREATE TABLE "TB002001" (                         
+00187  |CREATE TABLE "TB002002" (                         ||00185  |CREATE TABLE "TB002002" (                         
+00225  |CREATE TABLE "TB002003" (                         ||00223  |CREATE TABLE "TB002003" (                         
+00241  |CREATE TABLE "TB002004" (                         ||00239  |CREATE TABLE "TB002004" (                         
+00257  |CREATE TABLE "TB002005" (                         ||00255  |CREATE TABLE "TB002005" (                         
+00273  |CREATE TABLE "TB002006" (                         ||00271  |CREATE TABLE "TB002006" (                         
+00288  |CREATE TABLE "TB002007" (                         ||00286  |CREATE TABLE "TB002007" (                         
+00303  |CREATE TABLE "TB002008" (                         ||00301  |CREATE TABLE "TB002008" (                         
+00318  |CREATE TABLE "TB002009" (                         ||00316  |CREATE TABLE "TB002009" (                         
+00333  |CREATE TABLE "TB002010" (                         ||00331  |CREATE TABLE "TB002010" (                         
+00346  |CREATE TABLE "TB002011" (                         ||00344  |CREATE TABLE "TB002011" (                         
+00361  |CREATE TABLE "TB002012" (                         ||00359  |CREATE TABLE "TB002012" (                         
+00376  |CREATE TABLE "TB002013" (                         ||00374  |CREATE TABLE "TB002013" (                         
+00393  |CREATE TABLE "TB002014" (                         ||00391  |CREATE TABLE "TB002014" (                         
+00407  |CREATE TABLE "TB002015" (                         ||00405  |CREATE TABLE "TB002015" (                         
+00421  |CREATE TABLE "TB002016" (                         ||00419  |CREATE TABLE "TB002016" (                         
+00436  |CREATE TABLE "TB002017" (                         ||00434  |CREATE TABLE "TB002017" (                         
+00453  |CREATE TABLE "TB002018" (                         ||00451  |CREATE TABLE "TB002018" (                         
+00468 L|CREATE TABLE "TB002019" (                         ||       |                                                  
+00469 L|        "DRAWING_NO" CHAR(15) NOT NULL,           ||       |                                                  
+00470 L|        "DRAWING_REV_NO" CHAR(2) NOT NULL,        ||       |                                                  
+00471 L|        "SUPPLIER_CODE" CHAR(4) NOT NULL,         ||       |                                                  
+00472 L|        "PURCHASE_REV_NO" CHAR(3) NOT NULL,       ||       |                                                  
+00473 L|        "ARRANGEMENT_DATE" CHAR(5) NOT NULL,      ||       |                                                  
+00474 L|        "CREATED_USER_ID" CHAR(10) NOT NULL,      ||       |                                                  
+00475 L|        "CREATED_APP_EVENT_ID" CHAR(10) NOT NULL, ||       |                                                  
+00476 L|        "CREATED_TIMESTAMP" TIMESTAMP NOT NULL,   ||       |                                                  
+00477 L|        "UPDATED_USER_ID" CHAR(10) NOT NULL,      ||       |                                                  
+00478 L|        "UPDATED_APP_EVENT_ID" CHAR(10) NOT NULL, ||       |                                                  
+00479 L|        "UPDATED_TIMESTAMP" TIMESTAMP NOT NULL    ||       |                                                  
+00480 L|    )                                             ||       |                                                  
+00481 L|    DATA CAPTURE NONE                             ||       |                                                  
+00482 L|    COMPRESS NO;                                  ||       |                                                  
+00483 L|                                                  ||       |                                                  
+00484 L|CREATE TABLE "TB002020" (                         ||       |                                                  
+00485 L|        "ECS_PROCESS_ID" CHAR(12) NOT NULL,       ||       |                                                  
+00486 L|        "ECS_NO" CHAR(11) NOT NULL,               ||       |                                                  
+00487 L|        "ECS_REV_NO" CHAR(1) NOT NULL,            ||       |                                                  
+00488 L|        "PRECEDE_PROCESS_ID" CHAR(12) NOT NULL,   ||       |                                                  
+00489 L|        "DATA_RECEIVE_STATUS" CHAR(1) NOT NULL,   ||       |                                                  
+00490 L|        "FACTORY_DATA_STATUS" CHAR(1) NOT NULL,   ||       |                                                  
+00491 L|        "CREATED_USER_ID" CHAR(10) NOT NULL,      ||       |                                                  
+00492 L|        "CREATED_APP_EVENT_ID" CHAR(10) NOT NULL, ||       |                                                  
+00493 L|        "CREATED_TIMESTAMP" TIMESTAMP NOT NULL,   ||       |                                                  
+00494 L|        "UPDATED_USER_ID" CHAR(10) NOT NULL,      ||       |                                                  
+00495 L|        "UPDATED_APP_EVENT_ID" CHAR(10) NOT NULL, ||       |                                                  
+00496 L|        "UPDATED_TIMESTAMP" TIMESTAMP NOT NULL    ||       |                                                  
+00497 L|    )                                             ||       |                                                  
+00498 L|    DATA CAPTURE NONE                             ||       |                                                  
+00499 L|    COMPRESS NO;                                  ||       |                                                  
+00500 L|                                                  ||       |                                                  
+00501  |CREATE TABLE "TB003001" (                         ||00466  |CREATE TABLE "TB003001" (                         
+00545  |CREATE TABLE "TB003002" (                         ||00510  |CREATE TABLE "TB003002" (                         
+00550 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||00515 R|        "REMARKS" VARCHAR(1000) NOT NULL,         
+00561  |CREATE TABLE "TB003003" (                         ||00526  |CREATE TABLE "TB003003" (                         
+00566 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||00531 R|        "REMARKS" VARCHAR(1000) NOT NULL,         
+00577  |CREATE TABLE "TB003004" (                         ||00542  |CREATE TABLE "TB003004" (                         
+00582 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||00547 R|        "REMARKS" VARCHAR(3000) NOT NULL,         
+00593  |CREATE TABLE "TB003005" (                         ||00558  |CREATE TABLE "TB003005" (                         
+00598 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||00563 R|        "REMARKS" VARCHAR(1000) NOT NULL,         
+00609  |CREATE TABLE "TB003006" (                         ||00574  |CREATE TABLE "TB003006" (                         
+00613 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||00578 R|        "REMARKS" VARCHAR(1000) NOT NULL,         
+00624  |CREATE TABLE "TB003007" (                         ||00589  |CREATE TABLE "TB003007" (                         
+00630 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||00595 R|        "REMARKS" VARCHAR(1000) NOT NULL,         
+00641  |CREATE TABLE "TB003008" (                         ||00606  |CREATE TABLE "TB003008" (                         
+00660 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||00625 R|        "REMARKS" VARCHAR(1000) NOT NULL,         
+00671  |CREATE TABLE "TB003009" (                         ||00636  |CREATE TABLE "TB003009" (                         
+00680 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||00645 R|        "REMARKS" VARCHAR(1000) NOT NULL,         
+00691  |CREATE TABLE "TB003010" (                         ||00656  |CREATE TABLE "TB003010" (                         
+00705  |CREATE TABLE "TB003011" (                         ||00670  |CREATE TABLE "TB003011" (                         
+00720  |CREATE TABLE "TB003012" (                         ||00685  |CREATE TABLE "TB003012" (                         
+00725 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||00690 R|        "REMARKS" VARCHAR(1000) NOT NULL,         
+00736  |CREATE TABLE "TB003013" (                         ||00701  |CREATE TABLE "TB003013" (                         
+00751  |CREATE TABLE "TB004001" (                         ||00716  |CREATE TABLE "TB004001" (                         
+00773 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||00738 R|        "REMARKS" VARCHAR(1000) NOT NULL,         
+00784  |CREATE TABLE "TB004002" (                         ||00749  |CREATE TABLE "TB004002" (                         
+00811 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||00776 R|        "REMARKS" VARCHAR(1000) NOT NULL,         
+00822  |CREATE TABLE "TB004003" (                         ||00787  |CREATE TABLE "TB004003" (                         
+00826 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||00791 R|        "REMARKS" VARCHAR(1000) NOT NULL,         
+00837  |CREATE TABLE "TB004004" (                         ||00802  |CREATE TABLE "TB004004" (                         
+00852 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||00817 R|        "REMARKS" VARCHAR(1000) NOT NULL,         
+00863  |CREATE TABLE "TB004005" (                         ||00828  |CREATE TABLE "TB004005" (                         
+00868 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||00833 R|        "REMARKS" VARCHAR(1000) NOT NULL,         
+00879  |CREATE TABLE "TB006001" (                         ||00844  |CREATE TABLE "TB006001" (                         
+00893  |CREATE TABLE "TB006002" (                         ||00858  |CREATE TABLE "TB006002" (                         
+00911  |CREATE TABLE "TB006003" (                         ||00876  |CREATE TABLE "TB006003" (                         
+00925  |CREATE TABLE "TB006004" (                         ||00890  |CREATE TABLE "TB006004" (                         
+00940  |CREATE TABLE "TB006005" (                         ||00905  |CREATE TABLE "TB006005" (                         
+00956  |CREATE TABLE "TB006006" (                         ||00921  |CREATE TABLE "TB006006" (                         
+00972  |CREATE TABLE "TB006007" (                         ||00937  |CREATE TABLE "TB006007" (                         
+00988  |CREATE TABLE "TB006008" (                         ||00953  |CREATE TABLE "TB006008" (                         
+01006  |CREATE TABLE "TB006009" (                         ||00971  |CREATE TABLE "TB006009" (                         
+01019  |CREATE TABLE "TB007001" (                         ||00984  |CREATE TABLE "TB007001" (                         
+01032  |CREATE TABLE "TB007002" (                         ||00997  |CREATE TABLE "TB007002" (                         
+01051  |CREATE TABLE "TB007003" (                         ||01016  |CREATE TABLE "TB007003" (                         
+01084 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||01049 R|        "REMARKS" VARCHAR(200) NOT NULL,          
+01085 L|        "REV_REMARKS" VARCHAR(600) NOT NULL,      ||01050 R|        "REV_REMARKS" VARCHAR(200) NOT NULL,      
+01100  |CREATE TABLE "TB007004" (                         ||01065  |CREATE TABLE "TB007004" (                         
+01115  |CREATE TABLE "TB007005" (                         ||01080  |CREATE TABLE "TB007005" (                         
+01144 L|        "REMARKS" VARCHAR(600) NOT NULL,          ||01109 R|        "REMARKS" VARCHAR(200) NOT NULL,          
+01145 L|        "REV_REMARKS" VARCHAR(600) NOT NULL,      ||01110 R|        "REV_REMARKS" VARCHAR(200) NOT NULL,      
+01162  |CREATE TABLE "TB007006" (                         ||01127  |CREATE TABLE "TB007006" (                         
+01182  |CREATE TABLE "TB007007" (                         ||01147  |CREATE TABLE "TB007007" (                         
+01197  |CREATE TABLE "TB007008" (                         ||01162  |CREATE TABLE "TB007008" (                         
+01224 L|        "PRD_QLT_REMARKS" VARCHAR(600) NOT NULL,  ||01189 R|        "PRD_QLT_REMARKS" VARCHAR(100) NOT NULL,  
+01243  |CREATE TABLE "TB007009" (                         ||01208  |CREATE TABLE "TB007009" (                         
+01266  |CREATE TABLE "TB007010" (                         ||01231  |CREATE TABLE "TB007010" (                         
+01281  |CREATE TABLE "TB007011" (                         ||01246  |CREATE TABLE "TB007011" (                         
+01292 L|        "UPDATED_TIMESTAMP" TIMESTAMP NOT NULL    ||01257 R|        "UPDATED_TIMESTAMP" TIMESTAMP NOT NULL,   
+       |                                                  ||01258 R|        "PROD_BASE_CODE" CHAR(1)                  
+01297  |CREATE TABLE "TB008001" (                         ||01263  |CREATE TABLE "TB008001" (                         
+01316  |CREATE TABLE "TB008002" (                         ||01282  |CREATE TABLE "TB008002" (                         
+01361  |CREATE TABLE "TB008003" (                         ||01327  |CREATE TABLE "TB008003" (                         
+01383  |CREATE TABLE "TB008004" (                         ||01349  |CREATE TABLE "TB008004" (                         
+01446  |CREATE TABLE "TB008005" (                         ||01412  |CREATE TABLE "TB008005" (                         
+01476  |CREATE TABLE "TB008006" (                         ||01442  |CREATE TABLE "TB008006" (                         
+01549  |CREATE TABLE "TB008007" (                         ||01515  |CREATE TABLE "TB008007" (                         
+01567  |CREATE TABLE "TB009001" (                         ||01533  |CREATE TABLE "TB009001" (                         
+01582  |CREATE TABLE "TB009002" (                         ||01548  |CREATE TABLE "TB009002" (                         
+01599  |CREATE TABLE "TB009003" (                         ||01565  |CREATE TABLE "TB009003" (                         
+01614  |CREATE TABLE "TB009004" (                         ||01580  |CREATE TABLE "TB009004" (                         
+01629  |CREATE TABLE "TB009005" (                         ||01595  |CREATE TABLE "TB009005" (                         
+01649  |CREATE TABLE "TB009006" (                         ||01615  |CREATE TABLE "TB009006" (                         
+01666  |CREATE TABLE "TB009007" (                         ||01632  |CREATE TABLE "TB009007" (                         
+01682  |CREATE TABLE "TB009008" (                         ||01648  |CREATE TABLE "TB009008" (                         
+01697  |CREATE TABLE "TB009009" (                         ||01663  |CREATE TABLE "TB009009" (                         
+01714  |CREATE TABLE "TB009014" (                         ||01680  |CREATE TABLE "TB009014" (                         
+01727  |CREATE TABLE "TB011001" (                         ||01693  |CREATE TABLE "TB011001" (                         
+01745  |CREATE TABLE "TB011002" (                         ||01711  |CREATE TABLE "TB011002" (                         
+01774  |CREATE TABLE "TB011003" (                         ||01740  |CREATE TABLE "TB011003" (                         
+01788  |CREATE TABLE "TB011004" (                         ||01754  |CREATE TABLE "TB011004" (                         
+01802  |CREATE TABLE "TB011005" (                         ||01768  |CREATE TABLE "TB011005" (                         
+01818  |CREATE TABLE "TB011006" (                         ||01784  |CREATE TABLE "TB011006" (                         
+01831  |CREATE TABLE "TB011007" (                         ||01797  |CREATE TABLE "TB011007" (                         
+01844  |CREATE TABLE "TB011008" (                         ||01810  |CREATE TABLE "TB011008" (                         
+01858  |CREATE TABLE "TB011009" (                         ||01824  |CREATE TABLE "TB011009" (                         
+01873  |CREATE TABLE "TB011010" (                         ||01839  |CREATE TABLE "TB011010" (                         
+01888  |CREATE TABLE "TB011011" (                         ||01854  |CREATE TABLE "TB011011" (                         
+01907  |CREATE TABLE "TB011012" (                         ||01873  |CREATE TABLE "TB011012" (                         
+01915 L|        "MAIL_SUBJECT" VARCHAR(600) NOT NULL,     ||       |                                                  
+01927  |CREATE TABLE "TB011013" (                         ||01892  |CREATE TABLE "TB011013" (                         
+01944  |CREATE TABLE "TB011014" (                         ||01909  |CREATE TABLE "TB011014" (                         
+01961  |CREATE TABLE "TB011015" (                         ||01926  |CREATE TABLE "TB011015" (                         
+01969 L|        "CODE_VALUE_NAME" VARCHAR(100) NOT NULL,  ||       |                                                  
+01970 L|        "CODE_ORDER" SMALLINT NOT NULL,           ||       |                                                  
+02099 L|                                                  ||       |                                                  
+02100 L|ALTER TABLE "TB002019" ADD CONSTRAINT "TB002019_PK||       |                                                  
+02101 L|    ("DRAWING_NO",                                ||       |                                                  
+02102 L|     "DRAWING_REV_NO",                            ||       |                                                  
+02103 L|     "SUPPLIER_CODE",                             ||       |                                                  
+02104 L|     "PURCHASE_REV_NO");                          ||       |                                                  
+02105 L|                                                  ||       |                                                  
+02106 L|ALTER TABLE "TB002020" ADD CONSTRAINT "TB002020_PK||       |                                                  
+02107 L|    ("ECS_PROCESS_ID");                           ||       |                                                  

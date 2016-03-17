@@ -1,0 +1,87 @@
+,FBLCK /* F図ブロック, F図シリーズ */
+(
+	PRTNO,
+	FSERIES,
+	FBLOCK,
+	RNK
+) AS
+(
+	SELECT distinct
+		RELPRT.PARTS_NO AS PRTNO,
+		PRT.DRAWING_SERIES AS FSERIES,															/* ファイナル部品の図面シリーズ */
+		PRT.DRAWING_BLOCK_NO AS FBLOCK,															/* ファイナル部品のブロックNO */
+		RANK() OVER(PARTITION BY RELPRT.PARTS_NO ORDER BY PRT.DRAWING_BLOCK_NO) AS RNK
+	FROM
+		TB001005 RELPRT						/* 関連部品 */
+			INNER JOIN 	TB001003 PRT ON		/* 部品諸元 */
+				PRT.PARTS_NO=RELPRT.RELATED_PARTS_NO AND
+				EXISTS
+				(
+					SELECT
+						MAX(PRT2.PARTS_PROP_REV_NO)
+					FROM
+						TB001003 PRT2
+					WHERE
+							PRT2.PARTS_NO=PRT.PARTS_NO
+					GROUP BY
+						PRT2.PARTS_NO
+					HAVING
+						PRT.PARTS_PROP_REV_NO=MAX(PRT2.PARTS_PROP_REV_NO)		/* 最新改訂を取得 */
+				)
+	WHERE
+		RELPRT.RELATION_TYPE='F' AND											/* 関連タイプ='F' (ファイナル) */
+		EXISTS																	/* 正展開された部品番号(TEMP)に存在する */
+		(
+			SELECT
+				*
+			FROM
+				TEMP
+			WHERE
+				TEMP.PRTNO=RELPRT.PARTS_NO
+		)
+),
+FINALBLCKLIST	/* ファイナルの図面シリーズ、ブロックをカンマ区切りで取得 */
+(
+	PRTNO,		/* 対象部品番号 */
+	FSERIESES,	/* F図図面シリーズをカンマ区切りしたもの */
+	FBLOCKS,	/* F図ブロックをカンマ区切りしたもの */
+	RNK,
+	ISLEAF
+) AS
+(
+	SELECT
+		FB.PRTNO,
+		FB.FSERIES AS FSERIESES,
+		FB.FBLOCK AS FBLOCKS,
+		FB.RNK,
+		CASE WHEN 
+			(SELECT COUNT(*) 
+				FROM FBLCK FB2
+			WHERE 
+				FB2.PRTNO=FB.PRTNO AND
+				FB2.RNK-1=FB.RNK) > 0 
+		THEN 0 ELSE 1 END AS ISLEAF
+	FROM
+		FBLCK FB
+	WHERE
+		FB.RNK=1
+	UNION ALL
+	SELECT
+		FB.PRTNO,
+		(FBL.FSERIESES || ',' || FB.FSERIES) AS FSERIESES,
+		(FBL.FBLOCKS || ',' || FB.FBLOCK) AS FBLOCKS,
+		FB.RNK,
+		CASE WHEN 
+			(SELECT COUNT(*) 
+				FROM FBLCK FB2
+			WHERE 
+				FB2.PRTNO=FB.PRTNO AND
+				FB2.RNK-1=FB.RNK) > 0 
+		THEN 0 ELSE 1 END AS ISLEAF
+	FROM
+		FBLCK FB,
+		FINALBLCKLIST FBL
+	WHERE
+		FB.PRTNO=FBL.PRTNO AND
+		FB.RNK-1=FBL.RNK
+)

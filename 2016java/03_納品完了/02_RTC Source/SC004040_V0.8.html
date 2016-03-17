@@ -1,0 +1,577 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+
+<!--
+function checkH(obj,rownum,rowname){
+	if(rowname.checked){
+		document.getElementById("rowid1" + rownum).className = "sel";
+		document.getElementById("rowid2" + rownum).className = "sel";
+		checkInput(obj,rownum,1);
+	}else{
+		document.getElementById("rowid1" + rownum).className = "notsel";
+        document.getElementById("rowid2" + rownum).className = "notsel";
+		checkInput(obj,rownum,2);
+	}
+}
+
+function checkInput(obj,rownum,inOut){
+	var falg = true;
+	if(inOut==1){
+		falg = false;
+	}else if(inOut==2){
+		falg = true;
+	}
+	document.getElementById("input"+rownum+"1").readOnly=falg;
+	document.getElementById("input"+rownum+"2").readOnly=falg;
+	document.getElementById("input"+rownum+"3").readOnly=falg;
+	document.getElementById("input"+rownum+"4").readOnly=falg;
+	document.getElementById("input"+rownum+"5").readOnly=falg;
+	document.getElementById("input"+rownum+"6").readOnly=falg;
+	document.getElementById("input"+rownum+"7").readOnly=falg;
+	document.getElementById("input"+rownum+"8").disabled=falg;
+	document.getElementById("input"+rownum+"9").readOnly=falg;
+}
+
+function sync_scroll(obj)
+{
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+    var strIdTop = obj.id+"_FIX";
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+    var intScrlTop = obj.scrollTop;
+
+    /*同一IDのオブジェクト取得*/
+    fix=document.getElementById(strIdTop);
+    //スクロール位置の設定
+    fix.scrollTop=intScrlTop;
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+}
+
+function keydown()
+{
+if(event.keyCode >= 112 && event.keyCode <= 123){ 
+	event.keyCode = 0;
+	return false;
+	}
+	}
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+function checkH1(){
+	document.getElementById("rowid13").className = "sel";
+	document.getElementById("rowid23").className = "sel";
+	document.getElementById("rowid16").className = "sel";
+	document.getElementById("rowid26").className = "sel";
+}
+
+
+-->
+
+</script>
+<script language="javascript">
+<!--
+	//ウインドウサイズの変更
+	function changesize(){
+	window.resizeTo(1280,720);//サイズの指定
+	}
+	window.onload = changesize;//ページの読み込み時に関数を呼び出す
+	window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+//-->
+</script>
+<title>[SC004040]工場諸元検索・登録（設変部品）</title>
+</head>
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body onload="checkH1();">
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td  colspan="2">[SC004040]工場諸元検索・登録（設変部品）</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+
+<form id="SC004040" name="MainForm">
+<p>
+<b>工場諸元検索・登録（設変部品）</b>
+</p>
+<p>
+<table width="100%" >
+<tr>
+<td width="42%">
+<div style="height:165px;">
+<table width="100%" style="border-style:dashed; border-width:1px; border-color:#000000;">
+<tr >
+<td  height="40">
+設通番号 *：&nbsp; <label>HR3 -L0001</label>&nbsp;&nbsp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label></label>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="検索" style="width:60pt;text:right;"/>
+</td>
+</tr>
+<tr>
+<td>
+部品番号：<input type="text" value="" style="width:40px;text-align:left;border: 1px solid #7f9db9;" id="S003"/>
+図面シリーズ：<input type="text" value="" style="width:40px;text-align:left;border: 1px solid #7f9db9;" id="S004"/>
+ブロックNo：<input type="text" value="" style="width:40px;text-align:left;border: 1px solid #7f9db9;" id="S005"/>
+<input type="button" value="CSVダウンロード" style="width:85pt"/>
+</td>
+</tr>
+</table>
+<br>
+<table width="50%" style="border-width:1px; border-color:#000000;" align="center">
+<tr>
+<td align="center">
+&nbsp;
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td align="left" width="38%">
+<div style="height:165px;">
+<table border="0" cellpadding="0" cellspacing="0">
+<tr >
+<td height="40" align="left" style="width:120px;">
+<input type="button" value="再読込み" style="width:80pt"/></td>
+<td style="width:120px;"><input type="button" value="IDスライド" style="width:80pt"/></td>
+<td style="width:120px;"><input type="button" value="工順展開" style="width:80pt"/></td>
+<td style="width:100px;"><input type="button" value="整合性ﾁｪｯｸ" style="width:80pt"/></td>
+</tr>
+<tr >
+<td height="40" align="left">
+<input type="button" value="保存" style="width:80pt"/></td>
+<td><input type="button" value="仮登録" style="width:80pt"/></td>
+<td><input type="button" value="本登録" style="width:80pt"/></td>
+<td><input type="button" value="登録解除" style="width:80pt"/>
+</td>
+</tr>
+<tr >
+<td height="40" align="left">
+<input type="button" value="採廃日調整" style="width:80pt"/></td>
+<td><input type="button" value="採廃日一括" style="width:80pt"/></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr >
+<td height="40" align="left">
+<input type="button" value="設変内容確認" style="width:80pt" /></td>
+<td><input type="button" value="実施時期" style="width:80pt"/>
+<td colspan="2"><input type="button" value="工場諸元検索・登録(ツリー展開)" style="width:170pt"/>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td align="left" width="40%">&nbsp;</td>
+</tr>
+</table>
+</p>
+
+<p>
+<div style="height:203px;text-align:left;">
+<div style="width:1240px;text-align:center;">
+<div style="float:left; width:600px;" >
+<table border="1" cellpadding="0" cellspacing="0" id="head_table1" class="main_table">
+<thead>
+<tr style="background-color:white;font-weight: bold; background:#b0e0e6;" valign="top">
+<th width="25px" rowspan="2" align="left">No<br/></th>
+<th width="25px" rowspan="2" align="left">編<br/>集</th>
+<th width="25px" rowspan="2" align="left">選<br/>択</th>
+<th width="30px" rowspan="2" align="left">Sym</th>
+<th width="31px" rowspan="2" align="left">Err</th>
+<th width="21px" rowspan="2" align="left">L<br/>v</th>
+<th width="21px" rowspan="2" align="left">(*)<br/></th>
+<th width="21px" rowspan="2" align="left">B<br/>U</th>
+<th width="70px" rowspan="2" align="left">図面<br/>シリーズ</th>
+<th width="110px" rowspan="2" align="left"><br/>ブロックNo</th>
+<th colspan="2" align="left">品目</th>
+<th width="130px" rowspan="2" align="left">部品番号</th>
+</tr>
+<tr style="background-color:white;background:#b0e0e6;" valign="top">
+<th width="51px"  align="left">ID</th>
+<th width="30px" align="left">注</th>
+</tr>
+</thead>
+</table>
+</div>
+<div style="float:left; width:594px; overflow:hidden; text-align:center; border-style:none;" id="SYNC_HEADER">
+<table border="1" cellpadding="0" cellspacing="0" id="head_table2" width="1740px" class="main_table">
+<thead>
+<tr style="background-color:white;font-weight:bold;background:#b0e0e6;" valign="top">
+<th width="48px"  align="left" style="border-bottom: 2px solid #b0e0e6;">図面</th>
+<th width="48px"  align="left" style="border-bottom: 2px solid #b0e0e6;">工場</th>
+<th width="193px"  align="left" style="border-bottom: 2px solid #b0e0e6;">部品名称</th>
+<th width="145px"  align="left" style="border-bottom: 2px solid #b0e0e6;">部品</th>
+<th width="63px"  align="left" style="border-bottom: 2px solid #b0e0e6;">消費</th>
+<th width="62px"  align="left" style="border-bottom: 2px solid #b0e0e6;">発生</th>
+<th width="102px"  align="left" style="border-bottom: 2px solid #b0e0e6;">取引先</th>
+<th width="20px"  align="left" style="border-bottom: 2px solid #b0e0e6;">ユ</th>
+<th width="20px"  align="left" style="border-bottom: 2px solid #b0e0e6;">加</th>
+<th width="97px"  align="left" style="border-bottom: 2px solid #b0e0e6;">採用日</th>
+<th width="97px"  align="left" style="border-bottom: 2px solid #b0e0e6;">廃止日</th>
+<th width="20px"  align="left" style="border-bottom: 2px solid #b0e0e6;">未</th>
+<th width="63px"  align="left" style="border-bottom: 2px solid #b0e0e6;">員数</th>
+<th width="100px"  align="left" style="border-bottom: 2px solid #b0e0e6;">親部品番号</th>
+<th width="96px"  align="left" style="border-bottom: 2px solid #b0e0e6;">設通番号</th>
+<th width="98px"  align="left" style="border-bottom: 2px solid #b0e0e6;">旧部品番号</th>
+<th width="100px"  align="left" style="border-bottom: 2px solid #b0e0e6;">備考</th>
+<th width="62px"  align="left" style="border-bottom: 2px solid #b0e0e6;">(*2)</th>
+<th width="20px"  align="left" style="border-bottom: 2px solid #b0e0e6;">無</th>
+</tr>
+<tr style="background-color:white;font-weight:bold;background:#b0e0e6;" valign="top">
+<th width="48px"  align="left">改訂</th>
+<th width="48px"  align="left">改訂</th>
+<th width="193px"  align="left"></th>
+<th width="145px"  align="left">ステータス</th>
+<th width="63px"  align="left">工順</th>
+<th width="62px"  align="left">工順</th>
+<th width="102px"  align="left"></th>
+<th width="20px"  align="left">区</th>
+<th width="20px"  align="left">区</th>
+<th width="97px"  align="left"></th>
+<th width="97px"  align="left"></th>
+<th align="left">決</th>
+<th width="63px"  align="left"></th>
+<th width="100px"  align="left"></th>
+<th width="96px"  align="left"></th>
+<th width="98px"  align="left"></th>
+<th width="100px"  align="left"></th>
+<th width="62px"  align="left"></th>
+<th align="left">効</th>
+</tr>
+</thead>
+</table>
+</div>
+</div>
+<div style="width:1252px; height:150px; text-align:center;">
+<div style="float:left; height:137px; width:600px; overflow:hidden; border-style:none;" id="SYNC_FIX">
+<table border="1" cellpadding="0" cellspacing="0" id="main_table1" class="main_table">
+<tr id="rowid11" align="left">
+<td width="25px"  align="right">1</td>
+<td width="25px" class="colC"><input type="checkbox" name="checktail1" id="checktail1" OnClick="return checkH(this,1,checktail1);"></td>
+<td width="26px" class="colC"><input type="radio" name="raddetail" OnClick=""></td>
+<td width="30px">A</td>
+<td width="32px">&nbsp;</td>
+<td width="20px">0</td>
+<td width="21px">F</td>
+<td width="21px">&nbsp;</td>
+<td width="71px">HR3</td>
+<td width="109px">200A</td>
+<td width="51px">20000</td>
+<td width="30px">*</td>
+<td width="130px">20000SG000</td>
+</tr>
+<tr id="rowid12"  align="left">
+<td align="right">2</td>
+<td class="colC"><input type="checkbox" name="checktail2" OnClick="return checkH(this,2,checktail2);"></td>
+<td class="colC"><input type="radio" name="raddetail" OnClick=""></td>
+<td>A</td>
+<td>&nbsp;</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td width="21px">*</td>
+<td width="60px">HR3</td>
+<td width="80px">200A,200B,900C</td>
+<td>20001</td>
+<td>*</td>
+<td>20001SG000</td>
+</tr>
+
+<tr id="rowid13"  align="left">
+<td align="right">3</td>
+<td class="colC"><input type="checkbox" name="checktail3" OnClick="return checkH(this,3,checktail3);" checked></td>
+<td class="colC"><input type="radio" name="raddetail" OnClick=""></td>
+<td>A</td>
+<td>&nbsp;</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td width="21px">&nbsp;</td>
+<td width="60px">HR3</td>
+<td width="80px">200A</td>
+<td>20011</td>
+<td>*</td>
+<td>20011SG010</td>
+</tr>
+
+<tr id="rowid131" style="background-color:#FFBB77;" >
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr id="rowid14"  align="left">
+<td align="right">4</td>
+<td class="colC"><input type="checkbox" name="checktail4" OnClick="return checkH(this,4,checktail4);"></td>
+<td class="colC"><input type="radio" name="raddetail" OnClick=""></td>
+<td>A</td>
+<td>&nbsp;</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td width="21px">&nbsp;</td>
+<td width="60px">HR3</td>
+<td width="80px">200A</td>
+<td>20001</td>
+<td>*</td>
+<td>20001SG020</td>
+</tr>
+
+<tr id="rowid15"  align="left">
+<td align="right">5</td>
+<td class="colC"><input type="checkbox" name="checktail5" OnClick="return checkH(this,5,checktail5);"></td>
+<td class="colC"><input type="radio" name="raddetail" OnClick=""></td>
+<td>A</td>
+<td>&nbsp;</td>
+<td>2</td>
+<td>&nbsp;</td>
+<td width="21px">&nbsp;</td>
+<td width="60px">HR3</td>
+<td width="80px">200A</td>
+<td>20021</td>
+<td>*</td>
+<td>20021SG010</td>
+</tr>
+
+<tr id="rowid16"  align="left">
+<td align="right">6</td>
+<td class="colC"><input type="checkbox" name="checktail6" OnClick="return checkH(this,6,checktail6);" checked ></td>
+<td class="colC"><input type="radio" name="raddetail" OnClick=""></td>
+<td>D</td>
+<td>&nbsp;</td>
+<td>2</td>
+<td>&nbsp;</td>
+<td width="21px">&nbsp;</td>
+<td width="60px">HR3</td>
+<td width="80px">200A</td>
+<td>20021</td>
+<td>*</td>
+<td>20021SG010</td>
+</tr>
+
+<tr id="rowid17"  align="left">
+<td align="right">7</td>
+<td class="colC"><input type="checkbox" name="checktail7" OnClick="return checkH(this,7,checktail7);"></td>
+<td class="colC"><input type="radio" name="raddetail" OnClick=""></td>
+<td>A</td>
+<td>&nbsp;</td>
+<td>2</td>
+<td>&nbsp;</td>
+<td width="21px">&nbsp;</td>
+<td width="60px">HR3</td>
+<td width="80px">200A</td>
+<td>？</td>
+<td>&nbsp;</td>
+<td>30000AK000</td>
+</tr>
+
+</table>
+</div>
+
+<div style="float:left; width:611px; height:154px; overflow: scroll; text-align:left; border-style:none;" id="SYNC" ONSCROLL="sync_scroll(this);">
+<table border="1" cellpadding="0" cellspacing="0" id="main_table2" width="1740px" class="main_table">
+<tbody>
+<tr id="rowid21"  align="left">
+<td width="48px">00</td>
+<td width="48px">01</td>
+<td width="193px">BOTL ASSY</td>
+<td width="145px">本登録済み</td>
+<td width="63px"><input type="text" value="T2" id="input11" style="width:62px;border-width:0px; border-color:#000000;"/></td>
+<td width="62px"><input type="text" value="T1" id="input12" style="width:60px;border-width:0px; border-color:#000000;"/></td>
+<td width="102px"><input type="text" value="9999" id="input13" style="width:99px;border-width:0px; border-color:#000000;"/></td>
+<td width="20px"><input type="text" value="T" id="input14" style="width:18px;border-width:0px; border-color:#000000;"/></td>
+<td width="20px"><input type="text" value="9" id="input15" style="width:18px;border-width:0px; border-color:#000000;"/></td>
+<td width="97px"><input type="text" value="2015/04/01" id="input16" style="width:96px;border-width:0px; border-color:#000000;"/></td>
+<td width="97px"><input type="text" value="" id="input17" style="width:95px;border-width:0px; border-color:#000000;"/></td>	
+<td width="20px" class="colC"><input type="checkbox" name="input18" id="input18" OnClick=""></td>
+<td width="63px">01</td>
+<td width="100px">&nbsp;</td>
+<td width="96px">HR3 -L0001</td>
+<td width="98px">&nbsp;</td>
+<td width="100px"><input type="text" value="" id="input19" style="width:110px;border-width:0px; border-color:#000000;"/></td>
+<td width="62px">&nbsp;</td>
+<td width="20px">&nbsp;</td>
+</tr>
+
+<tr id="rowid22"  align="left">
+<td>00</td>
+<td>01</td>
+<td>SCREW BOLT A</td>
+<td>本登録済み</td>
+<td><input type="text" value="T1" id="input21" style="width:50px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="91" id="input22" style="width:50px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="2570" id="input23" style="width:100px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="T" id="input24" style="width:18px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="9" id="input25" style="width:18px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="2015/04/01" id="input26" style="width:95px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="" id="input27" style="width:95px;border-width:0px; border-color:#000000;"/></td>	
+<td class="colC"><input type="checkbox" name="raddetail222" id="input28" OnClick=""></td>
+<td>01</td>
+<td width="100px">10001SG000</td>
+<td>HR3 -L0006</td>
+<td>&nbsp;</td>
+<td><input type="text" value="" id="input29" style="width:110px;border-width:0px; border-color:#000000;"/></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr id="rowid23"  align="left">
+<td>00</td>
+<td>01</td>
+<td>BOLT XXXX</td>
+<td>本登録中</td>
+<td><input type="text" value="T1" id="input31" style="width:50px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="91" id="input32" style="width:50px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="8245" id="input33" style="width:100px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="T" id="input34" style="width:18px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="9" id="input35" style="width:18px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="2015/04/01" id="input36" style="width:95px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="" id="input37" style="width:95px;border-width:0px; border-color:#000000;"/></td>
+<td class="colC"><input type="checkbox" name="raddetail223" id="input38" OnClick=""></td>
+<td>01</td>
+<td width="100px">10011SG010</td>
+<td>HR3 -L0002</td>
+<td>20001SGS00</td>
+<td><input type="text" value="" id="input39" style="width:110px;border-width:0px; border-color:#000000;"/></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr id="rowid231" style="background-color:#FFBB77;">
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr id="rowid24"  align="left">
+<td>00</td>
+<td>01</td>
+<td>SCREW BOLT B</td>
+<td>本登録済み</td>
+<td><input type="text" value="92" id="input41" style="width:50px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="91" id="input42" style="width:50px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="6532" id="input43" style="width:100px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="T" id="input44" style="width:18px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="9" id="input45" style="width:18px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="2015/04/01" id="input46" style="width:95px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="" id="input47" style="width:95px;border-width:0px; border-color:#000000;"/></td>
+<td class="colC"><input type="checkbox" name="raddetail224" id="input48" OnClick=""></td>
+<td>02</td>
+<td width="100px">10001SG020</td>
+<td>HR3 -L0001</td>
+<td>20001SGS00</td>
+<td><input type="text" value="" id="input49" style="width:110px;border-width:0px; border-color:#000000;"/></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr id="rowid25"  align="left">
+<td>00</td>
+<td>01</td>
+<td>BOLT XXXX</td>
+<td>本登録済み</td>
+<td><input type="text" value="T1" id="input51" style="width:50px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="91" id="input52" style="width:50px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="2570" id="input53" style="width:100px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="T" id="input54" style="width:18px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="9" id="input55" style="width:18px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="2015/04/01" id="input56" style="width:95px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="" id="input57" style="width:95px;border-width:0px; border-color:#000000;"/></td>
+<td class="colC"><input type="checkbox" name="raddetail225" id="input58" OnClick=""></td>
+<td>01</td>
+<td width="100px">10021SG010</td>
+<td>HR3 -L0001</td>
+<td>20001SGS00</td>
+<td><input type="text" value="" id="input59" style="width:110px;border-width:0px; border-color:#000000;"/></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr id="rowid26"  align="left">
+<td>01</td>
+<td>01</td>
+<td>BOLT XXXX</td>
+<td>本登録中</td>
+<td><input type="text" value="T1" id="input61" style="width:50px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="91" id="input62" style="width:50px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="2570" id="input63" style="width:100px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="T" id="input64" style="width:18px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="9" id="input65" style="width:18px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="" id="input66" style="width:95px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="" id="input67" style="width:95px;border-width:0px; border-color:#000000;"/></td>
+<td class="colC"><input type="checkbox" name="raddetail226" id="input68" OnClick=""></td>
+<td>01</td>
+<td width="100px">10021SG010</td>
+<td>HR3 -L0001</td>
+<td>&nbsp;</td>
+<td><input type="text" value="" id="input69" style="width:110px;border-width:0px; border-color:#000000;"/></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr id="rowid27"  align="left">
+<td>00</td>
+<td>01</td>
+<td>OTHER BLOCK FINAL</td>
+<td>本登録済み</td>
+<td><input type="text" value="T1" id="input71" style="width:50px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="T5	" id="input72" style="width:50px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="6666" id="input73" style="width:100px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="T" id="input74" style="width:18px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="9" id="input75" style="width:18px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="2015/04/01" id="input76" style="width:95px;border-width:0px; border-color:#000000;"/></td>
+<td><input type="text" value="" id="input77" style="width:95px;border-width:0px; border-color:#000000;"/></td>
+<td class="colC"><input type="checkbox" name="raddetail227" id="input78" OnClick=""></td>
+<td>01</td>
+<td width="100px">10000AK000</td>
+<td>HR3 -L0001</td>
+<td>&nbsp;</td>
+<td><input type="text" value="" id="input79" style="width:110px;border-width:0px; border-color:#000000;"/></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</p>
+</form>
+
+</body>
+</html>

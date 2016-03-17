@@ -1,0 +1,119 @@
+WITH TEMP
+	(
+		PATH,		/* 「親部品番号 + 見出し番号 + 見出し番号種類」のパス */
+		PARPRTNO,	/* 親部品番号 */
+		PRTNO,		/* 部品番号 */
+		LV			/* 展開レベル */
+	) AS
+	(
+		SELECT  
+			PRTMST.PARTS_NO || ':' AS PATH,											/* ソートキー TOP部品番号 */
+			'' AS PARPRTNO,
+			PRTMST.PARTS_NO AS PRTNO,
+			CASE 
+				WHEN PRTMAX.DRAWING_CLASS='F' THEN 0 								/* TOP部品の最新の部品諸元がF図ならLv0から、F図でなければLv1から */
+				ELSE 1 
+			END AS LV
+		FROM
+			TB001001 PRTMST															/* 部品 */
+				INNER JOIN TB001003 PRTMAX ON										/* 部品諸元 (最大の諸元改訂番号) */	
+					PRTMAX.PARTS_NO=PRTMST.PARTS_NO AND
+					EXISTS
+					(
+						SELECT
+							MAX(PRT2.PARTS_PROP_REV_NO)
+						FROM
+							TB001003 PRT2
+						WHERE
+							PRT2.PARTS_NO=PRTMAX.PARTS_NO
+						GROUP BY
+							PRT2.PARTS_NO
+						HAVING
+							PRTMAX.PARTS_PROP_REV_NO=MAX(PRT2.PARTS_PROP_REV_NO)
+					)
+		WHERE
+			EXISTS																																		/* 指定したmc開発符号、ブロックNOが表示対象工場部品データに設定されている部品番号であること */
+			(
+				SELECT
+					*
+				FROM
+					TB001003 PRT																														/* 部品諸元 */
+						INNER JOIN TB004001 MPRT ON																										/* 工場部品情報 */
+							MPRT.PARTS_NO=PRT.PARTS_NO AND
+							MPRT.PARTS_PROP_REV_NO=PRT.PARTS_PROP_REV_NO AND
+							PRT.DRAWING_SERIES=:MCMDLCD AND																								/* △mc開発符号指定	指定値が"UNIT"であった場合にはこの条件を除外する */
+							PRT.DRAWING_BLOCK_NO=:BLOCK AND																								/* ブロックNO指定 */
+							MPRT.CANCEL_FLAG='0' AND																									/* 無効フラグが「有効」 */
+							(MPRT.FACTORY_PN_STATUS!=:STATUS OR MPRT.ABOLISH_DATE > CAST(:TODAY AS DATE)) AND											/* ◎本登録済みではないか、または過去廃止ではないデータ マスクがOFFになった際には、この条件を除外する */
+							(MPRT.FACTORY_PN_STATUS=:STATUS AND MPRT.ADOPT_DATE <= CAST(:DATE AS DATE) AND MPRT.ABOLISH_DATE > CAST(:DATE AS DATE))		/* ◇過去履歴指定時に指定する日付条件。本登録済のみ表示する。ブランクの場合はこの条件を除外する */
+				WHERE
+					PRT.PARTS_NO=PRTMST.PARTS_NO AND
+					NOT EXISTS															/* 指定されたmc開発符号、ブロックNOの親構成が存在しない */
+					(
+						SELECT
+							*
+						FROM
+							TB001004 STRC2, 											/* 部品構成 */
+							TB001003 PRT2 												/* 部品諸元 */
+						WHERE
+							STRC2.AUTOMATIC_SYMBOL!='D' AND								/* 削除構成ではない */
+							STRC2.SUB_PARTS_NO=PRT.PARTS_NO AND
+							STRC2.PARENT_PARTS_NO!='T' AND								/* ダミー親構成ではない */
+							PRT2.PARTS_NO=STRC2.PARENT_PARTS_NO AND
+							PRT2.DRAWING_BLOCK_NO=PRT.DRAWING_BLOCK_NO
+							AND PRT2.DRAWING_SERIES=PRT.DRAWING_SERIES 					/* △ mc開発符号指定が"UNIT"であった場合にはこの条件を除外する */
+					)
+			) OR
+			EXISTS																		/* または、指定のリストコード、ブロックNOでファイナル部品としてAL適用されている部番が存在 */
+			(
+				SELECT
+					*
+				FROM
+					TB008004 AL  														/* AL適用 */
+						INNER JOIN TB009003 LSTCD ON									/* リストコード */
+							LSTCD.LIST_CODE=AL.LIST_CODE AND
+							LSTCD.MC_DEV_MODEL_CODE=:MCMDLCD							/* △mc開発符号指定	指定値が"UNIT"であった場合にはこの条件を除外する */
+				WHERE
+					AL.BLOCK_NO=:BLOCK AND												/* ブロックNO指定 */
+					AL.FINAL_PARTS_NO=PRTMST.PARTS_NO									/* ファイナル部品番号 */
+			)
+		UNION ALL
+		SELECT
+			(TEMP.PATH || TEMP.PRTNO || '/' || STRC.INDEX || STRC.KIND) AS PATH,		/* 展開表示パス (「親部品番号 + 見出し番号 + 見出し番号種類」) */
+			TEMP.PRTNO AS PARPRTNO,
+			PRTMST.PARTS_NO AS PRTNO,
+			TEMP.LV + 1 AS LV															/* 展開レベル */
+		FROM
+			TEMP,
+			TB001001 PRTMST,															/* 部品 */
+			TB001004 STRC																/* 部品構成 */
+		WHERE
+			TEMP.LV < :LEVEL AND														/* 展開レベルの指定 */
+			EXISTS																		/* 構成展開するのに妥当な構成子部品として存在している */
+			(
+				SELECT
+					*
+				FROM
+					TB004002 MSTRC 														/* 工場構成情報 */
+				WHERE
+					MSTRC.PARENT_PARTS_NO=TEMP.PRTNO AND								/* 構成展開 */
+					MSTRC.SUB_PARTS_NO=PRTMST.PARTS_NO AND
+					MSTRC.CANCEL_FLAG='0' AND											/* 無効フラグが「有効」 */
+					(MSTRC.FACTORY_PS_STATUS!=:STATUS OR MSTRC.ABOLISH_DATE > CAST(:TODAY AS DATE)) AND													/* ◎本登録済みではないか、または過去廃止ではないデータ マスクがOFFになった際には、この条件を除外する */
+					(MSTRC.FACTORY_PS_STATUS=:STATUS AND MSTRC.ADOPT_DATE <= CAST(:DATE AS DATE) AND MSTRC.ABOLISH_DATE > CAST(:DATE AS DATE))			/* ◇過去履歴指定時に指定する日付条件。本登録済のみ表示する。ブランクの場合はこの条件を除外する */
+			) AND
+			STRC.PARENT_PARTS_NO=TEMP.PRTNO AND
+			STRC.SUB_PARTS_NO=PRTMST.PARTS_NO AND
+			EXISTS																	/* 表示対象となる親子部番の技術としての最新改訂を取得。この見出し情報をソートに使用する */
+			(
+				SELECT
+					MAX(STRC2.ENGINEERING_PS_REV_NO)
+				FROM
+					TB001004 STRC2													/* 部品構成 */
+				WHERE
+					STRC2.PARENT_PARTS_NO=STRC.PARENT_PARTS_NO AND
+					STRC2.SUB_PARTS_NO=STRC.SUB_PARTS_NO
+				HAVING
+					STRC.ENGINEERING_PS_REV_NO=MAX(STRC2.ENGINEERING_PS_REV_NO)
+			)
+)

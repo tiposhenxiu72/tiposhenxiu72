@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+<!--
+
+-->
+
+</script>
+<script language="javascript">
+<!--
+	//ウインドウサイズの変更
+	function changesize(){
+	window.resizeTo(680,420);//サイズの指定
+	}
+	window.onload = changesize;//ページの読み込み時に関数を呼び出す
+	window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+//-->
+</script>
+<title>[SC005003]設審済設通詳細件数表示</title>
+</head>
+
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td  colspan="2">[SC005003]設審済設通詳細件数表示</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="WIDTH:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="WIDTH:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+<form id="SC005003" name="MainForm">
+<p>
+<b>設審済設通詳細件数表示</b>
+</p>
+
+
+<p>
+<table border="0" cellpadding="0" cellspacing="0" width="630" align="left">
+	<tr height="60">
+	<td>
+		<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-width:1px; border-color:#000000;height:50px" >
+		<tr>
+		<td width="100" align="left">設通シリーズ ：</td>
+		<td width="100" align="left">HR3</td>
+		<td width="45"></td>
+		<td width="230">課コード：&nbsp;</td>
+		<td></td>
+		</tr>
+
+		<tr>
+		<td>受領期間：</td>
+		<td>2014/04/08</td>
+		<td>～</td>
+		<td>2014/05/08</td>
+		<td><b>代表設通のみ</b></td>
+		</tr>
+		</table>
+		</td>
+	</tr>
+	<tr>
+	<td>
+		<table border="0" cellpadding="0" cellspacing="0" width="100%" align="left" style="border-color:#000000;height:160px">
+			<tr>
+				<td style="border-style:solid none none solid; border-width:1px;border-color:#000000;background-color:#FFD1A4;width:75pt">&nbsp;&nbsp;&nbsp;&nbsp;■<b>設審済み</b></td>
+				<td style="border-style:solid solid none none; border-width:1px;border-color:#000000;background-color:#FFD1A4;width:35pt">300</td>
+				<td rowspan="3" align="center" style="border-style:solid solid solid none; border-width:1px;border-color:#000000;background-color:#FFFF6F;width:18pt"><b>未決内訳</b></td>
+				<td style="border-style:solid none none none; border-width:1px;border-color:#000000;background-color:#FFFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>未決（全体）</b></td>
+				<td style="border-style:solid none none none; border-width:1px;border-color:#000000;background-color:#FFFFFF;width:40pt">130</td>
+				<td align="center" style="border-style:solid solid none none; border-width:1px;border-color:#000000;background-color:#FFFFFF"><input type="submit" value="一覧表示" style="WIDTH:100pt"/></td>
+				</tr>
+			<tr>
+				<td rowspan="4" valign="top" style="border-style:none none solid solid; border-width:1px;border-color:#000000;background-color:#FFD1A4;width:75pt"></td>
+				<td rowspan="4" valign="top" style="border-style:none solid solid none; border-width:1px;border-color:#000000;background-color:#FFD1A4;width:35pt"></td>
+				<td style="border-style:solid none solid none; border-width:1px;border-color:#000000;background-color:#FFFFDF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>未決（対象年改符号）</b></td>
+				<td style="border-style:solid none solid none; border-width:1px;border-color:#000000;background-color:#FFFFDF">0</td>
+				<td align="center" style="border-style:solid solid solid none; border-width:1px;border-color:#000000;background-color:#FFFFFF"><input disabled type="submit" value="一覧表示" style="WIDTH:100pt"/></td>
+			</tr>
+			<tr>
+				<td style="border-style:none none solid none; border-width:1px;border-color:#000000;background-color:#FFFFAA">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>部分未決（部品）</b></td>
+				<td style="border-style:none none solid none; border-width:1px;border-color:#000000;background-color:#FFFFAA">50</td>
+				<td align="center" style="border-style:none solid solid none; border-width:1px;border-color:#000000;background-color:#FFFFFF"><input type="submit" value="一覧表示" style="WIDTH:100pt"/></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="border-style:none none solid none; border-width:1px;border-color:#000000;background-color:#FFFF6F">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>未決合計</b></td>
+				<td style="border-style:none none solid none; border-width:1px;border-color:#000000;background-color:#FFFF6F">180</td>
+				<td align="center" style="border-style:none solid solid none; border-width:1px;border-color:#000000;background-color:#FFFFFF"><input type="submit" value="一覧表示" style="WIDTH:100pt"/></td>
+				</tr>
+			<tr>
+				<td colspan="2" style="border-style:none none solid none; border-width:1px;border-color:#000000;background-color:#28FF28">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>決定済み</b></td>
+				<td style="border-style:none none solid none; border-width:1px;border-color:#000000;background-color:#28FF28">120</td>
+				<td align="center" style="border-style:none solid solid none; border-width:1px;border-color:#000000;background-color:#FFFFFF"><input type="submit" value="一覧表示" style="WIDTH:100pt"/></td>
+			</tr>
+		</table>
+	</td>
+	</tr>
+</table>
+</p>
+</form>
+</body>
+</html>

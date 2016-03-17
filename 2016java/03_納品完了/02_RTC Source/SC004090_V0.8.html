@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+
+<!--
+function checkH(obj,rownum){
+    
+    document.getElementById("rowid" + rownum).className = "sel";
+    var tableList=document.getElementById("main_table1");
+    var rowsCount=tableList.rows.length; 
+    
+    for (var i=1; i<=rowsCount; i=i+1){
+        
+	if(i != rownum){
+	        document.getElementById("rowid" + i).className = "notsel";
+	}
+    }
+	
+}
+function keydown()
+{
+if(event.keyCode >= 112 && event.keyCode <= 123){ 
+	event.keyCode = 0;
+	return false;
+	}
+	}
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+
+function checkH1(){
+	document.getElementById("rowid2").className = "sel";
+}
+
+-->
+
+</script>
+<script language="javascript">
+<!--
+	//ウインドウサイズの変更
+	function changesize(){
+	window.resizeTo(1280,720);//サイズの指定
+	}
+	window.onload = changesize;//ページの読み込み時に関数を呼び出す
+	window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+//-->
+</script>
+<title>[SC004090]工場諸元検索（開発符号・ブロック）</title>
+</head>
+
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body onload="checkH1();">
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td  colspan="2">[SC004090]工場諸元検索（開発符号・ブロック）</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+
+<form id="SC004090" name="MainForm">
+<p>
+<b>工場諸元検索（開発符号・ブロック）</b>
+</p>
+
+<p>
+<table width="60%" style="border-style:dashed; border-width:1px; border-color:#000000;">
+<tr align="left">
+<td width="60px">&nbsp;</td>
+<td height="40">
+条件指定 <font color="red">*</font>：
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="obj" OnClick="">開発符号
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="obj" OnClick="" checked >ブロックNo
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="200" class="text80L" id="S3"/>(F*)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="検索" style="width:80pt"/>
+</td>
+</tr>
+</table>
+</p>
+<div style="height:10px;"></div>
+<div width="30%">
+<table  cellpadding="0" cellspacing="0" id="head_table2">
+<tr style="height:50px;">
+<td width="450px">&nbsp;</td>
+<td>
+<table style="border-style:dashed; border-width:1px; border-color:#000000;" width="200px">
+<tr>
+<td>(*)Z:Final図面出図有り</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+
+<p>
+<table width="100%" >
+<tr>
+<td width="54%" style="text-align:left">
+<table>
+	<tr>
+		<td width="600px"></td><td width="35px">6 rec</td>
+	</tr>
+</table>
+<table border="1" cellpadding="0" cellspacing="0" id="head_table2" class="main_table">
+<thead>
+<tr style="background-color:white; font-weight: bold; background:#b0e0e6;" valign="top">
+<th width="20px" rowspan="2" align="left">No<br/></th>
+<th width="20px" rowspan="2" align="left">選<br/>択</th>
+<th width="115px" rowspan="2" align="left">開発符号<br/>（図面）</th>
+<th width="113px" rowspan="2" align="left">ブロックNo<br/>（図面）</th>
+<th width="296px"  rowspan="2" align="left">ブロック名称</th>
+<th width="103px"  rowspan="2" align="left" style="border-right:1px solid #000000;">(*)</th>
+<th width="17px" style="border-left:1px solid #000000;background:#FFFFFF;border:1px solid white" rowspan="2" align="left"></th>
+</tr>
+</thead>
+</table>
+
+<div style="float:left;height:139px; overflow: scroll;overflow-x:hidden; text-align:left; border-style:none;" ID="SYNC">
+<table border="1" cellpadding="0" cellspacing="0" id="main_table1" style="height:30px;" class="main_table">
+<tr id="rowid1"  align="left">
+<td width="20px" align="right">1</td>
+<td width="20px" class="colC" align="left"><input type="radio" name="checktail" id="checktail" OnClick="return checkH(this,1);"></td>
+<td width="113px" align="left">HR3</td>
+<td width="111px" align="left">200A</td>
+<td width="290px" align="left">○○ブロック</td>
+<td width="102px" align="left">Z</td>
+
+</tr>
+<tr id="rowid2" align="left">
+<td align="right">2</td>
+<td class="colC"><input type="radio" name="checktail" id="checktail2" OnClick="return checkH(this,2);" checked></td>
+<td>BF4</td>
+<td>200A</td>
+<td>○○ブロック</td>
+<td>&nbsp;</td>
+</tr>
+<tr id="rowid3" align="left">
+<td align="right">3</td>
+<td class="colC"><input type="radio" name="checktail" id="checktail3" OnClick="return checkH(this,3);"></td>
+<td>BF4</td>
+<td>200A</td>
+<td>○×ブロック</td>
+<td>&nbsp;</td>
+</tr>
+<tr id="rowid4" align="left">
+<td align="right">4</td>
+<td class="colC"><input type="radio" name="checktail" id="checktail4" OnClick="return checkH(this,4);"></td>
+<td>MF1</td>
+<td>200A</td>
+<td>○○ブロック</td>
+<td>&nbsp;</td>
+</tr>
+<tr id="rowid5" align="left">
+<td align="right">5</td>
+<td height="22px" class="colC"><input type="radio" name="checktail" id="checktail5" OnClick="return checkH(this,5);"></td>
+<td>MF1</td>
+<td>203B</td>
+<td>△△ブロック</td>
+<td>&nbsp;</td>
+</tr>
+<tr id="rowid6" align="left">
+<td align="right">6</td>
+<td class="colC"><input type="radio" name="checktail" id="checktail6" OnClick="return checkH(this,6);"></td>
+<td>ZR1</td>
+<td>205C</td>
+<td>□□ブロック</td>
+<td>&nbsp;</td>
+</tr>
+<tr id="rowid7" align="left">
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr id="rowid8" align="left">
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</table>
+</div>
+</td>
+<td width="70px">&nbsp;</td>
+<td align="left">
+<table border="0" cellpadding="0" cellspacing="0" height="10px">
+<tr>
+<td>&nbsp;</td>
+</tr>
+</table>
+<div style="float:left;height:150px; text-align:left; border-style:none;">
+<table border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td>
+<input type="button" value="工場諸元検索・登録（ツリー展開）" style="width:180pt"/>
+</td>
+</tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</p>
+</form>
+
+</body>
+</html>

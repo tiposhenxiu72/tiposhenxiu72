@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" charset="utf-8">
+<!--
+
+function keydown()
+{
+if(event.keyCode >= 112 && event.keyCode <= 123){ 
+	event.keyCode = 0;
+	return false;
+	}
+	}
+
+-->
+
+</script>
+<script language="javascript">
+<!--
+	//ウインドウサイズの変更
+	function changesize(){
+	window.resizeTo(680,420);//サイズの指定
+	}
+	window.onload = changesize;//ページの読み込み時に関数を呼び出す
+	window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+//-->
+</script>
+<title>[SC005001]設通ステータス別件数表示</title>
+</head>
+
+<!--bodyのオプションにonContextMenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr style="background-color: blue;color: white; font-size: 12pt"><td  colspan="2">[SC005001]設通ステータス別件数表示</td></tr>
+<!--  <tr style="background-color: #CFCFCF;color: #0000FF; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="WIDTH:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>-->
+<tr style="background-color: #FFFFFF;color: #FF0000; font-size: 13.5pt"><td height="20">システムメッセージを表示します。</td><td align="RIGHT"><input type="submit" value="メニューへ" style="WIDTH:67.5pt;background-color: #00009C;color: #FEDE20" /></td></tr>
+</table>
+
+
+<form id="SC006001" name="MainForm">
+<p>
+<b>設通ステータス別件数表示</b>
+</p>
+
+
+<p>
+<div>
+<table border="0" cellpadding="0" cellspacing="0" width="50%" align="left">
+<tr>
+<table border="0" width="630" style="border-style:dashed; border-width:1px; border-color:#000000;height:80px" >
+
+<tr>
+<td width="130">&nbsp;&nbsp;設通シリーズ <font color="red">*</font>：</td>
+<td align="left">&nbsp;&nbsp;<select name="a" style="width: 95px;">
+<option value="HR3">HR3</option>
+<option value="BF3">BF3</option>
+<option value="MF1">MF1</option>
+</select></td>
+<td>&nbsp;&nbsp;課コード：&nbsp;<input type="text" value="" style="width:24px;text-align:left;border: 1px solid #7f9db9;" id="S001"/></td>
+<td>&nbsp;&nbsp;<input type="checkbox" id="chk2" OnClick="" >&nbsp;代表設通のみ</td>
+</tr>
+</tr>
+
+<tr>
+<td>&nbsp;&nbsp;受領期間：</td>
+<td>&nbsp;&nbsp;<input type="text" value="2014/04/08" style="width:90px;text-align:left;border: 1px solid #7f9db9;" id="S002"/>～
+</td>
+<td>&nbsp;&nbsp;<input type="text" value="2014/05/08" style="width:90px;text-align:left;border: 1px solid #7f9db9;" id="S003"/>
+</td>
+<td>&nbsp;&nbsp;<input type="submit" value="件数表示" style="WIDTH:135pt"/>
+</td>
+</tr>
+</table>
+</tr>
+
+<tr>
+<br/>
+</tr>
+
+<tr>
+<table  border="0" cellpadding="0" cellspacing="0" width="630" style="border-style:solid; border-width:1px;border-color:#000000;height:50px">
+<tr>
+<td style="background-color:#FF79BC">
+<table width="335">
+<tr>
+<td width="140">&nbsp;&nbsp;■<b>設通総件数</b></td>
+<td>400</td>
+</tr>
+</table>
+</td>
+<td>&nbsp;&nbsp;<input type="submit" value="一覧表示" style="WIDTH:135pt"/></td>
+</tr>
+</table>
+<tr>
+
+<tr>
+<br/>
+</tr>
+
+<tr>
+<table  border="0" cellpadding="0" cellspacing="0" width="630" style="border-style:solid; border-width:1px;border-color:#000000;height:50px">
+<tr>
+<td style="background-color:#A6FFFF">
+<table width="335">
+<tr>
+<td width="140">&nbsp;&nbsp;■<b>未設審</b></td>
+<td>100</td>
+</tr>
+</table>
+</td>
+<td>&nbsp;&nbsp;<input type="submit" value="一覧表示" style="WIDTH:135pt"/></td>
+</tr>
+</table>
+<tr>
+
+
+
+
+<tr>
+<table  border="0" cellpadding="0" cellspacing="0" width="630" style="border-color:#000000;height:100px" >
+
+<tr>
+<td style="border-style:none solid solid solid; border-width:1px;border-color:#000000;height:100px;background-color:#FFD1A4" rowspan="2" width="200">
+<table>
+<tr>
+<td width="140">&nbsp;&nbsp;■<b>設審済み</b></td>
+<td>300</td>
+</tr>
+<tr>
+<td colspan="2">&nbsp;<input type="submit" value="詳細確認（未決含む）" style="WIDTH:130pt"/>
+</td>
+</tr>
+</table>
+</td>
+
+<td style="border-style:none none solid none; border-width:1px;background-color:#FFFFDF" >
+<table >
+<tr>
+<td width="135">&nbsp;&nbsp;&nbsp;<b>未発行件数</b></td>
+<td>200</td>
+</tr>
+</table>
+</td>
+<td style="border-style:none solid solid none; border-width:1px;border-color:#000000">&nbsp;&nbsp;<input type="submit" value="一覧表示" style="WIDTH:135pt"/></td>
+</tr>
+
+<tr>
+<td style="border-style:none none solid none;border-width:1px;background-color:#FFFF93">
+<table>
+<tr>
+<td width="135">&nbsp;&nbsp;&nbsp;<b>発行済み件数</b></td>
+<td>100</td>
+</tr>
+</table>
+
+
+
+</td>
+
+
+<td style="border-style:none solid solid none; border-width:1px;border-color:#000000">&nbsp;&nbsp;<input type="submit" value="一覧表示" style="WIDTH:135pt"/></td>
+</tr>
+
+
+
+
+
+</table>
+<tr>
+
+
+
+
+
+
+
+
+</table>
+</div>
+</p>
+
+
+
+
+</form>
+
+</body>
+</html>

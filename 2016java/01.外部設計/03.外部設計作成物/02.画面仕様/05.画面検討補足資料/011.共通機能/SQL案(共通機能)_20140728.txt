@@ -1,0 +1,444 @@
+2.共通機能SQL
+
+2-1.図面→設通(SC011010)
+	SELECT
+		DSGN.設計通知番号 AS 設通NO,
+		DSGN.設通改訂番号 AS 改訂NO,
+		DSGN.設通件名,
+		MIN(ECSDSGN.設審日) AS 初回設審日,
+		DRWG.図面改訂番号 AS 図面改訂NO,
+		DRWG.設計担当者 AS 設計者,
+		DSGN.製管受領年月日
+	FROM
+		図面 DRWG
+		INNER JOIN 設計通知 DSGN ON
+			DSGN.設計通知番号=DRWG.主設通代表設通番号 AND
+			EXISTS
+			(
+				SELECT
+					MAX(DSGN2.設通改訂番号)
+				FROM
+					設計通知 DSGN2
+				WHERE
+					DSGN2.設計通知番号=DSGN.設計通知番号
+				GROUP BY
+					DSGN2.設計通知番号
+				HAVING
+					DSGN.設通改訂番号=MAX(DSGN2.設通改訂番号)
+			)
+		INNER JOIN 設審設通 ECSDSGN ON
+			ECSDSGN.設計通知番号=DSGN.設計通知番号 AND
+			ECSDSGN.設通改訂番号=DSGN.設通改訂番号
+	WHERE
+		DRWG.図面番号=? AND
+		DRWG.図面改訂番号=?
+	GROUP BY
+		DSGN.設計通知番号,
+		DSGN.設通改訂番号,
+		DSGN.設通件名,
+		DRWG.図面改訂番号,
+		DRWG.設計担当者,
+		DSGN.製管受領年月日
+	ORDER BY
+		DRWG.図面番号 DESC
+
+
+
+	/* 同指示設通取得 (別途取得)*/
+	/* オーバーフロー設通対応によりSQLが変わりました。 20110711_sakurai */
+	/* 同指示設通一覧を取得するVIEW「SIMULTANEOUS_OVERFLOW_ECS」を使う形に変わりました。 20110725_sakurai */
+	/* VIEWのIDを「VW003001」に変更し、条件に設通改訂番号を追加しました。20110728_sakurai */
+	SELECT
+		SIMULTANEOUS_ECS_NO		/* 同指示設通番号 */
+	FROM
+		VW003001				/* 同指示設通 */
+	WHERE
+		REPR_ECS_NO=?			/* 設計通知番号 */
+		REPR_ECS_REV_NO=?		/* 設通改訂番号 */
+	ORDER BY
+		SIMULTANEOUS_ECS_ORDER
+	
+
+	/* 関連設通取得 (別途取得) */
+	/* オーバーフロー設通対応によりSQLが変わりました。 20110711_sakurai */
+	/* 関連設通一覧を取得するVIEW「RELATED_OVERFLOW_ECS」を使う形に変わりました。 20110725_sakurai */
+	/* VIEWのIDを「VW003002」に変更し、条件に設通改訂番号を追加しました。20110728_sakurai */
+	SELECT
+		RELATED_ECS_NO
+	FROM
+		VW003002				/* 関連設通番号 */
+	WHERE
+		REPR_ECS_NO=?			/* 設計通知番号 */
+		REPR_ECS_REV_NO=?		/* 設通改訂番号 */
+	ORDER BY
+		RELATED_ECS_ORDER
+
+
+
+
+2-2.部品→設通(SC011020)
+	SELECT
+		DSGN.設計通知番号 AS 設通NO,
+		DSGN.設通改訂番号 AS 改訂NO,
+		DSGN.設通件名,
+		MIN(ECSDSGN.設審日) AS 初回設審日,
+		DRWG.図面番号 AS タイトル図面,
+		DRWG.図面改訂番号 AS 図面改訂NO,
+		DRWG.設計担当者 AS 設計者,
+		DSGN.製管受領年月日
+	FROM
+		部品図面 DRWGPRT
+		INNER JOIN 	図面 DRWG ON
+			DRWG.図面番号=DRWGPRT.図面番号= AND
+			DRWG.図面改訂番号=DRWGPRT.図面改訂番号
+		INNER JOIN 設計通知 DSGN ON
+			DSGN.設計通知番号=DRWG.主設通代表設通番号 AND
+			EXISTS
+			(
+				SELECT
+					MAX(DSGN2.設通改訂番号)
+				FROM
+					設計通知 DSGN2
+				WHERE
+					DSGN2.設計通知番号=DSGN.設計通知番号
+				GROUP BY
+					DSGN2.設計通知番号
+				HAVING
+					DSGN.設通改訂番号=MAX(DSGN2.設通改訂番号)
+			)
+		INNER JOIN 設審設通 ECSDSGN ON
+			ECSDSGN.設計通知番号=DSGN.設計通知番号 AND
+			ECSDSGN.設通改訂番号=DSGN.設通改訂番号
+	WHERE
+		DRWGPRT.部品番号=?
+	GROUP BY
+		DSGN.設計通知番号,
+		DSGN.設通改訂番号,
+		DSGN.設通件名,
+		DRWG.図面改訂番号,
+		DRWG.設計担当者,
+		DSGN.製管受領年月日
+	ORDER BY
+		DSGN.製管受領年月日 DESC
+
+
+	/* 同指示設通取得 (別途取得)*/
+	/* オーバーフロー設通対応によりSQLが変わりました。 20110711_sakurai */
+	/* 同指示設通一覧を取得するVIEW「SIMULTANEOUS_OVERFLOW_ECS」を使う形に変わりました。 20110725_sakurai */
+	/* VIEWのIDを「VW003001」に変更し、条件に設通改訂番号を追加しました。20110728_sakurai */
+	SELECT
+		SIMULTANEOUS_ECS_NO		/* 同指示設通番号 */
+	FROM
+		VW003001				/* 同指示設通 */
+	WHERE
+		REPR_ECS_NO=?			/* 設計通知番号 */
+		REPR_ECS_REV_NO=?		/* 設通改訂番号 */
+	ORDER BY
+		SIMULTANEOUS_ECS_ORDER
+	
+
+	/* 関連設通取得 (別途取得) */
+	/* オーバーフロー設通対応によりSQLが変わりました。 20110711_sakurai */
+	/* 関連設通一覧を取得するVIEW「RELATED_OVERFLOW_ECS」を使う形に変わりました。 20110725_sakurai */
+	/* VIEWのIDを「VW003002」に変更し、条件に設通改訂番号を追加しました。20110728_sakurai */
+	SELECT
+		RELATED_ECS_NO
+	FROM
+		VW003002				/* 関連設通番号 */
+	WHERE
+		REPR_ECS_NO=?			/* 設計通知番号 */
+		REPR_ECS_REV_NO=?		/* 設通改訂番号 */
+	ORDER BY
+		RELATED_ECS_ORDER
+
+
+
+2-3.設通→図面(SC011030)
+/* DRWG.製管受領年月日→DRWG.開始年月日 に変更 sakurai_20140725 */
+	SELECT
+		DRWG.図面番号 AS タイトル図番,
+		DRWG.図面改訂番号 AS 改訂NO,
+		DRWG.図面シリーズ,
+		DRWG.図面区分,
+		DRWG.ブロックNo.,
+		DRWG.図面コード,
+		DRWG.重要保安区分 AS 重保,
+		DRWG.発行理由 AS 理由コード,
+		DRWG.補修品区分 AS 補用品処置,
+		DRWG.機密区分,
+		DRWG.タイトル名称,
+		DRWG.互換性,
+		DRWG.設計元, 						/* 設計元はDECODEを使わずそのまま取得し、コードマスターテーブルで変換する方針にします。 sakurai_20140711 */
+		DRWG.設計担当者,
+		DRWG.開始年月日 AS 受領日			/* DRWG.製管受領年月日→DRWG.開始年月日 に変更 sakurai_20140728 */
+	FROM
+		設計通知 DSGN
+		INNER JOIN 図面 DRWG ON
+			DRWG.主設通代表設通番号=DSGN.設計通知番号
+	WHERE
+		DSGN.設通シリーズ=? AND				/* シリーズ、課コード、一連NOの条件指定は、設計通知テーブルのカラムで検索するようにしました。 sakurai_20140711 */
+		DSGN.課コード=? AND
+		DSGN.一連番号=?
+	ORDER BY
+		DRWG.図面番号
+
+
+
+2-4.設通→図面(SC011040)
+/* DRWG.製管受領年月日→DRWG.開始年月日 に変更 sakurai_20140725 */
+	SELECT
+		DECODE(PRTRNK, 1, TEMP.図面集合シンボル, '') AS 図面集合シンボル,
+		DECODE(PRTRNK, 1, TEMP.集合図番, '') AS 集合図番,
+		DECODE(PRTRNK, 1, TEMP.タイトル名称, '') AS タイトル名称,
+		DECODE(PRTRNK, 1, TEMP.補助, '') AS 補助,
+		DECODE(PRTRNK, 1, TEMP.質量, '') AS 質量,
+		TEMP.図面構成シンボル,
+		TEMP.IDX,
+		TEMP.KIND,
+		TEMP.構成図番,
+		TEMP.員数,
+		TEMP.部品名称,
+		TEMP.サイズ,
+		TEMP.集計,
+		TEMP.板厚,
+		TEMP.材料,
+		DECODE(DRWGRNK, 1, TEMP.タイトル図番, '') AS タイトル図番,
+		DECODE(DRWGRNK, 1, TEMP.改訂NO, '') AS 改訂NO,
+		DECODE(DRWGRNK, 1, TEMP.図面受領日, '') AS 図面受領日
+	FROM
+		(
+			SELECT
+				/* 集合品番 */
+				RANK() OVER(PARTITION BY DRWG.図面番号, PRT.部品番号 ORDER BY STRC.見出し番号, STRC.見出し番号種類) As PRTRNK
+				DECODE(PRT.主設通代表設通番号, DRWG.主設通代表設通番号, PRT.図面表題欄シンボル, ' ') AS 図面集合シンボル
+				PRT.部品番号 AS 集合図番,
+				PRT.部品名称 AS タイトル名称,
+				PRT.補助名称 AS 補助,
+				PRT.質量,
+				PRT.図面オーバー,
+				PRT.図面カラム,
+				/* 構成品番 */
+				DECODE(STRC.主設通代表設通番号, DRWG.主設通代表設通番号, STRC.図面表題欄シンボル, ' ') AS 図面構成シンボル
+				STRC.見出し番号 AS IDX,
+				STRC.見出し番号種類 AS KIND
+				DECODE(STRC.見出し番号, 'ZZ', '', STRC.構成部品番号) AS 構成図番,					/* 末端部品(下位構成の見出し番号='ZZ')の場合、構成部品番号はブランクを表示する sakurai_20140728 */
+				STRC.員数,
+				STRC.部品名称,
+				STRC.図判コード AS サイズ,
+				(STRC.国内集計コード || 海外集計コード, || 現調CKD区分) AS 集計,
+				DECODE(STRC.見出し番号, 'ZZ', PRT.板厚, STRC.板厚) AS 板厚,							/* 末端部品(下位構成の見出し番号='ZZ')の場合、部品諸元の板厚を表示する sakurai_20140728 */
+				DECODE(STRC.見出し番号, 'ZZ', PRT.材料記述, STRC.材料記述) AS 材料記述,				/* 末端部品(下位構成の見出し番号='ZZ')の場合、部品諸元の材料記述を表示する sakurai_20140728 */
+				/* タイトル図番 */
+				RANK() OVER(PARTITION BY DRWG.図面番号 ORDER BY PRT.図面オーバー, PRT.図面カラム) As DRWGRNK
+				DRWG.図面番号 AS タイトル図番,
+				DRWG.図面改訂番号 AS 改訂NO,
+				DRWG.開始年月日 AS 図面受領日
+			FROM
+				図面 DRWG
+				INNER JOIN 設計通知 DSGN ON
+					DSGN.設計通知番号=DRWG.主設通代表設通番号 AND
+					EXISTS
+					(
+						SELECT
+							MAX(DSGN2.設通改訂番号)
+						FROM
+							設計通知 DSGN2
+						WHERE
+							DSGN2.設計通知番号=DSGN.設計通知番号
+						GROUP BY
+							DSGN2.設計通知番号
+						HAVING
+							DSGN.設通改訂番号=MAX(DSGN2.設通改訂番号)
+					)
+				INNER JOIN 部品諸元 PRT ON
+					PRT.図面番号=DRWG.図面番号 AND
+					((PRT.開始年月日 <= DRWG.開始年月日 AND PRT.終了年月日 > DRWG.開始年月日 AND PRT.自動判定結果シンボル!='D') OR 
+					(PRT.開始年月日=DRWG.開始年月日 AND PRT.自動判定結果シンボル='D')) AND													/* 削除(自動判定結果シンボル='D')は、開始年月日が等しいデータのみ取得するように条件を変更 sakurai_20140728 */
+					((PRT.主設通代表設通番号=DRWG.主設通代表設通番号 AND PRT.図面表題欄シンボル='D') OR PRT.自動判定結果シンボル!='D')
+				LEFT OUTER JOIN 部品構成 STRC ON
+					STRC.図面番号=DRWG.図面番号 AND
+					STRC.組付先部品番号=PRT.部品番号 AND		/* 条件を追加  20110722_sakurai */
+					((STRC.開始年月日 <= DRWG.開始年月日 AND STRC.終了年月日 > DRWG.開始年月日 AND PRT.自動判定結果シンボル!='D') OR
+					(STRC.開始年月日=DRWG.開始年月日 AND STRC.自動判定結果シンボル='D')) AND											/* 削除(自動判定結果シンボル='D')は、開始年月日が等しいデータのみ取得するように条件を変更 sakurai_20140728 */
+					((STRC.主設通代表設通番号=DRWG.主設通代表設通番号 AND STRC.図面表題欄シンボル='D') OR STRC.自動判定結果シンボル!='D')
+			WHERE
+				DRWG.主設通代表設通番号=?
+		) TEMP
+/*	WHERE
+		(TEMP.図面集合シンボル!=' ' OR TEMP.図面構成シンボル!=' ')  シンボル設定のみ表示オプションの場合は、この条件を追加する sakurai_20140725 */
+	ORDER BY
+		TEMP.集合図番,
+		TEMP.図面オーバー,
+		TEMP.図面カラム,
+		TEMP.IDX,
+		TEMP.KIND
+
+
+
+2-5.部品→図面(SC011050)
+	対象図番一覧
+	SELECT
+		DRWG.図面番号 AS タイトル図番,
+		DRWG.図面改訂番号 AS 改訂NO,
+		DRWG.タイトル名称 AS 図面名称,
+		DRWG.図面シリーズ,
+		DRWG.ブロックNo.,
+		DRWG.図面区分 AS F図区分,
+		DRWG.主設通代表設通番号
+	FROM
+		部品図面 PRTDRWG1
+		INNER JOIN 図面 DRWG ON
+			DRWG.図面番号=PRTDRWG1.図面番号 AND
+			DRWG.図面改訂番号=PRTDRWG1.図面改訂番号
+	WHERE
+		PRTDRWG1.部品番号=? AND
+		EXISTS
+		(
+			SELECT
+				*
+			FROM
+				部品図面 PRTDRWG2
+			WHERE
+				PRTDRWG2.部品番号=PRTDRWG1.部品番号
+			GROUP BY
+				部品番号
+			HAVING
+				PRTDRWG1.部品図面改訂番号=MAX(PRTDRWG2.部品図面改訂番号)
+		) AND
+		PRTDRWG1.自動判定結果シンボル!='D'
+
+
+	対象親図番一覧
+	SELECT
+		DRWG.図面番号 AS タイトル図番,
+		DRWG.図面改訂番号 AS 改訂NO,
+		DRWG.タイトル名称 AS 図面名称,
+		DRWG.図面シリーズ,
+		DRWG.ブロックNo.,
+		DRWG.図面区分 AS F図区分,
+		DRWG.主設通代表設通番号
+	FROM
+		部品構成 STRC
+		INNER JOIN 部品図面 PRTDRWG1 ON
+			PRTDRWG1.部品番号=STRC.部品番号 AND
+			PRTDRWG1.図面番号=STRC.図面番号 AND
+			EXISTS
+			(
+				SELECT
+					*
+				FROM
+					部品図面 PRTDRWG2
+				WHERE
+					PRTDRWG2.部品番号=PRTDRWG1.部品番号
+				GROUP BY
+					PRTDRWG2.部品番号
+				HAVING
+					PRTDRWG1.部品図面改訂番号=MAX(PRTDRWG2.部品図面改訂番号)
+			) AND
+			PRTDRWG1.自動判定結果シンボル!='D'
+		INNER JOIN 図面 DRWG ON
+			DRWG.図面番号=PRTDRWG1.図面番号 AND
+			DRWG.図面改訂番号=PRTDRWG1.図面改訂番号
+	WHERE
+		STRC.構成部品番号=? AND
+		EXISTS
+		(
+			SELECT
+				SELECT 
+					MAX(STRC2.技術構成改訂番号)
+				FROM
+					部品構成 STRC2
+				WHERE
+					STRC2.組付先=STRC.組付先部品番号 AND
+					STRC2.構成部品番号=STRC.構成部品番号
+				GROUP BY
+					STRC2.部品番号,
+					STRC2.構成部品番号
+				HAVING
+					STRC.技術構成改訂番号=MAX(STRC2.技術構成改訂番号)
+		) AND
+		STRC.自動判定結果シンボル!='D'
+	ORDER BY
+		DRWG.図面番号
+
+
+2-6.図面→集合&構成(SC011060)
+	/* DRWG.製管受領年月日→DRWG.開始年月日 に変更 sakurai_20140725 */
+
+
+	/* オーバーリスト作成 sakurai_20140722 */
+	SELECT
+		DRWG.図面番号,
+		DRWG.図面改訂番号,
+		PRT.図面オーバー
+	FROM
+		図面 DRWG
+		INNER JOIN 部品諸元 PRT ON
+			PRT.図面番号=DRWG.図面番号 AND
+			((PRT.開始年月日 <= DRWG.開始年月日 AND PRT.終了年月日 > DRWG.開始年月日 AND PRT.自動判定結果シンボル!='D') OR 
+			(PRT.開始年月日=DRWG.開始年月日 AND PRT.自動判定結果シンボル='D')) AND													/* 削除(自動判定結果シンボル='D')は、開始年月日が等しいデータのみ取得するように条件を変更 sakurai_20140728 */
+			((PRT.主設通代表設通番号=DRWG.主設通代表設通番号 AND PRT.図面表題欄シンボル='D') OR PRT.自動判定結果シンボル!='D')
+	WHERE
+		DRWG.図面番号=? AND
+		DRWG.図面改訂番号=?
+	ORDER BY
+		PRT.図面オーバー
+
+	/* 図面情報取得 */
+	SELECT
+		/* 構成品番一覧 */
+		DECODE(STRC.主設通代表設通番号, DRWG.主設通代表設通番号, STRC.図面表題欄シンボル, ' ') AS 図面構成シンボル
+		STRC.見出し番号,
+		STRC.見出し番号種類
+		DECODE(STRC.見出し番号, 'ZZ', '', STRC.構成部品番号) AS 構成品番,										/* 末端部品(下位構成の見出し番号='ZZ')の場合、構成部品番号はブランクを表示する sakurai_20140728 */
+		STRC.員数,
+		(STRC.国内集計コード || 海外集計コード, || 現調CKD区分) AS 集計コード
+		DECODE(STRC.見出し番号, 'ZZ', PRT.板厚, STRC.板厚) AS 板厚,							/* 末端部品(下位構成の見出し番号='ZZ')の場合、部品諸元の板厚を表示する sakurai_20140728 */
+		DECODE(STRC.見出し番号, 'ZZ', PRT.材料記述, STRC.材料記述) AS 材料記述,				/* 末端部品(下位構成の見出し番号='ZZ')の場合、部品諸元の材料記述を表示する sakurai_20140728 */
+		/* 集合品番一覧 */
+		DECODE(PRT.主設通代表設通番号, DRWG.主設通代表設通番号, PRT.図面表題欄シンボル, ' ') AS 図面集合シンボル
+		PRT.図面カラム,
+		PRT.図面オーバー,
+		PRT.部品番号,
+		PRT.タイトル名称 AS 部品名称,
+		PRT.補助名称 AS 補助
+		PRT.質量,
+		/* 図面 */
+		DRWG.図面シリーズ,
+		DRWG.図面区分,
+		DRWG.ブロックNo.,
+		DRWG.図判コード AS サイズ,
+		DRWG.図面コード,
+		DRWG.重要保安区分 AS 重保,
+		DRWG.発行理由 AS 理由,
+		DRWG.補修品区分 AS 補用品処置,
+		DRWG.機密区分,
+		DRWG.タイトル名称,
+		DRWG.互換性,
+		DRWG.設計元, 						/* 設計元はDECODEを使わずそのまま取得し、コードマスターテーブルで変換する方針にします。 sakurai_20140711 */
+		DRWG.設計担当者,
+		DRWG.開始年月日 AS 受領日
+	FROM
+		図面 DRWG
+		INNER JOIN 部品諸元 PRT ON
+			PRT.図面番号=DRWG.図面番号 AND
+			((PRT.開始年月日 <= DRWG.開始年月日 AND PRT.終了年月日 > DRWG.開始年月日 AND PRT.自動判定結果シンボル!='D') OR 
+			(PRT.開始年月日=DRWG.開始年月日 AND PRT.自動判定結果シンボル='D')) AND													/* 削除(自動判定結果シンボル='D')は、開始年月日が等しいデータのみ取得するように条件を変更 sakurai_20140728 */
+			((PRT.主設通代表設通番号=DRWG.主設通代表設通番号 AND PRT.図面表題欄シンボル='D') OR PRT.自動判定結果シンボル!='D') AND
+			PRT.図面オーバー=?						/* 図面オーバーの条件指定を追加しました。 sakurai_20140722 */
+		LEFT OUTER JOIN 部品構成 STRC ON
+			STRC.図面番号=DRWG.図面番号 AND
+			STRC.組付先部品番号=PRT.部品番号 AND		/* 条件を追加  20110722_sakurai */
+			((STRC.開始年月日 <= DRWG.開始年月日 AND STRC.終了年月日 > DRWG.開始年月日 AND PRT.自動判定結果シンボル!='D') OR
+			(STRC.開始年月日=DRWG.開始年月日 AND STRC.自動判定結果シンボル='D')) AND											/* 削除(自動判定結果シンボル='D')は、開始年月日が等しいデータのみ取得するように条件を変更 sakurai_20140728 */
+			((STRC.主設通代表設通番号=DRWG.主設通代表設通番号 AND STRC.図面表題欄シンボル='D') OR STRC.自動判定結果シンボル!='D')
+	WHERE
+		DRWG.図面番号=? AND
+		DRWG.図面改訂番号=?
+	ORDER BY
+		PRT.図面オーバー,
+		PRT.図面カラム DESC,
+		STRC.見出し番号 DESC,
+		STRC.見出し番号種類 DESC
+
+

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" />
+  <script type="text/javascript" charset="utf-8">
+
+<!--
+  function checkh(obj,rownum){
+    document.getElementById("rowid" + rownum).className = "sel";
+    document.getElementById("rowid" + rownum + "1").className = "sel";
+    var tablelist=document.getElementById("main_table");
+    var rowscount=tablelist.rows.length;
+
+    for (var i=1; i<=(rowscount/2); i=i+1){
+      if(i != rownum){
+        document.getElementById("rowid" + i).className = "notsel";
+        document.getElementById("rowid" + i + "1").className = "notsel";
+      }
+    }
+  }
+
+  function keydown(){
+    if(event.keycode >= 112 && event.keycode <= 123){ 
+      event.keycode = 0;
+      return false;
+    }
+  }
+
+  function sync_scroll(obj) {
+    /*ID取得*/
+    var strIdLeft = obj.id+"_HEADER";
+    /*縦スクロール位置取得*/
+    var intScrlLeft = obj.scrollLeft;
+
+    /*同一IDのオブジェクト取得*/
+    head=document.getElementById(strIdLeft);
+    //スクロール位置の設定
+    head.scrollLeft=intScrlLeft;
+  }
+//この行のコメントを外すとファンクションキーが向こうになります。
+//window.document.onkeydown = keydown;
+
+  //ウインドウサイズの変更
+  function changesize(){
+    window.resizeTo(1280,720);//サイズの指定
+  }
+  window.onload = changesize;//ページの読み込み時に関数を呼び出す
+  window.onresize = changesize;//ウィンドウサイズの変更時に関数を呼び出す
+-->
+
+  </script>
+  <title>[SC007004]出図部品確認/選択</title>
+</head>
+
+<!--bodyのオプションにoncontextmenu="return false;"を入力すると、右クリックができなくなります。-->
+<body>
+<!-- ヘッダー領域  -->
+
+  <table border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tr style="background-color: blue;color: white; font-size: 12pt">
+      <td height="20" colspan="2">[SC007004]出図部品確認/選択</td>
+    </tr>
+<!--  <tr style="background-color: #cfcfcf;color: #0000ff; font-size: 13.5pt"><td height="20" >業務ポータルからのメッセージを表示します。</td><td align="right"><input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009c;color: #fede20" /></td></tr>-->
+    <tr style="background-color: #ffffff;color: #ff0000; font-size: 13.5pt">
+      <td height="20">システムメッセージを表示します。</td>
+      <td align="right">
+        <input type="submit" value="メニューへ" style="width:67.5pt;background-color: #00009c;color: #fede20" />
+      </td>
+    </tr>
+</table>
+
+<form id="SC007004" name="MainForm">
+<p>
+<b>出図部品確認/選択</b>
+</p>
+
+<p>
+  <table border="0" style="width: 600px;">
+    <tr>
+      <td width="550px">
+        <table width="550px" style="border-style:none;">
+          <tr>
+            <td>開発符号：</td>
+            <td>HR3</td>
+            <td width="20px"><br/></td>
+            <td colspan="4"><br/></td>
+          </tr>
+          <tr>
+            <td>イベント部品番号：</td>
+            <td>PN0001000</td>
+            <td><br/></td>
+            <td>品目ID：</td>
+            <td>PN000</td>
+            <td colspan="2"><br/></td>
+          </tr>
+          <tr>
+            <td>ファンクション：</td>
+            <td>PN000</td>
+            <td><br/></td>
+            <td>品目名称：</td>
+            <td>PN001NM</td>
+            <td width="20px"><br/></td>
+            <td><input type="submit" id="button1" value="決定" style="width:80pt;"/></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div style="float: left; overflow: hidden; width: 566px; border-style:none;" id="table_HEADER">
+          <table border="1" width="540px" cellpadding="0" cellspacing="0" class="main_table" align="left">
+            <thead>
+              <tr valign="top">
+                <th align="left" rowspan="2" width="40px">選<br/>択</th>
+                <th align="left" rowspan="2" width="110px">出図部品番号</th>
+                <th align="left" rowspan="2" width="40px">改訂</th>
+                <th align="left" rowspan="2" width="80px">取引先</th>
+                <th align="left" rowspan="2" width="90px">設通No</th>
+                <th align="left" rowspan="2" width="60px">仕向地</th>
+                <th align="left" rowspan="2" width="40px">適用</th>
+                <th align="left" rowspan="2" width="80px">ｲﾍﾞﾝﾄ名<br/>実施時期</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div style="float: left; overflow-x: hidden; overflow-y: scroll; width: 565px; height: 169px; border-style: none;" id="table" onScroll="sync_scroll(this);">
+          <table border="1" width="540px" cellpadding="0" cellspacing="0" class="main_table" align="left" id="main_table">
+            <tr valign="top" id="rowid1">
+              <td rowspan="2" width="40px"><input type="radio" name="radsel" onclick="return checkh(this,1);"/></td>
+              <td rowspan="2" width="110px">PN0001001</td>
+              <td rowspan="2" width="40px">01</td>
+              <td rowspan="2" width="80px">9801,A101</td>
+              <td rowspan="2" width="90px">ZR1  -L0368</td>
+              <td width="60px">N.AM</td>
+              <td width="40px">ALL</td>
+              <td width="80px">K3</td>
+            </tr>
+            <tr id="rowid11">
+              <td>JPN</td>
+              <td>ALL</td>
+              <td>工試</td>
+            </tr>
+            <tr valign="top" id="rowid2">
+              <td rowspan="2"><input type="radio" name="radsel" onclick="return checkh(this,2);"/></td>
+              <td rowspan="2">PN0001001</td>
+              <td rowspan="2">02</td>
+              <td rowspan="2">9801,A101</td>
+              <td rowspan="2">ZR1  -L0369</td>
+              <td>N.AM</td>
+              <td>ALL</td>
+              <td>K3</td>
+            </tr>
+            <tr id="rowid21">
+              <td>JPN</td>
+              <td>ALL</td>
+              <td>工試</td>
+            </tr>
+            <tr valign="top" id="rowid3">
+              <td rowspan="2"><input type="radio" name="radsel" onclick="return checkh(this,3);"/></td>
+              <td rowspan="2">PN0001001</td>
+              <td rowspan="2">03</td>
+              <td rowspan="2">A101</td>
+              <td rowspan="2">ZR1  -L0370</td>
+              <td>N.AM</td>
+              <td>ALL</td>
+              <td>K3</td>
+            </tr>
+            <tr id="rowid31">
+              <td>JPN</td>
+              <td>ALL</td>
+              <td>工試</td>
+            </tr>
+            <tr valign="top" id="rowid4">
+              <td rowspan="2"><input type="radio" name="radsel" onclick="return checkh(this,4);"/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr id="rowid41">
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr valign="top" id="rowid5">
+              <td rowspan="2"><input type="radio" name="radsel" onclick="return checkh(this,5);"/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr id="rowid51">
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr valign="top" id="rowid6">
+              <td rowspan="2"><input type="radio" name="radsel" onclick="return checkh(this,6);"/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr id="rowid61">
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr valign="top" id="rowid7">
+              <td rowspan="2"><input type="radio" name="radsel" onclick="return checkh(this,7);"/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr id="rowid71">
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr valign="top" id="rowid8">
+              <td rowspan="2"><input type="radio" name="radsel" onclick="return checkh(this,8);"/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td rowspan="2"><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+            <tr id="rowid81">
+              <td><br/></td>
+              <td><br/></td>
+              <td><br/></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+</p>
+
+</form>
+</body>
+</html>

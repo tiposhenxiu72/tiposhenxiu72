@@ -1,0 +1,13 @@
+■TB001006、2項目追加
+00140  |CREATE TABLE "TB001006" (                         ||00140  |CREATE TABLE "TB001006" (                         
+00144 L|        "PREV_DWG_NO" CHAR(15) NOT NULL,          ||       |                                                  
+00145 L|        "PREV_DWG_REV_NO" CHAR(2) NOT NULL,       ||       |                                                  
+
+■TB001007、2項目追加
+00157 L|CREATE TABLE "TB001007" (                         ||00155 M|CREATE TABLE "TB001007" (                         
+00163 L|        "PREV_DWG_NO" CHAR(15) NOT NULL,          ||       |                                                  
+00164 L|        "PREV_DWG_REV_NO" CHAR(2) NOT NULL,       ||       |                                                  
+
+■TB002020、桁数変更
+00502  |CREATE TABLE "TB002020" (                         ||00498  |CREATE TABLE "TB002020" (                         
+00506 L|        "PRECEDE_PROCESS_ID" VARCHAR(2000) NOT NUL||00502 R|        "PRECEDE_PROCESS_ID" CHAR(12) NOT NULL,   
