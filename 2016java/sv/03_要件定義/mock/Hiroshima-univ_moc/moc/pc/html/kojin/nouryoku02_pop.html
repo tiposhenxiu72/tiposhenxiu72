@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜研究者基礎能力診断:個別</title>
+<script src="../../common/import.js"></script>
+
+<script type="text/javascript">
+jQuery(function ($) {
+    $(".sel_eval").click(function() {
+        eval = $(this).attr("id").substr(5);
+        $("#set_eval").html(eval);
+    });
+});
+</script>
+
+</head>
+
+<body>
+<div id="pop">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<!--
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+<!--</header>
+-->
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>研究者基礎能力診断：能力別</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+<li><input type="button" value="保 存" class="fix" onClick="parent.$.colorbox.close(); return false;"></li>
+</ul>
+</menu>
+
+<!-- !学生表示 -->
+<dl class="gname">
+<dt>RDF No.</dt>
+<dd>A1.1</dd>
+<dt>能力</dt>
+<dd>専門分野の知識</dd>
+</dl>
+<span style="background:orange;">
+背景色がオレンジ色のフェーズがあなたの達成すべき目標フェーズです。
+</span>
+<table class="box01 stripe right">
+    <!--<table border="1">-->
+    <tr class="line">
+        <th class="center" width="90px">フェーズ</th>
+        <th class="center sel_eval" id="eval_0" width="120px">０</th>
+        <th class="center sel_eval" id="eval_1" width="120px">１</th>
+        <th class="center sel_eval" id="eval_2" width="120px">２</th>
+        <th class="center sel_eval" id="eval_3" width="120px">３</th>
+        <th class="center sel_eval" id="eval_4" width="120px">４</th>
+        <th class="center sel_eval" id="eval_5" width="120px">５</th>
+    </tr>
+    <tr>
+        <td class="sb fs" height="280px">
+            内容
+        </td>
+        <td class="left">
+            未達成
+        </td>
+        <td class="left">
+            専門及び関連分野の歴史及び最新動向を把握している。<br />
+            自分なりに知への貢献を目指している。<br />
+            社会に対して知を展開することの重要性を認識している。<br />
+        </td>
+        <td class="left" colspan="2" style="background:orange;">
+            専門及び関連分野についての深い知識を持ち、他の研究分野にもある程度通じている。<br />
+            専門研究を実社会に役立てている。<br />
+            知識を世界に展開している。<br />
+        </td>
+        <td class="left" colspan="2">
+            新しい知を生み出し、場合によっては大きな発見を成し遂げている。<br />
+            複数の視点を持つことができる。<br />
+            専門領域の戦略的方向性と発展、他の学問領域との相互依存関係について、深く広範な理解を持ち、自身の専門領域に役立てている。<br />
+            専門領域の発展に貢献している。<br />
+            国際的な影響力を持っている。<br />
+        </td>
+    </tr>
+</table>
+<table>
+  <tr>
+    <td>
+      <span style="background:orange;">目標フェーズ</span>は達成できましたか？
+    </td>
+    <td width="100px" class="center" valign="middle">
+       <img src="../../gfx/sankaku.gif" />
+    </td>
+    <td>
+       <input type="radio" name="q1" id="q1-1"><label for="q1-1">達成済</label>
+       <input type="radio" name="q1" id="q1-2"><label for="q1-2">未達成</label>
+    </td>
+  </tr>
+</table>
+<h4>アクションプラン</h4>
+<textarea placeholder="記入例xxxxx"></textarea>
+<h4>エビデンス</h4>
+<textarea placeholder="記入例yyyyyy"></textarea>
+<input type="file" />
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #pop終了 -->
+<script src="../../jquery/jquery.raty/jquery.raty.js"></script>
+<script src="../../js/colorbox/jquery.colorbox-min.js"></script>
+<script>
+$(function () {
+  $.fn.raty.defaults.path = "../../jquery/jquery.raty/images";
+  $('div.rate').raty({
+    cancel: true
+    , number: 5
+  });
+});
+</script>
+</body>
+</html>

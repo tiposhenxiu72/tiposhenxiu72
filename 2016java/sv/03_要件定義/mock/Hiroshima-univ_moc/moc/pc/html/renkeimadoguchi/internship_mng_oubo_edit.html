@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜インターンシップ派遣情報登録</title>
+<script src="../../common/import.js"></script>
+<link rel="stylesheet" type="text/css" href="../../bootstrap-wysihtml5/lib/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../../bootstrap-wysihtml5/src/bootstrap-wysihtml5.css">
+<script src="../../bootstrap-wysihtml5/lib/js/wysihtml5-0.3.0.js"></script>
+<script src="../../bootstrap-wysihtml5/lib/js/jquery-1.7.2.min.js"></script>
+<script src="../../bootstrap-wysihtml5/lib/js/bootstrap.min.js"></script>
+<script src="../../bootstrap-wysihtml5/src/bootstrap-wysihtml5.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>インターンシップ派遣情報登録</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+<li><input type="button" value="登 録" class="fix"></li>
+<li><input type="button" value="戻 る"onclick="location.href='internship_mng_oubo_list.html'"></li>
+</ul>
+</menu>
+
+<!-- !登録 -->
+<h2>インターンシップ派遣情報</h2>
+
+
+<table class="boxf01">
+<tr>
+<th>応募者学年：</th>
+<td><input type="text" value="xxxxxxxx"></td>
+</tr>
+<tr>
+<th>応募者指導教員：</th>
+<td><input type="text" value="xxxxxxxx"></td>
+</tr>
+<tr>
+<th>応募者派遣先：</th>
+<td><input type="text" value="xxxxxxxx"></td>
+</tr>
+<tr>
+<th>企業派遣期間：</th>
+<td><input type="text" style="width: 120px;" value="20YY/MM/DD"><span class="ical"><a href="#">cal</a></span>　～　
+<input type="text" style="width: 120px;" value="20YY/MM/DD"><span class="ical"><a href="#">cal</a></span></td>
+</tr>
+<tr>
+<th>就職状況：</th>
+<td><input type="text" value="xxxxxxxx"></td>
+</tr>
+<tr>
+<th>備考：</th>
+<td><textarea class="textarea" placeholder="Enter text ..." style="width: 550px; height: 200px"></textarea></td>
+</tr>
+</table>
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_renkeimadoguchi.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+
+<script>
+	$('.textarea').wysihtml5();
+</script>
+
+</body>
+</html>

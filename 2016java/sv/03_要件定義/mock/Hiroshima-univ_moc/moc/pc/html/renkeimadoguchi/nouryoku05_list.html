@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜能力養成科目履修確認</title>
+<script src="../../common/import.js"></script>
+<style type="text/css">
+  .menu_btn {
+    position: relative;
+    width:100%;
+  }
+  .menu_btn dt {
+    clear: left;
+    float: left;
+  }
+  .menu_btn dd {
+    margin-left: 160px;
+    margin-bottom: 2em;
+
+  }
+
+  .menu_btn input[type="button"] {
+    width:150px;
+  }
+  .subsub {
+    border: 1px solid #c0c0c0;
+    border-radius: 2px;
+    padding : 0px 0px 0px 0px;
+    margin : 0px;
+
+  }
+  .subsub > li{
+    display: inline-block;
+    border-right: 1px solid #a0a0a0;
+    height:1em;
+    padding: 1px 4px;
+  }
+</style>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+  <!-- ///////////▽contents/////////// -->
+
+
+  <!-- !title -->
+  <h1>能力養成科目履修確認</h1>
+
+  <!-- !menu -->
+  <menu>
+    <ul>
+      <li><input type="button" value="履修予約" onclick="location.href='./nouryoku05_add.html'" class="fix"></li>
+      <li><input type="button" value="能力養成科目取り組み" onclick="location.href='./nouryoku04_2.html'"></li>
+    </ul>
+  </menu>
+
+  <!-- 大項目 -->
+  <div id="tab_domain">
+    <ul class="tab">
+      <li class="act"><a href="#tab_domain_A">A：知識と知的能力</a></li>
+      <li><a href="#tab_domain_B">B：個人の能力</a></li>
+      <li><a href="#tab_domain_C">C：研究の管理運営</a></li>
+      <li><a href="#tab_domain_D">D：影響とインパクト</a></li>
+    </ul>
+
+    <div id="tab_domain_A" class="tabbox">
+      <ul class="tab">
+        <li class="act"><a href="#tab_domain_A1">A1：知識基盤</a></li>
+        <li><a href="#tab_domain_A2">A2：認知的能力</a></li>
+        <li><a href="#tab_domain_A3">A3：創造性</a></li>
+      </ul>
+
+      <div id="tab_domain_A1" class="tabbox">
+        <ul class="subsub">
+          <li><a href="#tab_domain_A1_1">A1.1:専門分野の知識</a></li>
+          <li><a href="#tab_domain_A1_2">A1.2:研究方法（理論的知識）</a></li>
+          <li><a href="#tab_domain_A1_3">A1.3:研究方法（応用力）</a></li>
+          <li><a href="#tab_domain_A1_4">A1.4:情報探索力</a></li>
+          <li><a href="#tab_domain_A1_5">A1.5:情報リテラシーと情報管理力</a></li>
+          <li><a href="#tab_domain_A1_6">A1.6:言語力</a></li>
+          <li><a href="#tab_domain_A1_7">A1.7:学術リテラシーと計算能力</a></li>
+        </ul>
+        <br />
+        <div id="tab_domain_A1_1" class="subsub_dom">
+
+          <!-- !選択能力表示 -->
+          <dl class="gname">
+          <dt>RDF No.</dt>
+          <dd>A1.1</dd>
+          <dt>能力</dt>
+          <dd>専門分野の知識</dd>
+          </dl>
+
+          <!-- !menu -->
+          <menu>
+            <ul>
+              <li><input type="button" value="履修確定" class="fix"></li>
+              <li><input type="button" value="予約"></li>
+            </ul>
+          </menu>
+
+          <table class="box01 stripe right">
+            <!--<table border="1">-->
+            <tr>
+              <th class="center" width="20px">&nbsp;</th>
+              <th class="center" width="140px">科目名</th>
+              <th class="center" width="50px">履修<br />状態</th>
+              <th class="center" width="80px">開講部局</th>
+              <th class="center" width="80px">受講対象</th>
+              <!-- <th class="center" width="50px">単位</th> -->
+              <th class="center" width="90px">講義形式</th>
+              <!-- <th class="center" width="80px">開催日時</th> -->
+              <th class="center" width="120px">主たる能力</th>
+            </tr>
+            <tr>
+              <td class="center"><input type="checkbox" id="l1"><label for="l1"></label></td>
+              <td class="left"><a class="detail" href="./nouryoku06.html">ストレスマネジメント</a></td>
+              <td class="center">履修</td>
+              <td class="left">広島大学</td>
+              <td class="left">全大学</td>
+              <!-- <td class="left">２</td> -->
+              <td class="left">講義・演習</td>
+              <!-- <td class="left">2015年X月X日</td> -->
+              <td class="left">忍耐力</td>
+            </tr>
+            <tr>
+              <td class="center"><input type="checkbox" id="l2"><label for="l2"></label></td>
+              <td class="left"><a class="detail" href="./nouryoku06.html">理工系キャリアデザイン１</a></td>
+              <td class="center">履修</td>
+              <td class="left">広島大学</td>
+              <td class="left">広島大学</td>
+              <!-- <td class="left">１</td> -->
+              <td class="left">講義・演習</td>
+              <!-- <td class="left">2015年X月X日</td> -->
+              <td class="left">コミュニケーション力</td>
+            </tr>
+            <tr>
+              <td class="center"><input type="checkbox" id="l3"><label for="l3"></label></td>
+              <td class="left"><a class="detail" href="./nouryoku06.html">アドバンスト・イングリッシュⅠ</a></td>
+              <td class="center">予約</td>
+              <td class="left">XXX大学</td>
+              <td class="left">全大学</td>
+              <!-- <td class="left">１</td> -->
+              <td class="left">eラーニング</td>
+              <!-- <td class="left">2015年X月X日</td> -->
+              <td class="left">分析能力</td>
+            </tr>
+            <tr>
+              <td class="center"><input type="checkbox" id="l4"><label for="l4"></label></td>
+              <td class="left"><a class="detail" href="./nouryoku06.html">・・・・・・・・・・</a></td>
+              <td class="center">予約</td>
+              <td class="left">XXX大学</td>
+              <td class="left">全大学</td>
+              <!-- <td class="left">１</td> -->
+              <td class="left">eラーニング</td>
+              <!-- <td class="left">2015年X月X日</td> -->
+              <td class="left">分析能力</td>
+            </tr>
+            <tr>
+              <td class="center"><input type="checkbox" id="l5"><label for="l5"></label></td>
+              <td class="left"><a class="detail" href="./nouryoku06.html">・・・・・・・・・・</a></td>
+              <td class="center">予約</td>
+              <td class="left">XXX大学</td>
+              <td class="left">全大学</td>
+              <!-- <td class="left">１</td> -->
+              <td class="left">eラーニング</td>
+              <!-- <td class="left">2015年X月X日</td> -->
+              <td class="left">分析能力</td>
+            </tr>
+            <tr>
+              <td class="center"><input type="checkbox" id="l6"><label for="l6"></label></td>
+              <td class="left"><a class="detail" href="./nouryoku06.html">・・・・・・・・・・</a></td>
+              <td class="center">予約</td>
+              <td class="left">XXX大学</td>
+              <td class="left">全大学</td>
+              <!-- <td class="left">１</td> -->
+              <td class="left">eラーニング</td>
+              <!-- <td class="left">2015年X月X日</td> -->
+              <td class="left">分析能力</td>
+            </tr>
+          </table>
+
+        </div>
+        <div id="tab_domain_A1_2" class="subsub_dom"></div>
+        <div id="tab_domain_A1_3" class="subsub_dom"></div>
+        <div id="tab_domain_A1_4" class="subsub_dom"></div>
+        <div id="tab_domain_A1_5" class="subsub_dom"></div>
+        <div id="tab_domain_A1_6" class="subsub_dom"></div>
+        <div id="tab_domain_A1_7" class="subsub_dom"></div>
+      </div>
+
+      <div id="tab_domain_A2" class="tabbox"></div>
+      <div id="tab_domain_A3" class="tabbox"></div>
+    </div>
+
+    <div id="tab_domain_B" class="tabbox">
+      <ul class="tab">
+        <li class="act"><a href="#tab_domain_B1">B1：個人の資質</a></li>
+        <li><a href="#tab_domain_B2">B2：自己管理</a></li>
+        <li><a href="#tab_domain_B3">B3：能力開発・キャリア開発</a></li>
+      </ul>
+      <div id="tab_domain_B1" class="tabbox"></div>
+      <div id="tab_domain_B2" class="tabbox"></div>
+      <div id="tab_domain_B3" class="tabbox"></div>
+    </div>
+
+    <div id="tab_domain_C" class="tabbox">
+      <ul class="tab">
+        <li><a href="#tab_domain_C1">C1：専門家としての行動</a></li>
+        <li><a href="#tab_domain_C2">C2：研究マネジメント</a></li>
+        <li><a href="#tab_domain_C3">C3：財政・資金調達・研究資源</a></li>
+      </ul>
+
+      <div id="tab_domain_C1" class="tabbox"></div>
+      <div id="tab_domain_C2" class="tabbox"></div>
+      <div id="tab_domain_C3" class="tabbox"></div>
+    </div>
+
+    <div id="tab_domain_D" class="tabbox">
+      <ul class="tab">
+        <li><a href="#tab_domain_D1">D1：他者とともに働く</a></li>
+        <li><a href="#tab_domain_D2">D2：コミュニケーションと普及</a></li>
+        <li><a href="#tab_domain_D3">D3：一般社会との関わりとインパクト</a></li>
+      </ul>
+
+      <div id="tab_domain_D1" class="tabbox"></div>
+      <div id="tab_domain_D2" class="tabbox"></div>
+      <div id="tab_domain_D3" class="tabbox"></div>
+    </div>
+  </div>
+
+  <!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_renkeimadoguchi.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+
+<link rel="stylesheet" type="text/css" href="../../js/colorbox/colorbox.css">
+<script src="../../js/colorbox/jquery.colorbox-min.js"></script>
+<script src="../../js/ResponsiveTabs/jquery.responsiveTabs.min.js"></script>
+<link type="text/css" rel="stylesheet" href="../../js/ResponsiveTabs/responsive-tabs.css" />
+<script>
+<!--
+$(function () {
+  $(".detail").colorbox({
+    iframe:true, width:"97%", height:"95%"
+  });
+
+  $('#tab_domain').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('#tab_domain_A').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('#tab_domain_B').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('#tab_domain_C').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('#tab_domain_D').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('.subsub_dom').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+});
+// -->
+</script>
+
+</body>
+</html>

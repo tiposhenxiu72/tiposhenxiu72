@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜eポートフォリオ(検索)</title>
+<script src="../../common/import.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>eポートフォリオ(検索)</h1>
+
+<h2>検索条件</h2>
+<table>
+	<tr>
+		<td width="10px">&nbsp;</td>
+		<td width="650px" height="140px;" align="left" valign="top">
+			研究者情報の下記の項目を対象とした検索を行います。検索後の絞り込みが可能です。<br />
+			姓または名（どちらか一方を入力してください）、職名、所属、研究分野（分類、キーワード）<br />
+			研究分野（ReaD&Researchmap分類）、所属学会（活動名）キーワードは1つの単語のみ指定可能です。<br />
+			複数の単語を入力した場合は、1つの単語とみなして検索を行います。<br />
+			検索するキーワードを入力し、検索ボタンをクリックして下さい。<br />
+		</td>
+		<td width="10px">&nbsp;</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+			<input type="text" style="width: 300px;" placeholder="キーワード"> &nbsp;<input type="button" value="　検 索　" class="fix">
+		</td>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+
+<!-- !acordion -->
+<div class="acordion">
+
+<!-- !sub 01 -->
+<div class="open menu">詳細条件</div>
+<div class="sub section">
+<table class="boxf01">
+	<tr>
+		<td>
+			<table class="boxf01">
+				<tr>
+					<th>大学：</th>
+					<td width="150px">
+						<div class="selectbox">
+						<select>
+						<option selected="selected"></option>
+						<option value="1">広島大学</option>
+						<option value="2">山口大学</option>
+						<option value="3">徳島大学</option>
+						</select>
+						</div>
+					</td>
+					<th>所属：</th>
+					<td width="150px">
+						<div class="selectbox">
+						<select>
+						<option selected="selected"></option>
+						<option value="1">総合科学研究科博士課程 総合科学専攻</option>
+						<option value="2">文学研究科博士課程 人文学専攻</option>
+						</select>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</div><!-- #sub終了 -->
+
+<br />
+<br />
+
+<h2>検索結果</h2>
+
+<table class="box01 center stripe">
+<tr class="line">
+<th width="70">選択</th>
+<th>氏名</th>
+<th>所属</th>
+<th>学年、職位</th>
+<th>自己アピール</th>
+</tr>
+<tr>
+<td><input type="button" value="閲 覧" onclick="location.href='epfolio_browse.html'"></td>
+<td>広島　太郎</td>
+<td>文学研究科博士課程 人文学専攻</td>
+<td>4年</td>
+<td>XXXXXXXXXXXXXXXXXXXXXX</td>
+</tr>
+<tr>
+<td><input type="button" value="閲 覧" onclick="location.href='epfolio_browse.html'"></td>
+<td>xxxx　太郎</td>
+<td>文学研究科博士課程 人文学専攻</td>
+<td>4年</td>
+<td>XXXXXXXXXXXXXXXXXXXXXX</td>
+</tr>
+<tr>
+<td><input type="button" value="閲 覧" onclick="location.href='epfolio_browse.html'"></td>
+<td>xxxx　太郎</td>
+<td>文学研究科博士課程 人文学専攻</td>
+<td>4年</td>
+<td>XXXXXXXXXXXXXXXXXXXXXX</td>
+</tr>
+</table>
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_kojin.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+</body>
+</html>

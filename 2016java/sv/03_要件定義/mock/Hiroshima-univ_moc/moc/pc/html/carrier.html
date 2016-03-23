@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜キャリア相談</title>
+<script src="../common/import.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>キャリア相談</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+<li><input type="button" value="確 定" class="fix"></li>
+</ul>
+</menu>
+
+<h2>面談依頼</h2>
+
+
+<!-- ★段落は（class="section"）で囲む -->
+<div class="section">
+
+<!-- ★「必須」は（class="ink"）で表示 -->
+<h4 class="ink">依頼内容を入力してください。</h4>
+<ul>
+<li><input type="radio" name="q1" id="q1-1" checked><label for="q1-1">キャリア相談</label></li>
+<li><input type="radio" name="q1" id="q1-2"><label for="q1-2">メンター</label></li>
+</ul>
+
+<!-- ★「必須」は（class="ink"）で表示 -->
+<h4 class="ink">相談員一覧</h4>
+<ul>
+<li><input type="radio" name="q2" id="q2-1" checked><label for="q2-1">西条 学太郎　(広島大学)</label></li>
+<li><input type="radio" name="q2" id="q2-2"><label for="q2-2">徳島 良子　(徳島大学)</label></li>
+</ul>
+
+<!-- ★「必須」は（class="ink"）で表示 -->
+<h4 class="ink">相談項目</h4>
+<div class="selectbox">
+<select>
+<option value="1">キャリアプラン</option>
+<option value="2">就職</option>
+<option value="3">インターンシップ</option>
+<option value="9">その他</option>
+</select>
+</div>
+
+
+<!-- ★「必須」は（class="ink"）で表示 -->
+<h4>希望面談日時・相談内容等</h4>
+<textarea cols="30" rows="5" placeholder="希望面談日時・相談内容等"></textarea>
+
+
+</div><!-- #section終了 -->
+
+
+<br/>
+<br/>
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../common/side_kojin.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+</body>
+</html>

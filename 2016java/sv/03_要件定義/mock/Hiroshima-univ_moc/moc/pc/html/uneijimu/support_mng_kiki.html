@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜機器、設備情報管理</title>
+<script src="../../common/import.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>機器、設備情報管理</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+<li><input type="button" value="新規登録" onclick="location.href='support_mng_edit_kiki.html'"></li>
+</ul>
+</menu>
+
+
+<h2>検索条件</h2>
+<table>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+			<input type="text" style="width: 300px;" placeholder="キーワード"> &nbsp;<input type="button" value="　検 索　" class="fix">
+		</td>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+
+<!-- !acordion -->
+<div class="acordion">
+
+<!-- !sub 01 -->
+<div class="open menu">詳細条件</div>
+<div class="sub section">
+<table class="boxf01">
+	<tr>
+		<td>
+			<table class="boxf01">
+				<tr>
+					<th>種別：</th>
+					<td>
+						<div class="selectbox">
+						<select>
+						<option selected="selected"></option>
+						<option value="1">XXXXX</option>
+						<option value="2">YYYYY</option>
+						<option value="3">ZZZZZ</option>
+						</select>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</div><!-- #sub終了 -->
+<br/>
+<br/>
+
+<h2>機器、設備情報</h2>
+
+<table class="box01 center stripe">
+<tr class="line">
+<th width="70">編集</th>
+<th width="70">削除</th>
+<th>タイトル</th>
+<th>種別</th>
+<th>概要</th>
+</tr>
+</tr>
+<tr>
+<td><input type="button" value="編 集" onclick="location.href='support_mng_edit_kiki.html'"></td>
+<td><input type="button" value="削 除" onclick="location.href='#'"></td>
+<td>YYYYYYYYY</td>
+<td>X/Y/Z</td>
+<td>・・・・・・・・・・・・・・・・・・・・・・・・・</td>
+</tr>
+</table>
+
+
+<br/>
+<h2>機器、設備情報(過去情報)</h2>
+
+<table class="box01 center stripe">
+<tr class="line">
+<th width="70">編集</th>
+<th width="70">削除</th>
+<th>タイトル</th>
+<th>種別</th>
+<th>概要</th>
+</tr>
+</tr>
+<tr>
+<td><input type="button" value="編 集" onclick="location.href='support_mng_edit_kiki.html'"></td>
+<td><input type="button" value="削 除" onclick="location.href='#'"></td>
+<td>YYYYYYYYY</td>
+<td>X/Y/Z</td>
+<td>・・・・・・・・・・・・・・・・・・・・・・・・・</td>
+</tr>
+</table>
+
+
+<br/>
+<br/>
+<br/>
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_uneijimu.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+</body>
+</html>

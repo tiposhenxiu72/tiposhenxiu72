@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜メール受信設定</title>
+<script src="../../common/import.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>メール受信設定</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+<li><input type="button" value="更 新" class="fix"></li>
+</ul>
+</menu>
+
+<!-- !登録 -->
+<h2>メール受信設定</h2>
+
+新着情報についてメール配信を希望するジャンルの受信設定を選択してください。
+
+<table class="box01 center stripe">
+<tr class="line">
+<th>ジャンル</th>
+<th>受信設定</th>
+</tr>
+<tr>
+<td>インターンシップ</td>
+<td>
+<input type="radio" name="q1" id="q1-1" checked><label for="q1-1">受信する</label>
+<input type="radio" name="q1" id="q1-2"><label for="q1-2">受信しない</label>
+</td>
+</tr>
+<tr>
+<td>イベント</td>
+<td>
+<input type="radio" name="q2" id="q2-1" checked><label for="q2-1">受信する</label>
+<input type="radio" name="q2" id="q2-2"><label for="q2-2">受信しない</label>
+</td>
+</tr>
+<tr>
+<td>支援制度</td>
+<td>
+<input type="radio" name="q3" id="q3-1" checked><label for="q3-1">受信する</label>
+<input type="radio" name="q3" id="q3-2"><label for="q3-2">受信しない</label>
+</td>
+</tr>
+</table>
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_soudanin.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+
+<script>
+	$('.textarea').wysihtml5();
+</script>
+
+</body>
+</html>

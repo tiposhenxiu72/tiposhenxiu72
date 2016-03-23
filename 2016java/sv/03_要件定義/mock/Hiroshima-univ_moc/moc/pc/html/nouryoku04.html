@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜研究者基礎能力診断 : 回答結果画面</title>
+<script src="../common/import.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>全体診断結果</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+<li><input type="button" value="選択した能力の養成科目を見る"></li>
+<li><input type="button" value="能力養成科目一覧を見る"></li>
+<li><input type="button" value="登録済み能力養成科目を確認する"></li>
+</ul>
+</menu>
+
+<!-- !menu -->
+<menu>
+<ul>
+<li><input type="button" value="TOPに戻り、他の診断を受ける"></li>
+<li><input type="button" value="TOPに戻り、フル診断を受ける"></li>
+</ul>
+</menu>
+
+
+<br />
+<!-- jQuery jqPlot -->
+<script language="javascript" type="text/javascript" src="../jquery/jquery-1.11.3.min.js"></script>
+<script language="javascript" type="text/javascript" src="../jquery/jquery.jqplot.min.js"></script>
+<script language="javascript" type="text/javascript" src="../jquery/jqplot.donutRenderer.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../jquery/jquery.jqplot.min.css" />
+
+<script>
+jQuery( function() {
+    jQuery . jqplot(
+        'jqPlot-sample',
+        [
+            [
+                [ 'Ａ', 2 ],
+                [ 'Ａ', 2 ],
+                [ 'Ａ', 2 ],
+                [ 'Ｂ', 2 ],
+                [ 'Ｂ', 2 ],
+                [ 'Ｂ', 2 ],
+                [ 'Ｃ', 2 ],
+                [ 'Ｃ', 2 ],
+                [ 'Ｃ', 2 ],
+                [ 'Ｄ', 2 ],
+                [ 'Ｄ', 2 ],
+                [ 'Ｄ', 2 ]
+            ],
+            [
+                [ 'Ａ', 6 ],
+                [ 'Ｂ', 6 ],
+                [ 'Ｃ', 6 ],
+                [ 'Ｄ', 6 ]
+            ]
+        ],
+        {
+            seriesDefaults: {
+                renderer: jQuery . jqplot . DonutRenderer,
+                rendererOptions: {
+                    sliceMargin: 3,
+                }
+            },
+        }
+    );
+} );
+</script>
+<table border="0">
+    <tr>
+        <td width="140px">&nbsp;</td>
+        <td width="440px"class="center">
+            <div id="jqPlot-sample" style="height: 420px; width: 420px;"></div>
+        </td>
+        <td width="140px">&nbsp;</td>
+    </tr>
+</table>
+
+<br />
+<br />
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../common/side_kojin.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+</body>
+</html>

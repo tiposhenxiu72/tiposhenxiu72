@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜nouryoku診断管理</title>
+<script src="../../common/import.js"></script>
+<script src="../../js/ResponsiveTabs/jquery.responsiveTabs.min.js"></script>
+<link type="text/css" rel="stylesheet" href="../../js/ResponsiveTabs/responsive-tabs.css" />
+<!-- <link type="text/css" rel="stylesheet" href="../../js/ResponsiveTabs/style.css" /> -->
+<style>
+.r-tabs .r-tabs-accordion-title.r-tabs-state-active .r-tabs-anchor {
+  background: #ffffff ;
+  border-bottom: 1px solid #ffffff ;
+  color: #6b96cf ;
+}
+.subsub {
+  border: 1px solid #c0c0c0;
+  border-radius: 2px;
+  padding : 3px 0px 0px 0px;
+  margin: 0px 0px -30px -40px;
+
+}
+.subsub > li{
+  display: inline-block;
+  border-right: 1px solid #a0a0a0;
+  height:1em;
+  padding: 1px 4px;
+}
+main .tabbox {
+  padding: 0px;margin:0px;
+}
+
+.tbl_data th, .tbl_data td{
+  border: 1px solid #000000;
+}
+
+#modal_excel_import .close {
+  display: block;
+  width: 120px;
+  margin: 0px auto;
+  padding: 7px 0px 4px;
+  background-color: #dcd9cc;
+  border: 1px solid #a7a59b;
+  border-radius: 2px;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  color: #79776d;
+}
+select.achie {
+  width:60px;;
+}
+th.achie {
+  width:100px;;
+}
+#cboxOverlay{background:#000; opacity: 0.9; filter: alpha(opacity = 90);}
+
+</style>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>能力診断管理</h1>
+<!-- !menu -->
+<menu>
+	<ul>
+  <li><input type="button" value="インポート" class="fix" id="excel_import"></li>
+  <li><input type="button" value="エクスポート" class="fix" id="excel_import"></li>
+  <li><input type="button" value="一 時 保 存" class="fix"></li>
+  <li><input type="button" value="登 録" class="fix"></li>
+  <li><input type="button" value="一 覧" onclick="location.href='./rubric_top.html'"></li>
+	</ul>
+</menu>
+
+<!-- ルーブリックの詳細 -->
+<h4>ルーブリックの概要</h4>
+<table class="boxf01">
+  <tr>
+    <th>ルーブリック名:</th>
+    <td style="width:300px;"><input type="text" value="トランスファラブルスキル"></td>
+  </tr>
+  <tr>
+    <th>概要:</th>
+    <td><input type="text" value="yyyyy yyyyyyyyyyyyyyy"></td>
+  </tr>
+</table>
+<br />
+<!-- 大項目 -->
+<div id="tab_domain">
+  <ul class="tab">
+    <li class="act"><a href="#tab_domain_A">A：知識と知的能力</a></li>
+    <li><a href="#tab_domain_B">B：個人の能力</a></li>
+    <li><a href="#tab_domain_C">C：研究の管理運営</a></li>
+    <li><a href="#tab_domain_D">D：影響とインパクト</a></li>
+  </ul>
+
+  <div id="tab_domain_A" class="tabbox">
+    <ul class="tab">
+      <li class="act"><a href="#tab_domain_A1">A1：知識基盤</a></li>
+      <li><a href="#tab_domain_A2">A2：認知的能力</a></li>
+      <li><a href="#tab_domain_A3">A3：創造性</a></li>
+    </ul>
+
+    <div id="tab_domain_A1" class="tabbox">
+      <div class="acordion">
+        <div class="open menu">中項目設定</div>
+        <div class="sub section">
+          <h3>A1：知識基盤</h3>
+          <h4>概要</h4>
+          <textarea style="height:300px;">＜知識＞
+  ■自身の研究分野、その研究分野における最新動向、その研究分野と他の研究分野との関係性に関する知識を持っている。
+  ■研究を計画する上で適切な手法や実験技法を持っている。
+  ■情報源、文献ソフトウェア及び他の情報技術に関する知識を持っている。
+  ■研究を行う上で適切な言語・計算能力を持っている。
+  ＜行動＞
+  ■知識創造に対し独自の貢献ができる。
+  ■研究プロジェクトに適した手法や実験技術を見定め、適用し、展開できる。
+  ■効果的で包括的な情報探索ができる。
+  ■適切な文献ソフトウェアや他の情報技術を駆使して情報/データを記録し、管理、処理することできる。
+          </textarea>
+        </div>
+
+        <div class="open menu">小項目設定</div>
+        <div class="sub section">
+
+      <ul class="subsub">
+        <li><a href="#tab_domain_A1_1">A1.1:専門分野の知識</a></li>
+        <li><a href="#tab_domain_A1_2">A1.2:研究方法（理論的知識）</a></li>
+        <li><a href="#tab_domain_A1_3">A1.3:研究方法（応用力）</a></li>
+        <li><a href="#tab_domain_A1_4">A1.4:情報探索力</a></li>
+        <li><a href="#tab_domain_A1_5">A1.5:情報リテラシーと情報管理力</a></li>
+        <li><a href="#tab_domain_A1_6">A1.6:言語力</a></li>
+        <li><a href="#tab_domain_A1_7">A1.7:学術リテラシーと計算能力</a></li>
+      </ul>
+      <br>
+      <div id="tab_domain_A1_1" class="subsub_dom">
+        <h3>A1.1:専門分野の知識</h3>
+        <h4 style="margin-top:0px;">概要</h4>
+        <textarea style="height:100px;">専門分野及び関連分野における基本的な知識及び最新動向についての理解。
+        </textarea>
+
+        <h4>レンズ機能</h4>
+        当小項目は下記のレンズ機能で使用されます。<br />
+        &nbsp;&nbsp;・研究者基礎能力診断
+
+        <h4>達成目標</h4>
+        各課程の達成目標値の設定
+        <table class="box01 stripes">
+          <tr class="line">
+            <th></th>
+            <th class="achie">博士課程初期</th>
+            <th class="achie">ポスドク</th>
+            <th class="achie">PI</th>
+          </tr>
+          <tr class="center">
+            <td class="sb">達成目標(5段階)</td>
+            <td>
+              <select class="selectbox achie">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </td>
+            <td>
+              <select class="selectbox achie">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </td>
+            <td>
+              <select class="selectbox achie">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+
+        <h4>フェーズ毎の目標</h4>
+
+        <h5>フェーズ1</h5>
+        <!-- <input type="checkbox" id="ph1"><label for="ph1"></label> -->
+        <textarea id="ph1_text"></textarea>
+
+        <h5>フェーズ2</h5>
+        <input type="checkbox" id="ph2"><label for="ph2">フェーズ1とまとめる</label>
+        <textarea id="ph2_text"></textarea>
+
+        <h5>フェーズ3</h5>
+        <input type="checkbox" id="ph3"><label for="ph3">フェーズ2とまとめる</label>
+        <textarea id="ph3_text"></textarea>
+
+        <h5>フェーズ4</h5>
+        <input type="checkbox" id="ph4"><label for="ph4">フェーズ3とまとめる</label>
+        <textarea id="ph4_text"></textarea>
+
+        <h5>フェーズ5</h5>
+        <input type="checkbox" id="ph5"><label for="ph5">フェーズ4とまとめる</label>
+        <textarea id="ph5_text"></textarea>
+      </div>
+      <div id="tab_domain_A1_2" class="subsub_dom"></div>
+      <div id="tab_domain_A1_3" class="subsub_dom"></div>
+      <div id="tab_domain_A1_4" class="subsub_dom"></div>
+      <div id="tab_domain_A1_5" class="subsub_dom"></div>
+      <div id="tab_domain_A1_6" class="subsub_dom"></div>
+      <div id="tab_domain_A1_7" class="subsub_dom"></div>
+
+    </div>
+
+  </div>
+</div>
+
+    <div id="tab_domain_A2" class="tabbox"></div>
+    <div id="tab_domain_A3" class="tabbox"></div>
+  </div>
+
+  <div id="tab_domain_B" class="tabbox">
+    <ul class="tab">
+      <li class="act"><a href="#tab_domain_B1">B1：個人の資質</a></li>
+      <li><a href="#tab_domain_B2">B2：自己管理</a></li>
+      <li><a href="#tab_domain_B3">B3：能力開発・キャリア開発</a></li>
+    </ul>
+    <div id="tab_domain_B1" class="tabbox"></div>
+    <div id="tab_domain_B2" class="tabbox"></div>
+    <div id="tab_domain_B3" class="tabbox"></div>
+  </div>
+
+  <div id="tab_domain_C" class="tabbox">
+    <ul class="tab">
+      <li><a href="#tab_domain_C1">C1：専門家としての行動</a></li>
+      <li><a href="#tab_domain_C2">C2：研究マネジメント</a></li>
+      <li><a href="#tab_domain_C3">C3：財政・資金調達・研究資源</a></li>
+    </ul>
+
+    <div id="tab_domain_C1" class="tabbox"></div>
+    <div id="tab_domain_C2" class="tabbox"></div>
+    <div id="tab_domain_C3" class="tabbox"></div>
+  </div>
+
+  <div id="tab_domain_D" class="tabbox">
+    <ul class="tab">
+      <li><a href="#tab_domain_D1">D1：他者とともに働く</a></li>
+      <li><a href="#tab_domain_D2">D2：コミュニケーションと普及</a></li>
+      <li><a href="#tab_domain_D3">D3：一般社会との関わりとインパクト</a></li>
+    </ul>
+
+    <div id="tab_domain_D1" class="tabbox"></div>
+    <div id="tab_domain_D2" class="tabbox"></div>
+    <div id="tab_domain_D3" class="tabbox"></div>
+  </div>
+</div>
+
+<!-- Excelアップロード機能 -->
+<div style='display:none'>
+  <div id='modal_excel_import' style='padding:10px; background:#fff;'>
+    <p>
+      <h3>ルーブリックアップロード</h3>
+      Excelで入力した内容で一括登録します。
+      <menu>
+        <ul>
+          <li><input type="button" value="アップロード"></li>
+        </ul>
+      </menu>
+      <input type="file" />
+    </p>
+    <div id="modal_close" class="close">X CLOSE</div>
+  </div>
+</div>
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_uneijimu.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+<link rel="stylesheet" type="text/css" href="../../js/colorbox/colorbox.css">
+<script src="../../js/colorbox/jquery.colorbox-min.js"></script>
+<script>
+
+$(function () {
+  $('#tab_domain').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('#tab_domain_A').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('#tab_domain_B').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('#tab_domain_C').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('#tab_domain_D').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('.subsub_dom').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+
+  $('#ph2').click(function() {
+
+  });
+
+  $('#ph2').on('change', function () {
+    if ($(this).prop('checked')) {
+        $('#ph2_text').prop("disabled", true);
+    } else {
+        $('#ph2_text').prop("disabled", false);
+    }
+  });
+  $('#ph3').on('change', function () {
+    if ($(this).prop('checked')) {
+        $('#ph3_text').prop("disabled", true);
+    } else {
+        $('#ph3_text').prop("disabled", false);
+    }
+  });
+  $('#ph4').on('change', function () {
+    if ($(this).prop('checked')) {
+        $('#ph4_text').prop("disabled", true);
+    } else {
+        $('#ph4_text').prop("disabled", false);
+    }
+  });
+  $('#ph5').on('change', function () {
+    if ($(this).prop('checked')) {
+        $('#ph5_text').prop("disabled", true);
+    } else {
+        $('#ph5_text').prop("disabled", false);
+    }
+  });
+
+  $(document).ready(function(){
+    $("#excel_import").colorbox({
+      inline:true
+      , width:"50%"
+      , href:"#modal_excel_import"
+      , closeButton:false
+      , opacity: 0.5
+    });
+
+    $("#modal_close").click(function () {
+      parent.$.colorbox.close();
+    });
+  });
+
+});
+</script>
+</body>
+</html>

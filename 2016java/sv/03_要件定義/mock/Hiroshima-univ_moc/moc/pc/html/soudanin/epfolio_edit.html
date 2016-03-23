@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜eポートフォリオ(編集)</title>
+<script src="../../common/import.js"></script>
+<link rel="stylesheet" type="text/css" href="../../bootstrap-wysihtml5/lib/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../../bootstrap-wysihtml5/src/bootstrap-wysihtml5.css">
+<script src="../../bootstrap-wysihtml5/lib/js/wysihtml5-0.3.0.js"></script>
+<script src="../../bootstrap-wysihtml5/lib/js/jquery-1.7.2.min.js"></script>
+<script src="../../bootstrap-wysihtml5/lib/js/bootstrap.min.js"></script>
+<script src="../../bootstrap-wysihtml5/src/bootstrap-wysihtml5.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>eポートフォリオ(編集)</h1>
+
+<h2>ポートフォリオ情報</h2>
+
+<table class="boxf01">
+<tr>
+<th>全体公開設定：</th>
+<td><input type="radio" name="q1" id="q1-1" checked><label for="q1-1">全公開</label>
+<input type="radio" name="q1" id="q1-2"><label for="q1-2">内部公開</label>
+<input type="radio" name="q1" id="q1-3"><label for="q1-3">非公開</label></td>
+</tr>
+</table>
+
+<!-- !menu -->
+<menu>
+<ul>
+<li><input type="button" value="更 新" class="fix"></li>
+</ul>
+</menu>
+
+<table class="boxf01">
+<tr>
+<th>姓：</th>
+<td><input type="text" value="広島"></td>
+</tr>
+<tr>
+<th>ミドルネーム：</th>
+<td><input type="text" value=""></td>
+</tr>
+<tr>
+<th>名：</th>
+<td><input type="text" value="太郎"></td>
+</tr>
+<tr>
+<th>大学：</th>
+<td><input type="text" value="広島大学"></td>
+</tr>
+<tr>
+<th>所属：</th>
+<td><input type="text" value="文学研究科博士課程 人文学専攻"></td>
+</tr>
+<tr>
+<th>職員番号：</th>
+<td><input type="text" value="XXXXXXX"></td>
+</tr>
+<tr>
+<th>顔写真：</th>
+<td><img src="../../gfx/face.gif" align="left"></td>
+</tr>
+<tr>
+<th></th>
+<td><input type="text" value="face.jpg"></td>
+</tr>
+<tr>
+<tr>
+<th></th>
+<td><input type="button" value="読 込">　<input type="button" value="削 除"></td>
+</tr>
+<tr>
+<th>略歴：</th>
+<td><textarea class="textarea" placeholder="Enter text ..." style="width: 550px; height: 200px"></textarea></td>
+</tr>
+<tr>
+<th>自由記載欄：</th>
+<td><textarea class="textarea" placeholder="相談内容、専門分野など ..." style="width: 550px; height: 200px"></textarea></td>
+</tr>
+</table>
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_soudanin.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+
+<script>
+	$('.textarea').wysihtml5();
+</script>
+
+
+</body>
+</html>

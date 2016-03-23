@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:my="http://www.sraw.co.jp/dialect/my"
+	layout:decorator="common/base" th:with="lang=${#locale.language}"
+	th:lang="${lang}">
+<head>
+<meta charset="UTF-8"/>
+</head>
+
+<!--/* current script */-->
+<th:block layout:fragment="layout-script">
+<script th:inline="javascript">
+$().ready(function() {
+	// <!--/*  refuseボタン押下イベント設定 */-->
+	$("button[name='refuse']").click(function() {
+		// <!--/* 多重送信を防ぐため通信完了までボタンをdisableにする */-->
+		var button = $(this);
+		button.attr('disabled', true);
+
+		var confirmMsg = /*[[#{message.confirm.refuse}]]*/ '辞退？';
+
+		if (window.confirm(confirmMsg)) {
+			//
+			$(this).parent().children('input[type=hidden]').each(function() {
+				var n = $(this).attr('name');
+				var v = $(this).val();
+				$('<input />').attr({
+					type: 'hidden',
+					name: n,
+					value: v
+				}).appendTo('#formRefuse');
+			});
+			$('#formRefuse').submit();
+		}
+		//
+		button.attr("disabled", false);
+	});
+
+	// <!--/*  Downloadボタン押下イベント設定 */-->
+	$("button[name='download']").click(function() {
+		// <!--/* 多重送信を防ぐため通信完了までボタンをdisableにする */-->
+		var button = $(this);
+		button.attr('disabled', true);
+		//
+		$(this).parent().children('input[type=hidden]').each(function() {
+			var n = $(this).attr('name');
+			var v = $(this).val();
+			$('<input />').attr({
+				type: 'hidden',
+				name: n,
+				value: v
+			}).appendTo('#formDownload');
+		});
+		$('#formDownload').submit();
+		//
+		button.attr("disabled", false);
+	});
+
+	// <!--/*  Uploadボタン押下イベント設定 */-->
+	$("button[name='upload']").click(function() {
+		// <!--/* 多重送信を防ぐため通信完了までボタンをdisableにする */-->
+		var button = $(this);
+		button.attr('disabled', true);
+
+		var confirmMsg = /*[[#{message.confirm.submit}]]*/ '書類提出？';
+
+		if (window.confirm(confirmMsg)) {
+			$('#open').click();
+			$(this).parent().children('input[type=hidden]').each(function() {
+				var n = $(this).attr('name');
+				var v = $(this).val();
+				$('<input />').attr({
+					type: 'hidden',
+					name: n,
+					value: v
+				}).appendTo('#formUpload');
+			});
+			$('#formUpload').submit();
+		}
+		//
+		button.attr("disabled", false);
+	});
+});
+</script>
+</th:block>
+
+<body>
+	<div layout:decorator="layout">
+		<th:block layout:fragment="layout-content">
+
+		<input type="file" id="open" style="display: none;" multiple="multiple"> </input>
+
+		<!-- !title -->
+		<h1>インターンシップ合否結果</h1>
+
+		<h2>HIRAKUインターンシップ</h2>
+
+		<!-- !acordion -->
+		<div class="acordion">
+
+			<!-- !sub 01 -->
+			<div class="open menu" th:each="item,iterStat : ${hirakuList}">
+				<span
+					th:text="${item.internshipStartDate != null}? ${#dates.format(item.internshipStartDate,#messages.msg('format.ymd.option'))} : ' '"></span>
+				<span th:text="${item.internshipStartDate != null}? '～' : ''"></span>
+				<span
+					th:text="${item.internshipEndDate != null}? ${#dates.format(item.internshipEndDate,#messages.msg('format.ymd.option'))} : ' '"></span>
+				<span> </span> <span th:text="${item.internshipTitle}"></span>
+				<div class="sub section">
+					<!-- !menu -->
+					【合否結果】：
+					<span th:text="${item.decisionKbn == '0'}? '合格' : '不合格'"></span>
+					<form th:action="@{/internship/application/refuse}" method="post"
+						role="form" autocomplete="off" th:object="${form}"
+						id="formRefuse" name="form">
+						<input type="hidden" name="internshipKey" value="1" th:value="${item.internshipKey}"> </input>
+						<!-- !menu -->
+						<menu>
+							<ul>
+								<button type="button" name="refuse">辞 退</button>
+							</ul>
+						</menu>
+					</form>
+					<form th:action="@{/internship/application/download}" method="post"
+						role="form" autocomplete="off" th:object="${form}"
+						id="formDownload" name="form">
+						<input type="hidden" name="internshipKey" value="1" th:value="${item.internshipKey}"> </input>
+						<!-- !menu -->
+						<menu>
+							<ul>
+								<button type="button" name="download">書 類 D L</button>
+							</ul>
+						</menu>
+					</form>
+					<form th:action="@{/internship/application/upload}" method="post"
+						role="form" autocomplete="off" th:object="${form}"
+						id="formUpload" name="form">
+						<input type="hidden" name="internshipKey" value="1" th:value="${item.internshipKey}"> </input>
+						<!-- !menu -->
+						<menu>
+							<ul>
+								<button type="button" name="upload">書 類 提 出</button>
+							</ul>
+						</menu>
+					</form>
+					<h3>詳細</h3>
+					<th>【概要】<br /></th>
+					<td th:text="${item.internshipMemo}"></td>
+					<th>【応募期間】<br /></th>
+					<td
+						th:text="${item.internshipStartDate != null}? ${#dates.format(item.internshipStartDate,#messages.msg('format.ymd.option'))} : ' '"></td>
+					<td th:text="${item.internshipStartDate != null}? '～' : ''"></td>
+					<td
+						th:text="${item.internshipEndDate != null}? ${#dates.format(item.internshipEndDate,#messages.msg('format.ymd.option'))} : ' '"></td>
+					<td><br /></td>
+					<th>【配信日】<br /></th>
+					<td
+						th:text="${item.internshipSendDate != null}? ${#dates.format(item.internshipSendDate,#messages.msg('format.ymd.option'))} : ' '"></td>
+					<td><br /></td>
+					<td width="100px">【タイトル】</td>
+					<td width="500px" th:text="${item.internshipTitle}"></td>
+					<td><br /></td>
+					<td>【公開範囲】</td>
+					<td th:text="${item.partyName}"></td>
+					<td><br /></td>
+					<td>【応募対象者】</td>
+					<td th:text="${item.internshipRange}"></td>
+					<td><br /></td>
+					<td>【募集者】</td>
+					<td th:text="${item.internshipPartyName}"></td>
+					<td><br /></td>
+					<td>【連絡先】</td>
+					<td th:text="${item.internshipTelno}"></td>
+					<td><br /></td>
+				</div>
+			</div>
+			<!-- #sub終了 -->
+		</div>
+		<!-- #acordion終了 -->
+
+		<br />
+		<h2>企業等インターンシップ</h2>
+
+		<!-- !acordion -->
+		<div class="acordion">
+
+			<!-- !sub 02 -->
+			<div class="open menu" th:each="item,iterStat : ${kigyoToList}">
+				<span
+					th:text="${item.internshipStartDate != null}? ${#dates.format(item.internshipStartDate,#messages.msg('format.ymd.option'))} : ' '"></span>
+				<span th:text="${item.internshipStartDate != null}? '～' : ''"></span>
+				<span
+					th:text="${item.internshipEndDate != null}? ${#dates.format(item.internshipEndDate,#messages.msg('format.ymd.option'))} : ' '"></span>
+				<span> </span> <span th:text="${item.internshipTitle}"></span>
+				<div class="sub section">
+					<!-- !menu -->
+					【合否結果】：
+					<span th:text="${item.decisionKbn == '0'}? '合格' : '不合格'"></span>
+					<form th:action="@{/internship/application/refuse}" method="post"
+						role="form" autocomplete="off" th:object="${form}"
+						id="formRefuse" name="form">
+						<input type="hidden" name="internshipKey" value="1" th:value="${item.internshipKey}"> </input>
+						<!-- !menu -->
+						<menu>
+							<ul>
+								<button type="button" name="refuse">辞 退</button>
+							</ul>
+						</menu>
+					</form>
+					<form th:action="@{/internship/application/download}" method="post"
+						role="form" autocomplete="off" th:object="${form}"
+						id="formDownload" name="form">
+						<input type="hidden" name="internshipKey" value="1" th:value="${item.internshipKey}"> </input>
+						<!-- !menu -->
+						<menu>
+							<ul>
+								<button type="button" name="download">書 類 D L</button>
+							</ul>
+						</menu>
+					</form>
+					<form th:action="@{/internship/application/upload}" method="post"
+						role="form" autocomplete="off" th:object="${form}"
+						id="formUpload" name="form">
+						<input type="hidden" name="internshipKey" value="1" th:value="${item.internshipKey}"> </input>
+						<!-- !menu -->
+						<menu>
+							<ul>
+								<button type="button" name="upload" onClick="$('#open').click()">書 類 提 出</button>
+							</ul>
+						</menu>
+					</form>
+					<h3>詳細</h3>
+					<th>【概要】<br /></th>
+					<td th:text="${item.internshipMemo}"></td>
+					<th>【応募期間】<br /></th>
+					<td
+						th:text="${item.internshipStartDate != null}? ${#dates.format(item.internshipStartDate,#messages.msg('format.ymd.option'))} : ' '"></td>
+					<td th:text="${item.internshipStartDate != null}? '～' : ''"></td>
+					<td
+						th:text="${item.internshipEndDate != null}? ${#dates.format(item.internshipEndDate,#messages.msg('format.ymd.option'))} : ' '"></td>
+					<td><br /></td>
+					<th>【配信日】<br /></th>
+					<td
+						th:text="${item.internshipSendDate != null}? ${#dates.format(item.internshipSendDate,#messages.msg('format.ymd.option'))} : ' '"></td>
+					<td><br /></td>
+					<td width="100px">【タイトル】</td>
+					<td width="500px" th:text="${item.internshipTitle}"></td>
+					<td><br /></td>
+					<td>【公開範囲】</td>
+					<td th:text="${item.partyName}"></td>
+					<td><br /></td>
+					<td>【応募対象者】</td>
+					<td th:text="${item.internshipRange}"></td>
+					<td><br /></td>
+					<td>【募集者】</td>
+					<td th:text="${item.internshipPartyName}"></td>
+					<td><br /></td>
+					<td>【連絡先】</td>
+					<td th:text="${item.internshipTelno}"></td>
+					<td><br /></td>
+				</div>
+			</div>
+			<!-- #sub終了 -->
+		</div>
+		<!-- #acordion終了 -->
+
+		<br />
+		<h2>求人情報</h2>
+
+		<!-- !acordion -->
+		<div class="acordion">
+
+			<!-- !sub 03 -->
+			<div class="open menu" th:each="item,iterStat : ${kyujinList}">
+				<span
+					th:text="${item.internshipStartDate != null}? ${#dates.format(item.internshipStartDate,#messages.msg('format.ymd.option'))} : ' '"></span>
+				<span th:text="${item.internshipStartDate != null}? '～' : ''"></span>
+				<span
+					th:text="${item.internshipEndDate != null}? ${#dates.format(item.internshipEndDate,#messages.msg('format.ymd.option'))} : ' '"></span>
+				<span> </span> <span th:text="${item.internshipTitle}"></span>
+				<div class="sub section">
+					<!-- !menu -->
+					【合否結果】：
+					<span th:text="${item.decisionKbn == '0'}? '合格' : '不合格'"></span>
+					<form th:action="@{/internship/application/refuse}" method="post"
+						role="form" autocomplete="off" th:object="${form}"
+						id="formRefuse" name="form">
+						<input type="hidden" name="internshipKey" value="1" th:value="${item.internshipKey}"> </input>
+						<!-- !menu -->
+						<menu>
+							<ul>
+								<button type="button" name="refuse">辞 退</button>
+							</ul>
+						</menu>
+					</form>
+					<form th:action="@{/internship/application/download}" method="post"
+						role="form" autocomplete="off" th:object="${form}"
+						id="formDownload" name="form">
+						<input type="hidden" name="internshipKey" value="1" th:value="${item.internshipKey}"> </input>
+						<!-- !menu -->
+						<menu>
+							<ul>
+								<button type="button" name="download">書 類 D L</button>
+							</ul>
+						</menu>
+					</form>
+					<form th:action="@{/internship/application/upload}" method="post"
+						role="form" autocomplete="off" th:object="${form}"
+						id="formUpload" name="form">
+						<input type="hidden" name="internshipKey" value="1" th:value="${item.internshipKey}"> </input>
+						<!-- !menu -->
+						<menu>
+							<ul>
+								<button type="button" name="upload" onClick="$('#open').click()">書 類 提 出</button>
+							</ul>
+						</menu>
+					</form>
+					<h3>詳細</h3>
+					<th>【概要】<br /></th>
+					<td th:text="${item.internshipMemo}"></td>
+					<th>【応募期間】<br /></th>
+					<td
+						th:text="${item.internshipStartDate != null}? ${#dates.format(item.internshipStartDate,#messages.msg('format.ymd.option'))} : ' '"></td>
+					<td th:text="${item.internshipStartDate != null}? '～' : ''"></td>
+					<td
+						th:text="${item.internshipEndDate != null}? ${#dates.format(item.internshipEndDate,#messages.msg('format.ymd.option'))} : ' '"></td>
+					<td><br /></td>
+					<th>【配信日】<br /></th>
+					<td
+						th:text="${item.internshipSendDate != null}? ${#dates.format(item.internshipSendDate,#messages.msg('format.ymd.option'))} : ' '"></td>
+					<td><br /></td>
+					<td width="100px">【タイトル】</td>
+					<td width="500px" th:text="${item.internshipTitle}"></td>
+					<td><br /></td>
+					<td>【公開範囲】</td>
+					<td th:text="${item.partyName}"></td>
+					<td><br /></td>
+					<td>【応募対象者】</td>
+					<td th:text="${item.internshipRange}"></td>
+					<td><br /></td>
+					<td>【募集者】</td>
+					<td th:text="${item.internshipPartyName}"></td>
+					<td><br /></td>
+					<td>【連絡先】</td>
+					<td th:text="${item.internshipTelno}"></td>
+					<td><br /></td>
+				</div>
+			</div>
+			<!-- #sub終了 -->
+		</div>
+		<!-- #acordion終了 -->
+
+		<br />
+		<h2>その他募集</h2>
+
+
+		<!-- !acordion -->
+		<div class="acordion">
+
+			<!-- !sub 04 -->
+			<div class="open menu" th:each="item,iterStat : ${sonotaList}">
+				<span
+					th:text="${item.internshipStartDate != null}? ${#dates.format(item.internshipStartDate,#messages.msg('format.ymd.option'))} : ' '"></span>
+				<span th:text="${item.internshipStartDate != null}? '～' : ''"></span>
+				<span
+					th:text="${item.internshipEndDate != null}? ${#dates.format(item.internshipEndDate,#messages.msg('format.ymd.option'))} : ' '"></span>
+				<span> </span> <span th:text="${item.internshipTitle}"></span>
+				<div class="sub section">
+					<!-- !menu -->
+					【合否結果】：
+					<span th:text="${item.decisionKbn == '0'}? '合格' : '不合格'"></span>
+					<form th:action="@{/internship/application/refuse}" method="post"
+						role="form" autocomplete="off" th:object="${form}"
+						id="formRefuse" name="form">
+						<input type="hidden" name="internshipKey" value="1" th:value="${item.internshipKey}"> </input>
+						<!-- !menu -->
+						<menu>
+							<ul>
+								<button type="button" name="refuse">辞 退</button>
+							</ul>
+						</menu>
+					</form>
+					<form th:action="@{/internship/application/download}" method="post"
+						role="form" autocomplete="off" th:object="${form}"
+						id="formDownload" name="form">
+						<input type="hidden" name="internshipKey" value="1" th:value="${item.internshipKey}"> </input>
+						<!-- !menu -->
+						<menu>
+							<ul>
+								<button type="button" name="download">書 類 D L</button>
+							</ul>
+						</menu>
+					</form>
+					<form th:action="@{/internship/application/upload}" method="post"
+						role="form" autocomplete="off" th:object="${form}"
+						id="formUpload" name="form">
+						<input type="hidden" name="internshipKey" value="1" th:value="${item.internshipKey}"> </input>
+						<!-- !menu -->
+						<menu>
+							<ul>
+								<button type="button" name="upload" onClick="$('#open').click()">書 類 提 出</button>
+							</ul>
+						</menu>
+					</form>
+					<h3>詳細</h3>
+					<th>【概要】<br /></th>
+					<td th:text="${item.internshipMemo}"></td>
+					<th>【応募期間】<br /></th>
+					<td
+						th:text="${item.internshipStartDate != null}? ${#dates.format(item.internshipStartDate,#messages.msg('format.ymd.option'))} : ' '"></td>
+					<td th:text="${item.internshipStartDate != null}? '～' : ''"></td>
+					<td
+						th:text="${item.internshipEndDate != null}? ${#dates.format(item.internshipEndDate,#messages.msg('format.ymd.option'))} : ' '"></td>
+					<td><br /></td>
+					<th>【配信日】<br /></th>
+					<td
+						th:text="${item.internshipSendDate != null}? ${#dates.format(item.internshipSendDate,#messages.msg('format.ymd.option'))} : ' '"></td>
+					<td><br /></td>
+					<td width="100px">【タイトル】</td>
+					<td width="500px" th:text="${item.internshipTitle}"></td>
+					<td><br /></td>
+					<td>【公開範囲】</td>
+					<td th:text="${item.partyName}"></td>
+					<td><br /></td>
+					<td>【応募対象者】</td>
+					<td th:text="${item.internshipRange}"></td>
+					<td><br /></td>
+					<td>【募集者】</td>
+					<td th:text="${item.internshipPartyName}"></td>
+					<td><br /></td>
+					<td>【連絡先】</td>
+					<td th:text="${item.internshipTelno}"></td>
+					<td><br /></td>
+				</div>
+			</div>
+			<!-- #sub終了 -->
+		</div>
+		<!-- #acordion終了 -->
+
+		<br /> <br /> <br />
+		</th:block>
+	</div>
+	<!-- #bace終了 -->
+</body>
+</html>

@@ -1,0 +1,284 @@
+@charset "UTF-8";
+
+/*! layout ============================================== */
+
+/* 段落 */
+main div.section {
+	padding: 0 10px ;
+	}
+
+/* align */
+main .center {
+	text-align: center ;
+	}
+
+main .right {
+	text-align: right ;
+	}
+
+main .left {
+	text-align: left ;
+	}
+
+
+/*! title ============================================== */
+
+main h2 {
+	margin: 0 0 15px ;
+	padding: 8px 10px 7px ;
+	background-color: #eabcff ;
+	border: 1px solid #b2bccc ;
+	border-radius: 2px ;
+	font-size: 15px ;
+	color: #8b19a4 ;
+	}
+main h2:before {
+	content: "" ;
+	border-left: 4px solid #751971 ;
+	margin-right: 5px ;
+	}
+
+main h3 {
+	margin: 10px 0 1px ;
+	font-size: 14px ;
+	color: #40a29a ;
+	}
+
+
+/*! cal control  ============================================== */
+
+main .cal_ctrl {
+	margin: 15px 0 ;
+	padding-top: 15px ;
+	border-top: 1px dotted #b2b2b2 ;
+	text-align: center ;
+	}
+
+main .cal_ctrl ul {
+	box-sizing: border-box ;
+	letter-spacing: -.40em ;
+	width: 100% ;
+	padding: 5px ;
+	background-color: #ebebeb ;
+	border-radius: 2px ;
+	box-shadow: 1px 1px 2px 0px #a6a6a6 inset ;
+	}
+
+main .cal_ctrl ul li {
+	display: inline-block ;
+	letter-spacing: normal ;
+	width: 19% ;
+	width: calc( 20% - 2px ) ;
+	margin: 0 1px ;
+	}
+
+main .cal_ctrl ul li input[type="button"] {
+	padding: 1px 0 0 ;
+	}
+
+main .cal_ctrl ul li:nth-child(-n+4) input[type="button"] {
+	background-position: center center ;
+	background-repeat: no-repeat ;
+	background-size: 13px 12px, auto ;
+	text-indent: -9999px ;
+	}
+
+main .cal_ctrl ul li:nth-child(1) input[type="button"] {
+	background-image: url("../gfx/fm_cal_c01.png"), linear-gradient(to bottom, #ffffff, #dbdbdb) ;
+	background-image: url("../gfx/fm_cal_c01.png"), -webkit-linear-gradient(top, #ffffff, #dbdbdb) ;
+	}
+main .cal_ctrl ul li:nth-child(2) input[type="button"] {
+	background-image: url("../gfx/fm_cal_c02.png"), linear-gradient(to bottom, #ffffff, #dbdbdb) ;
+	background-image: url("../gfx/fm_cal_c02.png"), -webkit-linear-gradient(top, #ffffff, #dbdbdb) ;
+	}
+main .cal_ctrl ul li:nth-child(3) input[type="button"] {
+	background-image: url("../gfx/fm_cal_c03.png"), linear-gradient(to bottom, #ffffff, #dbdbdb) ;
+	background-image: url("../gfx/fm_cal_c03.png"), -webkit-linear-gradient(top, #ffffff, #dbdbdb) ;
+	}
+main .cal_ctrl ul li:nth-child(4) input[type="button"] {
+	background-image: url("../gfx/fm_cal_c04.png"), linear-gradient(to bottom, #ffffff, #dbdbdb) ;
+	background-image: url("../gfx/fm_cal_c04.png"), -webkit-linear-gradient(top, #ffffff, #dbdbdb) ;
+	}
+
+main .cal_ctrl ul li:nth-child(1) input[type="button"]:active {
+	background-image: url("../gfx/fm_cal_c01.png") ;
+	}
+main .cal_ctrl ul li:nth-child(2) input[type="button"]:active {
+	background-image: url("../gfx/fm_cal_c02.png") ;
+	}
+main .cal_ctrl ul li:nth-child(3) input[type="button"]:active {
+	background-image: url("../gfx/fm_cal_c03.png") ;
+	}
+main .cal_ctrl ul li:nth-child(4) input[type="button"]:active {
+	background-image: url("../gfx/fm_cal_c04.png") ;
+	}
+
+
+/*! cal  ============================================== */
+
+main ul.cal {
+	margin-top: -10px ;
+	padding: 12px 10px 5px ;
+	border: 1px solid #c0c0c0 ;
+	border-radius: 2px ;
+	}
+
+main ul.cal li {
+	margin: 0 ;
+	padding: 0 ;
+	}
+
+main ul.cal li a b {
+	display: block ;
+	box-sizing: border-box ;
+	min-height: 30px ;
+	padding: 3px 10px 0 25px ;
+	background-image: url("../gfx/m_link01.png") ;
+	background-repeat: no-repeat ;
+	background-position: 9px 10px ;
+	background-size: 12px 12px ;
+	border-radius: 2px ;
+	}
+
+main ul.cal li a p {
+	box-sizing: border-box ;
+	min-height: 50px ;
+	padding: 2px 10px 15px 25px ;
+	}
+
+	/* 授業（sch01） */
+main ul.cal li a.sch01 b { background-color: #7ab1cc ; color: #e8f4fa ;}
+main ul.cal li a.sch01 p { color: #466c80 ;}
+
+	/* 予習（sch02） */
+main ul.cal li a.sch02 b { background-color: #bfcc7a ; color: #f4fae8 ;}
+main ul.cal li a.sch02 p { color: #6c8046 ;}
+
+	/* 復習（sch03） */
+main ul.cal li a.sch03 b { background-color: #7acc7a ; color: #e8fae8 ;}
+main ul.cal li a.sch03 p { color: #468046 ;}
+
+	/* 部活（sch04） */
+main ul.cal li a.sch04 b { background-color: #cca37a ; color: #faf1e8 ;}
+main ul.cal li a.sch04 p { color: #806346 ;}
+
+	/* アルバイト（out01） */
+main ul.cal li a.out01 b { background-color: #cc7a7a ; color: #fae8e8 ;}
+main ul.cal li a.out01 p { color: #804646 ;}
+
+	/* 課外活動（out02） */
+main ul.cal li a.out02 b { background-color: #7a7acc ; color: #e8e8fa ;}
+main ul.cal li a.out02 p { color: #464680 ;}
+
+	/* ボランティア（out03） */
+main ul.cal li a.out03 b { background-color: #be7acc ; color: #f7e8fa ;}
+main ul.cal li a.out03 p { color: #764680 ;}
+
+	/* その他（etc01） */
+main ul.cal li a.etc01 b { background-color: #b2b2b2 ; color: #f5f5f5 ;}
+main ul.cal li a.etc01 p { color: #4d4d4d ;}
+
+
+/*! comment  ============================================== */
+
+main dl.cmt {
+	padding: 12px 10px 5px ;
+	border: 3px double #c0c0c0 ;
+	border-radius: 2px ;	
+	}
+
+main dl.cmt dt {
+	display: block ;
+	box-sizing: border-box ;
+	min-height: 30px ;
+	padding: 4px 10px 0 10px ;
+	background-color: #6482a1 ;
+	border-left: 5px solid #4d647a ;
+	border-radius: 2px ;
+	font-size: 13px ;
+	font-weight: bold ;
+	color: #f2f2f2 ;
+	}
+
+main dl.cmt dd {
+	display: block ;
+	box-sizing: border-box ;
+	min-height: 50px ;
+	padding: 2px 10px 15px 15px ;
+	}
+
+
+/*! icon  ============================================== */
+
+main .ical a {
+	display: inline-block ;
+	float: right ;
+	width: 20px ;
+	height: 20px ;
+	margin: 4px 5px 0 ;
+	background: url("../gfx/m_ical.png") no-repeat ;
+	background-size: 20px 20px ;
+	text-indent: -9999px ;	
+	}
+
+
+/*! table（記録の登録：時間） ============================================== */
+
+/* boxf01 */
+main .boxf01 {
+	width: 100% ;
+	margin-bottom: 10px ;
+	border-bottom: 1px dotted #b2b2b2 ;
+	}
+
+main .boxf01 th {
+	width: 70px ;
+	padding-bottom: 15px ;
+	white-space: nowrap ;
+	color: #40a29a ;
+	}
+
+main .boxf01 td {
+	padding-bottom: 15px ;
+	}
+
+main .boxf01 td select {
+	width: auto ;
+	}
+
+
+/*! button  ============================================== */
+
+main ul.btn {
+	width: 100% ;
+	margin-top: 10px ;
+	padding: 15px 0 5px ;
+	border-top: 1px dotted #b2b2b2 ;
+	}
+
+main ul.btn li {
+	width: 48% ;
+	}
+main ul.btn li:nth-child(1) { float: left ;}
+main ul.btn li:nth-child(2) { float: right ;}
+
+
+/*! hr ============================================== */
+
+main hr {
+	height: 0 ;
+	margin: 15px 0 12px ;
+	padding: 0 ;
+	border: 0 ;
+	border-top: 1px dotted #c0c0c0 ;
+	}
+
+
+/*! font ============================================== */
+
+/* size */
+.fs { font-size: 11px ;}
+.fb { font-weight: bold ;  color: #656565 ;}
+.fn { font-weight: normal ;}
+
+b { color: #656565 ;}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="common/base" xmlns:my="http://my"
+	th:with="lang=${#locale.language}" th:lang="${lang}">
+<head>
+<meta charset="UTF-8" />
+</head>
+
+<th:block layout:fragment="layout-script">
+	<script th:inline="javascript">
+		$(function() {
+			$(document).on("click", "button[name=pastAnswers]", function() {
+				var loc = /*[[@{/skill/diag/pastIndex}]]*/'url';
+				window.location = loc;
+			});
+		});
+	</script>
+</th:block>
+
+<body>
+	<div layout:decorator="layout">
+		<th:block layout:fragment="layout-content">
+
+			<h1 th:text="#{skill.diag.title.diag.index}">能力診断のタイトル</h1>
+
+			<h2 th:text="#{skill.field.selfevalreport}">じこひょうか</h2>
+
+			<button type="button" class="btn btn-primary" name="selfEvalTarget" th:text="#{skill.field.targetset}">目標ボタン</button>
+			<span th:text="#{skill.diag.comment.targetset}">ほげ</span>
+			<button type="button" class="btn btn-primary" name="selfEvalReport" th:text="#{skill.field.downloadreport}">レポートボタン</button>
+			<span th:text="#{skill.diag.comment.downloadreport}">ほげ</span>
+
+			<h2 th:text="${rubricName}">るぶ名</h2>
+			<p th:text="${rubricSummary}">英国Vitaeによって……</p>
+
+			<table>
+				<tr>
+					<td><a th:href="@{|/skill/diag/edit/${rubricKey}/${T(jp.co.sraw.common.CommonConst).LENSID_BASIC}|}"><img
+							th:src="@{/img/vitae_select_chart_basic.png}" width="80%" height="70%" /></a></td>
+					<td><a th:href="@{|/skill/diag/edit/${rubricKey}/${T(jp.co.sraw.common.CommonConst).LENSID_CAREER}|}"><img
+							th:src="@{/img/vitae_select_chart_career.png}" width="80%" height="70%" /></a></td>
+					<td><a th:href="@{|/skill/diag/edit/${rubricKey}/${T(jp.co.sraw.common.CommonConst).LENSID_FULL}|}"><img
+							th:src="@{/img/vitae_select_chart_full.png}" width="80%" height="70%" /></a></td>
+				</tr>
+				<tr>
+					<td><a th:href="@{|/skill/diag/viewList/${rubricKey}/${T(jp.co.sraw.common.CommonConst).LENSID_BASIC}|}"
+						th:text="#{skill.field.latestanswer}">さいしん</a></td>
+					<td><a th:href="@{|/skill/diag/viewList/${rubricKey}/${T(jp.co.sraw.common.CommonConst).LENSID_CAREER}|}"
+						th:text="#{skill.field.latestanswer}">さいしん</a></td>
+					<td><a th:href="@{|/skill/diag/viewList/${rubricKey}/${T(jp.co.sraw.common.CommonConst).LENSID_FULL}|}"
+						th:text="#{skill.field.latestanswer}">さいしん</a></td>
+				</tr>
+			</table>
+
+			<h2 th:text="#{skill.field.pastanswers}">かこ</h2>
+			<button type="button" class="btn btn-primary" name="pastAnswers" th:text="#{skill.field.pastanswers}">かこボタン</button>
+			<span th:text="#{skill.diag.comment.pastanswers}">ほげ</span>
+
+		</th:block>
+	</div>
+</body>
+</html>

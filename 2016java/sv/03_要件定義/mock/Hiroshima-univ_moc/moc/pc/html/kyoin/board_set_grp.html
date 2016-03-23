@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜掲示板グループ編集</title>
+<script src="../../common/import.js"></script>
+<style>
+	.menu_list > li {display:inline-block;}
+</style>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>掲示板グループ編集</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+	<li><input type="button" value="キャンセル" onclick="location.href='./board_grp_list.html'"></li>
+	<li><input type="button" value="登録" class="fix"></li>
+	</ul>
+</menu>
+
+<h4>グループ名</h4>
+<input type="text" value="Xxx研究科博士課程 Xxx専攻 D2チーム" />
+<h4>概要</h4>
+<input type="textarea" style="width: 500px; height: 50px">
+<h4>ファイル添付</h4>
+<input type="radio" name="q1" id="q1-1" disabled><label for="q1-1">可</label>
+<input type="radio" name="q1" id="q1-2" checked disabled><label for="q1-2">不可</label>
+<h4>メンバー</h4>
+<ul class="menu_list">
+	<li><input type="button" value="追加" id="mem_add"></li>
+	<li><input type="button" value="削除" id="mem_del"></li>
+</ul>
+<table class="box01 stripe">
+	<tr>
+		<th style="width:15px;">&nbsp;</th>
+		<th style="width:50px;">管理者</th>
+		<th>大学</th>
+		<th>所属</th>
+		<th>氏名</th>
+		<th style="width:70px;">状態</th>
+	</tr>
+	<tr>
+		<td><input type="checkbox" name="men_list" id="list1"><label for="list1"></label></td>
+		<td><input type="radio" name="kanri" id="kanri1" checked><label for="kanri1"></label></td>
+		<td>広島大学</td>
+		<td>Xxx研究科博士課程 Xxx専攻</td>
+		<td>広島 太郎</td>
+		<td>承認済</td>
+	</tr>
+	<tr>
+		<td><input type="checkbox" name="men_list" id="list2"><label for="list2"></label></td>
+		<td><input type="radio" name="kanri" id="kanri2"><label for="kanri2"></label></td>
+		<td>広島大学</td>
+		<td>Xxx研究科博士課程 Xxx専攻</td>
+		<td>広島 次郎</td>
+		<td>承認待ち</td>
+	</tr>
+	<tr>
+		<td><input type="checkbox" name="men_list" id="list3"><label for="list3"></label></td>
+		<td><input type="radio" name="kanri" id="kanri3"><label for="kanri3"></label></td>
+		<td>山口大学</td>
+		<td>Xxx研究科博士課程 Xxx専攻</td>
+		<td>山口 花子</td>
+		<td>承認済</td>
+	</tr>
+	<tr>
+		<td><input type="checkbox" name="men_list" id="list4"><label for="list4"></label></td>
+		<td><input type="radio" name="kanri" id="kanri4"><label for="kanri4"></label></td>
+		<td>岡山大学</td>
+		<td>Xxx研究科博士課程 Xxx専攻</td>
+		<td>岡山 学</td>
+		<td>承認済</td>
+	</tr>
+</table>
+
+<div style='display:none'>
+  <div class="modal" id='modal_delete' style='padding:10px; background:#fff;'>
+    <p>
+      選択したメンバーを削除します。<br/>
+    </p>
+    <div class="close">OK</div>
+    <div class="close">キャンセル</div>
+  </div>
+	<div class="modal" id='modal_add' style='padding:10px; background:#fff;'>
+    <main>
+      <h3>メンバー検索</h3>
+						<h4>大学</h4>
+						<input type="text" />
+						<h4>所属</h4>
+						<input type="text" />
+						<h4>氏名</h4>
+						<input type="text" />
+						<input type="button" value="検索">
+						<hr />
+						<input type="button" value="追加">
+						<table class="box01 stripe">
+							<tr>
+								<th style="width:15px;">&nbsp;</th>
+								<th>大学</th>
+								<th>所属</th>
+								<th>氏名</th>
+							</tr>
+							<tr>
+								<td><input type="checkbox" name="men_list_search" id="list_search_1"><label for="list_search_1"></label></td>
+								<td>広島大学</td>
+								<td>Xxx研究科博士課程 Xxx専攻</td>
+								<td>広島 太郎</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" name="men_list_search" id="list_search_2"><label for="list_search_2"></label></td>
+								<td>広島大学</td>
+								<td>Xxx研究科博士課程 Xxx専攻</td>
+								<td>広島 次郎</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" name="men_list_search" id="list_search_3"><label for="list_search_3"></label></td>
+								<td>山口大学</td>
+								<td>Xxx研究科博士課程 Xxx専攻</td>
+								<td>山口 花子</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" name="men_list_search" id="list_search_4"><label for="list_search_4"></label></td>
+								<td>岡山大学</td>
+								<td>Xxx研究科博士課程 Xxx専攻</td>
+								<td>岡山 学</td>
+							</tr>
+						</table>
+    </main>
+    <div class="close">X CLOSE</div>
+  </div>
+</div>
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_kyoin.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+
+<style>
+  .tbl_data th, td{
+    border: 1px solid #000000;
+  }
+  .modal .close {
+    display: block;
+    width: 120px;
+    margin: 0px auto;
+    padding: 7px 0px 4px;
+    background-color: #dcd9cc;
+    border: 1px solid #a7a59b;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    color: #79776d;
+    float:left;
+  }
+	.modal h4 {margin:0px;}
+	.modal main {width:95%; position: relative;}
+  #cboxOverlay{background:#000; opacity: 0.9; filter: alpha(opacity = 90);}
+</style>
+<link rel="stylesheet" type="text/css" href="../../js/colorbox/colorbox.css">
+<script src="../../js/colorbox/jquery.colorbox-min.js"></script>
+<script>
+  $(document).ready(function(){
+    $("#mem_del").colorbox({
+      inline:true
+      , width:"50%"
+      , href:"#modal_delete"
+      , closeButton:false
+      , opacity: 0.6
+    });
+		$("#mem_add").colorbox({
+      inline:true
+      , width:"600px"
+      , href:"#modal_add"
+      , closeButton:false
+      , opacity: 0.6
+    });
+    $(".close").click(function () {
+      parent.$.colorbox.close();
+    });
+  });
+</script>
+
+</body>
+</html>

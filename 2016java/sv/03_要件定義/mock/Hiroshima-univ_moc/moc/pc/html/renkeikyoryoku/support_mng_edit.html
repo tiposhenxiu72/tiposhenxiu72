@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜支援制度情報登録・編集</title>
+<script src="../../common/import.js"></script>
+<link rel="stylesheet" type="text/css" href="../../bootstrap-wysihtml5/lib/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../../bootstrap-wysihtml5/src/bootstrap-wysihtml5.css">
+<script src="../../bootstrap-wysihtml5/lib/js/wysihtml5-0.3.0.js"></script>
+<script src="../../bootstrap-wysihtml5/lib/js/jquery-1.7.2.min.js"></script>
+<script src="../../bootstrap-wysihtml5/lib/js/bootstrap.min.js"></script>
+<script src="../../bootstrap-wysihtml5/src/bootstrap-wysihtml5.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>支援制度情報登録・編集</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+<li><input type="button" value="登 録" class="fix"></li>
+<li><input type="button" value="戻 る"onclick="location.href='support_mng.html'"></li>
+</ul>
+</menu>
+
+<!-- !登録 -->
+<h2>支援制度情報</h2>
+
+
+<font color="red">*の項目は一覧に掲載されます</font>
+<table class="boxf01">
+<tr>
+<th><font color="red">*</font>種別：</th>
+<td>
+<input type="checkbox" id="new1"><label for="new1">研究助成</label>
+<input type="checkbox" id="new2"><label for="new2">留学助成</label>
+<input type="checkbox" id="new3"><label for="new3">奨学金・奨励金</label>
+<input type="checkbox" id="new4"><label for="new4">その他</label>
+</td>
+</tr>
+<tr>
+<th><font color="red">*</font>キーワード：</th>
+<td><input type="text" value="XXXXX,YYYY,ZZ"></td>
+</tr>
+<tr>
+<th>公開日：</th>
+<td><input type="text" style="width: 120px;" value="20YY/MM/DD"><span class="ical"><a href="#">cal</a></span></td>
+</tr>
+<tr>
+<th>配信停止日：</th>
+<td><input type="text" style="width: 120px;" value="20YY/MM/DD"><span class="ical"><a href="#">cal</a></span></td>
+</tr>
+<tr>
+<th><font color="red">*</font>タイトル：</th>
+<td><input type="text" value="XXXXXXXXXXXXXX"></td>
+</tr>
+<tr>
+<th><font color="red">*</font>リンク先：</th>
+<td><input type="text" value="http://XXXXXXXXXXXX"></td>
+</tr>
+<tr>
+<th></th>
+<td></td>
+</tr>
+<tr>
+<th>概要：</th>
+<td><textarea class="textarea" placeholder="Enter text ..." style="width: 550px; height: 200px"></textarea></td>
+</tr>
+</table>
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_renkeikyoryoku.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+
+<script>
+	$('.textarea').wysihtml5();
+</script>
+
+</body>
+</html>

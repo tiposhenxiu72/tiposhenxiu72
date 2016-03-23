@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜インターンシップ情報登録・編集(コピー)</title>
+<script src="../../common/import.js"></script>
+<link rel="stylesheet" type="text/css" href="../../bootstrap-wysihtml5/lib/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../../bootstrap-wysihtml5/src/bootstrap-wysihtml5.css">
+<script src="../../bootstrap-wysihtml5/lib/js/wysihtml5-0.3.0.js"></script>
+<script src="../../bootstrap-wysihtml5/lib/js/jquery-1.7.2.min.js"></script>
+<script src="../../bootstrap-wysihtml5/lib/js/bootstrap.min.js"></script>
+<script src="../../bootstrap-wysihtml5/src/bootstrap-wysihtml5.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>インターンシップ情報登録・編集(コピー)</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+<li><input type="button" value="登 録" class="fix"></li>
+<li><input type="button" value="戻 る"onclick="location.href='internship_mng.html'"></li>
+</ul>
+</menu>
+
+<!-- !登録 -->
+<h2>インターンシップ情報</h2>
+
+
+<table class="boxf01">
+<tr>
+<th>種別：</th>
+<td>
+<div class="selectbox">
+<select>
+<option value="1" selected>HIRAKUインターンシップ</option>
+<option value="2">企業等インターンシップ</option>
+<option value="3">求人情報</option>
+<option value="4">その他募集</option>
+</select>
+</div>
+</td>
+</tr>
+<tr>
+<th><font color="red">*</font>応募期間：</th>
+<td><input type="text" style="width: 120px;" value="20YY/MM/DD"><span class="ical"><a href="#">cal</a></span>　～　
+<input type="text" style="width: 120px;" value="20YY/MM/DD"><span class="ical"><a href="#">cal</a></span></td>
+</tr>
+<tr>
+<th>配信日：</th>
+<td><input type="text" style="width: 120px;" value="20YY/MM/DD"><span class="ical"><a href="#">cal</a></span></td>
+</tr>
+<tr>
+<th>タイトル：</th>
+<td><input type="text" value="平成27年度長期インターンシップ派遣(第2期)募集　(若手人材養成担当)"></td>
+</tr>
+<tr>
+<th>公開範囲：</th>
+<td>
+<input type="checkbox" id="daigaku" checked><label for="daigaku">大学</label>
+<input type="checkbox" id="kigyo" checked><label for="kigyo">企業・研究所など</label>
+</td>
+</tr>
+<tr>
+<th></th>
+<td>
+<table>
+<tr><td align="center">公開</td><td>　</td><td align="center">非公開</td></tr>
+<tr>
+<td>
+<select style="width: 200px; height: 120px" size="5">
+<option value="1" selected>xxx大学</option>
+</select>
+</td>
+<td>
+　<input type="button" value=">>">　</br></br>
+　<input type="button" value="<<">　
+</td>
+<td>
+<select style="width: 200px; height: 120px" size="5">
+<option value="1" selected>yyy大学</option>
+<option value="2">zzz大学</option>
+</select>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<th>応募対象者：</th>
+<td><input type="text" value="全員"></td>
+</tr>
+<tr>
+<th>募集者：</th>
+<td><input type="text" value="XXXXXXXXXXXXXXXセンター"></td>
+</tr>
+<tr>
+<th>連絡先：</th>
+<td><input type="text" class="tx4" value="XXXX"> - <input type="text" class="tx4" value="XXXX"> - <input type="text" class="tx4" value="XXXX"></td>
+</tr>
+<tr>
+<th>応募書類：</th>
+<td><input type="text" value="マツダ株式会社　募集要項.doc"></td>
+</tr>
+<tr>
+<th></th>
+<td><input type="button" value="読 込">　<input type="button" value="削 除"></td>
+</tr>
+<tr>
+<tr>
+<th>合格書類：</th>
+<td><input type="text" value="合格.doc"></td>
+</tr>
+<tr>
+<tr>
+<th></th>
+<td><input type="button" value="読 込">　<input type="button" value="削 除"></td>
+</tr>
+<tr>
+<th></th>
+<td></td>
+</tr>
+<tr>
+<th>養成能力：</th>
+<td><a href="javascript:w=window.open('nouryoku_add_edit.html','','scrollbars=yes,Width=855,Height=600');w.focus();">能力養成紐付き設定画面を開く</a></td>
+</tr>
+<tr>
+<th>単位：</th>
+<td><input type="text" value="0"></td>
+</tr>
+<tr>
+<th>概要：</th>
+<td><textarea class="textarea" placeholder="Enter text ..." style="width: 550px; height: 200px"></textarea></td>
+</tr>
+</table>
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_renkeimadoguchi.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+
+<script>
+	$('.textarea').wysihtml5();
+</script>
+
+</body>
+</html>

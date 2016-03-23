@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:my="http://my" layout:decorator="common/base"
+	th:with="lang=${#locale.language}" th:lang="${lang}">
+<head>
+<meta charset="UTF-8" />
+</head>
+<!-- current script -->
+<th:block layout:fragment="layout-script">
+	<script th:inline="javascript">
+		$().ready(function() {
+			//current index
+		});
+	</script>
+</th:block>
+<body>
+
+	<div layout:decorator="layout">
+		<th:block layout:fragment="layout-content">
+			<!-- Start -->
+
+			<!--/* Postするための隠しform */-->
+			<my:form formEdit="@{/portfolio/patent/edit}"
+				formCopy="@{/portfolio/patent/copy}"
+				formDelete="@{/portfolio/patent/delete}">
+			</my:form>
+			<!-- !title -->
+			<h1>特許（一覧）</h1>
+			<form th:action="@{/portfolio/patent/update/all}" method="post"
+				role="form" autocomplete="off" th:object="${form}" id="formUpdate"
+				name="form">
+				<table class="boxf01">
+					<tr>
+						<td><font color="red">*</font>公開設定：</td>
+						<td><input type="radio" name="publicFlag"
+							th:each="item: ${list0024}" th:value="${item.code}"
+							th:checked="${item.code == form.publicFlag}"
+							th:text="${item.value}" /><label for="new1"></label></td>
+						<td>&nbsp;&nbsp;</td>
+						<td><button type="submit" class="btn btn-primary update"
+								name="update">更新</button></td>
+					</tr>
+				</table>
+			</form>
+			<!-- !menu -->
+			<form th:action="@{/portfolio/patent/create}" method="post"
+				role="form" autocomplete="off" th:object="${form}" id="formCreate"
+				name="form">
+				<menu>
+					<ul>
+						<li><button type="button" class="btn btn-primary create"
+								name="create">新規登録</button></li>
+					</ul>
+				</menu>
+			</form>
+
+			<form th:action="@{/portfolio/patent/}" method="post" role="form"
+				autocomplete="off" th:object="${form}" id="formQuery" name="form">
+				<table>
+					<tr>
+						<th><font color="red"></font>全体公開設定：</th>
+						<td><input type="checkbox" th:each="sybItem: ${sybList}"
+							th:value="${sybItem.code}" th:text="${sybItem.value}" /><label
+							for="new1"></label></td>
+					</tr>
+				</table>
+				<br /> <br />
+			</form>
+
+			<table class="box01 center stripe">
+				<tr class="line">
+					<th width="70">編集</th>
+					<th width="70">削除</th>
+					<th>発明の名称</th>
+					<th>区分</th>
+					<th>日付</th>
+					<th>番号</th>
+					<th>公開設定</th>
+				</tr>
+				<tr th:each="item,iterStat : ${list}">
+					<td><button type="button" class="btn btn-info edit"
+							name="edit" th:text="#{button.update}">編 集</button> <input
+						type="hidden" name="gyosekiKey" value="0"
+						th:value="${item.gyosekiKey}" /> <input type="hidden"
+						name="updDate" value="1" th:value="${item.updDate}" /></td>
+					<td><button type="button" class="btn btn-danger delete"
+							name="delete" th:text="#{button.delete}">削 除</button> <input
+						type="hidden" name="gyosekiKey" value="0"
+						th:value="${item.gyosekiKey}" /> <input type="hidden"
+						name="updDate" value="1" th:value="${item.updDate}" /></td>
+					<td th:text="${item.title}">発明の名称</td>
+					<td th:text="${item.kbn}">区分</td>
+					<td th:text="${item.bango}">日付</td>
+					<td th:text="${item.busday}">番号</td>
+					<td th:text="${item.publicFlag}">公開設定</td>
+				</tr>
+			</table>
+
+			<!-- End -->
+		</th:block>
+	</div>
+
+</body>
+</html>

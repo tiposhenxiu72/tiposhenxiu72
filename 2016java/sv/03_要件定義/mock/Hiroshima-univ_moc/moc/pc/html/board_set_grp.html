@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜掲示板一覧</title>
+<script src="../common/import.js"></script>
+<style type="text/css">
+	.table_title {width:150px;}
+	.table_content {width:600px;}
+	.con_mem {width:350px;}
+	.con_btn {width:100px;}
+
+	.mem_chk {width: 50px;}
+	.mem_name {width: 100px;}
+	.mem_depart{width: 150px;}
+	.mem_depart_cd{width: 30px;}
+</style>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>掲示板グループ設定</h1>
+
+<!-- !menu -->
+<!--
+<menu>
+<ul>
+<li><input type="button" value="xxxxxxxx"></li>
+</ul>
+</menu>
+-->
+<!-- !acordion -->
+<div class="acordion">
+
+<!-- !sub 01 -->
+<div class="open menu">新規グループ登録</div>
+<div class="sub section">
+	<div>
+		<input type="button" value="作成">
+		<table>
+			<tr style="height:120%;">
+				<th class="table_title">掲示板名</th>
+				<td class="table_content">
+					<input type="text" size="20" />
+				</td>
+			</tr>
+			<tr>
+				<th>メンバー</th>
+				<td>
+					<div style="float: left;" class="con_mem">
+						<table>
+							<tr>
+								<td><input type="checkbox" id="new1"><label for="new1"></label></td>
+								<td width="100">広島 太郎</td>
+								<td width="150">Xxx研究科博士課程 Xxx専攻</td>
+								<td width="30">(D2)</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="new2"><label for="new2"></label></td>
+								<td>岡山 花子</td>
+								<td>Xxx研究科博士課程 Xxx専攻</td>
+								<td>(D2)</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="new3"><label for="new3"></label></td>
+								<td>・・・・・</td>
+								<td>・・・・・</td>
+								<td>(・・)</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="new4"><label for="new4"></label></td>
+								<td>・・・・・</td>
+								<td>・・・・・</td>
+								<td>(・・)</td>
+							</tr>
+						</table>
+					</div>
+					<div style="float: left;" class="con_btn">
+						<input type="button" value="追加">
+						<br /><br />
+						<input type="button" value="削除">
+					</div>
+					<div>
+						<input type="button" value="検索">
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div><!-- #sub終了 -->
+
+<!-- !sub 02 -->
+<div class="open menu">既存グループの閲覧・編集</div>
+<div class="sub section">
+	<!-- 既存グループの閲覧・編集 -->
+	<div id="edit" class="panel">
+		<input type="button" value="保存">
+		<table>
+			<tr style="height:120%;">
+				<th class="table_title">検索</th>
+				<td class="table_content">
+					<div style="float: right;">
+						<input type="button" value="検索">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>メンバー</th>
+				<td>
+					<div style="float: left;" class="con_mem">
+						<table>
+							<tr>
+								<td><input type="checkbox" id="mod1"><label for="mod1"></label></td>
+								<td width="100">徳島 学</td>
+								<td width="150">Xxx研究科博士課程 Xxx専攻</td>
+								<td width="30">(D2)</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="mod2"><label for="mod2"></label></td>
+								<td>岡山 花子</td>
+								<td>Xxx研究科博士課程 Xxx専攻</td>
+								<td>(D2)</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="mod3"><label for="mod3"></label></td>
+								<td>・・・・・</td>
+								<td>・・・・・</td>
+								<td>(・・)</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="mod4"><label for="mod4"></label></td>
+								<td>・・・・・</td>
+								<td>・・・・・</td>
+								<td>(・・)</td>
+							</tr>
+						</table>
+					</div>
+					<div style="float: left;" class="con_btn">
+						<input type="button" value="追加">
+						<br /><br />
+						<input type="button" value="削除">
+					</div>
+					<div style="float: left;">
+						<input type="button" value="検索">
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div><!-- #sub終了 -->
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../common/side_top.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+</body>
+</html>

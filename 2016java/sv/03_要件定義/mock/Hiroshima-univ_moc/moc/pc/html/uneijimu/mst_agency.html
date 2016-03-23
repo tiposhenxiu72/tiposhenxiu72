@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜代理入力</title>
+<script src="../../common/import.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>代理入力</h1>
+検索を行い、ユーザを選択することで特定のユーザに成り代わることができます。<br>
+ユーザを選択するとそのユーザでログインした状態となりシステムの操作が可能です。<br><br>
+
+<h2>検索条件</h2>
+<table>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+			<input type="text" style="width: 300px;" placeholder="キーワード"> &nbsp;<input type="button" value="　検 索　" class="fix">
+		</td>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+
+<!-- !acordion -->
+<div class="acordion">
+
+<!-- !sub 01 -->
+<div class="open menu">詳細条件</div>
+<div class="sub section">
+<table class="boxf01">
+	<tr>
+		<td>
+			<table class="boxf01">
+				<tr>
+					<th>ロール：</th>
+					<td width="250px">
+						<div class="selectbox">
+						<select>
+						<option selected="selected"></option>
+						<option value="1">個人ユーザ（D、PD）</option>
+						<option value="2">個人ユーザ（教職員）</option>
+						<option value="3">個人ユーザ（相談員）</option>
+						<option value="4">連携機関協力部局</option>
+						<option value="5">運営協議会事務局</option>
+						<option value="6">連携大学協議会窓口</option>
+						<option value="7">プラットフォーム以外</option>
+						</select>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td>
+			<table class="boxf01">
+				<tr>
+					<th>大学・企業名：</th>
+					<td>
+						<div class="selectbox">
+						<select>
+						<option selected="selected"></option>
+						<option value="1">XXXXXXXX</option>
+						<option value="2">YYYYYYYY</option>
+						</select>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</div><!-- #sub終了 -->
+
+<br />
+<br />
+
+<!-- !menu -->
+<h2>ユーザ情報</h2>
+
+■　<a href="portal_month.html">広島　一郎（広島大学）</a><br/>
+■　<a href="portal_month.html">広島　二郎（広島大学）</a><br/>
+■　<a href="portal_month.html">広島　三郎（広島大学）</a><br/>
+■　<a href="portal_month.html">広島　四郎（広島大学）</a><br/>
+
+<br/>
+<br/>
+<br/>
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_uneijimu.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+</body>
+</html>

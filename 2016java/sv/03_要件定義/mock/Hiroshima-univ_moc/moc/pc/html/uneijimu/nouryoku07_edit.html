@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜能力開発支援</title>
+<script src="../../common/import.js"></script>
+<style type="text/css">
+	.menu_btn {
+		position: relative;
+		width:100%;
+	}
+	.menu_btn dt {
+		clear: left;
+		float: left;
+	}
+	.menu_btn dd {
+		margin-left: 160px;
+		margin-bottom: 2em;
+
+	}
+
+	.menu_btn input[type="button"] {
+		width:150px;
+	}
+	.subsub {
+	  border: 1px solid #c0c0c0;
+	  border-radius: 2px;
+	  padding : 0px 0px 0px 0px;
+		margin : 0px;
+
+	}
+	.subsub > li{
+	  display: inline-block;
+	  border-right: 1px solid #a0a0a0;
+	  height:1em;
+	  padding: 1px 4px;
+	}
+  .nouryoku_edit_form th {
+    text-align: right;
+    padding-right: 8px;
+  }
+  .nouryoku_edit_form td {
+    text-align: left;
+    padding-right: 8px;
+    width: 400px;
+  }
+  .nouryoku_edit_form td input {
+    width: 200px;
+  }
+  .nouryoku_edit_form td textarea {
+    width: 450px;
+    height: 100px;
+  }
+  #modal_add .close {
+    display: block;
+    width: 120px;
+    margin: 0px auto;
+    padding: 7px 0px 4px;
+    background-color: #dcd9cc;
+    border: 1px solid #a7a59b;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    color: #79776d;
+  }
+</style>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+  <!-- ///////////▽contents/////////// -->
+  <!-- !title -->
+  <h1>能力養成登録</h1>
+
+  <!-- !menu -->
+  <menu>
+    <ul>
+      <li><input type="button" value="戻る" onclick="location.href='./nouryoku07_list.html'"></li>
+      <li><input type="button" value="登録" class="fix"></li>
+    </ul>
+  </menu>
+
+  <table class="nouryoku_edit_form">
+    <tr>
+      <th>科目名:</th>
+      <td><input type="text" /></td>
+    </tr>
+    <tr>
+      <th>開講大学:</th>
+      <td><input type="text" /></td>
+    </tr>
+    <tr>
+      <th>担当教員:</th>
+      <td><input type="text" /></td>
+    </tr>
+    <tr>
+      <th>受講対象者：</th>
+      <td><input type="text" /></td>
+    </tr>
+    <tr>
+      <th>開講期:</th>
+      <td><input type="text" /></td>
+    </tr>
+    <tr>
+      <th>曜日・時限:</th>
+      <td><input type="text" /></td>
+    </tr>
+    <tr>
+      <th>授業形態:</th>
+      <td><input type="text" /></td>
+    </tr>
+    <tr>
+      <th>単位:</th>
+      <td><input type="text" /></td>
+    </tr>
+    <tr>
+      <th>学外聴講/傍聴の可否:</th>
+      <td><input type="text" /></td>
+    </tr>
+    <tr>
+      <th>授業の目的概要:</th>
+      <td><textarea></textarea></td>
+    </tr>
+    <tr>
+      <th>授業計画:</th>
+      <td><input type="text" /></td>
+    </tr>
+    <tr>
+      <th>備考:</th>
+      <td><textarea></textarea></td>
+    </tr>
+    <tr>
+      <th>シラバスリンク:</th>
+      <td><textarea></textarea></td>
+    </tr>
+    <tr>
+      <th>養成能力:</th>
+      <td><a id="nouryoku_add">設定画面を開く</a></td>
+    </tr>
+  </table>
+
+
+
+
+  <div style='display:none'>
+  	<div class="modal" id='modal_add' style='padding:10px; background:#fff;'>
+      <main>
+        <h2>能力養成紐付き設定</h2>
+        <table class="box01 stripes">
+          <tr>
+            <th>大項目</th>
+            <th>中項目</th>
+            <th>小項目</th>
+            <th>紐付き</th>
+          </tr>
+          <tr>
+            <td rowspan="13">A:知識と知的能力</td>
+            <td rowspan="7">A1:知識基盤</td>
+            <td>A1.1:専門分野の知識</td>
+            <td style="text-align:center;">
+              <select name="sel_target_A1_1" id="sel_target_A1_1" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A1.2:研究方法（理論的知識）</td>
+            <td style="text-align:center;">
+              <select name="sel_target_A1_2" id="sel_target_A1_2" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A1.3:研究方法（応用力）</td>
+            <td style="text-align:center;">
+              <select name="sel_target_A1_3" id="sel_target_A1_3" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A1.4:情報探索力</td>
+            <td style="text-align:center;">
+              <select name="sel_target_A1_4" id="sel_target_A1_4" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A1.5:情報リテラシーと情報管理力</td>
+            <td style="text-align:center;">
+              <select name="sel_target_A1_5" id="sel_target_A1_5" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A1.6:言語力</td>
+            <td style="text-align:center;">
+              <select name="sel_target_A1_6" id="sel_target_A1_6" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A1.7:学術リテラシーと計算能力</td>
+            <td style="text-align:center;">
+              <select name="sel_target_A1_7" id="sel_target_A1_7" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td rowspan="3">A2:知識基盤</td>
+            <td>A2.1:専門分野の知識</td>
+            <td style="text-align:center;">
+              <select name="sel_target_A2_1" id="sel_target_A2_1" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A2.2:研究方法（理論的知識）</td>
+            <td style="text-align:center;">
+              <select name="sel_target_A2_2" id="sel_target_A2_2" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A2.3:研究方法（応用力）</td>
+            <td style="text-align:center;">
+              <select name="sel_target_A2_3" id="sel_target_A2_3" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td rowspan="3">A3:知識基盤</td>
+            <td>A3.1:専門分野の知識</td>
+            <td style="text-align:center;">
+              <select name="sel_target_A3_1" id="sel_target_A3_1" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A3.2:研究方法（理論的知識）</td>
+            <td style="text-align:center;">
+              <select name="sel_target_A3_2" id="sel_target_A3_2" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A3.3:研究方法（応用力）</td>
+            <td style="text-align:center;">
+              <select name="sel_target_A3_3" id="sel_target_A3_3" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td rowspan="6">B:知識と知的能力</td>
+            <td rowspan="3">B1:知識基盤</td>
+            <td>B1.1:専門分野の知識</td>
+            <td style="text-align:center;">
+              <select name="sel_target_B1_1" id="sel_target_B1_1" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>B1.2:研究方法（理論的知識）</td>
+            <td style="text-align:center;">
+              <select name="sel_target_B1_2" id="sel_target_B1_2" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>B1.3:研究方法（応用力）</td>
+            <td style="text-align:center;">
+              <select name="sel_target_B1_3" id="sel_target_B1_3" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td rowspan="3">B2:知識基盤</td>
+            <td>B2.1:専門分野の知識</td>
+            <td style="text-align:center;">
+              <select name="sel_target_B2_1" id="sel_target_B2_1" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>B2.2:研究方法（理論的知識）</td>
+            <td style="text-align:center;">
+              <select name="sel_target_B2_2" id="sel_target_B2_2" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>B2.3:研究方法（応用力）</td>
+            <td style="text-align:center;">
+              <select name="sel_target_B2_3" id="sel_target_B2_3" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+      </main>
+      <br />
+      <div class="close" style="clear:both;">X CLOSE</div>
+    </div>
+  </div>
+
+  <!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_uneijimu.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+
+<link rel="stylesheet" type="text/css" href="../../js/colorbox/colorbox.css">
+<script src="../../js/colorbox/jquery.colorbox-min.js"></script>
+<script src="../../js/ResponsiveTabs/jquery.responsiveTabs.min.js"></script>
+<link type="text/css" rel="stylesheet" href="../../js/ResponsiveTabs/responsive-tabs.css" />
+<script>
+<!--
+$(document).ready(function(){
+  $("#nouryoku_add").colorbox({
+    inline:true
+    , width:"900px"
+    , height: "80%"
+    , href:"#modal_add"
+    , closeButton:false
+    , opacity: 0.3
+  });
+
+  $(".close").click(function () {
+    parent.$.colorbox.close();
+  });
+});
+// -->
+</script>
+
+</body>
+</html>

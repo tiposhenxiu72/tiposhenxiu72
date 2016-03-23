@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜能力開発支援</title>
+<script src="../../common/import.js"></script>
+<style type="text/css">
+	.menu_btn {
+		position: relative;
+		width:100%;
+	}
+	.menu_btn dt {
+		clear: left;
+		float: left;
+	}
+	.menu_btn dd {
+		margin-left: 160px;
+		margin-bottom: 2em;
+
+	}
+
+	.menu_btn input[type="button"] {
+		width:150px;
+	}
+
+</style>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+  <!-- ///////////▽contents/////////// -->
+
+
+  <!-- !title -->
+  <h1>能力養成メニュー</h1>
+  <!-- 画面遷移 -->
+  <link type="text/css" rel="stylesheet" href="../../css/pankuzu.css" />
+  <ul id="breadcrumbs-two">
+    <li><a href="./nouryoku01.html">能力診断/更新</a></li>
+    <li><a href="./nouryoku03.html">診断結果</a></li>
+    <li><a href="./nouryoku05_add.html" class="current">能力養成推奨科目 更新</a></li>
+    <li><a href="./nouryoku01.html">アクションプラン 入力・更新</a></li>
+  </ul>
+  <br>
+  <!-- !menu -->
+  <menu>
+  <ul>
+		  <li><input type="button" value="能力養成科目一覧" onclick="location.href='./nouryoku04_2.html'"></li>
+    <li><input type="button" value="能力養成科目登録" onclick="location.href='./nouryoku05_add.html'"></li>
+  </ul>
+  </menu>
+  <menu>
+    <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 200px;">
+      <option value="A1">A1:知識基盤</option>
+      <option value="A2">A2:認知的能力</option>
+      <option value="A3">A3:創造性</option>
+      <option value="B1">B1:個人の資質</option>
+      <option value="B2">B2:自己管理</option>
+      <option value="B3">B3:能力開発・キャリア開発</option>
+      <option value="C1">C1:専門家としての行動</option>
+      <option value="C2">C2:研究マネジメント</option>
+      <option value="C3">C3:財務・資金調達リソース</option>
+      <option value="D1">D1:他との協働</option>
+      <option value="D2">D2:コミュニケーションと普及</option>
+      <option value="D3">D3:エンゲージメントとインパクト</option>
+    </select>
+  </menu>
+
+  <h2>登録済み能力養成科目</h2>
+
+
+  <!-- !選択能力表示 -->
+  <dl class="gname">
+  <dt>RDF No.</dt>
+  <dd>A1.1</dd>
+  <dt>能力</dt>
+  <dd>専門分野の知識</dd>
+  </dl>
+
+  <table class="box01 stripe right">
+      <!--<table border="1">-->
+      <tr>
+          <th class="center" width="140px">科目名</th>
+          <th class="center" width="80px">開講部局</th>
+          <th class="center" width="80px">受講対象</th>
+          <th class="center" width="50px">単位</th>
+          <th class="center" width="90px">講義形式</th>
+          <th class="center" width="80px">開催日時</th>
+          <th class="center" width="120px">主たる能力</th>
+      </tr>
+      <tr>
+          <td class="left"><a class="detail" href="./nouryoku06.html">ストレスマネジメント</a></td>
+          <td class="left">広島大学</td>
+          <td class="left">全大学</td>
+          <td class="left">２</td>
+          <td class="left">講義・演習</td>
+          <td class="left">2015年X月X日</td>
+          <td class="left">忍耐力</td>
+      </tr>
+      <tr>
+          <td class="left"><a class="detail" href="./nouryoku06.html">理工系キャリアデザイン１</a></td>
+          <td class="left">広島大学</td>
+          <td class="left">広島大学</td>
+          <td class="left">１</td>
+          <td class="left">講義・演習</td>
+          <td class="left">2015年X月X日</td>
+          <td class="left">コミュニケーション力</td>
+      </tr>
+      <tr>
+          <td class="left"><a class="detail" href="./nouryoku06.html">・・・・・・・・・・</a></td>
+          <td class="left">XXX大学</td>
+          <td class="left">全大学</td>
+          <td class="left">１</td>
+          <td class="left">eラーニング</td>
+          <td class="left">2015年X月X日</td>
+          <td class="left">分析能力</td>
+      </tr>
+      <tr>
+          <td class="left"><a class="detail" href="./nouryoku06.html">・・・・・・・・・・</a></td>
+          <td class="left">XXX大学</td>
+          <td class="left">全大学</td>
+          <td class="left">１</td>
+          <td class="left">eラーニング</td>
+          <td class="left">2015年X月X日</td>
+          <td class="left">分析能力</td>
+      </tr>
+      <tr>
+          <td class="left"><a class="detail" href="./nouryoku06.html">・・・・・・・・・・</a></td>
+          <td class="left">XXX大学</td>
+          <td class="left">全大学</td>
+          <td class="left">１</td>
+          <td class="left">eラーニング</td>
+          <td class="left">2015年X月X日</td>
+          <td class="left">分析能力</td>
+      </tr>
+      <tr>
+          <td class="left"><a class="detail" href="./nouryoku06.html">・・・・・・・・・・</a></td>
+          <td class="left">XXX大学</td>
+          <td class="left">全大学</td>
+          <td class="left">１</td>
+          <td class="left">eラーニング</td>
+          <td class="left">2015年X月X日</td>
+          <td class="left">分析能力</td>
+      </tr>
+  </table>
+
+
+  <!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_kojin.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+
+<link rel="stylesheet" type="text/css" href="../../js/colorbox/colorbox.css">
+<script src="../../js/colorbox/jquery.colorbox-min.js"></script>
+<script>
+<!--
+$(document).ready(function(){
+	$(".detail").colorbox({
+		iframe:true, width:"97%", height:"95%"
+	});
+});
+// -->
+</script>
+
+</body>
+</html>

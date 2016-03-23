@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜eポートフォリオ(編集)</title>
+<script src="../../common/import.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>eポートフォリオ(編集)</h1>
+
+<h2>ポートフォリオ情報</h2>
+
+<!-- !tab ★選択タブは（class="act"）で指定 -->
+<ul class="tab">
+<li><a href="epfolio_edit.html">基本情報</a></li>
+<li class="act"><a href="epfolio_edit_kenkyu.html">研究活動</a></li>
+<li><a href="epfolio_edit_3m.html">PR動画</a></li>
+<li><a href="epfolio_edit_other.html">その他成果物</a></li>
+</ul>
+<div class="tabbox">
+
+<!-- ★段落は（class="section"）で囲む -->
+<div class="section">
+
+<h3>論文</h3>
+
+<table class="boxf01">
+<tr>
+<th>全体公開設定：</th>
+<td><input type="radio" name="q1" id="q1-1" checked><label for="q1-1">全公開</label>
+<input type="radio" name="q1" id="q1-2"><label for="q1-2">内部公開</label>
+<input type="radio" name="q1" id="q1-3"><label for="q1-3">非公開</label></td>
+</tr>
+</table>
+
+<!-- !menu -->
+<menu>
+<ul>
+<li><input type="button" value="更 新" class="fix"></li>
+<li><input type="button" value="新規登録" onclick="location.href='epfolio_edit_paper.html'"></li>
+</ul>
+</menu>
+<menu>
+<ul>
+<li><input type="button" value="業 績 D L"></li>
+<li><input type="button" value="業 績 U L"></li>
+</ul>
+</menu>
+
+<table class="box01 center stripe">
+<tr class="line">
+<th width="70">編集</th>
+<th width="70">削除</th>
+<th>論文種別</th>
+<th>単著・共著の別</th>
+<th>論文名等</th>
+<th>発表年月</th>
+<th>共著者数</th>
+<th>公開設定</th>
+</tr>
+<tr>
+<td><input type="button" value="編 集" onclick="location.href='epfolio_edit_paper.html'"></td>
+<td><input type="button" value="削 除" onclick="location.href='#'"></td>
+<td>発表論文Ⅰ</td>
+<td>単著</td>
+<td>XXXXXXXXXXX</td>
+<td>2016.XX</td>
+<td></td>
+<td>全公開</td>
+</tr>
+<tr>
+<td><input type="button" value="編 集" onclick="location.href='epfolio_edit_paper.html'"></td>
+<td><input type="button" value="削 除" onclick="location.href='#'"></td>
+<td>発表論文Ⅰ</td>
+<td>共著</td>
+<td>XXXXXXXXXXX</td>
+<td>2016.XX</td>
+<td>X</td>
+<td>内部公開</td>
+</tr>
+</table>
+
+
+</div><!-- #section終了 -->
+</div><!-- #tabbox終了 -->
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_kojin.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+</body>
+</html>

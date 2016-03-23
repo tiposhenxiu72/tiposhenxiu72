@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜能力養成科目</title>
+<script src="../../common/import.js"></script>
+<script src="../../js/d3.min.js"></script>
+
+<style type="text/css">
+div.tooltip{
+  position: absolute;
+  text-align: left;
+  padding: 5px;
+  margin: 20px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: solid 1px #000000;
+  border-radius: 8px;
+  opacity: 0.8;
+}
+table.data_result {
+  border: none;
+}
+table.data_result td {
+  padding-left: 5px;
+  padding-right: 5px;
+  white-space: nowrap;
+}
+
+div#area {
+  position: relative;
+  width: 750px;
+  height: 500px;
+}
+
+.tooltip {
+
+  width: 250px;
+  height: 100px;
+  position: absolute;
+  padding: 3px;
+}
+.tooltip .container {
+  overflow: scroll;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.tooltip a {
+  color: #3c4d5c;
+}
+.category1 {
+  width:30px;
+  height: 100%;
+}
+.category1 div {
+  font-size: 16px;
+  word-wrap: break-word;
+  text-align: center;
+}
+.bgcolor_A {
+  background-color: #9DDCF9;
+}
+.bgcolor_B {
+  background-color: #BAC9E7;
+}
+</style>
+
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+<!-- !title -->
+<h1>[能力開発支援]RDF能力養成科目</h1>
+
+<!-- !menu -->
+<menu>
+  <ul>
+    <li><input type="button" value="能力養成科目一覧" onclick="location.href='./nouryoku05_list.html'"></li>
+  </ul>
+</menu>
+
+<br />
+<div id="area">
+  <div id="edit-area"></div>
+</div>
+
+<!-- 結果一覧 -->
+<table class="box01 stripe">
+  <tr class="line">
+    <th>大項目</th>
+    <th>中項目</th>
+    <th>小項目</th>
+    <th>HIRAKU推奨科目</th>
+  </tr>
+  <tr>
+    <td class="bgcolor_A category1" rowspan="6">
+      <div>A:知識と知的能力</div>
+    </td>
+    <td class="bgcolor_A" rowspan="2">A1 知識基盤</td>
+    <td class="bgcolor_A">A1.1 専門分野の知識</td>
+    <td>
+      Xxxxxxx(広島大学)<br>
+      Xxxxxxx(岡山大学)<br>
+    </td>
+  </tr>
+  <tr>
+    <td class="bgcolor_A">A1.3 研究技法（応用力）</td>
+    <td>
+      Xxxxxxx(山口大学)<br>
+      Xxxxxxx(徳島大学)<br>
+    </td>
+  </tr>
+  <tr>
+    <td class="bgcolor_A" rowspan="3">A2 認知的能力</td>
+    <td class="bgcolor_A">A2.1 </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="bgcolor_A">A2.4 </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="bgcolor_A">A2.5 </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="bgcolor_A" rowspan="1">A3 創造性</td>
+    <td class="bgcolor_A">A3.3 </td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td class="bgcolor_B category1" rowspan="6">
+      <div>B:個人の能力</div>
+    </td>
+    <td class="bgcolor_B" rowspan="2">B1 知識基盤</td>
+    <td class="bgcolor_B">B1.1 専門分野の知識</td>
+    <td>
+      Xxxxxxx(広島大学)<br>
+      Xxxxxxx(岡山大学)<br>
+    </td>
+  </tr>
+  <tr>
+    <td class="bgcolor_B">B1.3 研究技法（応用力）</td>
+    <td>
+      Xxxxxxx(山口大学)<br>
+      Xxxxxxx(徳島大学)<br>
+    </td>
+  </tr>
+  <tr>
+    <td class="bgcolor_B" rowspan="3">B2 認知的能力</td>
+    <td class="bgcolor_B">B2.1 </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="bgcolor_B">B2.4 </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="bgcolor_B">B2.5 </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="bgcolor_B" rowspan="1">B3 創造性</td>
+    <td class="bgcolor_B">B3.3 </td>
+    <td></td>
+  </tr>
+</table>
+<br />
+<br />
+
+<link rel="stylesheet" type="text/css" href="../../js/colorbox/colorbox.css">
+<script src="../../js/colorbox/jquery.colorbox-min.js"></script>
+<script>
+// データ
+var data_arr = {
+  "name": "projects",
+  "data": [
+    {
+      // ドメインA
+      "code": "A",
+      "project": "知識と<br>知的能力",
+      "color": "#9DDCF9",
+      "data": [
+        // サブドメイン
+        {"code":"A1", "type": "知識基盤"  , "per": 2, "color": "#9DDCF9"},
+        {"code":"A2", "type": "認知的能力" , "per": 2, "color": "#9DDCF9"},
+        {"code":"A3", "type": "創造性"     , "per": 2, "color": "#9DDCF9"}
+      ]
+    },
+    {
+      "code":"B",
+      "project": "個人の<br>能力",
+      "color": "#BAC9E7",
+      "data": [
+        {"code":"B1", "type": "個人の資質" , "per": 2, "color": "#BAC9E7"},
+        {"code":"B2", "type": "自己管理", "per": 2, "color": "#BAC9E7"},
+        {"code":"B3", "type": "能力開発・<br>キャリア開発", "per": 2, "color": "#BAC9E7"}
+      ]
+    },
+    // CとDは表示順の関係上降順に並べる
+    {
+      "code":"C",
+      "project": "研究の<br>管理運営",
+      "color": "#A5D4DA",
+      "data": [
+        {"code":"C3", "type": "財務・資金調達<br>リソース", "per": 2, "color": "#A5D4DA"},
+        {"code":"C2", "type": "研究<br>マネジメント", "per": 2, "color": "#A5D4DA"},
+        {"code":"C1", "type": "専門家と<br>しての行動", "per": 2, "color": "#A5D4DA"},
+      ]
+    },
+    {
+      "code":"D",
+      "project": "影響と<br>インパクト",
+      "color": "#D3BFDD",
+      "data": [
+        {"code":"D3", "type": "エンゲージメントと<br>インパクト", "per": 2, "color": "#D3BFDD"},
+        {"code":"D2", "type": "コミュニケー<br>ションと普及", "per": 2, "color": "#D3BFDD"},
+        {"code":"D1", "type": "他との協働", "per": 2, "color": "#D3BFDD"},
+      ]
+    }
+  ]
+};
+
+var code_arr = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3"];
+
+// 能力養成対応
+var data_result = {
+  A1:
+    {
+      "広" : [
+        {"code":"A1.6", "target":"アドバンスト・イングリッシュⅠ"},
+        {"code":"A1.6", "target":"プレ・アカデミック・イングリッシュⅠ＆Ⅱ"},
+      ],
+      "岡" : [
+        {"code":"A1.3", "target":"実践的博士人材Ⅰ＆Ⅱ"},
+        {"code":"A1.4", "target":"英語苦手意識の克服方法"},
+        {"code":"A1.6", "target":"ビジネス英語１＆２"},
+      ],
+      "徳" : [
+        {"code":"A1.6", "target":"若手研究者向けオーサーワークショップ"},
+      ],
+      "山" : [
+        {"code":"A1.7", "target":"マーケティングリサーチ特論"},
+        {"code":"A1.7", "target":"モノづくりＭＯＴ持論"},
+      ],
+      "山" : [
+        {"code":"A1.3", "target":"特定課題研究"},
+        {"code":"A1.7", "target":"マーケティングリサーチ特論"},
+        {"code":"A1.7", "target":"モノづくりＭＯＴ持論"},
+        {"code":"A1.7", "target":"特定課題研究"},
+      ],
+    },
+  A2:
+    {
+      "広" : [
+        {"code":"A2.5", "target":"対話型イノベーション・ワークショップ"},
+        {"code":"A2.5", "target":"課題発見型インターンシップ・フィールドワーク"},
+      ],
+    },
+  A3:
+    {
+      "広" : [
+        {"code":"A3.3", "target":"Technology Transfer"},
+        {"code":"A3.3", "target":"リーダーシップ論"},
+        {"code":"A3.3", "target":"経営シミュレーションゲーム"},
+      ],
+    },
+  B1:
+    {
+      "広" : [
+        {"code":"B1.2", "target":"ストレス・マネジメント"},
+      ],
+    },
+  B2:
+    {
+
+    },
+  B3:
+    {
+      "広" : [
+        {"code":"B3.1", "target":"人文社会系キャリアデザインⅠ＆Ⅱ"},
+        {"code":"B3.1", "target":"理工系キャリアデザイン１＆２"},
+      ],
+    },
+  C1:
+    {
+      "広" : [
+        {"code":"C1.4", "target":"知的財産および財務会計論"},
+      ],
+    },
+  C2:
+    {
+
+    },
+  C3:
+    {
+      "広" : [
+        {"code":"C3.2", "target":"知的財産および財務会計論"},
+      ],
+    },
+  D1:
+    {
+      "広" : [
+        {"code":"D1.3", "target":"実務マネジメント"},
+        {"code":"D1.6", "target":"リーダーシップ手法トレーニング"},
+        {"code":"D1.6", "target":"リーダーシップ論"},
+      ],
+    },
+  D2:
+    {
+      "広" : [
+        {"code":"D2.1", "target":"実務マネジメント"},
+        {"code":"D2.1", "target":"理工系キャリアデザイン１＆２"},
+      ],
+    },
+  D3:
+    {
+      "広" : [
+        {"code":"D3.3", "target":"ベンチャー企業論"},
+        {"code":"D3.3", "target":"技術移転論"},
+        {"code":"D3.3", "target":"Technology Transfer"},
+        {"code":"D3.3", "target":"経営戦略論"},
+        {"code":"D3.3", "target":"MB経営者体験講義"},
+        {"code":"D3.3", "target":"マーケティング論"},
+        {"code":"D3.3", "target":"リーダーシップ論"},
+        {"code":"D3.3", "target":"経営シミュレーションゲーム"},
+        {"code":"D3.3", "target":"企業と地域経済・地域社会"},
+      ],
+      "岡" : [
+        {"code":"D2.1", "target":"実務マネジメント"},
+        {"code":"D2.1", "target":"理工系キャリアデザイン１＆２"},
+      ],
+    },
+};
+
+$(document).ready( function() {
+  $(".detail").colorbox({
+    iframe:true, width:"97%", height:"95%"
+  });
+});
+
+(function () {
+  // svg 領域描画準備
+  var font_size = "11px";
+  var width = 750;
+  var height = 450;
+  var margin = {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0
+  };
+  var radius = Math.min(width - margin.right - margin.left, height - margin.top - margin.bottom);
+  var lineHeight = 1.4;
+
+  var color = d3.scale.category20b();
+
+  var partition = d3.layout.partition()
+    // プロパティ data を children とする
+    .children(function (d, depth) {
+        return d.data !== void(0) ? d.data : null;
+    })
+    // プロパティ per を value とする
+    .value(function (d) {
+        return d.per;
+    })
+    .size([2 * Math.PI, radius / 2]);
+
+  // 結果用
+  var partition_result = d3.layout.partition()
+    // プロパティ data を children とする
+    .children(function (d, depth) {
+        return d.check !== void(0) ? d.check : null;
+    })
+    // プロパティ code を value とする
+    .value(function (d) {
+        return d.result;
+    })
+    .size([2 * Math.PI, radius / 2]);
+
+  var arc = d3.svg.arc()
+      .startAngle(function (d) {
+      return d.x;
+  })
+      .endAngle(function (d) {
+      return d.x + d.dx - 0.015 / d.depth;
+  })
+      .innerRadius(function (d) {
+        if (d.depth === 1) {
+            return 0;
+          } else {
+            return d.y;
+          }
+  })
+      .outerRadius(function (d) {
+      return d.y + d.dy - 1;
+  })
+  ;
+
+  // SVG 領域定義
+  var svg = d3.selectAll("#edit-area")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .append("g")
+      .attr("transform", "translate(" + (width - margin.left - margin.right) / 2 + "," + (height - margin.top - margin.bottom) / 2 + ")")
+  ;
+
+  // データバインド
+  var arcs = svg.selectAll("g.arc")
+      .data(partition.nodes(data_arr).slice(1))
+      .enter()
+      .append("g")
+      .attr("class", "arc")
+  ;
+
+  // ツールチップ
+  var tooltip = d3.select("body")
+    .append("div")  // declare the tooltip div
+    .attr("class", "tooltip")              // apply the 'tooltip' class
+    .style("opacity", 0);                  // set the opacity to nil
+
+  // line関数を定義 (x,y)は配列の[0],[1]とする。
+  var line = d3.svg.line()
+    .x(function(d) {return d[0];})
+    .y(function(d) {return d[1];});
+
+  // path 描画
+  arcs.append("path")
+    .attr("d", function (d) {
+      return arc(d);
+    })
+    .style("fill", function (d, i) {
+      //return color(i);
+      return d.color;
+    })
+    ;
+
+  arcs.append("text")
+  .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+              .attr("dy", ".35em")
+              .style("text-anchor", "middle")
+              .text(function(d) {
+            if (d.depth === 1) {
+                      return d.project;
+                  } else {
+                      return d.type + "<br>(" + d.code + ")";
+                  }
+          })
+      .call(convertNewline, lineHeight)
+      .style("font-size", font_size)
+      .style("font-weight", function(d) {
+        if (d.depth === 1) {
+          return "bold";
+        } else {
+          return "nomal";
+        }
+      })
+  ;
+
+  //マウスイベント
+  arcs
+    // サブドメインクリック
+    .on("click", function(d) {
+      if (d.depth === 1) {
+        return;
+      }
+      window.location.href = './nouryoku05_list.html';
+    })
+    // サブドメイン上にカーソルがあるとき
+    .on("mouseover", function(d) {
+      if (d.depth === 1) {
+        return;
+      }
+      d3.select(this).attr("cursor","pointer");
+    })
+    ;
+}).call(this);
+
+function convertNewline(texts, lineHeight) {
+  texts.each(function() {
+    var text = d3.select(this),
+        lines = text.text().split(/<br>/),
+        lineCount = lines.length,
+        i,
+        line,
+        y;
+    text.text('');
+    for (i = 0; i < lineCount; i++) {
+      line = lines[i];
+      y = (i - (lineCount - 1) / 2) * lineHeight;
+      text.append('tspan')
+        .attr({
+          'x': 0,
+          'y': y ? y + 'em' : 0,
+          'dy': '.35em'
+        })
+        .text(line)
+        ;
+    }
+  })
+};
+
+
+</script>
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_renkeikyoryoku.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+<script type="text/javascript" src="../../jquery/jquery.slimscroll/jquery.slimscroll.min.js"></script>
+</body>
+</html>

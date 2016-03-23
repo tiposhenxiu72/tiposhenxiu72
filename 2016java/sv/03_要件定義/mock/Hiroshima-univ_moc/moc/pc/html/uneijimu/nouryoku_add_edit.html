@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜能力開発支援</title>
+<script src="../../common/import.js"></script>
+</head>
+
+<body>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+  <div>
+  	<div class="modal" id='modal_add' style='padding:10px; background:#fff;'>
+      <main>
+        <h2>能力養成紐付き設定</h2>
+        <table class="box01 stripes">
+          <tr>
+            <th>大項目</th>
+            <th>中項目</th>
+            <th>小項目</th>
+            <th>紐付き</th>
+          </tr>
+          <tr>
+            <td rowspan="13">A:知識と知的能力</td>
+            <td rowspan="7">A1:知識基盤</td>
+            <td>A1.1:専門分野の知識</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A1.2:研究方法（理論的知識）</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A1.3:研究方法（応用力）</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A1.4:情報探索力</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A1.5:情報リテラシーと情報管理力</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A1.6:言語力</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A1.7:学術リテラシーと計算能力</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td rowspan="3">A2:知識基盤</td>
+            <td>A2.1:専門分野の知識</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A2.2:研究方法（理論的知識）</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A2.3:研究方法（応用力）</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td rowspan="3">A3:知識基盤</td>
+            <td>A3.1:専門分野の知識</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A3.2:研究方法（理論的知識）</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>A3.3:研究方法（応用力）</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td rowspan="6">B:知識と知的能力</td>
+            <td rowspan="3">B1:知識基盤</td>
+            <td>B1.1:専門分野の知識</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>B1.2:研究方法（理論的知識）</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>B1.3:研究方法（応用力）</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td rowspan="3">B2:知識基盤</td>
+            <td>B2.1:専門分野の知識</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>B2.2:研究方法（理論的知識）</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>B2.3:研究方法（応用力）</td>
+            <td style="text-align:center;">
+              <select name="sel_target" id="sel_target" style="border:solid 1px #909090;width: 30px;">
+                <option value="-">-</option>
+                <option value="○">○</option>
+                <option value="◎">◎</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+      </main>
+      <br />
+      <div class="close" style="clear:both;">X CLOSE</div>
+    </div>
+  </div>
+
+  <!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+
+<link rel="stylesheet" type="text/css" href="../../js/colorbox/colorbox.css">
+<script src="../../js/colorbox/jquery.colorbox-min.js"></script>
+<script src="../../js/ResponsiveTabs/jquery.responsiveTabs.min.js"></script>
+<link type="text/css" rel="stylesheet" href="../../js/ResponsiveTabs/responsive-tabs.css" />
+
+</body>
+</html>

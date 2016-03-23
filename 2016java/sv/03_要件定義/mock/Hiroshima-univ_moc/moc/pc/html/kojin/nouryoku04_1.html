@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜研究者基礎能力診断 : 回答結果画面</title>
+<script src="../../common/import.js"></script>
+<script src="../../js/d3.min.js"></script>
+
+<style type="text/css">
+div.tooltip{
+  position: absolute;
+  text-align: left;
+  padding: 5px;
+  margin: 20px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: solid 1px #000000;
+  border-radius: 8px;
+}
+table.data_result {
+  border: none;
+}
+table.data_result td {
+  padding-left: 5px;
+  padding-right: 5px;
+  white-space: nowrap;
+}
+.category1 {
+  width:30px;
+  height: 100%;
+}
+.category1 div {
+  font-size: 16px;
+  word-wrap: break-word;
+  text-align: center;
+}
+.bgcolor_A {
+  background-color: #9DDCF9;
+}
+.bgcolor_B {
+  background-color: #BAC9E7;
+}
+</style>
+
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>全体診断結果</h1>
+<!-- 画面遷移 -->
+<link type="text/css" rel="stylesheet" href="../../css/pankuzu.css" />
+<ul id="breadcrumbs-two">
+  <li><a href="./nouryoku01.html">能力診断/更新</a></li>
+  <li><a href="./nouryoku03.html" class="current">診断結果</a></li>
+  <li><a href="./nouryoku05_add.html">能力養成推奨科目 更新</a></li>
+  <li><a href="./nouryoku01.html">アクションプラン 入力・更新</a></li>
+</ul>
+<br>
+<!-- !menu -->
+<menu>
+  <ul>
+    <li><input type="button" value="診断結果一覧" onclick="location.href='./nouryoku03.html'"></li>
+    <li><input type="button" value="養成科目履修" onclick="location.href='./nouryoku04_2.html'"></li>
+  </ul>
+</menu>
+
+<!-- 選択している診断 -->
+<div style="float:right;">
+  <img src="../../img/vitae_chart_small.png" />
+  研究者基礎能力診断
+</div><div style="clear:right;"></div>
+
+<!-- vitaeのパイチャート -->
+<h3>能力診断結果</h3>
+<div id="edit-area"></div>
+
+<!-- 結果一覧 -->
+<h3>能力診断結果詳細</h3>
+<table class="box01 stripe">
+  <tr class="line">
+    <th>大項目</th>
+    <th>中項目</th>
+    <th>小項目</th>
+    <th>自己評価</th>
+    <th>ｱｸｼｮﾝ<br>ﾌﾟﾗﾝ</th>
+    <th>推奨科目</th>
+  </tr>
+  <tr>
+    <td class="bgcolor_A category1" rowspan="6">
+      <div>A:知識と知的能力</div>
+    </td>
+    <td class="bgcolor_A" rowspan="2">A1 知識基盤</td>
+    <td class="bgcolor_A">A1.1 専門分野の知識</td>
+    <td>達成済</td>
+    <td></td>
+    <td>
+      Xxxxxxx(広島大学)<br>
+      Xxxxxxx(岡山大学)<br>
+    </td>
+  </tr>
+  <tr>
+    <td class="bgcolor_A">A1.3 研究技法（応用力）</td>
+    <td>未達成</td>
+    <td>有</td>
+    <td>
+      Xxxxxxx(山口大学)<br>
+      Xxxxxxx(徳島大学)<br>
+    </td>
+  </tr>
+  <tr>
+    <td class="bgcolor_A" rowspan="3">A2 認知的能力</td>
+    <td class="bgcolor_A">A2.1 </td>
+    <td>達成済</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="bgcolor_A">A2.4 </td>
+    <td>未達成</td>
+    <td>有</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="bgcolor_A">A2.5 </td>
+    <td>未達成</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="bgcolor_A" rowspan="1">A3 創造性</td>
+    <td class="bgcolor_A">A3.3 </td>
+    <td>達成済</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td class="bgcolor_B category1" rowspan="6">
+      <div>B:個人の能力</div>
+    </td>
+    <td class="bgcolor_B" rowspan="2">B1 知識基盤</td>
+    <td class="bgcolor_B">B1.1 専門分野の知識</td>
+    <td>達成済</td>
+    <td></td>
+    <td>
+      Xxxxxxx(広島大学)<br>
+      Xxxxxxx(岡山大学)<br>
+    </td>
+  </tr>
+  <tr>
+    <td class="bgcolor_B">B1.3 研究技法（応用力）</td>
+    <td>未達成</td>
+    <td>有</td>
+    <td>
+      Xxxxxxx(山口大学)<br>
+      Xxxxxxx(徳島大学)<br>
+    </td>
+  </tr>
+  <tr>
+    <td class="bgcolor_B" rowspan="3">B2 認知的能力</td>
+    <td class="bgcolor_B">B2.1 </td>
+    <td>達成済</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="bgcolor_B">B2.4 </td>
+    <td>未達成</td>
+    <td>有</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="bgcolor_B">B2.5 </td>
+    <td>未達成</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="bgcolor_B" rowspan="1">B3 創造性</td>
+    <td class="bgcolor_B">B3.3 </td>
+    <td>達成済</td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+<script>
+(function () {
+
+  // データ
+  //   opacityの値を0～1の間で変更することで、色の濃さを変えることができる
+  //   0にすると真っ白になる
+  var data_arr = {
+    "name": "projects",
+    "data": [
+      {
+        // ドメインA
+        "code": "A",
+        "project": "知識と<br>知的能力",
+        "color": "#9DDCF9",
+        "opacity":0.8,
+        "data": [
+          // サブドメイン
+          {"code":"A1", "type": "知識基盤"  , "per": 2, "color": "#9DDCF9", "opacity":1.0},
+          {"code":"A2", "type": "認知的能力" , "per": 2, "color": "#9DDCF9", "opacity":0.5},
+          {"code":"A3", "type": "創造性"     , "per": 2, "color": "#9DDCF9", "opacity":0.7}
+        ]
+      },
+      {
+        "code":"B",
+        "project": "個人の<br>能力",
+        "color": "#BAC9E7",
+        "opacity":0.5,
+        "data": [
+          {"code":"B1", "type": "個人の資質" , "per": 2, "color": "#BAC9E7", "opacity":1.0},
+          {"code":"B2", "type": "自己管理", "per": 2, "color": "#BAC9E7", "opacity":1.0},
+          {"code":"B3", "type": "能力開発・<br>キャリア開発", "per": 2, "color": "#BAC9E7", "opacity":0}
+        ]
+      },
+      {
+        "code":"C",
+        "project": "研究の<br>管理運営",
+        "color": "#A5D4DA",
+        "opacity":0.6,
+        "data": [
+          {"code":"C3", "type": "財務・資金調達<br>リソース", "per": 2, "color": "#A5D4DA", "opacity":0.3},
+          {"code":"C2", "type": "研究<br>マネジメント", "per": 2, "color": "#A5D4DA", "opacity":0.3},
+          {"code":"C1", "type": "専門家と<br>しての行動", "per": 2, "color": "#A5D4DA", "opacity":1.0},
+        ]
+      },
+      {
+        "code":"D",
+        "project": "影響と<br>インパクト",
+        "color": "#D3BFDD",
+        "opacity":0.7,
+        "data": [
+          {"code":"D3", "type": "エンゲージメントと<br>インパクト", "per": 2, "color": "#D3BFDD", "opacity":0.5555},
+          {"code":"D2", "type": "コミュニケー<br>ションと普及", "per": 2, "color": "#D3BFDD", "opacity":0},
+          {"code":"D1", "type": "他との協働", "per": 2, "color": "#D3BFDD", "opacity":0.3},
+        ]
+      }
+    ]
+  };
+
+  // 診断結果
+  var data_result = {
+    A1:
+      [
+        {"code":"A1.1", "target":"専門分野の知識", "result":"1"},
+        {"code":"A1.2", "target":"情報検索", "result":"2"},
+        {"code":"A1.3", "target":"批判的思考", "result":"未設定"},
+        {"code":"A1.4", "target":"問題解決能力", "result":"1"},
+        {"code":"A1.5", "target":"探究心", "result":"1"},
+      ],
+    A2:
+      [
+        {"code":"A2.1", "target":"熱意", "result":"1"},
+        {"code":"A2.2", "target":"忍耐力", "result":"2"},
+        {"code":"A2.3", "target":"誠実性", "result":"未設定"},
+      ],
+    A3:
+      [
+        {"code":"A3.1", "target":"熱意", "result":"1"},
+        {"code":"A3.2", "target":"忍耐力", "result":"2"},
+        {"code":"A3.3", "target":"誠実性", "result":"未設定"},
+      ],
+    B1:
+      [
+        {"code":"B1.1", "target":"熱意", "result":"1"},
+        {"code":"B1.2", "target":"忍耐力", "result":"2"},
+        {"code":"B1.3", "target":"誠実性", "result":"未設定"},
+        {"code":"B1.4", "target":"自信", "result":"0"},
+        {"code":"B1.5", "target":"内省", "result":"0"},
+        {"code":"B1.6", "target":"責任感", "result":"1"}
+      ],
+    B2:
+      [
+        {"code":"B2.1", "target":"熱意", "result":"1"},
+        {"code":"B2.2", "target":"忍耐力", "result":"2"},
+        {"code":"B2.3", "target":"誠実性", "result":"未設定"},
+      ],
+    B3:
+      [
+        {"code":"B3.1", "target":"熱意", "result":"1"},
+        {"code":"B3.2", "target":"忍耐力", "result":"2"},
+      ],
+    C1:
+      [
+        {"code":"C1.1", "target":"XXXXX", "result":"1"},
+        {"code":"C1.2", "target":"YYYYY", "result":"2"},
+      ],
+    C2:
+      [
+        {"code":"C2.1", "target":"XXXXX", "result":"1"},
+        {"code":"C2.2", "target":"YYYYY", "result":"2"},
+      ],
+    C3:
+      [
+        {"code":"C3.1", "target":"XXXXX", "result":"1"},
+        {"code":"C3.2", "target":"YYYYY", "result":"2"},
+      ],
+    D1:
+      [
+        {"code":"D1.1", "target":"XXXXX", "result":"1"},
+        {"code":"D1.2", "target":"YYYYY", "result":"2"},
+      ],
+    D2:
+      [
+        {"code":"D2.1", "target":"XXXXX", "result":"1"},
+        {"code":"D2.2", "target":"YYYYY", "result":"2"},
+      ],
+    D3:
+      [
+        {"code":"D3.1", "target":"XXXXX", "result":"1"},
+        {"code":"D3.2", "target":"YYYYY", "result":"2"},
+      ],
+  };
+
+  // svg 領域描画準備
+  var font_size = "11px";
+  var width = 750;
+  var height = 400;
+  var margin = {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0
+  };
+  var radius = Math.min(width - margin.right - margin.left, height - margin.top - margin.bottom);
+  var lineHeight = 1.4;
+
+  var color = d3.scale.category20b();
+
+  var partition = d3.layout.partition()
+    // プロパティ data を children とする
+    .children(function (d, depth) {
+        return d.data !== void(0) ? d.data : null;
+    })
+    // プロパティ per を value とする
+    .value(function (d) {
+        return d.per;
+    })
+    .size([2 * Math.PI, radius / 2]);
+
+  // 結果用
+  var partition_result = d3.layout.partition()
+    // プロパティ data を children とする
+    .children(function (d, depth) {
+        return d.check !== void(0) ? d.check : null;
+    })
+    // プロパティ code を value とする
+    .value(function (d) {
+        return d.result;
+    })
+    .size([2 * Math.PI, radius / 3]);
+
+  var arc = d3.svg.arc()
+      .startAngle(function (d) {
+      return d.x;
+  })
+      .endAngle(function (d) {
+      return d.x + d.dx - 0.015 / d.depth;
+  })
+      .innerRadius(function (d) {
+      if (d.depth === 1) {
+        return 0;
+      } else {
+        return d.y;
+      }
+  })
+      .outerRadius(function (d) {
+      return d.y + d.dy - 1;
+  })
+  ;
+
+  // SVG 領域定義
+  var svg = d3.selectAll("#edit-area")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .append("g")
+      .attr("transform", "translate(" + (width - margin.left - margin.right) / 2 + "," + (height - margin.top - margin.bottom) / 2 + ")")
+  ;
+
+  // データバインド
+  var arcs = svg.selectAll("g.arc")
+      .data(partition.nodes(data_arr).slice(1))
+      .enter()
+      .append("g")
+      .attr("class", "arc")
+  ;
+
+  // ツールチップ
+  var tooltip = d3.select("body")
+    .append("div")  // declare the tooltip div
+    .attr("class", "tooltip")              // apply the 'tooltip' class
+    .style("opacity", 0);                  // set the opacity to nil
+
+  // path 描画
+  arcs.append("path")
+    .attr("d", function (d) {
+      return arc(d);
+    })
+    .style("fill", function (d, i) {
+      //return color(i);
+      return d.color;
+    })
+    .style('opacity', function(d) {return d.opacity;})
+
+  arcs.append("text")
+  .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+              .attr("dy", ".35em")
+              .style("text-anchor", "middle")
+              .text(function(d) {
+            if (d.depth === 1) {
+                      return d.project;
+                  } else {
+                      return d.type + "<br>(" + d.code + ")";
+                  }
+          })
+      .call(convertNewline, lineHeight)
+      .style("font-size", font_size)
+      .style("font-weight", function(d) {
+        if (d.depth === 1) {
+          return "bold";
+        } else {
+          return "nomal";
+        }
+      })
+  ;
+
+  // マウスイベント
+  arcs
+    // サブドメインクリック
+    // .on("click", function(d) {
+    //   if (d.depth === 1) {
+    //     return;
+    //   }
+    //
+    //   var result_str = "<table class=\"data_result\">";
+    //   $.each(data_result[d.code], function(i, item) {
+    //     result_str = result_str + "<tr><td>" + item.code + "</td><td>" + item.target + "</td><td>&nbsp;-&nbsp;</td><td>" + item.result + "</td></tr>";
+    //   });
+    //   result_str = result_str + "</table>";
+    //   // result_str = result_str + "<br><div style=\"text-align: center;\"><a href=\"#\">このサブドメインを診断する</a></div>";
+    //
+    //   tooltip.transition()
+    //     .duration(500)
+    //     .style("opacity", 0);
+    //   tooltip.transition()
+    //     .duration(200)
+    //     .style("opacity", .9);
+    //   tooltip.html(
+    //     // ツールチップに表示したい文字
+    //     result_str)
+    //     .style("left", (d3.event.pageX) + "px")
+    //     .style("top", (d3.event.pageY - 5) + "px");
+    //   tooltip.style("visibility", "visible");
+    // })
+    // サブドメイン上にカーソルがあるとき
+    // .on("mouseover", function(d) {
+    //   if (d.depth === 1) {
+    //     return;
+    //   }
+    //   d3.select(this).attr("cursor","pointer");
+    // })
+    ;
+}).call(this);
+
+function convertNewline(texts, lineHeight) {
+  texts.each(function() {
+    var text = d3.select(this),
+        lines = text.text().split(/<br>/),
+        lineCount = lines.length,
+        i,
+        line,
+        y;
+    text.text('');
+    for (i = 0; i < lineCount; i++) {
+      line = lines[i];
+      y = (i - (lineCount - 1) / 2) * lineHeight;
+      text.append('tspan')
+        .attr({
+          'x': 0,
+          'y': y ? y + 'em' : 0,
+          'dy': '.35em'
+        })
+        .text(line)
+      ;
+    }
+  })
+};
+
+</script>
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_kojin.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+</div><!-- #bace終了 -->
+
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

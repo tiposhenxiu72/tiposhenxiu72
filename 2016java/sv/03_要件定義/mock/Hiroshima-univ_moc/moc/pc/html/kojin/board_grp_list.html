@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜掲示板グループ一覧</title>
+<script src="../../common/import.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>掲示板グループ一覧</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+	<li><input type="button" value="新規登録" onclick="location.href='./board_set_grp.html'"></li>
+	<li><input type="button" value="編集" onclick="location.href='./board_set_grp.html'"></li>
+	<li><input type="button" id="delete" value="削除"></li>
+</ul>
+</menu>
+<table class="box01 stripe">
+	<tr>
+		<th style="width:20px;">&nbsp;</th>
+		<th>グループ名</th>
+		<th style="width:50px;">管理者</th>
+		<th style="width:50px;">ファイル添付</th>
+	</tr>
+	<tr>
+		<td><input type="radio" name="grp_list" id="list1"><label for="list1"></label></td>
+		<td>若手PAグループ</td>
+		<td></td>
+		<td align="center"><a href="shareinfo_mng.html">○</a></td>
+	</tr>
+	<tr>
+		<td><input type="radio" name="grp_list" id="list2"><label for="list2"></label></td>
+		<td>ABC研究会</td>
+		<td align="center">○</td>
+		<td align="center">×</td>
+	</tr>
+	<tr>
+		<td><input type="radio" name="grp_list" id="list3"><label for="list3"></label></td>
+		<td>平成28年 XXインターンシップ</td>
+		<td></td>
+		<td align="center"><a href="shareinfo_mng.html">○</a></td>
+	</tr>
+	<tr>
+		<td><input type="radio" name="grp_list" id="list4"><label for="list4"></label></td>
+		<td>Xxx研究科博士課程 Xxx専攻 D2チーム</td>
+		<td align="center">○</td>
+		<td align="center">×</td>
+	</tr>
+</table>
+
+<div style='display:none'>
+  <div id='modal' style='padding:10px; background:#fff;'>
+    <p>
+      選択した掲示板グループを削除します。<br/>
+    </p>
+    <div class="close">OK</div>
+    <div class="close">キャンセル</div>
+  </div>
+</div>
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_kojin.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+<style>
+  .tbl_data th, td{
+    border: 1px solid #000000;
+  }
+  #modal .close {
+    display: block;
+    width: 120px;
+    margin: 0px auto;
+    padding: 7px 0px 4px;
+    background-color: #dcd9cc;
+    border: 1px solid #a7a59b;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    color: #79776d;
+    float:left;
+  }
+  #cboxOverlay{background:#000; opacity: 0.9; filter: alpha(opacity = 90);}
+</style>
+<link rel="stylesheet" type="text/css" href="../../js/colorbox/colorbox.css">
+<script src="../../js/colorbox/jquery.colorbox-min.js"></script>
+<script>
+  $(document).ready(function(){
+    $("#delete").colorbox({
+      inline:true
+      , width:"50%"
+      , href:"#modal"
+      , closeButton:false
+      , opacity: 0.6
+    });
+
+    $(".close").click(function () {
+      parent.$.colorbox.close();
+    });
+  });
+</script>
+</body>
+</html>

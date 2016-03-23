@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜ユーザーポータル</title>
+<script src="../../common/import.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>マイポータル</h1>
+
+<table>
+<tr>
+<td>
+<p>お知らせ</p>
+<br/>
+<!-- !guide -->
+<ul class="guide">
+<li class="f_red">2015/XX/XX ： <a href="carrier.html">「キャリア面談」</a>が設定されました。</li>
+<li class="f_red">2015/XX/XX ： <a href="event_browse.html">「イベント」</a>が追加されました。</li>
+</ul>
+</td>
+</tr>
+</table>
+
+<!-- !menu -->
+<!--
+<menu>
+<ul>
+<li><input type="button" value="カテゴリ別集計一覧" onclick="window.open('gakusei_koudou_category_pop.html')"></li>
+<li><input type="button" value="担当教員のコメント"onclick="window.open('gakusei_koudou_comment_pop.html')"></li>
+</ul>
+</menu>
+-->
+
+<h2>2015年10月15日（木）</h2>
+
+<!-- !control -->
+<div class="cal_ctrl">
+<ul class="btn">
+<li><input type="button" value="今日"></li>
+<li><input type="button" value="＜"></li>
+<li><input type="button" value="＞"></li>
+<li><input type="button" value="月表示" style="background: #FFBF00; color: #FFFFFF;"></li>
+<li><input type="button" value="週表示"></li>
+<li><input type="button" value="一覧"></li>
+</ul>
+</div><!-- #cal_ctrl終了 -->
+
+
+<!-- !cal -->
+<table class="cal">
+  <!-- 曜日ヘッダ -->
+  <tr class="line">
+    <th width="14%"><p class="sun">日</p></th>
+    <th width="14%"><p>月</p></th>
+    <th width="14%"><p>火</p></th>
+    <th width="14%"><p>水</p></th>
+    <th width="14%"><p>木</p></th>
+    <th width="14%"><p>金</p></th>
+    <th width="14%"><p class="sat">土</p></th>
+  </tr>
+  <!-- 日にち(1週目) -->
+  <tr>
+    <td class="calday sunday">
+      &nbsp;
+    </td>
+    <td class="calday">
+      &nbsp;
+    </td>
+    <td class="calday">
+      &nbsp;
+    </td>
+    <td class="calday">
+      &nbsp;
+    </td>
+    <td class="calday">
+      &nbsp;1
+    </td>
+    <td class="calday">
+      &nbsp;2
+    </td>
+    <td class="calday satday">
+      &nbsp;3
+    </td>
+  </tr>
+  <tr>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div><a href="#" class="sch01 modal2"><b>18:00 - 21:00</b><p>第X回コンソーシアム</p></a></div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+  </tr>
+
+  <!-- 日にち(2週目) -->
+  <tr>
+    <td class="calday sunday">
+      &nbsp;4
+    </td>
+    <td class="calday">
+      &nbsp;5
+    </td>
+    <td class="calday">
+      &nbsp;6
+    </td>
+    <td class="calday">
+      &nbsp;7
+    </td>
+    <td class="calday">
+      &nbsp;8
+    </td>
+    <td class="calday">
+      &nbsp;9
+    </td>
+    <td class="calday satday">
+      &nbsp;10
+    </td>
+  </tr>
+  <tr>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+  </tr>
+
+  <!-- 日にち(3週目) -->
+  <tr>
+    <td class="calday sunday">
+      &nbsp;11
+    </td>
+    <td class="calday sunday">
+      &nbsp;12
+    </td>
+    <td class="calday">
+      &nbsp;13
+    </td>
+    <td class="calday">
+      &nbsp;14
+    </td>
+    <td class="calday">
+      &nbsp;15
+    </td>
+    <td class="calday">
+      &nbsp;16
+    </td>
+    <td class="calday satday">
+      &nbsp;17
+    </td>
+  </tr>
+  <tr>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev today">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div><a href="#" class="sch01 modal2"><b>13:00-15:00</b><p>第X回XXX</p></a></div>
+    </td>
+  </tr>
+
+  <!-- 日にち(4週目) -->
+  <tr>
+    <td class="calday sunday">
+      &nbsp;18
+    </td>
+    <td class="calday">
+      &nbsp;19
+    </td>
+    <td class="calday">
+      &nbsp;20
+    </td>
+    <td class="calday">
+      &nbsp;21
+    </td>
+    <td class="calday">
+      &nbsp;22
+    </td>
+    <td class="calday">
+      &nbsp;23
+    </td>
+    <td class="calday satday">
+      &nbsp;24
+    </td>
+  </tr>
+  <tr>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div><a href="#" class="sch01 modal2"><b>13:00-14:00</b><p>第X回XXX</p></a></div>
+      <div><a href="#" class="sch01 modal2"><b>18:00-19:00</b><p>第X回XXX</p></a></div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div><a href="#" class="sch01 modal2"><b>09:00-10:30</b><p>第X回XXX</p></a></div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+  </tr>
+
+  <!-- 日にち(5週目) -->
+  <tr>
+    <td class="calday sunday">
+      &nbsp;25
+    </td>
+    <td class="calday">
+      &nbsp;26
+    </td>
+    <td class="calday">
+      &nbsp;27
+    </td>
+    <td class="calday">
+      &nbsp;28
+    </td>
+    <td class="calday">
+      &nbsp;29
+    </td>
+    <td class="calday">
+      &nbsp;30
+    </td>
+    <td class="calday satday">
+      &nbsp;31
+    </td>
+  </tr>
+  <tr>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+    <td class="calev">
+      <div>&nbsp;</div>
+    </td>
+  </tr>
+
+</table>
+
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<p>操作履歴</p>
+<br/>
+<!-- !guide -->
+<ul class="guide">
+<li class="f_red">2015/XX/XX ： 「論文」が追加しました。</li>
+<li class="f_red">2015/XX/XX ： 「○○○診断」がしました。</li>
+</ul>
+</td>
+</tr>
+</table>
+
+<script>
+    $('.modal').click(function(){
+        showModalDialog("gakusei_koudou_week_pop.html", "","dialogWidth: 400px; dialogHeight: 620px; center: yes;");
+    });
+    $('.modal2').click(function(){
+        showModalDialog("gakusei_koudou_week_pop2.html", "","dialogWidth: 400px; dialogHeight: 620px; center: yes;");
+    });
+</script>
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_kojin.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+</body>
+</html>

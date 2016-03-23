@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜掲示板 新規スレッド作成</title>
+<script src="../../common/import.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>掲示板 新規スレッド作成</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+	<li><input type="button" value="登録" class="fix"></li>
+	<li><input type="button" value="戻る" onclick="location.href='./board_list.html'"></li>
+</ul>
+</menu>
+<h4 for="title">タイトル</h4>
+<input type="text" style="width: 300px;" placeholder="タイトル" id="title">
+<br />
+<h4 for="title">掲示板グループ</h4>
+<select name="sel_target" style="border:solid 1px #909090;width: 300px;">
+	<option value=""></option>
+	<option value="">若手PAグループ</option>
+	<option value="広">平成28年 XXインターンシップ</option>
+	<option value="岡">Xxx研究科博士課程 Xxx専攻 D2チーム</option>
+</select>
+<br />
+<h4 for="title">内容</h4>
+<textarea style="height:200px;" placeholder="内容" ></textarea>
+<br />
+<h4 for="title">ファイルアップロード</h4>
+<input type="file" />
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_uneijimu.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+</body>
+</html>

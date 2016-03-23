@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<data>
+	<name>トランスファラブルスキル</name>
+	<summary>サンプルのルーブリックです。</summary>
+	<categoryList>
+		<category>
+			<abilityCode>A</abilityCode>
+			<name>知識と知的能力</name>
+			<childList>
+				<category>
+					<abilityCode>A1</abilityCode>
+					<name>知識基盤</name>
+					<summary>＜知識＞&#xA;■自身の研究分野、その研究分野における最新動向、その研究分野と他の研究分野との関係性に関する知識を持っている。&#xA;■研究を計画する上で適切な手法や実験技法を持っている。&#xA;■情報源、文献ソフトウェア及び他の情報技術に関する知識を持っている。&#xA;■研究を行う上で適切な言語・計算能力を持っている。&#xA;＜行動＞&#xA;■知識創造に対し独自の貢献ができる。&#xA;■研究プロジェクトに適した手法や実験技術を見定め、適用し、展開できる。&#xA;■効果的で包括的な情報探索ができる。&#xA;■適切な文献ソフトウェアや他の情報技術を駆使して情報/データを記録し、管理、処理することできる。</summary>
+					<childList>
+						<category>
+							<abilityCode>A1.1</abilityCode>
+							<name>専門分野の知識</name>
+							<summary>専門分野及び関連分野における基本的な知識及び最新動向についての理解。</summary>
+							<phaseList>
+								<phase rank="1">専門及び関連分野における思潮の主要概念、問題、歴史について、少なくとも重要な部分を認識し、基本を理解している。また、専門および関連分野における研究について、最新の進捗状況を把握している。分野の知識創造に対して独自の貢献ができるよう目指している。アカデミアを超えた国際社会に向けた知識創造に対し、幅広く意識を高めている。</phase>
+								<phase rank="2">専門及び関連分野について完全に精通するまで研鑽しており、他の専門分野/研究領域にも通じている。自己の研究を実社会での事象に紐づける役割を担っている。自己の知識を国際的に展開している。</phase>
+								<phase rank="4">新しい知識を創造し、場合によっては目覚ましい発見を成し遂げている。複数の視点で捉えている。専門分野/研究領域の戦略的方向性と知的発展、他の分野・研究領域との相互依存関係について、全体的な理解を深めている。その知識を利用し、自身の専門分野/研究領域の充実を図っている。専門分野/研究領域の完全性、将来的な発展に貢献し、国際的な影響力を持っている。</phase>
+							</phaseList>
+							<targetList>
+								<target position="D">1</target>
+								<target position="PD">2</target>
+								<target position="PI">3</target>
+							</targetList>
+							<lens>1</lens>
+						</category>
+						<category>
+							<abilityCode>A1.2</abilityCode>
+							<name>研究方法（理論的知識）</name>
+							<summary>A1.2の概要</summary>
+							<phaseList>
+								<phase rank="1">フェーズ1</phase>
+								<phase rank="2">フェーズ2</phase>
+								<phase rank="3">フェーズ3</phase>
+								<phase rank="4">フェーズ4</phase>
+								<phase rank="5">フェーズ5</phase>
+							</phaseList>
+							<targetList>
+								<target position="D">0</target>
+								<target position="PD">0</target>
+								<target position="PI">0</target>
+							</targetList>
+							<lens>3</lens>
+						</category>
+						<category>
+							<abilityCode>A1.6</abilityCode>
+							<name>言語</name>
+							<summary>A1.6の概要</summary>
+							<phaseList>
+								<phase rank="1">フェーズ1</phase>
+								<phase rank="2">フェーズ2</phase>
+								<phase rank="3">フェーズ3</phase>
+							</phaseList>
+							<targetList>
+								<target position="D">4</target>
+								<target position="PD">1</target>
+								<target position="PI">3</target>
+							</targetList>
+							<lens>0</lens>
+						</category>
+					</childList>
+				</category>
+				<category>
+					<abilityCode>A2</abilityCode>
+					<name>認知的能力</name>
+					<summary>&lt;h1&gt;A2の概要&lt;/h1&gt;&#xA;&lt;p&gt;&quot;you&amp;me&quot;&lt;/p&gt;&#xA;&lt;p&gt;&apos;\me&amp;you\&apos;&lt;/p&gt;</summary>
+					<childList>
+						<category>
+							<abilityCode>A2.1</abilityCode>
+							<name>分析能力</name>
+							<summary>A2.1の概要</summary>
+							<phaseList>
+								<phase rank="1">フェーズ1</phase>
+								<phase rank="3">フェーズ3</phase>
+								<phase rank="4">フェーズ4</phase>
+							</phaseList>
+							<targetList>
+								<target position="D">1</target>
+								<target position="PD">2</target>
+								<target position="PI">3</target>
+							</targetList>
+							<lens>1</lens>
+						</category>
+					</childList>
+				</category>
+			</childList>
+		</category>
+		<category>
+			<abilityCode>B</abilityCode>
+			<name>個人の能力</name>
+			<childList>
+				<category>
+					<abilityCode>B1</abilityCode>
+					<name>個人の資質</name>
+					<summary>B1の概要</summary>
+					<childList>
+						<category>
+							<abilityCode>B1.1</abilityCode>
+							<name>熱意</name>
+							<summary>B1.1の概要</summary>
+							<phaseList>
+								<phase rank="1">フェーズ1</phase>
+								<phase rank="3">フェーズ3</phase>
+							</phaseList>
+							<targetList>
+								<target position="D">5</target>
+								<target position="PD">5</target>
+								<target position="PI">5</target>
+							</targetList>
+							<lens>2</lens>
+						</category>
+					</childList>
+				</category>
+			</childList>
+		</category>
+		<category>
+			<abilityCode>C</abilityCode>
+			<name>研究の管理運営</name>
+			<childList>
+				<category>
+					<abilityCode>C1</abilityCode>
+					<name>専門家としての行動</name>
+					<summary>C1の概要</summary>
+					<childList>
+						<category>
+							<abilityCode>C1.1</abilityCode>
+							<name>健康と安全</name>
+							<summary>C1.1の概要</summary>
+							<phaseList>
+								<phase rank="1">フェーズ1</phase>
+							</phaseList>
+							<targetList>
+								<target position="D">1</target>
+								<target position="PD">1</target>
+								<target position="PI">1</target>
+							</targetList>
+							<lens>2</lens>
+						</category>
+					</childList>
+				</category>
+			</childList>
+		</category>
+	</categoryList>
+</data>

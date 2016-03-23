@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜ユーザ情報登録・編集</title>
+<script src="../../common/import.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>ユーザ情報登録・編集</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+<li><input type="button" value="登 録" class="fix"></li>
+<li><input type="button" value="戻 る"onclick="location.href='mst_user_mng.html'"></li>
+</ul>
+</menu>
+
+<!-- !登録 -->
+<h2>ユーザ情報</h2>
+
+
+<table class="boxf01">
+<tr>
+<th>ID：</th>
+<td><input type="text" value="XXXXX" disabled></td>
+</tr>
+<tr>
+<th>ロール：</th>
+<td>
+<div class="selectbox">
+<select>
+<option value="1" selected>個人ユーザ（D、PD）</option>
+<option value="2">個人ユーザ（教職員）</option>
+<option value="3">個人ユーザ（相談員）</option>
+<option value="4">連携機関協力部局</option>
+<option value="5">運営協議会事務局</option>
+<option value="6">連携大学協議会窓口</option>
+<option value="7">プラットフォーム以外</option>
+</select>
+</div>
+<tr>
+<th>大学・企業名：</th>
+<td>
+<div class="selectbox">
+<select>
+<option value="1" selected>広島大学</option>
+<option value="2">XXXXXXX</option>
+</select>
+</div>
+</td>
+</tr>
+<tr>
+<th>氏名：</th>
+<td><input type="text" class="tx4" value="広島">　<input type="text" class="tx4" value="太郎"></td>
+</tr>
+<tr>
+<th>メールアドレス：</th>
+<td><input type="text" value="xxxxx@xxxx.co.jp"></td>
+</tr>
+</table>
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_uneijimu.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+
+<script>
+	$('.textarea').wysihtml5();
+</script>
+
+</body>
+</html>

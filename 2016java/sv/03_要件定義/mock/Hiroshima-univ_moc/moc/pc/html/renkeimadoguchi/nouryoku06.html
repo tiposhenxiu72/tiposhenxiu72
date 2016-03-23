@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜能力養成一覧</title>
+<script src="../../common/import.js"></script>
+<style>
+  .tbl_data th, td{
+    border: 1px solid #000000;
+  }
+  #modal_regist_course {
+/*
+    width:50%;
+    margin:1.5em auto 0;
+    padding:10px 20px;
+    border:2px solid #aaa;
+    background:#fff;
+    z-index:2;
+    position: fixed;
+*/
+  }
+  #modal_regist_course .close {
+    display: block;
+    width: 120px;
+    margin: 0px auto;
+    padding: 7px 0px 4px;
+    background-color: #dcd9cc;
+    border: 1px solid #a7a59b;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    color: #79776d;
+  }
+  #cboxOverlay{background:#000; opacity: 0.9; filter: alpha(opacity = 90);}
+</style>
+
+</head>
+
+<body>
+
+<div id="pop">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>能力養成詳細</h1>
+<!-- !menu -->
+<menu>
+	<ul>
+		<li><input type="button" id="regist_course" value="履修予約" class="fix"></li>
+    <li><input type="button" id="regist_course" value="予約取消"></li>
+	</ul>
+</menu>
+</menu>
+
+<h2>ストレスマネジメント</h2>
+<div style="position:relative;width:750px;height:250px;">
+  <div style="float:left; text-align:center; width:300px; height:200px; border:1px solid #909090; background-color:#dcd9cc;">
+    <span style="font-weight:bold; font-size:200%; top:80px;left:110px; position:absolute;">PHOTO</span>
+  </div>
+  <div style="width: 430px;left: 310px; top: 0px; position:absolute">
+    <table class="box01 stripe" style="margin:0px;">
+      <tr>
+        <th>講師</th>
+        <td>原田 敦</td>
+      </tr>
+      <tr>
+        <th>開講部局</th>
+        <td>広島大学</td>
+      </tr>
+      <tr>
+        <th>開講時期</th>
+        <td>２０１５年X月X日</td>
+      </tr>
+      <tr>
+        <th>必修</th>
+        <td>必修</td>
+      </tr>
+      <tr>
+        <th>講義形式</th>
+        <td>講義</td>
+      </tr>
+      <tr>
+        <th>受講対象</th>
+        <td>全大学</td>
+      </tr>
+      <tr>
+        <th>対象となる能力</th>
+        <td>忍耐力, 分析能力</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<h3>内容</h3>
+<p style="margin: 0px 10px;">
+  現代は、社会・経済環境の変化や家族関係の変化によって多くのストレスがある。内閣府による平成２０年国民生活白書において、年齢層別にみた「日頃ストレスを感じている人」は、２０台で64.1%となっている。また、全国大学生活協同組合連合会が２０１０年に実施した第７回大学院生の生活実態調査においても、大学院生の75%が悩み・ストレスを抱えていることが示されている。ストレスの多くは心理的・社会的な要因によるものであり、対処が適切でないと、新進の健康や対人関係に影響を及ぼし、個人や組織の生産性を低下させることになる。したがって、社会で活躍し充実した人生を過ごすためにはストレスを上手にコントロールすることが必要不可欠となる。<br />
+  そこで、本講義では実践的なストレスマネジメントについて解説し、新進相関的アプローチによるストレスマネジメントの技法を習得するための演習を実施する。<br />
+  講義の目標は次のとおりである。<br />
+  1.心理的・社会的ストレスと、その特徴を知り、ストレスマネジメントの本質的な考え方について理解する。<br />
+  2.心身相関的アプローチによるストレスマネジメントの技法を習得する。<br />
+  3.ネガティブな感情や思考に巻き込まれずに、「今、ここ」の自分を客観的に観察する方法について理解する。
+</p>
+<h3>能力養成科目</h3>
+紐付きが◎の能力を有する科目の履修が完了すれば、養成能力の習得が可能。
+○の能力は副次的な能力養成科目を示します。
+<table class="box01 stripes">
+  <tr>
+    <th>大項目</th>
+    <th>中項目</th>
+    <th>小項目</th>
+    <th>紐付き</th>
+  </tr>
+  <tr>
+    <td rowspan="13">A:知識と知的能力</td>
+    <td rowspan="7">A1:知識基盤</td>
+    <td>A1.1:専門分野の知識</td>
+    <td style="text-align:center;"></td>
+  </tr>
+  <tr>
+    <td>A1.2:研究方法（理論的知識）</td>
+    <td style="text-align:center;"></td>
+  </tr>
+  <tr>
+    <td>A1.3:研究方法（応用力）</td>
+    <td style="text-align:center;"></td>
+  </tr>
+  <tr>
+    <td>A1.4:情報探索力</td>
+    <td style="text-align:center;"></td>
+  </tr>
+  <tr>
+    <td>A1.5:情報リテラシーと情報管理力</td>
+    <td style="text-align:center;">○</td>
+  </tr>
+  <tr>
+    <td>A1.6:言語力</td>
+    <td style="text-align:center;">◎</td>
+  </tr>
+  <tr>
+    <td>A1.7:学術リテラシーと計算能力</td>
+    <td style="text-align:center;"></td>
+  </tr>
+  <tr>
+    <td rowspan="3">A2:知識基盤</td>
+    <td>A2.1:専門分野の知識</td>
+    <td style="text-align:center;"></td>
+  </tr>
+  <tr>
+    <td>A2.2:研究方法（理論的知識）</td>
+    <td style="text-align:center;"></td>
+  </tr>
+  <tr>
+    <td>A2.3:研究方法（応用力）</td>
+    <td style="text-align:center;"></td>
+  </tr>
+  <tr>
+    <td rowspan="3">A3:知識基盤</td>
+    <td>A3.1:専門分野の知識</td>
+    <td style="text-align:center;"></td>
+  </tr>
+  <tr>
+    <td>A3.2:研究方法（理論的知識）</td>
+    <td style="text-align:center;"></td>
+  </tr>
+  <tr>
+    <td>A3.3:研究方法（応用力）</td>
+    <td style="text-align:center;"></td>
+  </tr>
+  <tr>
+    <td rowspan="6">B:知識と知的能力</td>
+    <td rowspan="3">B1:知識基盤</td>
+    <td>B1.1:専門分野の知識</td>
+    <td style="text-align:center;"></td>
+  </tr>
+  <tr>
+    <td>B1.2:研究方法（理論的知識）</td>
+    <td style="text-align:center;"></td>
+  </tr>
+  <tr>
+    <td>B1.3:研究方法（応用力）</td>
+    <td style="text-align:center;">◎</td>
+  </tr>
+  <tr>
+    <td rowspan="3">B2:知識基盤</td>
+    <td>B2.1:専門分野の知識</td>
+    <td style="text-align:center;"></td>
+  </tr>
+  <tr>
+    <td>B2.2:研究方法（理論的知識）</td>
+    <td style="text-align:center;">○</td>
+  </tr>
+  <tr>
+    <td>B2.3:研究方法（応用力）</td>
+    <td style="text-align:center;"></td>
+  </tr>
+</table>
+<div style='display:none'>
+  <div id='modal_regist_course' style='padding:10px; background:#fff;'>
+    <p>
+      履修予約を行いました。<br />
+      履修が完了しましたら、履修一覧より履修完了にして下さい。
+    </p>
+    <div id="modal_close" class="close">X CLOSE</div>
+  </div>
+</div>
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #pop終了 -->
+<link rel="stylesheet" type="text/css" href="../../js/colorbox/colorbox.css">
+<script src="../../js/colorbox/jquery.colorbox-min.js"></script>
+<script>
+  $(document).ready(function(){
+    $("#regist_course").colorbox({
+      inline:true
+      , width:"50%"
+      , href:"#modal_regist_course"
+      , closeButton:false
+      , opacity: 0.3
+    });
+
+    $("#modal_close").click(function () {
+      parent.$.colorbox.close();
+    });
+  });
+</script>
+</body>
+</html>

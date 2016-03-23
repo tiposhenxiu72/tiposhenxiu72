@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜研究者基礎能力診断:個別</title>
+<script src="../../common/import.js"></script>
+
+</head>
+
+<body>
+<div id="pop">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<!--
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+<!--</header>
+-->
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>研究者基礎能力診断：能力別</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+<li><input type="button" value="閉じる" class="fix" onClick="parent.$.colorbox.close(); return false;"></li>
+</ul>
+</menu>
+<!-- !学生表示 -->
+<dl class="gname">
+<dt>RDF No.</dt>
+<dd>A1.1</dd>
+<dt>能力</dt>
+<dd>専門分野の知識</dd>
+</dl>
+
+<table class="box01 stripe right">
+    <!--<table border="1">-->
+    <tr>
+        <th class="center" width="90px">フェーズ</th>
+        <th class="center sel_eval" id="eval_0" width="120px">０</th>
+        <th class="center sel_eval" id="eval_1" width="120px">１</th>
+        <th class="center sel_eval" id="eval_2" width="120px">２</th>
+        <th class="center sel_eval" id="eval_3" width="120px">３</th>
+        <th class="center sel_eval" id="eval_4" width="120px">４</th>
+        <th class="center sel_eval" id="eval_5" width="120px">５</th>
+    </tr>
+    <tr>
+        <td class="sb fs" height="280px">
+            内容
+        </td>
+        <td class="left">
+            未達成
+        </td>
+        <td class="left">
+            専門及び関連分野の歴史及び最新動向を把握している。<br />
+            自分なりに知への貢献を目指している。<br />
+            社会に対して知を展開することの重要性を認識している。<br />
+        </td>
+        <td class="left" colspan="2">
+            専門及び関連分野についての深い知識を持ち、他の研究分野にもある程度通じている。<br />
+            専門研究を実社会に役立てている。<br />
+            知識を世界に展開している。<br />
+        </td>
+        <td class="left" colspan="2">
+            新しい知を生み出し、場合によっては大きな発見を成し遂げている。<br />
+            複数の視点を持つことができる。<br />
+            専門領域の戦略的方向性と発展、他の学問領域との相互依存関係について、深く広範な理解を持ち、自身の専門領域に役立てている。<br />
+            専門領域の発展に貢献している。<br />
+            国際的な影響力を持っている。<br />
+        </td>
+    </tr>
+</table>
+<table>
+  <tr>
+    <td width="510px" valign="middle" style="text-align:right;font-size:120%; font-weight:bold;">
+      自己評価
+    </td>
+    <td width="100px" class="center" valign="middle">
+      <img src="../../gfx/sankaku.gif"
+    </td>
+    <td>
+      <div class="rate"></div>
+    </td>
+  </tr>
+</table>
+<h4>エビデンス</h4>
+<table class="box01 stripe">
+    <tr>
+        <td colspan="2">
+            ○○が××のため、博士課程初期の目標は達成できていると思われる。
+        </td>
+    </tr>
+    <tr>
+        <th>ファイル</th>
+        <td>evidence.pdf</td>
+    </tr>
+</table>
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #pop終了 -->
+<script src="../../jquery/jquery.raty/jquery.raty.js"></script>
+<script src="../../js/colorbox/jquery.colorbox-min.js"></script>
+<script>
+$(function () {
+  $.fn.raty.defaults.path = "../../jquery/jquery.raty/images";
+  $('div.rate').raty({
+    readOnly:true
+    , number: 5
+    , score : 3
+  });
+});
+</script>
+</body>
+</html>

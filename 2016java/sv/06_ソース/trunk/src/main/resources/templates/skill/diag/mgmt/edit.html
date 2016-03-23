@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="common/base" xmlns:my="http://my"
+	th:with="lang=${#locale.language}" th:lang="${lang}">
+<head>
+<meta charset="UTF-8" />
+</head>
+
+<th:block layout:fragment="layout-script">
+	<script th:inline="javascript">
+		var SkillG = {};
+		SkillG.dirty = false; // 編集途中フラグ。
+		SkillG.updatePhase = function($check, onChanged) { // 「まとめ」チェックに応じてフェーズ目標欄を更新。
+			var $ta = $check.closest(".phaseDiv").find("textarea");
+			if ($check[0].checked) {
+				$ta.attr("disabled", true);
+				$ta.val("");
+			} else {
+				$ta.attr("disabled", false);
+				if (onChanged) { // チェック変更時はvalをクリア(初期表示時はノータッチ)。
+					$ta.val("");
+				}
+			}
+		};
+		$(function() {
+			// 各種ハンドラを登録。
+			// ダウンロードボタン押下。
+			$(document)
+					.on(
+							"click",
+							"button[name='download']",
+							function() {
+								var $bt = $(this);
+								$bt.attr('disabled', true);
+								var msg = /*[[#{skill.diag.message.confirm.download}]]*/'ダウン?';
+								var loc = /*[[@{/mgmt/skill/diag/download/{key}(key=${form.key})}]]*/'url';
+								if (window.confirm(msg)) {
+									window.location = loc;
+								}
+								//
+								$bt.attr("disabled", false);
+							});
+			// アップロードファイル変更。
+			$(document).on(
+					"change",
+					"#uploadModal input[type='file']",
+					function() {
+						$("#uploadModal button[type='submit']").attr(
+								"disabled", $(this).val().length == 0);
+					});
+			// 何らかの編集操作時。
+			$(document).on("change", "input, textarea, select", function() {
+				SkillG.dirty = true;
+			});
+			// 戻る押下。
+			$(document)
+					.on(
+							"click",
+							"button[name='back-with-dirty-check']",
+							function(ev) {
+								var msg = /*[[#{skill.diag.message.confirm.discard}]]*/'破棄?';
+								if (!SkillG.dirty || confirm(msg)) {
+									$('#formBack').submit();
+									return;
+								}
+								ev.stopPropagation();
+								ev.stopImmediatePropagation();
+								ev.preventDefault();
+							});
+			// アップロード押下。
+			$("button[name='upload']").on("click", function() {
+				var msg = /*[[#{skill.diag.message.confirm.discard}]]*/'破棄?';
+				if (!SkillG.dirty || confirm(msg)) {
+					$('#uploadModal').modal();
+				}
+			});
+			// 「まとめ」チェック押下。
+			$(document).on("change", "input[class~=phaseCheck]", function() {
+				SkillG.updatePhase($(this), true);
+			});
+
+			// 初期表示時の処理。
+			// すべての「まとめ」チェックに対して更新処理を実施。
+			$("input[class~=phaseCheck]").each(function() {
+				SkillG.updatePhase($(this), false);
+			});
+
+		});
+	</script>
+</th:block>
+
+<body>
+	<div layout:decorator="layout">
+		<th:block layout:fragment="layout-content">
+
+			<h1 th:text="#{skill.diag.title.mgmt.list}">能力診断管理のタイトル</h1>
+
+			<!--/* 定番操作用のフォーム */-->
+			<form th:action="@{/mgmt/skill/diag/list}" method="post" role="form" id="formBack" name="form"></form>
+
+			<!--/* 操作ボタン */-->
+			<form class="form-inline">
+				<button type="button" class="btn btn-primary upload" name="upload" th:text="#{skill.field.upload}">インポートボタン</button>
+				<button type="button" class="btn btn-primary download" name="download" th:unless="${form.creating}"
+					th:text="#{skill.field.download}">エクスポートボタン</button>
+				<button type="button" class="btn btn-primary regist" name="regist" th:text="#{button.regist}">登録ボタン</button>
+				<button type="button" class="btn btn-default back" name="back-with-dirty-check" th:text="#{skill.field.list}">戻るボタン</button>
+			</form>
+
+			<!--/* 編集フォーム */-->
+			<form class="form-horizontal" th:action="@{/mgmt/skill/diag/{action}(action=${form.pageActionUrl})}" method="post"
+				role="form" th:object="${form}" id="formRegist" name="form">
+
+				<!--/* CommonForm用のhidden */-->
+				<input type="hidden" name="pageMode" th:field="*{pageMode}" /> <input type="hidden" name="key" th:field="*{key}" />
+				<input type="hidden" name="pageActionUrl" th:field="*{pageActionUrl}" /> <input type="hidden" name="updDate"
+					th:unless="*{creating}" th:field="*{updDate}" />
+
+				<!--/* 概要情報 */-->
+				<div class="form-group" th:classappend="${#fields.hasErrors('name')}? has-error">
+					<label for="name" th:text="#{skill.field.rubricname}">るぶ名</label> <input type="text" class="form-control"
+						name="name" th:field="*{name}" value="るぶ名" /><span class="help-block" th:errors="*{name}">えらー</span>
+				</div>
+				<div class="form-group" th:classappend="${#fields.hasErrors('summary')}? has-error">
+					<label for="summary" th:text="#{skill.field.summary}">がいよ</label><input type="text" class="form-control"
+						name="summary" th:field="*{summary}" value="がいよ" /><span class="help-block" th:errors="*{summary}">えらー</span>
+				</div>
+
+				<!--/* カテゴリ情報 */-->
+				<div th:unless="*{rubric}==null">
+					<ul class="tab">
+						<li th:each="cat: *{rubric.categoryList}"><a href="" th:text="${cat.abilityCode}+'：'+${cat.name}">カテゴリ名</a></li>
+					</ul>
+
+					<!--/* hidden情報をまとめて埋める */-->
+					<div>
+						<!--/*/ <th:block th:each="cat : *{rubric.categoryList}"> /*/-->
+						<input type="hidden" th:name="|rubric.categoryList[${catStat.index}].name|" th:value="${cat.name}" /> <input
+							type="hidden" th:name="|rubric.categoryList[${catStat.index}].abilityCode|" th:value="${cat.abilityCode}" />
+						<!--/*/ <th:block th:each="subc : ${cat.childList}"> /*/-->
+						<input type="hidden" th:name="|rubric.categoryList[${catStat.index}].childList[${subcStat.index}].name|"
+							th:value="${subc.name}" /> <input type="hidden"
+							th:name="|rubric.categoryList[${catStat.index}].childList[${subcStat.index}].abilityCode|"
+							th:value="${subc.abilityCode}" />
+						<!--/*/ <th:block th:each="item : ${subc.childList}"> /*/-->
+						<input type="hidden"
+							th:name="|rubric.categoryList[${catStat.index}].childList[${subcStat.index}].childList[${itemStat.index}].name|"
+							th:value="${item.name}" /> <input type="hidden"
+							th:name="|rubric.categoryList[${catStat.index}].childList[${subcStat.index}].childList[${itemStat.index}].abilityCode|"
+							th:value="${item.abilityCode}" /> <input type="hidden"
+							th:name="|rubric.categoryList[${catStat.index}].childList[${subcStat.index}].childList[${itemStat.index}].lens|"
+							th:value="${item.lens}" />
+						<!--/*/ <th:block th:each="target : ${item.targetList}"> /*/-->
+						<input type="hidden"
+							th:name="|rubric.categoryList[${catStat.index}].childList[${subcStat.index}].childList[${itemStat.index}].targetList[${targetStat.index}].position|"
+							th:value="${target.position}" />
+						<!--/*/ </th:block> /*/-->
+
+						<!--/* 全フェーズのrank値(固定長なので、phaseListでループせずに、phaseRanksでループする) */-->
+						<!--/*/ <th:block th:each="rank : ${phaseRanks}"> /*/-->
+						<input type="hidden"
+							th:name="|rubric.categoryList[${catStat.index}].childList[${subcStat.index}].childList[${itemStat.index}].phaseList[${rankStat.index}].rank|"
+							th:value="${rank}" />
+						<!--/*/ </th:block> /*/-->
+
+						<!--/*/ </th:block> /*/-->
+						<!--/*/ </th:block> /*/-->
+						<!--/*/ </th:block> /*/-->
+					</div>
+
+					<!--/* 大項目のループ */-->
+					<div th:each="cat: *{rubric.categoryList}" th:id="'tab_domain_' + ${cat.abilityCode}" id="" class="tabbox">
+						<ul class="tab">
+							<li th:each="subc: ${cat.childList}"><a href="" th:text="${subc.abilityCode}+'：'+${subc.name}">サブカテゴリ名</a></li>
+						</ul>
+
+						<!--/* 中項目のループ */-->
+						<div th:each="subc: ${cat.childList}" th:id="'tab_domain_' + ${subc.abilityCode}" id="" class="tabbox">
+							<div class="acordion">
+								<div class="open menu" th:text="#{skill.field.subcatset}">中項</div>
+								<div class="sub section">
+									<h3 th:text="${subc.abilityCode}+'：'+${subc.name}">サブカテゴリ名</h3>
+									<h4 th:text="#{skill.field.summary}">がいよ</h4>
+									<textarea style="height: 300px;"
+										th:name="|rubric.categoryList[${catStat.index}].childList[${subcStat.index}].summary|"
+										th:text="${subc.summary}">サブのサマリ</textarea>
+								</div>
+
+								<div class="open menu" th:text="#{skill.field.itemset}">小項</div>
+								<div class="sub section">
+
+									<ul class="subsub">
+										<li th:each="item: ${subc.childList}"><a href="" th:text="${item.abilityCode}+'：'+${item.name}">項目名</a></li>
+									</ul>
+									<br />
+
+									<!--/* 小項目のループ */-->
+									<div th:each="item: ${subc.childList}" th:id="'tab_domain_' + ${item.abilityCode}" id="" class="subsub_dom">
+										<h3 th:text="${item.abilityCode}+'：'+${item.name}">項目名</h3>
+										<h4 style="margin-top: 0px;">概要</h4>
+										<textarea style="height: 100px;"
+											th:name="|rubric.categoryList[${catStat.index}].childList[${subcStat.index}].childList[${itemStat.index}].summary|"
+											th:text="${item.summary}">項目のサマリ</textarea>
+
+										<h4 th:text="#{skill.field.lensset}">レンズきのう</h4>
+										<span th:text="#{skill.diag.comment.lens}">当小項目はうんぬん</span>
+										<div th:each="lensName: ${item.lensNames}">
+										&nbsp;&nbsp;・<span th:text="#{__${lensName}__}">れんず1</span>
+										</div>
+
+										<h4 th:text="#{skill.field.target}">もくひょう</h4>
+										<span th:text="#{skill.field.targetset}">もくひょう設定</span>
+										<table class="box01 stripes">
+											<tr class="line">
+												<th></th>
+												<th class="achie" th:each="target: ${item.targetList}"
+													th:text="#{skill.field.position.__${target.position}__}">かてい</th>
+											</tr>
+											<tr class="center">
+												<td class="sb" th:text="#{skill.field.target5}">5だんかい</td>
+												<td th:each="target: ${item.targetList}"><select class="selectbox achie"
+													th:name="|rubric.categoryList[${catStat.index}].childList[${subcStat.index}].childList[${itemStat.index}].targetList[${targetStat.index}].target|"
+													th:value="${target.target}">
+														<option value="0" th:selected="${target.target=='0'}">0</option>
+														<option value="1" th:selected="${target.target=='1'}">1</option>
+														<option value="2" th:selected="${target.target=='2'}">2</option>
+														<option value="3" th:selected="${target.target=='3'}">3</option>
+														<option value="4" th:selected="${target.target=='4'}">4</option>
+														<option value="5" th:selected="${target.target=='5'}">5</option>
+												</select></td>
+											</tr>
+										</table>
+
+										<!--/* フェーズ目標欄。phaseListは可変長だが、入力欄は固定長なので、phaseListでループせずに、phaseRanksでループする) */-->
+										<h4 th:text="#{skill.field.phaseset}">ふぇいず目標</h4>
+										<!--/*/ <th:block th:each="rank : ${phaseRanks}" th:with="phase=${item.phaseMap[__${rankStat.index}__]}"> /*/-->
+										<h5 th:text="'フェーズ'+${rank}">ふぇいず名</h5>
+										<div class="phaseDiv">
+											<div class="input-group" th:if="${rankStat.index != 0}">
+												<input type="checkbox" class="phaseCheck" value="1"
+													th:name="|rubric.categoryList[${catStat.index}].childList[${subcStat.index}].childList[${itemStat.index}].phaseList[${rankStat.index}].ditto|"
+													th:checked="${phase==null}" /><label for="" th:text="'フェーズ'+${rank-1}+'とまとめる'">まとめ</label>
+											</div>
+											<textarea id=""
+												th:name="|rubric.categoryList[${catStat.index}].childList[${subcStat.index}].childList[${itemStat.index}].phaseList[${rankStat.index}].target|"
+												th:text="${phase != null} ? ${phase.target}"></textarea>
+										</div>
+										<!--/*/ </th:block> /*/-->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+
+			<!--/* ファイルアップロード用モーダル */-->
+			<div id="uploadModal" class="modal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span>&#215;</span>
+							</button>
+							<h3 class="modal-title" th:text="#{skill.field.uploadfile}">アップファイル</h3>
+						</div>
+						<div class="modal-body">
+							<form th:object="${form}" method="post" enctype="multipart/form-data" action="upload"
+								th:action="@{/mgmt/skill/diag/upload}">
+								<input type="hidden" name="pageMode" th:field="*{pageMode}" /><input type="hidden" name="key" th:field="*{key}" /><input
+									type="hidden" name="pageActionUrl" th:field="*{pageActionUrl}" /><input type="hidden" name="updDate"
+									th:unless="*{creating}" th:field="*{updDate}" />
+								<div class="form-group">
+									<input name="doc" type="file" accept="text/xml" />
+								</div>
+								<button type="submit" class="btn btn-primary" disabled="disabled" th:text="#{skill.field.upload}">アップ</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</th:block>
+	</div>
+</body>
+</html>

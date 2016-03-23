@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜ユーザーポータル</title>
+<script src="../../common/import.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>マイポータル</h1>
+
+<table>
+<tr>
+<td>
+<p>お知らせ</p>
+<br/>
+<!-- !guide -->
+<ul class="guide">
+<li class="f_red">2015/XX/XX ： <a href="carrier.html">「キャリア面談」</a>が設定されました。</li>
+<li class="f_red">2015/XX/XX ： <a href="event_browse.html">「イベント」</a>が追加されました。</li>
+</ul>
+</td>
+</tr>
+</table>
+
+<!-- !menu -->
+<!--
+<menu>
+<ul>
+<li><input type="button" value="カテゴリ別集計一覧" onclick="window.open('gakusei_koudou_category_pop.html')"></li>
+<li><input type="button" value="担当教員のコメント"onclick="window.open('gakusei_koudou_comment_pop.html')"></li>
+</ul>
+</menu>
+-->
+
+<h2>2015年10月15日（木）</h2>
+
+<!-- !control -->
+<div class="cal_ctrl">
+
+<!--
+<div class="selectbox">
+<select>
+<option>カテゴリを選択</option>
+<option value="1">授業</option>
+<option value="2">予習</option>
+<option value="3">復習</option>
+<option value="4">部活</option>
+<option value="5">アルバイト</option>
+<option value="6">課外活動</option>
+<option value="7">ボランティア</option>
+<option value="8">その他</option>
+</select>
+</div>
+-->
+
+<ul class="btn">
+<li><input type="button" value="今日"></li>
+<li><input type="button" value="＜"></li>
+<li><input type="button" value="＞"></li>
+<li><input type="button" value="月表示"></li>
+<li><input type="button" value="週表示" style="background: #FFBF00; color: #FFFFFF;"></li>
+<li><input type="button" value="一覧"></li>
+</ul>
+</div><!-- #cal_ctrl終了 -->
+
+<!-- !cal -->
+<table class="cal">
+<tr class="line">
+<th width="14%"><a href="#" class="modal">10月15日</a><p>木</p></th>
+<th width="14%"><a href="#" class="modal">10月16日</a><p>金</p></th>
+<th width="14%"><a href="#" class="modal">10月17日</a><p class="sat">土</p></th>
+<th width="14%"><a href="#" class="modal">10月18日</a><p class="sun">日</p></th>
+<th width="14%"><a href="#" class="modal">10月19日</a><p>月</p></th>
+<th width="14%"><a href="#" class="modal">10月20日</a><p>火</p></th>
+<th width="14%"><a href="#" class="modal">10月21日</a><p>水</b></th>
+</tr>
+<tr>
+<!-- !週01 -->
+<td>
+<div><a href="#" class="sch01 modal2"><b>18:00 - 21:00</b><p>第X回コンソーシアム</p></a></div>
+</td>
+<!-- !週02 -->
+<td>
+<div><a href="#" class="sch01 modal2"><b>15:00 - 17:00</b><p>第X回コンソーシアム</p></a></div>
+<div><a href="#" class="sch01 modal2"><b>18:00 - 21:00</b><p>第X回コンソーシアム</p></a></div>
+</td>
+<!-- !週03 -->
+<td>
+<div><a href="#" class="sch01 modal2"><b>18:00 - 21:00</b><p>その他</p></a></div>
+</td>
+<!-- !週04 -->
+<td></td>
+<!-- !週05 -->
+<td>
+<div><a href="#" class="sch01 modal2"><b>8:00 - 17:00</b><p>地域ボランティア</p></a></div>
+<div><a href="#" class="sch01 modal2"><b>18:00 - 21:00</b><p>第X回XXXX</p></a></div>
+</td>
+<!-- !週06 -->
+<td></td>
+<!-- !週07 -->
+<td>
+<div><a href="#" class="sch01 modal2"><b>18:00 - 21:00</b><p>第X回コンソーシアム</p></a></div>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<p>操作履歴</p>
+<br/>
+<!-- !guide -->
+<ul class="guide">
+<li class="f_red">2015/XX/XX ： 「論文」が追加しました。</li>
+<li class="f_red">2015/XX/XX ： 「○○○診断」がしました。</li>
+</ul>
+</td>
+</tr>
+</table>
+
+<!-- !color表 -->
+<!--
+<ul class="color">
+<li>授業</li>
+<li>予習</li>
+<li>復習</li>
+<li>部活</li>
+<li>アルバイト</li>
+<li>課外活動</li>
+<li>ボランティア</li>
+<li>その他</li>
+</ul>
+-->
+
+<script>
+    $('.modal').click(function(){
+        showModalDialog("gakusei_koudou_week_pop.html", "","dialogWidth: 400px; dialogHeight: 620px; center: yes;");
+    });
+    $('.modal2').click(function(){
+        showModalDialog("gakusei_koudou_week_pop2.html", "","dialogWidth: 400px; dialogHeight: 620px; center: yes;");
+    });
+</script>
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_kojin.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+</body>
+</html>

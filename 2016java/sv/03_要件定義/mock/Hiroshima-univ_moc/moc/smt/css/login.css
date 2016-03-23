@@ -1,0 +1,75 @@
+@charset "UTF-8";
+
+/*! layout ============================================== */
+
+#login {
+	width: 100% ;
+	margin: 0 auto ;
+	padding: 0 ;
+	}
+
+#login main {
+	box-sizing: border-box ;
+	display: block ;
+	margin: 20px ;
+	padding: 15px ;
+	background-color: #ffffff ;
+	border: 1px solid #dcd9cc ;
+	border-radius: 3px ;
+	}
+
+
+/*! title ============================================== */
+
+#login .title {
+	margin: -15px -15px 0 ;
+	padding: 40px 15px ;
+	background: #253c6c url("../gfx/l_back.png") no-repeat right top ;
+	background-size: 250px 350px ;
+	border-radius: 3px 3px 0 0 ;
+	}
+
+#login main h1 {
+	font-size: 19px ;
+	line-height: 1.4 ;
+	text-shadow: 1px 1px 2px #4d4d4d ;
+	color: #ffffff ;
+	}
+
+#login main h2 {
+	font-family: "Lucida Grande", sans-serif ;
+	margin: 5px 0 0 ;
+	padding: 0 ;
+	background: none ;
+	border: none ;
+	font-size: 8px ;
+	text-shadow: 1px 1px 2px #4d4d4d ;
+	color: #e5e5e5 ;
+	}
+#login main h2:before {
+	display: none ;
+	}
+
+
+/*! login（レイアウトのみ） ============================================== */
+
+#login .id {
+	box-sizing: border-box ;
+	margin-top: 15px ;
+	padding-left: 40px ;
+	background: #999999 url("../gfx/l_icon01.png") no-repeat 13px center ;
+	background-size: 17px 17px ;
+	}
+
+#login .pw {
+	box-sizing: border-box ;
+	margin-top: 10px ;
+	padding-left: 40px ;
+	background: #999999 url("../gfx/l_icon02.png") no-repeat 13px center ;
+	background-size: 17px 17px ;
+	}
+
+#login input[type="button"] {
+	width: 100% ;
+	margin-top: 15px ;
+	}

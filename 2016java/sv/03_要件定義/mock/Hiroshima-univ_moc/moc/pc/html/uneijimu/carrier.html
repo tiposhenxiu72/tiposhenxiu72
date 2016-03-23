@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜キャリア相談</title>
+<script src="../../common/import.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>キャリア相談</h1>
+
+<h2>検索条件</h2>
+<table>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+			<input type="text" style="width: 300px;" placeholder="キーワード"> &nbsp;<input type="button" value="　検 索　" class="fix">
+		</td>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+
+<!-- !acordion -->
+<div class="acordion">
+
+<!-- !sub 01 -->
+<div class="open menu">詳細条件</div>
+<div class="sub section">
+<table class="boxf01">
+	<tr>
+		<td>
+			<table class="boxf01">
+				<tr>
+					<th>所属機関：</th>
+					<td width="100px">
+						<div class="selectbox">
+						<select>
+						<option selected="selected"></option>
+						<option value="1">広島大学</option>
+						<option value="2">山口大学</option>
+						<option value="3">徳島大学</option>
+						</select>
+						</div>
+					</td>
+					<th>状況：</th>
+					<td width="350px">
+						<input type="checkbox" id="new1"><label for="new1">新規</label>
+						<input type="checkbox" id="new2"><label for="new2">面談待ち</label>
+						<input type="checkbox" id="new3"><label for="new3">面談記録待ち</label>
+						<input type="checkbox" id="new4"><label for="new4">終了</label>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</div><!-- #sub終了 -->
+
+<br />
+<br />
+
+<h2>面談一覧</h2>
+
+<table class="box01 center stripe">
+<tr class="line">
+<th width="70">面談設定</th>
+<th width="70">削除</th>
+<th>進捗状況</th>
+<th>相談者</th>
+<th>面談日</th>
+<th>面談時刻</th>
+<th>面談場所</th>
+<th>担当相談員</th>
+</tr>
+<tr>
+<td><input type="button" value="詳 細" onclick="location.href='carrier_mendan_set.html'"></td>
+<td><input type="button" value="削 除" onclick="location.href=''"></td>
+<td>面談待ち</td>
+<td>広島太郎</td>
+<td>2015.12.15</td>
+<td>10:30～11:30</td>
+<td>XXXセンター</td>
+<td>XXX 太郎</td>
+</tr>
+<tr>
+<td><input type="button" value="詳 細" onclick="location.href='carrier_mendan_set.html'"></td>
+<td><input type="button" value="削 除" onclick="location.href=''"></td>
+<td>面談記録待ち</td>
+<td>広島太郎</td>
+<td>2015.12.15</td>
+<td>10:30～11:30</td>
+<td>XXXセンター</td>
+<td>XXX 太郎</td>
+</tr>
+<tr>
+<td style="background:#FA5858;"><input type="button" value="詳 細" onclick="location.href='carrier_mendan_set.html'"></td>
+<td style="background:#FA5858;"><input type="button" value="削 除" onclick="location.href=''"></td>
+<td style="background:#FA5858;">新規</td>
+<td style="background:#FA5858;">広島太郎</td>
+<td style="background:#FA5858;"></td>
+<td style="background:#FA5858;"></td>
+<td style="background:#FA5858;"></td>
+<td style="background:#FA5858;"></td>
+</tr>
+<tr>
+<td><input type="button" value="詳 細" onclick="location.href='carrier_mendan_set.html'"></td>
+<td><input type="button" value="削 除" onclick="location.href=''"></td>
+<td>終了</td>
+<td>広島太郎</td>
+<td>2015.12.15</td>
+<td>10:30～11:30</td>
+<td>XXXセンター</td>
+<td>XXX 太郎</td>
+</tr>
+</table>
+
+
+<br/>
+<br/>
+<br/>
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_uneijimu.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+</body>
+</html>

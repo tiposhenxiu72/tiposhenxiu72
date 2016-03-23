@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜掲示板一覧</title>
+<script src="../../common/import.js"></script>
+<style>
+	main .acordion .sub {
+		margin: 0px;
+		padding: 0px;
+	}
+</style>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>掲示板</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+	<li><input type="button" value="新規登録" onclick="location.href='./board_new_thread.html'"></li>
+	<li><input type="button" id="delete" value="削除"></li>
+</ul>
+</menu>
+
+<input type="text" style="width: 300px;" placeholder="キーワード"> &nbsp;<input type="button" value="検索">
+<br />
+<br />
+
+<h2>掲示板一覧</h2>
+<!-- !acordion -->
+<div class="acordion board">
+  <!-- !sub 01 -->
+  <div class="open menu">Xxx研究科博士課程 Xxx専攻 D2グループ(3件/未読1件)</div>
+  <div class="sub section">
+    <table class="box01 stripes">
+      <tr>
+        <th style="width:15px;">&nbsp;</th>
+        <th style="width:300px;">タイトル</th>
+        <th style="width:150px;">作成者</th>
+        <th style="width:30px;">投稿</th>
+        <th style="width:100px;">最終更新日時</th>
+      </tr>
+      <tr>
+        <td><input type="radio" name="grp_list" id="list1"><label for="list1"></label></td>
+        <td><span class="new">New!</span><a href="./board_view.html">6/15 XXさんインタビュー</a></td>
+        <td>広島 太郎</td>
+        <td>3</td>
+        <td>2015/6/5 15:38</td>
+      </tr>
+      <tr>
+        <td><input type="radio" name="grp_list" id="list2"><label for="list2"></label></td>
+        <td><a href="./board_view.html">来週のプレゼン資料</a></td>
+        <td>岡山 桃子</td>
+        <td>1</td>
+        <td>2015/6/5 01:25</td>
+      </tr>
+      <tr>
+        <td><input type="radio" name="grp_list" id="list3"><label for="list3"></label></td>
+        <td><a href="./board_view.html">5月の会議資料</a></td>
+        <td>山口学</td>
+        <td>0</td>
+        <td>2015/6/5 09:58</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="open menu">若手PAグループ(1件/未読1件)</div>
+  <div class="sub section">
+    <table class="box01 stripes">
+      <tr>
+        <th style="width:15px;">&nbsp;</th>
+        <th style="width:300px;">タイトル</th>
+        <th style="width:150px;">作成者</th>
+        <th style="width:30px;">返信</th>
+        <th style="width:100px;">最終更新日時</th>
+      </tr>
+      <tr>
+        <td><input type="radio" name="grp_list" id="list1"><label for="list1"></label></td>
+        <td><span class="new">New!</span><a href="./board_view.html">6/15 XXさんインタビュー</a></td>
+        <td>広島 太郎</td>
+        <td>3</td>
+        <td>2015/6/5 15:38</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="open menu">ABC研究会(0件/未読0件)</div>
+  <div class="sub section">
+    <table class="box01 stripes">
+      <tr>
+        <th style="width:15px;">&nbsp;</th>
+        <th style="width:300px;">タイトル</th>
+        <th style="width:150px;">作成者</th>
+        <th style="width:30px;">返信</th>
+        <th style="width:100px;">最終更新日時</th>
+      </tr>
+
+    </table>
+  </div>
+
+  <div class="open menu">平成28年XXインターンシップ(0件/未読0件)</div>
+  <div class="sub section">
+    <table class="box01 stripes">
+      <tr>
+        <th style="width:15px;">&nbsp;</th>
+        <th style="width:300px;">タイトル</th>
+        <th style="width:150px;">作成者</th>
+        <th style="width:30px;">返信</th>
+        <th style="width:100px;">最終更新日時</th>
+      </tr>
+
+    </table>
+  </div>
+</div>
+
+<div style='display:none'>
+  <div id='modal' style='padding:10px; background:#fff;'>
+    <p>
+      選択した掲示板を削除します。<br/>
+    </p>
+    <div class="close">OK</div>
+    <div class="close">キャンセル</div>
+  </div>
+</div>
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_kyoin.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+
+<style>
+  .tbl_data th, td{
+    border: 1px solid #000000;
+  }
+  #modal .close {
+    display: block;
+    width: 120px;
+    margin: 0px auto;
+    padding: 7px 0px 4px;
+    background-color: #dcd9cc;
+    border: 1px solid #a7a59b;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    color: #79776d;
+    float:left;
+  }
+  #cboxOverlay{background:#000; opacity: 0.9; filter: alpha(opacity = 90);}
+  span.new{color:#ff0000;font-weight: bold; font-size: 80%;}
+</style>
+<link rel="stylesheet" type="text/css" href="../../js/colorbox/colorbox.css">
+<script src="../../js/colorbox/jquery.colorbox-min.js"></script>
+<script>
+  $(document).ready(function(){
+    $("#delete").colorbox({
+      inline:true
+      , width:"50%"
+      , href:"#modal"
+      , closeButton:false
+      , opacity: 0.6
+    });
+
+    $(".close").click(function () {
+      parent.$.colorbox.close();
+    });
+			$('.open.menu').trigger("click");
+  });
+
+</script>
+</body>
+</html>

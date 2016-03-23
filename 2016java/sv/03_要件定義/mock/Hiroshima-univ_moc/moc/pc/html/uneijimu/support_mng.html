@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜支援制度情報管理</title>
+<script src="../../common/import.js"></script>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>支援制度情報管理</h1>
+
+<!-- !menu -->
+<menu>
+<ul>
+<li><input type="button" value="新規登録" onclick="location.href='support_mng_edit.html'"></li>
+</ul>
+</menu>
+
+
+<h2>検索条件</h2>
+<table>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+			<input type="text" style="width: 300px;" placeholder="キーワード"> &nbsp;<input type="button" value="　検 索　" class="fix">
+		</td>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+
+<!-- !acordion -->
+<div class="acordion">
+
+<!-- !sub 01 -->
+<div class="open menu">詳細条件</div>
+<div class="sub section">
+<table class="boxf01">
+	<tr>
+		<td>
+			<table class="boxf01">
+				<tr>
+					<th>種別：</th>
+					<td>
+						<input type="checkbox" id="new1"><label for="new1">研究助成</label>
+						<input type="checkbox" id="new2"><label for="new2">留学助成</label>
+						<input type="checkbox" id="new3"><label for="new3">奨学金・奨励金</label>
+						<input type="checkbox" id="new4"><label for="new4">その他</label>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</div><!-- #sub終了 -->
+<br/>
+<br/>
+
+<h2>支援制度情報</h2>
+
+<table class="box01 center stripe">
+<tr class="line">
+<th width="70">編集</th>
+<th width="70">削除</th>
+<th>タイトル</th>
+<th>種別</th>
+<th>概要</th>
+</tr>
+<tr>
+<td><input type="button" value="編 集" onclick="location.href='support_mng_edit.html'"></td>
+<td><input type="button" value="削 除" onclick="location.href='#'"></td>
+<td>社会人ドクター修学支援</td>
+<td>研/留/奨/そ</td>
+<td>・広島県外に在住する博士課程後期社会人学生が・・・・・</td>
+</tr>
+</tr>
+<tr>
+<td><input type="button" value="編 集" onclick="location.href='support_mng_edit.html'"></td>
+<td><input type="button" value="削 除" onclick="location.href='#'"></td>
+<td>YYYYYYYYY</td>
+<td>奨/そ</td>
+<td>・・・・・・・・・・・・・・・・・・・・・・・・・</td>
+</tr>
+</table>
+
+
+<br/>
+
+<h2>支援制度情報(過去情報)</h2>
+
+<table class="box01 center stripe">
+<tr class="line">
+<th width="70">編集</th>
+<th width="70">削除</th>
+<th>タイトル</th>
+<th>種別</th>
+<th>概要</th>
+</tr>
+<tr>
+<td><input type="button" value="編 集" onclick="location.href='support_mng_edit.html'"></td>
+<td><input type="button" value="削 除" onclick="location.href='#'"></td>
+<td>社会人ドクター修学支援</td>
+<td>研/留/奨/そ</td>
+<td>・広島県外に在住する博士課程後期社会人学生が・・・・・</td>
+</tr>
+</tr>
+<tr>
+<td><input type="button" value="編 集" onclick="location.href='support_mng_edit.html'"></td>
+<td><input type="button" value="削 除" onclick="location.href='#'"></td>
+<td>YYYYYYYYY</td>
+<td>奨/そ</td>
+<td>・・・・・・・・・・・・・・・・・・・・・・・・・</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+<br/>
+
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_uneijimu.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+</body>
+</html>

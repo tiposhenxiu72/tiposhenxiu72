@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="common/base" xmlns:my="http://my"
+	th:with="lang=${#locale.language}" th:lang="${lang}">
+<head>
+<meta charset="UTF-8" />
+</head>
+
+<th:block layout:fragment="layout-script">
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var SkillG = {};
+		SkillG.selfEvalToStr = function(done) {
+			var mnoans = /*[[#{skill.value.noanswer}]]*/'';
+			var mdone = /*[[#{skill.value.done}]]*/'';
+			var mnotyet = /*[[#{skill.value.notyet}]]*/'';
+			if (done == null) {
+				return mnoans;
+			}
+			return done ? mdone : mnotyet;
+		};
+		SkillG.buildPhaseRow = function(dto) {
+			var m1 = /*[[#{skill.field.content}]]*/'';
+			var m2 = /*[[#{skill.field.notyet}]]*/'';
+			var yourTargetClass = 'orange mark';
+			var $row = $('#modalPhaseRow');
+			$row.empty().append('<td>' + m1 + '</td>').append(
+					'<td'
+							+ (dto.yourTargetPhase == 0 ? ' class="'
+									+ yourTargetClass + '"' : '') + '>' + m2
+							+ '</td>')
+			dto.phaseTargets.forEach(function(t, ix) {
+				if (t == null) {
+					return;
+				}
+				$(
+						'<td colspan="'
+								+ dto.colSpans[ix]
+								+ '"'
+								+ (dto.yourTargetPhase - 1 == ix ? ' class="'
+										+ yourTargetClass + '"' : '') + '>' + t
+								+ '</td>').appendTo($row);
+			});
+		};
+		$(function() {
+			$(document).on("click", "button[name=pastAnswers]", function() {
+				var loc = /*[[@{/skill/diag/pastIndex}]]*/'url';
+				window.location = loc;
+			});
+			$(document).on("click", "a.itemLink", function() {
+				var tx = function($e, t) {
+					$e.text(t ? t : '');
+				};
+				$.get($(this).attr('data-url'), {}).done(function(dto) {
+					$('#modalAbilityCode').text(dto.abilityCode);
+					$('#modalItemName').text(dto.name);
+					SkillG.buildPhaseRow(dto);
+
+					$('#modalDone').text(SkillG.selfEvalToStr(dto.done));
+					tx($('#modalYourPhase'), dto.phase);
+					tx($('#modalActionPlan'), dto.actionPlan);
+					tx($('#modalEvidence'), dto.evidence);
+					tx($('#modalEvidenceFile'), dto.evidenceFileName);
+					if ( dto.evidenceFileId ) {
+						$('#modalEvidenceFile').attr('href', dto.evidenceFileId);
+					}
+					$('#viewItemModal').modal();
+				}).fail(function() {
+					var msg = /*[[#{E1013('')}]]*/'error';
+					alert(msg);
+				});
+
+			});
+		});
+		/*]]>*/
+	</script>
+</th:block>
+
+<body>
+	<div layout:decorator="layout">
+		<th:block layout:fragment="layout-content">
+
+			<h1 th:text="${lensName}+#{skill.field.result}">れんず</h1>
+
+			<ul class="list-inline">
+				<li><a th:href="@{/skill/diag/edit/${rkey}/{lensId}(rkey=${rkey},lensId=${lensId})}"
+					th:text="#{skill.field.editdiag}">nav1</a></li>
+				<li><a th:href="@{/skill/diag/viewList/${rkey}/{lensId}(rkey=${rkey},lensId=${lensId})}"
+					th:text="#{skill.field.viewdiag}">nav2</a></li>
+				<li><a th:href="@{/skill/build/edit}" th:text="#{skill.field.editlesson}">nav3</a></li>
+				<li><a th:href="@{/skill/diag/edit/${rkey}/{lensId}(rkey=${rkey},lensId=${lensId})}"
+					th:text="#{skill.field.editplan}">nav4</a></li>
+			</ul>
+
+			<button type="button" class="btn btn-primary" name="viewWhole" th:text="#{skill.field.wholediag}">全体</button>
+
+			<h3 th:text="#{skill.field.lastmodified}">タイムスタンプ</h3>
+			<span th:text="${lastModifiedStr}"></span>
+
+			<span th:text="#{skill.field.yourrole}">ろーる</span>:<span th:text="${degreeName}">ろーる</span>
+
+			<img th:src="@{/img/vitae_chart_small.png}" />
+			<span th:text="${lensName}">れんず</span>
+
+			<div>
+				<!--/* ドメイン選択タブ */-->
+				<ul class="tab">
+					<li th:each="cat: ${rubric.categoryList}"><a href=""
+						th:text="${cat.abilityCode}+'：'+${cat.name}+'('+${answers.categoryList[__${catStat.index}__].answerRatio}+'%)'">カテゴリ名</a></li>
+				</ul>
+
+
+				<!--/* 小項目選択表 */-->
+				<!--/*/ <th:block th:each="cat : ${rubric.categoryList}" th:with="catAns=${answers.categoryList[__${catStat.index}__]}"> /*/-->
+				<div>
+					<h2 th:text="#{skill.field.diagrecordconfirm}">表タイトル</h2>
+					<table class="table">
+						<thead>
+							<tr>
+								<th th:text="#{skill.field.rdfno}">見出し1</th>
+								<th th:text="#{skill.field.skill}">見出し2</th>
+								<th th:text="#{skill.field.selfeval}">見出し3</th>
+								<th th:text="#{skill.field.actionplanhalf}">見出し4</th>
+								<th th:text="#{skill.field.evidence}">見出し5</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!--/*/ <th:block th:each="subc : ${cat.childList}" th:with="subcAns=${catAns.childList[__${subcStat.index}__]}"> /*/-->
+							<tr th:each="item: ${subc.childList}" th:with="itemAns=${subcAns.childList[__${itemStat.index}__]}">
+								<td th:text="${item.abilityCode}">A1.1</td>
+								<td><a href="javascript:void(0)"
+									th:attr="data-url=@{/skill/diag/viewItem/__${rkey}__/__${item.abilityCode}__}" class="itemLink"
+									th:text="${item.name}">しょうこうもく</a></td>
+								<td th:with="done=${itemAns.done}"><span th:if="${done}" th:text="#{skill.value.done}">done</span> <span
+									th:if="${done==false}" th:text="#{skill.value.notyet}">mada</span> <span th:if="${done}==null"
+									th:text="#{skill.value.unknown}">はて?</span></td>
+								<td><span th:if="!${#strings.isEmpty(itemAns.actionPlan)}" th:text="#{skill.value.yes}">YES</span></td>
+								<td><span th:if="!${#strings.isEmpty(itemAns.evidence)} or !${#strings.isEmpty(itemAns.evidenceFileName)}"
+									th:text="#{skill.value.yes}">YES</span></td>
+							</tr>
+							<!--/*/ </th:block> /*/-->
+						</tbody>
+					</table>
+				</div>
+
+				<!--/* 入力内容エリア */-->
+				<div>
+					<h2 th:text="#{skill.field.apset}">ふぉーむタイトル</h2>
+
+					<!--/* タブ */-->
+					<ul class="tab">
+						<li th:each="subc: ${cat.childList}"><a href="" th:text="${subc.abilityCode}+'：'+${subc.name}">サブカテゴリ名</a></li>
+					</ul>
+
+					<!--/*/ <th:block th:each="subc : ${cat.childList}" th:with="subcAns=${catAns.childList[__${subcStat.index}__]}"> /*/-->
+					<!--/* 入力内容 */-->
+					<h3 th:text="#{skill.field.actionplan}">アーペー</h3>
+					<div th:text="${subcAns.actionPlan}">XXXX</div>
+					<h3 th:text="#{skill.field.evidence}">エビ</h3>
+					<div th:text="${subcAns.evidence}">XXXX</div>
+					<div>
+						<a th:href="@{/skill/diag/download/__${subcAns.evidenceFileId}__}" th:text="${subcAns.evidenceFileName}">filename</a>
+					</div>
+					<!--/*/ </th:block> /*/-->
+				</div>
+				<!--/*/ </th:block> /*/-->
+
+			</div>
+
+			<!--/* 能力別診断結果用モーダル */-->
+			<div id="viewItemModal" class="modal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span>&#215;</span>
+							</button>
+							<h3 class="modal-title" th:text="${lensName}+': '+#{skill.field.skillbyskill}">能力別</h3>
+						</div>
+						<div class="modal-body">
+							<span th:text="#{skill.field.rdfno}">rdf</span><span id="modalAbilityCode">A9.9</span> <span
+								th:text="#{skill.field.skill}">のりょく</span><span id="modalItemName">name</span> <span
+								th:text="#{skill.diag.comment.yourphase}">orange one is yours</span> <span th:text="#{skill.field.yourrole}">ろーる</span>:<span
+								th:text="${degreeName}">ろーる</span>
+
+							<table>
+								<thead>
+									<tr>
+										<th th:text="#{skill.field.phase}">p</th>
+										<th>0</th>
+										<th>1</th>
+										<th>2</th>
+										<th>3</th>
+										<th>4</th>
+										<th>5</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr id="modalPhaseRow">
+									</tr>
+								</tbody>
+							</table>
+
+							<span th:text="#{skill.field.selfeval}">self</span><span id="modalDone">done</span> <span
+								th:text="#{skill.field.phaseachieved}">phase</span><span id="modalYourPhase">0</span>
+							<h3 th:text="#{skill.field.actionplan}">アーペー</h3>
+							<div id="modalActionPlan">XXXX</div>
+							<h3 th:text="#{skill.field.evidence}">エビ</h3>
+							<div id="modalEvidence">XXXX</div>
+							<div>
+								<span th:text="#{skill.field.file}">file</span> <a id="modalEvidenceFile"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</th:block>
+	</div>
+</body>
+</html>

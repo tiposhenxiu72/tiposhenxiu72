@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>eポートフォリオシステム｜nouryoku診断管理</title>
+<script src="../../common/import.js"></script>
+<script src="../../js/ResponsiveTabs/jquery.responsiveTabs.min.js"></script>
+<link type="text/css" rel="stylesheet" href="../../js/ResponsiveTabs/responsive-tabs.css" />
+<!-- <link type="text/css" rel="stylesheet" href="../../js/ResponsiveTabs/style.css" /> -->
+<style>
+.r-tabs .r-tabs-accordion-title.r-tabs-state-active .r-tabs-anchor {
+  background: #ffffff ;
+  border-bottom: 1px solid #ffffff ;
+  color: #6b96cf ;
+}
+.subsub {
+  border: 1px solid #c0c0c0;
+  border-radius: 2px;
+  padding : 3px 0px 0px 0px;
+  margin: 0px 0px -30px -40px;
+
+}
+.subsub > li{
+  display: inline-block;
+  border-right: 1px solid #a0a0a0;
+  height:1em;
+  padding: 1px 4px;
+}
+main .tabbox {
+  padding: 0px;margin:0px;
+}
+
+.tbl_data th, td{
+  border: 1px solid #000000;
+}
+
+.modal .close {
+  display: block;
+  width: 120px;
+  margin: 0px auto;
+  padding: 7px 0px 4px;
+  background-color: #dcd9cc;
+  border: 1px solid #a7a59b;
+  border-radius: 2px;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  color: #79776d;
+}
+#cboxOverlay{background:#000; opacity: 0.9; filter: alpha(opacity = 90);}
+</style>
+</head>
+
+<body>
+<div id="base">
+
+<!-- !▼ head ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<header>
+<script src="../../common/head.js"></script><!-- #head.js -->
+</header>
+
+<!-- !▼ main ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<main>
+<form>
+<!-- ///////////▽contents/////////// -->
+
+
+<!-- !title -->
+<h1>能力診断管理</h1>
+<!-- !menu -->
+<menu>
+	<ul>
+  <li><input type="button" value="新規登録" class="fix" id="btn_new"></li>
+  <li><input type="button" value="削除"></li>
+	</ul>
+</menu>
+
+<table class="box01 stripes">
+  <tr>
+    <th>&nbsp;</th>
+    <th>ルーブリック名</th>
+    <th>概要</th>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="l1"><label for="l1"></label></td>
+    <td><a href="rubric.html">トランスファラブルスキル</a></td>
+    <td>yyyyy yyyyyyyyyyyyyyy</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="l2"><label for="l2"></label></td>
+    <td><a href="rubric.html">イノベーションスキル</a></td>
+    <td>xxxxxxxxxxxxxxx</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="l3"><label for="l3"></label></td>
+    <td><a href="rubric.html">・・・・・・・・・・・</a></td>
+    <td>xxxxxxxxxxxxxxx</td>
+  </tr>
+</table>
+
+<div style='display:none'>
+  <div id='modal_new' class="modal" style='padding:10px; background:#fff;'>
+    <main>
+      <h2>ルーブリック新規登録</h2>
+
+      <table class="box01 stripes">
+          <tr>
+            <th>ルーブリック名:</th>
+            <td><input type="text" /></td>
+          </tr>
+          <tr>
+            <th>概要:</th>
+            <td><input type="text" /></td>
+          </tr>
+          <tr>
+            <th>インポートファイル:</th>
+            <td><input type="file" /></td>
+          </tr>
+      </table>
+      <br>
+      <menu>
+        <ul>
+          <li><input type="button" value="登録"></li>
+        </ul>
+      </menu>
+    </main>
+    <div style="clear:both;"></div>
+      <br>
+    <div id="modal_close" class="close">X CLOSE</div>
+  </div>
+</div>
+
+<!-- ///////////△contents/////////// -->
+</form><!-- #form終了 -->
+</main>
+
+<!-- !▼ side ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<aside>
+<script src="../../common/side_uneijimu.js"></script><!-- #side.js -->
+</aside>
+
+<!-- !▼ foot ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer>
+<script src="../../common/foot.js"></script><!-- #foot.js -->
+</footer>
+
+</div><!-- #bace終了 -->
+<link rel="stylesheet" type="text/css" href="../../js/colorbox/colorbox.css">
+<script src="../../js/colorbox/jquery.colorbox-min.js"></script>
+<script>
+
+$(function () {
+  $('#tab_domain').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('#tab_domain_A').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('#tab_domain_B').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('#tab_domain_C').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('#tab_domain_D').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+  $('.subsub_dom').responsiveTabs({
+    startCollapsed: 'accordion'
+  });
+
+  $('#ph2').click(function() {
+
+  });
+
+  $('#ph2').on('change', function () {
+    if ($(this).prop('checked')) {
+        $('#ph2_text').prop("disabled", true);
+    } else {
+        $('#ph2_text').prop("disabled", false);
+    }
+  });
+  $('#ph3').on('change', function () {
+    if ($(this).prop('checked')) {
+        $('#ph3_text').prop("disabled", true);
+    } else {
+        $('#ph3_text').prop("disabled", false);
+    }
+  });
+  $('#ph4').on('change', function () {
+    if ($(this).prop('checked')) {
+        $('#ph4_text').prop("disabled", true);
+    } else {
+        $('#ph4_text').prop("disabled", false);
+    }
+  });
+  $('#ph5').on('change', function () {
+    if ($(this).prop('checked')) {
+        $('#ph5_text').prop("disabled", true);
+    } else {
+        $('#ph5_text').prop("disabled", false);
+    }
+  });
+
+  $(document).ready(function(){
+    $("#btn_new").colorbox({
+      inline:true
+      , width:"80%"
+      , href:"#modal_new"
+      , closeButton:false
+      , opacity: 0.5
+    });
+
+    $(".close").click(function () {
+      parent.$.colorbox.close();
+    });
+  });
+
+});
+</script>
+</body>
+</html>
